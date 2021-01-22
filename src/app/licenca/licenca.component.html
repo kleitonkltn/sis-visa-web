@@ -1,0 +1,180 @@
+<div *ngIf="statusLi === false" align="center" style="margin-top: 50px;">
+    <span class="spinner-border spinner-border-sm" role="status"
+        [ngClass]="{ spinnerLoading: loadingTable}" aria-hidden="true"
+        style="width: 50px; height: 50px;"></span>
+</div>
+<div *ngIf="idlicenca > 0 && statusLi === true">
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
+            href="#nav-home" role="tab" aria-controls="nav-home"
+            aria-selected="true">Dados</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
+            href="#nav-profile" role="tab" aria-controls="nav-profile"
+            aria-selected="false">Anexos</a>
+    </div>
+    <div class="tab-content" id="nav-tabContent"
+        style="margin-left: 2%; margin-right: 2%;">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+            aria-labelledby="nav-home-tab">
+            <div class="responsiva">
+                <h1 class="text-center">Dados da Licença</h1>
+            </div>
+            <table class="table table-bordered col-sm-8" align="center">
+                <tr>
+                    <th>Id Estabelecimento</th>
+                    <td>{{licenca.estabelecimento}}
+                        <a class="btn" [routerLink]="['/estabelecimento/']"
+                            [queryParams]="{ id: licenca.estabelecimento}">
+                            <i class="fa fa-angle-double-right"
+                                aria-hidden="true" style="font-size: 25px"></i>
+                        </a>
+                    </td>
+                </tr>
+
+                <tr *ngIf="dataEstabelecimento">
+                    <th>Razão Social</th>
+                    <td>{{dataEstabelecimento.razao}}</td>
+                </tr>
+                <tr *ngIf="dataEstabelecimento">
+                    <th>Nome Fantasia</th>
+                    <td>{{dataEstabelecimento.fantasia}}</td>
+                </tr>
+                <tr *ngIf="dataEstabelecimento">
+                    <th>Endereço</th>
+                    <td>
+                        {{dataEstabelecimento.endereco + ' / '+
+                        dataEstabelecimento.bairro}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>N° Licença</th>
+                    <td>{{licenca.licenca}}</td>
+                </tr>
+                <tr>
+                    <th>Data de Emissão</th>
+                    <td>{{licenca.data_emissao| date: 'dd/MM/yyyy'}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Válida Até</th>
+                    <td>{{licenca.data_validade| date: 'dd/MM/yyyy'}}
+                    </td>
+                </tr>
+                <tr *ngIf="licenca.status_gerente === 'autorizada'">
+                    <th>Status Gerente</th>
+                    <td>{{licenca.status_gerente}}{{licenca.gerente != null ?' | por: ' :'' }}
+                        {{licenca.gerente_data?.nome}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Status Fiscal</th>
+                    <td>{{licenca.status_fiscal}}{{licenca.fiscal != null ? ' | por: ' :'' }}
+                        {{licenca.fiscal_data?.nome}}
+                    </td>
+                </tr>
+                <tr *ngIf="licenca.status_gerente != 'autorizada'" >
+                    <th>Status Segundo Fiscal</th>
+                    <td>{{licenca.status_segundo_fiscal}}{{licenca.segundo_fiscal != null ? ' | por: ' :'' }}
+                        {{licenca.segundo_fiscal_data?.nome}}
+                    </td>
+                </tr>
+                <tr >
+                    <th>Solicitada Por</th>
+                    <td>{{licenca.solicitado_por_data?.nome +' - '+ licenca.solicitado_por_data?.matricula}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Observação Pedido</th>
+                    <td>{{licenca.observacao_pedido}}</td>
+                </tr>
+                <tr>
+                    <th>Observação Gerente</th>
+                    <td>{{licenca.observacao_gerente}}</td>
+                </tr>
+                <tr>
+                    <th>Observação Fiscal</th>
+                    <td>{{licenca.observacao_fiscal}}</td>
+                </tr>
+            </table>
+            <div class="text-center">
+                <a class="btn " [routerLink]="['/Cadastrolicenca/']"
+                    [queryParams]="{ id: licenca.id}">
+                    <i class="fa fa-pencil-square-o fa-2x"
+                        aria-hidden="true"></i>
+                    <b>Atualizar</b>
+                </a>
+                <b class="btn-pdf">
+                    <a class="btn" (click)="licencaPdf()">
+                        <i [ngClass]="{ spinnerLoading: !loadingPdf }"
+                            class="fa fa-file-pdf-o fa-2x"
+                            aria-hidden="true"></i>
+                        <span class="spinner-border spinner-border-sm"
+                            role="status"
+                            [ngClass]="{ spinnerLoading: loadingPdf }"
+                            aria-hidden="true"></span>
+                        <b> Ver Licença</b>
+                    </a>
+                </b>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+            aria-labelledby="nav-profile-tab">
+            <div class="responsiva">
+                <h1 class="text-center">{{titulo}}</h1>
+            </div>
+            <!-- ///// -->
+            <div class="row" style="margin-left: 10px; margin-right: 10px;">
+                <div class="form-group col-md-2" *ngFor="let item of arquivo">
+                    <div class="card" *ngIf="arquivo">
+                        <button
+                            *ngIf="item.type.toString() === 'png' || item.type.toString() === 'jpeg'"
+                            data-toggle="modal" class="max-height: 5rem"
+                            data-target=".bd-example-modal-lg"
+                            (click)="verAnexo(item)">
+                            <img class="text-center" src="{{item.url_location}}"
+                                alt=" " style="max-height: 100px;" />
+                        </button>
+                        <button
+                            *ngIf="item.type.toString() ==='pdf' || item.type.toString() ==='docx'"
+                            class="max-height: 5rem" (click)="verAnexo(item)">
+                            <i *ngIf="item.type.toString() ==='pdf'"
+                                class="text-center "
+                                class="fa fa-file-pdf-o fa-5x"
+                                style="margin-top: 10px;margin-bottom: 10px;"></i>
+                            <i *ngIf="item.type.toString() ==='docx'"
+                                class="text-center form-group"
+                                class="fa fa-file-word-o fa-5x"
+                                style="margin-top: 10px;margin-bottom: 10px;"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade bd-example-modal-lg" tabindex="-1"
+                role="dialog" aria-labelledby="myLargeModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <b>{{item?.descricao}}</b>
+                            <button type="button" class="close"
+                                data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" *ngIf="item">
+                            <div class="text-center" style="margin: 5px 0 25px">
+                                <img src="{{item.url_location}}"
+                                    class="cad-img-top" id="imd"
+                                    style="max-width: 100%; max-height: 300px" />
+                            </div>
+                            <textarea style="width: 100%;"
+                                [readonly]="true">Descrição : {{item.descricao_completa}}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

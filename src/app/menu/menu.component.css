@@ -1,0 +1,278 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: sans-serif;
+}
+
+body {
+    /* background: #ecf0f1; */
+    /* background: #f5f6fa; */
+}
+
+.menu {
+    font-size: 20px;
+    color: white;
+    text-align: center;
+    padding: 20px 10px;
+    border-bottom: 1px solid rgb(6, 27, 40);
+}
+
+#sidebar {
+    /*z-index:999;*/
+    position: fixed;
+    width: 20%;
+    height: 100%;
+    background-color: #0B2B40;
+    left: -20%;
+    transition: all .50s linear;
+}
+
+.toggle-btn:hover {
+    cursor: pointer;
+}
+
+#sidebar.active {
+    left: 0px;
+    /* box-shadow: 5px -9px 3px darkgrey; */
+}
+
+#navbar {
+    z-index: 12;
+    position: fixed;
+    width: 100%;
+    height: 55pt;
+    /*opacity: 0.8;*/
+    background-color: #1B456E;
+    transition: all .50s linear;
+}
+
+#navbar.active {
+    width: 80%;
+    margin-left: 20%;
+}
+
+#corpo {
+    transition: all .50s linear;
+}
+
+#corpo.active {
+    width: 80%;
+    margin-left: 20%;
+}
+
+#sidebar ul li {
+    color: rgba(230, 230, 230, 0.9);
+    list-style: none;
+    padding: 12px 12px;
+    /* padding: 15px 15px; */
+    border-bottom: 1px solid rgb(6, 27, 40);
+}
+
+#sidebar ul ul {
+    display: none;
+}
+
+#sidebar ul li:hover {
+    background-color: #1B456E;
+    display: block;
+}
+
+
+/*#sidebar ul li:hover  > ul{*/
+
+
+/*display: block;*/
+
+
+/*}*/
+
+#sidebar ul ul {
+    margin-left: 150px;
+    margin-top: 0;
+}
+
+#sidebar .toggle-btn {
+    position: absolute;
+    left: 110%;
+    top: 20px;
+}
+
+#sidebar .toggle-btn span {
+    margin-top: 20px;
+    display: block;
+    width: 30px;
+    height: 5px;
+    background: white;
+    margin: 3px 0px;
+}
+
+a {
+    color: inherit;
+}
+
+.dropdown-menu {
+    top: -5px;
+    width: 200px;
+    height: 100px;
+    background-color: #0B2B40;
+    margin-left: 150px;
+}
+
+.dropdown-item {
+    margin-top: 5px;
+    text-align: center;
+    height: 40%;
+    border-bottom: 1px solid rgb(6, 27, 40);
+    color: white;
+}
+
+.dropdown-menu a:hover {
+    background-color: #1B456E;
+}
+
+@media screen and (max-width: 900px) {
+    #sidebar {
+        width: 30%;
+        margin-left: -10%;
+    }
+    #sidebar.active {
+        left: 10%;
+    }
+}
+
+@media screen and (min-width: 500px) and (max-width: 900px) {
+    #sidebar {
+        width: 30%;
+        margin-left: -10%;
+    }
+    #sidebar.active {
+        left: 10%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #sidebar {
+        width: 56%;
+        margin-left: -36%;
+    }
+    #sidebar.active {
+        left: 36%;
+    }
+    .t {
+        float: left;
+        margin: 3px 0px;
+    }
+}
+
+.logout {
+    margin-top: 15pt;
+    /* margin-left: 90%; */
+    margin-right: 50pt;
+    float: right;
+}
+
+.dropdownmenu {
+    top: 5px;
+    margin-left: -80px;
+}
+
+.userLink .userDropdown {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 20px 18px;
+    text-decoration: none;
+}
+
+.userLink {
+    float: right;
+    background-color: rgba(255, 255, 255, 0.116);
+}
+
+.userLink .userDropdown {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 15px 18px;
+    text-decoration: none;
+}
+
+.userContent {
+    display: none;
+    opacity: 0;
+    font-size: 14px;
+    border-radius: 10px;
+    width: 300px;
+    position: absolute;
+    background-color: #f1f1f1;
+    z-index: 1;
+}
+
+.userDropdown:hover .userContent {
+    padding: 20px;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    top: 48px;
+    right: 5px;
+    background-color: rgb(225, 235, 255);
+    color: rgba(5, 102, 141, 0.900);
+    /* box-shadow: 0 0 5px 5px 5px #333; */
+    transition: all 5s;
+    animation: fadein 0.5s;
+}
+
+
+/* .fa-user-o {
+    color: white;
+} */
+
+.userContent .userImg {
+    padding: 5px;
+    margin: 0;
+    float: left;
+    font: 50px fontawesome;
+}
+
+.vertical {
+    display: flex;
+    flex-direction: column;
+}
+
+.t {
+    float: right;
+    margin-top: 15pt;
+    margin-right: 40pt;
+}
+
+.btn {
+    width: 90%;
+    margin-left: 10pt;
+    margin-right: 10pt;
+    margin-bottom: 5pt;
+}
+
+#footer {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    min-height: 40px;
+    /* background-color: #e6e7e8; */
+    background-color: rgb(225, 235, 255);
+    color: #1B456E;
+    padding: 30px;
+    margin-top: 30px;
+    clear: both;
+    outline: 5px solid aliceblue;
+    transition: all .50s linear;
+}
+
+.btn-outline-primary:hover {
+    background-color: #1B456E;
+    color: white;
+}
+
+#footer.active {
+    width: 80%;
+    margin-left: 20%;
+}

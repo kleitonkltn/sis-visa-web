@@ -1,0 +1,57 @@
+ td {
+     width: 75%;
+ }
+ 
+ table {
+     width: 100%;
+     background: white;
+ }
+ 
+ a:hover {
+     color: blue;
+ }
+ 
+ .border {
+     border: 5px solid black;
+     margin-left: 50px
+ }
+ 
+ .red {
+     display: inline-block;
+ }
+ 
+ .teste {
+     display: inline-block;
+     margin-right: 3%;
+     margin-left: 2%;
+     margin-top: 50px;
+ }
+ 
+ h4,
+ h5 {
+     max-width: 50ch;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     white-space: nowrap;
+ }
+ 
+ h1 {
+     margin: 50px 0 50px;
+ }
+ 
+ .fa-file-word-o {
+     color: blue;
+ }
+ 
+ .col-md-2 .card button img {
+     margin: 0px;
+ }
+ 
+ .modal-header {
+     background-color: #0B2B40;
+     color: white;
+ }
+ 
+ .iconeFechar:hover {
+     color: red;
+ }

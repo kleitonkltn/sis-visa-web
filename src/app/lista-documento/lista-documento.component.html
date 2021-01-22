@@ -1,0 +1,42 @@
+<div *ngIf="statusEst === false" align="center" style="margin-top: 50px;">
+    <span class="spinner-border spinner-border-sm" role="status" [ngClass]="{ spinnerLoading: loading}" aria-hidden="true"></span>
+</div>
+
+<div *ngIf="documentos && statusEst === true">
+    <div align="center" style="margin-left: 2%; margin-right: 2%;">
+        <div class="responsiva">
+            <h1 class="text-center">Lista de Documentos</h1>
+        </div>
+        <div class="input-group col-xs-9 col-sm-9">
+            <input class="form-control" id="myInput" [(ngModel)]="textSearch" (keyup)="search()" type="text" placeholder="Busca..">
+        </div>
+        <table class="table table-bordered table-responsive-sm col-xs-9  col-sm-9">
+            <div *ngIf="documentos">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Descrição completa</th>
+                        <th>Opção</th>
+                    </tr>
+                </thead>
+                <tbody id="myTable" *ngFor="let documento of listItems | paginate: { itemsPerPage: 15, currentPage: paginaAtual }; let i = index">
+                    <tr>
+                        <td>{{documento.descricao}}</td>
+                        <td>{{documento.descricao_completa}}</td>
+                        <td>
+                            <a class="btn" [routerLink]="['/CadastroDocumento/']" [queryParams]="{ id: documento.id}">
+                                <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
+
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </div>
+        </table>
+        <pagination-controls class="text-center" (pageChange)="paginaAtual = $event" (click)="subirTela()" previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
+    </div>
+    <div class="fab">
+        <button class="main" [routerLink]="['/CadastroDocumento/']">
+        </button>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "sisvisacoxim": {
+      "hosting": {
+        "HOME-VISA": [
+          "sisvisacoxim"
+        ]
+      }
+    }
+  }
+}

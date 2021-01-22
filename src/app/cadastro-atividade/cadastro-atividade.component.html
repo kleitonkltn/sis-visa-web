@@ -1,0 +1,33 @@
+<body class="body">
+    <div style="margin-left: 2%; margin-right: 2%;" align="center">
+        <div class="border col-sm-7 text-left">
+            <div class="responsiva" style="margin-bottom: 50px;">
+                <h1 class="text-center">{{titulo}}</h1>
+            </div>
+            <form method="POST" [formGroup]="atividadeForm">
+                <div class="form-group col-sm-12">
+                    <b>*Atividade</b>
+                    <textarea class="form-control" formControlName="atividade" name="atividade" [ngClass]="{'form-submitted': formSubmitted}"></textarea>
+                </div>
+                <div class="form-group col-sm-12">
+                    <b>*Descrição</b>
+                    <textarea class="form-control" formControlName="descricao" name="descricao" [ngClass]="{'form-submitted': formSubmitted}"></textarea>
+                </div>
+                <div class="row" class="text-center">
+                    <div *ngIf="idupdate == null">
+                        <button type="button" class="btn btn-dark" value="Cadastrar" (click)="salvar()">
+                        <span class="spinner-border spinner-border-sm" role="status" [ngClass]="{ spinnerLoading: loadingCadastro }" aria-hidden="true"></span>
+                        <i [ngClass]="{ spinnerLoading: !loading }" aria-hidden="true"></i> Cadastrar
+                    </button>
+                    </div>
+                    <div *ngIf="idupdate > 0" class="text-center">
+                        <button type="submit" class="btn btn-dark" value="Atualizar" (click)="atualizar()">
+                        <span class="spinner-border spinner-border-sm" role="status" [ngClass]="{ spinnerLoading: loadingCadastro }" aria-hidden="true"></span>
+                        <i [ngClass]="{ spinnerLoading: !loading }" aria-hidden="true"></i> Atualizar
+                    </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>

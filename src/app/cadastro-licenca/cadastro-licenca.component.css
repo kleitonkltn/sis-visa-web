@@ -1,0 +1,91 @@
+input,
+textarea,
+select {
+    margin-bottom: 25px;
+}
+
+.inputSemMagin {
+    margin-bottom: 0px !important;
+}
+
+.ng-invalid:not(estabelecimentoForm).form-submitted {
+    border-bottom: solid 2px red;
+}
+
+.espaco {
+    margin-left: 2%;
+}
+
+.teste {
+    display: inline-block;
+    margin-right: 50px;
+    margin-top: 50px;
+    margin-bottom: 15px;
+    width: 17rem;
+    box-shadow: 0 0 20px 2px #ccc;
+}
+
+.border {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.margin {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+p {
+    max-width: 18ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.card-header {
+    max-height: 40px;
+    background-color: white;
+    border: none;
+}
+
+.fa-times:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.btn-dark {
+    margin: 10px 0px 10px;
+    border-radius: 0;
+}
+
+.card {
+    border: none;
+}
+
+.spinnerLoading {
+    display: none;
+}
+
+a:hover {
+    color: blue;
+    cursor: pointer;
+}
+
+.t {
+    margin-right: 35px;
+    margin-top: 50px;
+    box-shadow: 0 0 20px 2px #ccc;
+}
+
+.fa-file-word-o {
+    color: blue;
+}
+
+.modal-header {
+    background-color: #0B2B40;
+    color: white;
+}
+
+.iconeFechar:hover {
+    color: red;
+}

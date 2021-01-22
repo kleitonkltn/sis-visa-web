@@ -1,0 +1,142 @@
+<div class="body">
+    <div *ngIf="statusRel === false" align="center" style="margin-top: 50px;">
+        <span class="spinner-border spinner-border-sm" role="status" [ngClass]="{ spinnerLoading: loadingTable}" aria-hidden="true" style="width: 50px; height: 50px;"></span>
+    </div>
+
+    <div *ngIf="idrelatorio > 0 && statusRel === true">
+        <!-- <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Dados</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Anexos</a>
+    </div>
+    <div class="tab-content" id="nav-tabContent" style="margin-left: 2%; margin-right: 2%;">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"> -->
+        <div class="responsiva">
+            <h1 class="text-center">Dados da Relatório</h1>
+        </div>
+        <table class="table table-bordered col-sm-8" align="center">
+            <tr>
+                <th>Nome Fantasia</th>
+                <td>{{relatorio.fantasia}}</td>
+            </tr>
+            <tr>
+                <th>Razão Social</th>
+                <td>{{relatorio.razao}}</td>
+            </tr>
+            <tr>
+                <th>CNPJ ou CPF</th>
+                <td>{{relatorio.cnpj}}</td>
+            </tr>
+
+            <tr>
+                <th>Endereço</th>
+                <td>{{relatorio.endereco}}
+                </td>
+            </tr>
+            <tr>
+                <th>Bairro</th>
+                <td>{{relatorio.bairro}}</td>
+            </tr>
+            <tr>
+                <th>CEP</th>
+                <td>{{relatorio.cep}}</td>
+            </tr>
+            <tr>
+                <th>Municipio</th>
+                <td>{{relatorio.municipio}}</td>
+            </tr>
+            <tr>
+                <th>UF</th>
+                <td>{{relatorio.uf}}</td>
+            </tr>
+            <tr>
+                <th>Tipo de Inspeção</th>
+                <td>{{relatorio.tipo_inspecao}}</td>
+            </tr>
+            <tr>
+                <th>Data Inspeção</th>
+                <td>{{relatorio.data_inspecao| date: 'dd/MM/yyyy'}}</td>
+            </tr>
+            <tr>
+                <th>Data Relatório</th>
+                <td>{{relatorio.data_relatorio| date: 'dd/MM/yyyy'}}</td>
+            </tr>
+            <tr>
+                <th>Objetivo</th>
+                <td>{{relatorio.objetivo}}</td>
+            </tr>
+            <tr>
+                <th>Pessoas Contratadas</th>
+                <td>{{relatorio.pessoas_constatadas}}</td>
+            </tr>
+            <tr>
+                <th>Relato da Situação</th>
+                <td>{{relatorio.relato_situacao}}</td>
+            </tr>
+            <tr>
+                <th>Orientações Gerais: </th>
+                <td>{{relatorio.orientacoes_gerais}}</td>
+            </tr>
+            <tr>
+                <th>Providências Tomadas </th>
+                <td>{{relatorio.providencias_tomadas}}</td>
+            </tr>
+            <tr>
+                <th>Considerações Finais </th>
+                <td>{{relatorio.consideracoes}}</td>
+            </tr>
+            <tr>
+                <th>Conclusão da Inspeção </th>
+                <td>{{relatorio.situacao}}</td>
+            </tr>
+
+        </table>
+        <div class="text-center">
+            <a class="btn" [routerLink]="['/relatorio/']" [queryParams]="{ id: relatorio.id }" (click)="relatorioPdf()">
+                <i [ngClass]="{ spinnerLoading: !loading }" class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i>
+                <span class="spinner-border spinner-border-sm" role="status" [ngClass]="{ spinnerLoading: loading }" aria-hidden="true"></span>
+                <b> Ver Relatório</b>
+            </a>
+
+            <a class="btn " [routerLink]="['/CadastroRelatorio/']" [queryParams]="{ id: relatorio.id}">
+                <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
+                <b>Atualizar</b>
+            </a>
+            <a type="button" class="btn" data-toggle="modal" data-target="#exampleModal">
+                <div class="alo">
+                    <i class="fa fa-envelope fa-2x" aria-hidden="true"></i>
+                    <b class="alo"> Enviar Relatório</b>
+                </div>
+            </a>
+        </div>
+
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="text-center">
+                            <h5>Enviar relatório por Email</h5>
+                        </div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                    </div>
+                    <div class="modal-body text-left">
+                        <form method="post" [formGroup]="emailForm">
+                            <div class="form-group">
+                                <b>*Destinatário:</b>
+                                <input class="form-control" formControlName="destinatario" name="destinatario">
+                            </div>
+                            <div class="form-group">
+                                <b>Mensagem</b>
+                                <textarea class="form-control" formControlName="mensagem" name="mensagem"></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-primary" (click)="EnviarEmail()">Enviar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

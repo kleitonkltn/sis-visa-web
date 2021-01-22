@@ -1,0 +1,52 @@
+<div *ngIf="statusEst === false" align="center" style="margin-top: 50px;">
+  <span class="spinner-border spinner-border-sm" role="status"
+    [ngClass]="{ spinnerLoading: loading}" aria-hidden="true"></span>
+</div>
+
+<div *ngIf="relatorios && statusEst === true">
+  <div align="center" style="margin-left: 2%; margin-right: 2%;">
+    <div class="responsiva">
+      <h1 class="text-center">Lista de Relatório</h1>
+    </div>
+    <div class="input-group col-xs-9 col-sm-9">
+      <input class="form-control" id="myInput" [(ngModel)]="textSearch"
+        (keyup)="search()" type="text" placeholder="Busca..">
+    </div>
+    <table class="table table-bordered table-responsive-sm col-xs-9  col-sm-9">
+      <div *ngIf="relatorios">
+        <thead class="thead-light">
+          <tr>
+            <th>ID</th>
+            <th>Data Relatório</th>
+            <th>Razão Social</th>
+            <th>Situação</th>
+            <th>Opção</th>
+          </tr>
+        </thead>
+        <tbody id="myTable"
+          *ngFor="let relatorio of listItems | paginate: { itemsPerPage: 15, currentPage: paginaAtual }; let i = index">
+          <tr>
+            <td>{{relatorio.id}}</td>
+            <td>{{relatorio.data_relatorio | date: 'dd/MM/yyyy'}}</td>
+            <td>{{relatorio.razao}}</td>
+            <td>{{relatorio.situacao}}</td>
+            <td>
+              <a class="btn" [routerLink]="['/relatorio/']"
+                [queryParams]="{ id: relatorio.id}">
+                <i class="fa fa-eye" aria-hidden="true"
+                  style="font-size: 25px"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </div>
+    </table>
+    <pagination-controls class="text-center" (pageChange)="paginaAtual = $event"
+      (click)="subirTela()" previousLabel="Anterior" nextLabel="Próximo">
+    </pagination-controls>
+  </div>
+  <div class="fab">
+    <button class="main" [routerLink]="['/CadastroRelatorio/']">
+    </button>
+  </div>
+</div>

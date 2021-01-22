@@ -1,0 +1,108 @@
+.menu {
+    width: 16%;
+}
+
+table {
+    background: white;
+}
+
+th {
+    text-align: center;
+}
+
+.table-bordered tbody {
+    text-align: left;
+}
+
+.table-bordered tbody tr:nth-child(2n) {
+    background: #ccc;
+}
+
+.modal td {
+    width: 80%;
+}
+
+h1 {
+    margin: 50px 0px 50px
+}
+
+.responsiva>h1 {
+    font-size: calc(1em + 2vw);
+}
+
+.input-group {
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+.table {
+    padding: 0;
+}
+.table-bordered tbody td:nth-child(1) {
+  width: 5%
+}
+.table-bordered tbody td:nth-child(2) {
+    width: 35%
+}
+
+.table-bordered tbody td:nth-child(3) {
+    width: 35%
+}
+
+.table-bordered tbody td:nth-child(4) {
+    width: 10%
+}
+
+.table-bordered tbody td:nth-child(5) {
+    width: 10%
+}
+.table-bordered tbody td:nth-child(6) {
+  width: 5%
+}
+
+/* ll */
+
+.fab {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+
+.fab button {
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+    border-radius: 30px;
+    border: none;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .4);
+    font-size: 24px;
+}
+
+.fab button:focus {
+    outline: none;
+}
+
+.fab button.main {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    background-color: #0B2B40;
+    right: 10px;
+    bottom: 10px;
+    z-index: 20;
+}
+
+.fab button.main:before {
+    content: '+';
+    color: white;
+}
+
+.spinnerLoading {
+    display: none;
+}
+
+.spinner-border {
+    width: 50px;
+    height: 50px;
+}

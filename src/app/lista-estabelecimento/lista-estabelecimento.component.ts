@@ -1,0 +1,102 @@
+import { Component, OnInit, Input, Output } from '@angular/core';
+import { Estabelecimento } from '../estabelecimento';
+import { EstabelecimentoService } from '../service/estabelecimento.service';
+import * as moment from 'moment';
+
+declare var $: any;
+
+@Component({
+  selector: 'app-lista-estabelecimento',
+  templateUrl: './lista-estabelecimento.component.html',
+  styleUrls: ['./lista-estabelecimento.component.css']
+})
+export class ListaEstabelecimentoComponent implements OnInit {
+  OrderID = 'ASC'; OrderRazao = 'ASC'; OrderFantasia = 'ASC';
+  @Input() estabelecimentos: Estabelecimento[] = [];
+  @Input() listabelecimentoinput: Estabelecimento; 
+  @Input() est: Estabelecimento; loading = false; statusEst = false;
+  textSearch = '';
+  listItems = [];
+  dataAtual = new Date();
+  public paginaAtual = 1;
+
+  constructor(private estabelecimentoService: EstabelecimentoService) {
+  }
+  subirTela() {
+    window.scrollTo(0, 0);
+  }
+
+  ngOnInit() {
+    this.subirTela();
+    this.getListaLicenca();
+  }
+  getListaLicenca() {
+    this.estabelecimentoService.ListarTodosEstabelecimentos()
+      .subscribe((estabelecimentos: Estabelecimento[]) => {
+        this.statusEst = true;
+        this.estabelecimentos = estabelecimentos;
+        this.initList();
+      }, () => {
+      });
+  }
+  initList() {
+    this.listItems = this.estabelecimentos;
+  }
+  search() {
+    if (this.textSearch.length > 0) {
+      let val = this.textSearch;
+      this.filtroPesquisa();
+      this.listItems = this.listItems.filter((item) => {
+        return (
+          String(item.id).indexOf(val.toLowerCase()) > -1 ||
+          String(item.razao).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+          String(item.fantasia).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+          String(item.endereco).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+          String(item.bairro).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+          this.formatDate(item.data_licenca).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+          String(item.status).toLowerCase().indexOf(val.toLowerCase()) > -1
+        );
+      });
+    } else {
+      this.filtroPesquisa();
+    }
+  }
+  formatDate(data) {
+    return moment(data).format('DD/MM/YYYY');
+  }
+  listarTudo(id) {
+    this.estabelecimentoService.listarEstabelecimentoPorID(id)
+      .subscribe((licencas: Estabelecimento) => {
+        this.est = licencas;
+      }, () => {
+      });
+
+  }
+  filtroPesquisa() {
+    var filtro = $('select').val();
+    if (filtro === 'todos') {
+      this.initList();
+    } else {
+      this.listItems = this.estabelecimentos.filter((item) => {
+        const dataAtual = moment(this.dataAtual);
+        const dataLicenca = moment(item.data_retorno);
+        const diferencaEntreDatas = dataLicenca.diff(dataAtual, 'days');
+        if ((filtro === 'vencida' && !item.data_retorno) || (!item.data_licenca && filtro === 'vencida')) {
+          return item;
+        } else if (filtro === 'vencida') {
+          if (diferencaEntreDatas < 0) {
+            return item;
+          }
+        } else if (filtro === 'avencer') {
+          if (diferencaEntreDatas >= 0 && diferencaEntreDatas <= 31) {
+            return (item);
+          }
+        } else if (filtro === 'licenciado') {
+          if (diferencaEntreDatas > 31) {
+            return (item);
+          }
+        }
+      });
+    }
+  }
+}

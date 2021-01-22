@@ -1,0 +1,105 @@
+<div class="col-md-12">
+    <div class="row">
+        
+        <div class="col-md-3  col-sm-4 tamanhoMinCard">
+            <div class="card mineCard">
+                <div class="row">
+                    <div class="divCard">
+                        <a class="" [routerLink]="[ '/listaEstabelecimentos/']"
+                            style="width: 45px">
+                            <i class="fa fa-home fa-3x" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="responsiva" style="width: 75%">
+                        <h5 class="text-left">Estabelecimentos</h5>
+                        <div align="text-left" class="fontCard">{{contEst}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-4 tamanhoMinCard">
+            <div class="card mineCard">
+                <div class="row">
+                    <div class="divCard">
+                        <a class="" [routerLink]="[ '/lista_licenca/']"
+                            style="width: 50px">
+                            <i class="fa fa-key fa-3x" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="corpoCard">
+                        <h5 class="text-left">Licenças</h5>
+                        <div align="text-left" class="fontCard">{{cont}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-4 tamanhoMinCard">
+            <div class="card mineCard">
+                <div class="row">
+                    <div class="divCard">
+                        <a class="" [routerLink]="[ '/ListarDenuncias/']"
+                            style="width: 50px">
+                            <i class="fa fa-exclamation-circle fa-3x "
+                                aria-hidden="true "></i>
+                        </a>
+                    </div>
+                    <div class="corpoCard">
+                        <h5 class="text-left">Denuncias</h5>
+
+                        <div align="text-left" class="fontCard">{{contDen}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-4 tamanhoMinCard">
+            <div class="card mineCard">
+                <div class="row">
+                    <div class="divCard">
+                        <a class="" [routerLink]="[ '/listatermo/']"
+                            style="width: 50px">
+                            <i class="fa fa-search fa-3x "
+                                aria-hidden="true "></i>
+                        </a>
+                    </div>
+                    <div class="corpoCard">
+                        <h5 class="text-left">Termos</h5>
+                        <div align="text-left" class="fontCard">{{contTer}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-md-6 ">
+            <div class="card ">
+                <div class="card-body ">
+                    <app-pie-chart></app-pie-chart>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 ">
+            <div class="card ">
+                <div class="card-body ">
+                    <app-bar-chart></app-bar-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-md-6">
+            <div class="card ">
+                <div class="card-body">
+                    <iframe
+                        src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fvigilanciacoxim%2F&tabs=timeline&width=500&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                        width="100%" height="500"
+                        style="border:none;overflow:hidden" scrolling="no"
+                        frameborder="0" allowTransparency="true"
+                        allow="encrypted-media"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

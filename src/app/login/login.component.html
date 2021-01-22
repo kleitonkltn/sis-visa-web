@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+</head>
+
+<body class="body">
+    <div *ngIf="showLogin === false" class="container-fluid">
+        <div class="text-center">
+            <img src="assets/logo.png" class="img" style="max-width: 18rem">
+        </div>
+        <div class="col-xs-4  col-sm-4 fundologin" id="formlog">
+            <form class="text-center">
+                <h2 class="text-center margin">Login</h2>
+                <div class="form-group row">
+                    <div class="col-xs-2 col-sm-3">
+                        <label class="col-form-label"> <b> Matricula</b> </label>
+                    </div>
+                    <div class="col-xs-3 col-sm-9">
+                        <input type="text" [(ngModel)]="usuario.matricula" name="matricula" class="form-control" placeholder="Matricula">
+                    </div>
+                </div>
+                <div class="form-group  row">
+                    <div class="col-xs-2 col-sm-3">
+                        <label class="col-form-label"><b> Senha</b></label>
+                    </div>
+                    <div class="col-xs-3 col-sm-9">
+                        <input type="password" [(ngModel)]="usuario.password" name="password" class="form-control marge" placeholder="Senha">
+                    </div>
+                </div>
+                <span class="spinner-border spinner-border-sm" style="margin-right: 10px" role="status" [ngClass]="{ spinnerLoading: autenticar.loading }" aria-hidden="true"></span>
+                <input type="button" [ngClass]="{ spinnerLoading: !loading }" class="btn btn-outline-success btn-block margin" (click)="fazerlogin()" value="Entrar">
+            </form>
+
+        </div>
+
+    </div>
+    <footer id="footer">
+      <p class="text-center"><b>FASCOM - SISVISA</b></p>
+    </footer>
+</body>
+
+</html>

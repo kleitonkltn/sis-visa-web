@@ -1,0 +1,77 @@
+.input-group {
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+table {
+    background: white;
+}
+
+h1 {
+    margin: 50px 0 50px;
+}
+
+th {
+    text-align: center;
+}
+
+.table-bordered tbody {
+    text-align: center;
+}
+
+.input-group {
+    width: 100%;
+}
+
+.table-bordered tbody tr:nth-child(2n) {
+    background: #ccc;
+}
+
+.modal td {
+    width: 80%;
+}
+
+.responsiva>h1 {
+    font-size: calc(1em + 2vw);
+}
+
+table {
+    padding: 0;
+}
+
+.table-bordered tbody td:nth-child(1) {
+    width: 5%
+}
+
+.table-bordered tbody td:nth-child(2) {
+    width: 30%
+}
+
+.table-bordered tbody td:nth-child(3) {
+    width: 20%
+}
+
+.table-bordered tbody td:nth-child(4) {
+    width: 20%
+}
+
+.table-bordered tbody td:nth-child(5) {
+    width: 10%
+}
+
+.table-bordered tbody td:nth-child(6) {
+    width: 5%
+}
+
+.spinnerLoading {
+    display: none;
+}
+
+.spinner-border {
+    width: 50px;
+    height: 50px;
+}
+
+td {
+    text-align: left;
+}

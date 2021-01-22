@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "HOME-VISA",
+      "public": "dist/HOME-VISA",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

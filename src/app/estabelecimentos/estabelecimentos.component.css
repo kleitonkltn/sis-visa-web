@@ -1,0 +1,163 @@
+    td {
+        width: 75%;
+    }
+    
+    table {
+        width: 100%;
+        background: white;
+    }
+    
+    a:hover {
+        color: blue;
+    }
+    
+    .border {
+        border: 5px solid black;
+        margin-left: 50px
+    }
+    
+    .red {
+        display: inline-block;
+    }
+    
+    .teste {
+        display: inline-block;
+        margin-right: 3%;
+        margin-left: 2%;
+        /* margin-top: 50px; */
+    }
+    
+    h4,
+    h5 {
+        max-width: 50ch;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    h1 {
+        margin: 50px 0 50px;
+    }
+    
+    .spinnerLoading {
+        display: none;
+    }
+    
+    .alo:hover {
+        cursor: pointer;
+        color: blue;
+    }
+    /* tes   */
+    
+    .fab {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    ul {
+        display: none;
+    }
+    
+    .fab button.main {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border-radius: 30px;
+        background-color: #0B2B40;
+        right: 10px;
+        bottom: 10px;
+        z-index: 20;
+    }
+    
+    .fab button.main:before {
+        content: '≡';
+        font-size: 30pt;
+    }
+    
+    .fab #btnprincipal.active:before {
+        content: '↑';
+    }
+    
+    #btnprincipal.active+ul {
+        display: block;
+        margin-bottom: 70px;
+    }
+    
+    .fab ul {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        padding: 0;
+        padding-right: 5px;
+        margin: 0;
+        list-style: none;
+        z-index: 10;
+        -webkit-transition: .2s ease-out;
+        -moz-transition: .2s ease-out;
+        transition: .2s ease-out;
+    }
+    
+    .fab button {
+        cursor: pointer;
+        width: 48px;
+        height: 48px;
+        border-radius: 30px;
+        background-color: #0B2B40;
+        border: none;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, .4);
+        font-size: 24px;
+        color: white;
+        -webkit-transition: .2s ease-out;
+        -moz-transition: .2s ease-out;
+        transition: .2s ease-out;
+    }
+    
+    .fab button:focus {
+        outline: none;
+    }
+    
+    .spinnerLoading {
+        display: none;
+    }
+    
+    .modal-header {
+        background-color: #0B2B40;
+        color: white;
+        /* background-color: aliceblue; */
+    }
+    
+    .btn-primary {
+        background-color: #0B2B40;
+        color: white;
+    }
+    
+    .fa-file-word-o {
+        color: blue;
+    }
+    
+    .col-md-2 .card button img {
+        margin: 0px;
+    }
+    /* d */
+    
+    .spinner-border-sm {
+        margin-top: 50px;
+    }
+    
+    .tab-content {
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+    
+    .FonteResponsiva>h1 {
+        font-size: calc(2em + 1vw);
+    }
+    
+    .margintop {
+        margin-top: 0px !important;
+    }
+    
+    .iconeFechar:hover {
+        color: red;
+    }

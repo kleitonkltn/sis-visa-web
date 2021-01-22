@@ -1,0 +1,52 @@
+.pt-3-half {
+    padding-top: 1.4rem;
+}
+
+h2 {
+    margin-bottom: 50px;
+}
+
+.spinnerLoading {
+    display: none;
+}
+
+.ng-invalid:not(relatorioForm).form-submitted {
+    border-bottom: solid 2px red;
+}
+
+.t {
+    margin-right: 35px;
+    margin-top: 50px;
+    box-shadow: 0 0 20px 2px #ccc;
+}
+
+.fa-file-word-o {
+    color: blue;
+}
+
+p {
+    max-width: 18ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.card-header {
+    max-height: 40px;
+    background-color: white;
+    border: none;
+}
+
+.fa-times:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.btn-dark {
+    margin: 10px 0px 10px;
+    border-radius: 0;
+}
+
+.card {
+    border: none;
+}

@@ -1,0 +1,239 @@
+<body class="body">
+    <div class="row estilo" style="margin-left: 2%; margin-right: 2%;">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="responsiva" style="margin-bottom: 50px;">
+                <h1 class="text-center">{{titulo}}</h1>
+                <h4 class="text-center" style="margin-bottom: 25px;"> Campos com (*) são obrigatórios </h4>
+            </div>
+            <form method="post" [formGroup]="relatorioForm">
+                <fieldset>
+                    <div class="border col-md-12">
+                        <h2 class="text-center"><b>1.  Identificação da Empresa</b></h2>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <b>*Nome Fantasia:</b>
+                                <input class="form-control" formControlName="fantasia" name="fantasia" [ngClass]="{'form-submitted': formSubmitted}" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <b>*Razão Social:</b>
+                                <input class="form-control" formControlName="razao" name="razao" [ngClass]="{'form-submitted': formSubmitted}" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <b>*CNPJ ou CPF:</b>
+                                <input [textMask]="{mask: cnpj}" class="form-control" formControlName="cnpj" name="cnpj" [ngClass]="{'form-submitted': formSubmitted}" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                            </div>
+                            <div class="form-group col-md-9">
+                                <b>*Endereço:</b>
+                                <input class="form-control" formControlName="endereco" name="endereco" [ngClass]="{'form-submitted': formSubmitted}" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <b>*Bairro:</b>
+                                <input class="form-control" formControlName="bairro" name="bairro" type="text" [ngClass]="{'form-submitted': formSubmitted}" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <b>*Municipio:</b>
+                                <input class="form-control" formControlName="municipio" name="municipio" type="text" [ngClass]="{'form-submitted': formSubmitted}" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                            </div>
+                            <!-- <div class="form-group col-md-3">
+                                <b>UF:</b>
+                                <input class="form-control" formControlName="uf" name="uf" type="text">
+                            </div> -->
+                            <div class="form-group col-md-3">
+                                <b>CEP:</b>
+                                <input [textMask]="{mask: cep}" class="form-control" formControlName="cep" name="cep" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <b>*Telefone:</b>
+                                <input [textMask]="{mask: contatomask}" class="form-control" formControlName="telefone" name="telefone" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="border col-md-12" style="margin-top: 50px;">
+                        <h2 class="text-center"><b>2. Caracterização da Inspeção</b></h2>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <b>Inspeção:</b>
+                                <div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" value="inicial" id="customRadioInline1" name="tipo_inspecao" formControlName="tipo_inspecao" class="custom-control-input" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                                        <label class="custom-control-label" for="customRadioInline1">Inicial</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" value="alteracoes" id="customRadioInline2" name="tipo_inspecao" formControlName="tipo_inspecao" class="custom-control-input" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                                        <label class="custom-control-label" for="customRadioInline2">Alterações </label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" value="sistematica" id="customRadioInline3" name="tipo_inspecao" formControlName="tipo_inspecao" class="custom-control-input" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                                        <label class="custom-control-label" for="customRadioInline3">Sistemática</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" value="emergencial" id="customRadioInline4" name="tipo_inspecao" formControlName="tipo_inspecao" class="custom-control-input" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                                        <label class="custom-control-label" for="customRadioInline4">Emergencial</label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <b>*Data Inspeção:</b>
+                                <input class="form-control" formControlName="data_inspecao" name="data_relatorio" type="date" [ngClass]="{'form-submitted': formSubmitted}" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <b>*Data Relatório:</b>
+                                <input class="form-control" formControlName="data_relatorio" name="data_relatorio" type="date" [ngClass]="{'form-submitted': formSubmitted}" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="border col-md-12" style="margin-top: 50px;">
+                        <h2 class="text-center"><b>3. Objetivo</b></h2>
+                        <textarea class="form-control" formControlName="objetivo" name="objetivo" style="height: 100px;  margin-bottom: 20px;" [readonly]="user != 'gerente' && user != 'fiscal'"></textarea>
+                    </div>
+
+                    <div class="border col-md-12" style="margin-top: 50px;">
+                        <h2 class="text-center"><b>4. Pessoas Contratadas</b></h2>
+                        <textarea class="form-control" formControlName="pessoas_constatadas" name="pessoas_constatadas" style="height: 100px; margin-bottom: 20px;" [readonly]="user != 'gerente' && user != 'fiscal'"></textarea>
+                    </div>
+
+                    <div class="border col-md-12" style="margin-top: 50px;">
+                        <h2 class="text-center"><b>5. Relato da Situação</b></h2>
+                        <textarea class="form-control" formControlName="relato_situacao" name="relato_situacao" style="height: 100px; margin-bottom: 20px;" [readonly]="user != 'gerente' && user != 'fiscal'"></textarea>
+
+                        <div class="container">
+                            <form [formGroup]="FormGroupIrregularidades">
+                                <div formArrayName="irregularidades">
+                                    <div *ngFor="let irreg of irregularidades.controls; index as i">
+                                        <div [formGroupName]="i">
+                                            <h3>Irregularidade - {{i !== null ? irregularidades.controls[i].value.item_id :" "}}
+                                            </h3>
+                                            <div class="row">
+                                                <div class="form-group col-3">
+                                                    <label for="">ID</label>
+                                                    <input disabled="true" type="text" class="form-control" formControlName="item_id">
+                                                </div>
+                                                <div class="form-group col-7">
+                                                    <label for="">Descricao</label>
+                                                    <input type="text" class="form-control" formControlName="descricao_item" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                                                </div>
+                                                <div class="form-group col-2">
+                                                    <label for="">Itens</label>
+                                                    <button type="button" [disabled]="irregularidades.controls[i].value.item_id == ''" class="btn btn-primary btn-block" (click)="addItem(i)" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">+Item</button>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div *ngIf="irregularidades.controls[i].get('items') != null">
+                                                <form [formGroup]="this.irregularidades.controls[i].get('items')">
+
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="irregularidades.controls[i].get('items') != null">
+                                            <div class="formItem" *ngFor="let data of irregularidades.controls[i].get('items').value  ; index as f">
+                                                <div class="row">
+                                                    <div class="form-group col-2">
+                                                        <label for="">ID</label>
+                                                        <input type="text" class="form-control" disabled="true" (blur)="setItem(data, i,f)" [ngModelOptions]="{standalone: true}" [(ngModel)]="data.id">
+                                                    </div>
+                                                    <div class="form-group col-7">
+                                                        <label for="">Irregularidades</label>
+                                                        <input type="text" class="form-control" [ngModelOptions]="{standalone: true}" (blur)="setItem(data, i,f)" [(ngModel)]=" data.irregularidades">
+                                                    </div>
+                                                    <div class="form-group col-3">
+                                                        <label for="">Prazo</label>
+                                                        <input type="text" class="form-control" (blur)="setItem(data, i,f)" [ngModelOptions]="{standalone: true}" [(ngModel)]="data.prazo">
+                                                    </div>
+                                                    <div class="form-group col-12">
+                                                        <label for="">Recomendações</label>
+                                                        <textarea [ngModelOptions]="{standalone: true}" (blur)="setItem(data, i,f)" [(ngModel)]="data.recomendacoes" class="form-control" name="" rows="3" [readonly]="user != 'gerente' && user != 'fiscal'"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-block  btn-primary" (click)="addIrregularidades()" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">+
+                                      Irregularidades</button>
+                                </div>
+                            </form>
+                        </div>
+                        <h2 class="text-center"><b> Orientações Gerais:</b></h2>
+                        <textarea class="form-control" formControlName="orientacoes_gerais" name="orientacoes_gerais" style="height: 100px; margin-bottom: 20px;" [readonly]="user != 'gerente' && user != 'fiscal'"></textarea>
+                    </div>
+
+                    <div class="border col-md-12" style="margin-top: 50px;">
+                        <h2 class="text-center"><b>6. Providências Tomadas</b></h2>
+                        <textarea class="form-control" formControlName="providencias_tomadas" name="providencias_tomadas" style="height: 100px; margin-bottom: 20px;" [readonly]="user != 'gerente' && user != 'fiscal'"></textarea>
+                    </div>
+                    <div class="border col-md-12" style="margin-top: 50px;">
+                        <h2 class="text-center"><b>7. Considerações Finais</b></h2>
+                        <textarea class="form-control" formControlName="consideracoes" name="consideracoes" style="height: 100px; margin-bottom: 20px;" [readonly]="user != 'gerente' && user != 'fiscal'"></textarea>
+                    </div>
+                    <div class="border col-md-12" style="margin-top: 50px;">
+                        <h2 class="text-center"><b>8. Conclusão da Inspeção</b></h2>
+                        <div class="form-group">
+                            <div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" value="satisfatorio" id="radio1" name="situacao" formControlName="situacao" class="custom-control-input" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                                    <label class="custom-control-label" for="radio1">Satisfatório</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" value="satisfatorio_restricoes" id="radio2" name="situacao" formControlName="situacao" class="custom-control-input" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                                    <label class="custom-control-label" for="radio2">Satisfatório com restrições </label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" value="insatisfatorio" id="radio3" name="situacao" formControlName="situacao" class="custom-control-input" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                                    <label class="custom-control-label" for="radio3">Insatisfatório</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" value="insatisfatorio_interdicao_parcial" id="radio4" name="situacao" formControlName="situacao" class="custom-control-input" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                                    <label class="custom-control-label" for="radio4">Insatisfatório com interdição parcial</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" value="insatisfatorio_interdicao_total" id="radio5" name="situacao" formControlName="situacao" class="custom-control-input" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                                    <label class="custom-control-label" for="radio5">Insatisfatório com interdição total</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border col-md-12" style="margin-top: 50px;">
+                        <h2 class="text-center"><b>9. Equipe</b></h2>
+                        <div class="form-group col-sm-12" *ngIf="this.idupdate">
+                            <button class="btn btn-secondary" (click)="selecFiscais()">Carregar Equipe</button>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <select id="selectfiscais" class="select-fiscais custom-select" multiple="multiple" style="width: 100%;" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                                <option *ngFor="let fiscais of fiscais"  [value]="fiscais.matricula">
+                                    {{fiscais.nome}}
+                                </option>
+                        </select>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row" class="text-center" style="margin-top: 50px;">
+                        <div *ngIf="!idupdate">
+                            <button type="button" class="btn btn-dark" value="Cadastrar" (click)="salvar()" [attr.disabled]="user != 'gerente' && user != 'fiscal'  ? true : null" [ngClass]="{'form-submitted': formSubmitted}">
+                                    <span class="spinner-border spinner-border-sm" role="status" [ngClass]="{ spinnerLoading: loadingCadastro }" aria-hidden="true"></span>
+                                    <i [ngClass]="{ spinnerLoading: !loading }" aria-hidden="true"></i> Cadastrar
+                                </button>
+                        </div>
+                        <div *ngIf="idupdate > 0" class="text-center">
+                            <button type="submit" class="btn btn-dark" value="Atualizar" (click)="atualizar()">
+                                    <span class="spinner-border spinner-border-sm" role="status" [ngClass]="{ spinnerLoading: loadingCadastro }" aria-hidden="true"></span>
+                                    <i [ngClass]="{ spinnerLoading: !loading }" aria-hidden="true"></i> Atualizar
+                                </button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</body>

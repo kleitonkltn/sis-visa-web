@@ -1,0 +1,62 @@
+<div>
+    <div *ngIf="statusEst === false" align="center" style="margin-top: 50px;">
+        <span class="spinner-border spinner-border-sm" role="status" [ngClass]="{ spinnerLoading: loading}" aria-hidden="true"></span>
+    </div>
+    <div *ngIf="termos && statusEst === true" align="center" style="margin-left: 2%; margin-right: 2%;">
+        <div class="responsiva">
+            <h1 class="text-center">Lista de Termos</h1>
+        </div>
+        <div class="input-group col-xs-9 col-sm-9">
+            <input class="form-control" id="myInput" [(ngModel)]="textSearch" (keyup)="search()" type="text" placeholder="Busca..">
+            <div class="input-group-append">
+                <select name="filtoPesquisa" id="select" class="custom-select" (change)="filtroPesquisa()">
+                    <option value="Todas" selected>Todas</option>
+                    <option value="constatacao">Constatação</option>
+                    <option value="inspecao">Inspeção</option>
+                    <option value="inutilizacao">Inutilização </option>
+                    <option value="notificacao">Notificação</option>
+                    <option value="orientacao"> Orientação  </option>
+                    <option value="relatorio">Relatório</option>
+                    <option value="interdicao">Interdição</option>
+                    <option value="desinterdicao">Desinterdição</option>
+                  </select>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-responsive-sm col-xs-9  col-md-9">
+            <div *ngIf="termos">
+                <thead class="thead-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Termo</th>
+                        <th> Razão social</th>
+                        <th>Data</th>
+                        <th>Opção</th>
+                    </tr>
+                </thead>
+                <tbody id="myTable" *ngFor="let termo of listItems | paginate: { itemsPerPage: 15, currentPage: paginaAtual }; let i = index">
+                    <tr>
+                        <td>{{termo.id}}</td>
+                        <td>{{termo.tipo_termo}}</td>
+                        <td class="text-justify">{{termo.razao}}</td>
+                        <td>{{termo.data| date: 'dd/MM/yyyy' + " "+termo.hora}}</td>
+                        <td>
+                            <div class="text-center">
+                                <a class="btn" [routerLink]="['/termo/']" [queryParams]="{ id: termo.id}">
+                                    <i class="fa fa-eye" aria-hidden="true" style="font-size: 25px"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </div>
+        </table>
+        <pagination-controls class="text-center" (pageChange)="paginaAtual = $event" (click)="subirTela()" previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
+    </div>
+    <div class="fab">
+        <a href="/CadastroTermo">
+            <button class="main">
+            </button>
+        </a>
+    </div>
+</div>
