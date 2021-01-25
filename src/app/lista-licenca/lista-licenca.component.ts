@@ -68,14 +68,14 @@ export class ListaLicencaComponent implements OnInit {
     } else {
       this.listItems = this.licencas.filter((item) => {
         if (filtro === 'pendente') {
-          if ((item.status_fiscal == 'aguardando' && item.status_gerente == 'aguardando')
-            || (item.status_fiscal == 'aguardando' && item.status_segundo_fiscal == 'aguardando')) {
+          if ((item.status_fiscal === 'aguardando' && item.status_gerente === 'aguardando')
+            || (item.status_fiscal === 'aguardando' && item.status_segundo_fiscal === 'aguardando')) {
             return item;
           }
         } else
           if (filtro === 'autorizada') {
-            if ((item.status_fiscal == 'autorizada' && item.status_gerente == 'autorizada')
-              || (item.status_fiscal == 'autorizada' && item.status_segundo_fiscal == 'autorizada')) {
+            if ((item.status_fiscal === 'autorizada' && item.status_gerente === 'autorizada')
+              || (item.status_fiscal === 'autorizada' && item.status_segundo_fiscal === 'autorizada')) {
               return item;
             }
           } else

@@ -13,13 +13,13 @@ export class ListaAtividadeComponent implements OnInit {
   listItems = [];
   dataAtual = new Date();
     public paginaAtual = 1;
-  
+
     constructor(private atividadeService: AtividadeService) {
     }
     subirTela() {
       window.scrollTo(0, 0);
     }
-  
+
     ngOnInit() {
       this.subirTela();
       this.getListaLicenca();
@@ -39,7 +39,7 @@ export class ListaAtividadeComponent implements OnInit {
 
     search() {
       if (this.textSearch.length > 0) {
-        let val = this.textSearch;
+        const val = this.textSearch;
         this.initList();
         this.listItems = this.listItems.filter((item) => {
           return (

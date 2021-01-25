@@ -21,6 +21,6 @@ export class LicencaService {
     return this.http.post(environment.apiUrl_LicencasPost, Client);
   }
   updateLicenca(Client: Licencas) {
-    return this.http.put(environment.apiUrl_LicencasPost + '/' + Client.id, Client);
+    return this.http.put(environment.apiUrl_Licencas + '/' + Client.id, Client);
   }
 }

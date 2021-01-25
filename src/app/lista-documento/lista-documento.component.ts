@@ -14,14 +14,14 @@ export class ListaDocumentoComponent implements OnInit {
   textSearch = ''; statusEst = false; loading = false;
   listItems = [];
   dataAtual = new Date();
-    public paginaAtual = 1;
-  
+  public paginaAtual = 1;
+
     constructor(private documentoService: DocumentoService) {
     }
     subirTela() {
       window.scrollTo(0, 0);
     }
-  
+
     ngOnInit() {
       this.subirTela();
       this.getListaLicenca();

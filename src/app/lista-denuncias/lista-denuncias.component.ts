@@ -13,7 +13,7 @@ import * as moment from 'moment';
 export class ListaDenunciasComponent implements OnInit {
   @Input() denuncias: Denuncias[] = []; statusEst = false;
   public paginaAtual = 1; loading = false;
-  textSearch = "";
+  textSearch = '';
   listItems = [];
 
   constructor(private denunciasService: DenunciaService) { }
@@ -28,7 +28,7 @@ export class ListaDenunciasComponent implements OnInit {
   search() {
     this.initList();
     if (this.textSearch.length > 0) {
-      let val = this.textSearch;
+      const val = this.textSearch;
       this.filtroPesquisa();
       this.listItems = this.listItems.filter((item) => {
         return (
@@ -82,8 +82,8 @@ export class ListaDenunciasComponent implements OnInit {
   }
 
   filtroPesquisa() {
-    var filtro = $('select').val();
-    if (filtro === "Todas") {
+    let filtro = $('select').val();
+    if (filtro === 'Todas') {
       this.initList();
     } else {
       this.listItems = this.denuncias.filter((item) => {

@@ -36,8 +36,8 @@ export class CadastroTermosComponent implements OnInit {
   titulo = 'Cadastrar Termo'; atividades; documentos; listdoc = []; fiscaispresente;
 
   contatomask = (rawValue) => {
-    var numbers = rawValue.match(/\d/g);
-    var numberLength = 0;
+    let numbers = rawValue.match(/\d/g);
+    let numberLength = 0;
     if (numbers) {
       numberLength = numbers.join('').length;
     }
@@ -49,8 +49,8 @@ export class CadastroTermosComponent implements OnInit {
   }
 
   cnpjmask = (rawValue) => {
-    var numbers = rawValue.match(/\d/g);
-    var numberLength = 0;
+    let numbers = rawValue.match(/\d/g);
+    let numberLength = 0;
     if (numbers) {
       numberLength = numbers.join('').length;
     }
@@ -211,17 +211,17 @@ export class CadastroTermosComponent implements OnInit {
     }
     const documentos = this.listdoc.join(', ');
 
-    var text = " "
+    let text = ' '
     if (this.f.descricao.value != null &&
-      String(this.f.descricao.value).indexOf("Apresentar cópia dos seguintes documentos:") >= 1) {
-      text = String(this.f.descricao.value).split(" Apresentar cópia dos seguintes documentos:")[0]
+      String(this.f.descricao.value).indexOf('Apresentar cópia dos seguintes documentos:') >= 1) {
+      text = String(this.f.descricao.value).split(' Apresentar cópia dos seguintes documentos:')[0]
     } else {
-      text = this.f.descricao.value != null ? this.f.descricao.value :" "
+      text = this.f.descricao.value != null ? this.f.descricao.value : ' '
     }
     this.f.descricao.setValue(text + ' Apresentar cópia dos seguintes documentos: '
       + documentos);
-    if (opcao.length == 0) {
-      this.f.descricao.setValue(text.split(" Apresentar cópia dos seguintes documentos:")[0]);
+    if (opcao.length === 0) {
+      this.f.descricao.setValue(text.split(' Apresentar cópia dos seguintes documentos:')[0]);
     }
   }
   selectEmbasamento() {

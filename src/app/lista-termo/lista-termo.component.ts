@@ -68,7 +68,7 @@ export class ListaTermoComponent implements OnInit {
     } else {
       this.listItems = this.termos.filter((item) => {
         return (
-          String(item.tipo_termo).toLowerCase() == filtro.toLowerCase()
+          String(item.tipo_termo).toLowerCase() === filtro.toLowerCase()
         );
       });
     }

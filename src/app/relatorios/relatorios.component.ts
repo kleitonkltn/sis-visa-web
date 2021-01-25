@@ -33,7 +33,7 @@ export class RelatoriosComponent implements OnInit {
     this.createForm(new Email());
     this.pegaId();
   }
- 
+
   createForm(email: Email) {
     this.emailForm = new FormGroup({
       destinatario: new FormControl(email.destinatario, Validators.required),
@@ -100,7 +100,7 @@ export class RelatoriosComponent implements OnInit {
   verAnexo(item) {
     this.item = item;
   }
-  relatorioPdf(){
+  relatorioPdf() {
     this.loading = false;
     if (this.idrelatorio != null) {
       this.pdfservice.downloadFileRelatorio(this.idrelatorio).subscribe(response => {
@@ -136,7 +136,6 @@ EnviarEmail() {
         resolve(data);
         $('.modal-header .close').click();
         window.scrollTo(0, 0);
-        console.log(data)
         if (data !== null && data['code'] === 'EENVELOPE') {
           this.mostraDialogo2('Erro ao  enviar relatório', 'danger', 5000);
         } else {

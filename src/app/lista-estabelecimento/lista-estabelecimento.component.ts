@@ -13,7 +13,7 @@ declare var $: any;
 export class ListaEstabelecimentoComponent implements OnInit {
   OrderID = 'ASC'; OrderRazao = 'ASC'; OrderFantasia = 'ASC';
   @Input() estabelecimentos: Estabelecimento[] = [];
-  @Input() listabelecimentoinput: Estabelecimento; 
+  @Input() listabelecimentoinput: Estabelecimento;
   @Input() est: Estabelecimento; loading = false; statusEst = false;
   textSearch = '';
   listItems = [];
@@ -44,7 +44,7 @@ export class ListaEstabelecimentoComponent implements OnInit {
   }
   search() {
     if (this.textSearch.length > 0) {
-      let val = this.textSearch;
+      const val = this.textSearch;
       this.filtroPesquisa();
       this.listItems = this.listItems.filter((item) => {
         return (
@@ -73,7 +73,7 @@ export class ListaEstabelecimentoComponent implements OnInit {
 
   }
   filtroPesquisa() {
-    var filtro = $('select').val();
+    let filtro = $('select').val();
     if (filtro === 'todos') {
       this.initList();
     } else {

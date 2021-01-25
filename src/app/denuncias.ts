@@ -1,17 +1,16 @@
-export class Denuncias{
-    id: number;
-    procedimentos: String;
-    data: String;
-    hora: String;
-    origem: String;
-    status: String;
-    reclamante: String;
-    contato_reclamante: String;
-    denunciado: String;
-    contato_denunciado: String;
-    endereco: String;
-    bairro: String;
-    ponto_de_referencia: String;
-    descricao: String;
-    }
-    
+export class Denuncias {
+  id: number
+  procedimentos: string
+  data: string
+  hora: string
+  origem: string
+  status: string
+  reclamante: string
+  contato_reclamante: string
+  denunciado: string
+  contato_denunciado: string
+  endereco: string
+  bairro: string
+  ponto_de_referencia: string
+  descricao: string
+}
