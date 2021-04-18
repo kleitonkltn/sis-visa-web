@@ -1,14 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { EstabelecimentoService } from '../service/estabelecimento.service';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Estabelecimento } from './../estabelecimento';
-import { stringify } from 'querystring';
-import { Arquivos } from '../arquivos';
-import { AnexoService } from '../service/anexo.service';
-import swal from 'sweetalert2';
+import { Component, Input, OnInit } from '@angular/core'
+import { EstabelecimentoService } from '../service/estabelecimento.service'
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router'
+import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { Estabelecimento } from './../estabelecimento'
+import { stringify } from 'querystring'
+import { Arquivos } from '../arquivos'
+import { AnexoService } from '../service/anexo.service'
+import swal from 'sweetalert2'
 
-declare var $: any;
+declare var $: any
 @Component({
   selector: 'app-cadastro-estabelecimento',
   templateUrl: './cadastro-estabelecimento.component.html',
@@ -17,38 +17,38 @@ declare var $: any;
 
 
 export class CadastroEstabelecimentoComponent implements OnInit {
-  estabelecimentoForm: FormGroup;
+  estabelecimentoForm: FormGroup
 
 
-  estabelecimento: Estabelecimento;
+  estabelecimento: Estabelecimento
   titulo = 'Cadastrar Estabelecimento';
-  @Input() CNAE;
-  @Input() Atividade;
+  @Input() CNAE
+  @Input() Atividade
   anexo: Arquivos; indice; item: Arquivos; itemCarregado = {} as Arquivos;
   base64textString = []; descricao = []; arq = []; nomeArquivo = [];
   arquivos: Arquivos = {} as Arquivos; listaArq: Arquivos[] = [];
   loading: boolean[] = []; loadingRemove: boolean[] = []; loadingNumvem = true; loadingCadastro = true;
-  status = 'abrir'; index = 0; textSearch;
-  formSubmitted = false; licencaValueMax;
+  status = 'abrir'; index = 0; textSearch
+  formSubmitted = false; licencaValueMax
 
   public celular = ['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   public telefone = ['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   public cep = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
   public cnpj = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/];
-  public idupdate: number;
+  public idupdate: number
 
-  constructor(private route: ActivatedRoute, private estabelecimentoservice: EstabelecimentoService,
-              private anexoService: AnexoService, private router: Router) {
+  constructor (private route: ActivatedRoute, private estabelecimentoservice: EstabelecimentoService,
+    private anexoService: AnexoService, private router: Router) {
   }
 
-  ngOnInit() {
-    this.createForm(new Estabelecimento());
-    this.pegaId();
-    this.retronaCnae();
-    this.retronaAtividade();
+  ngOnInit () {
+    this.createForm(new Estabelecimento())
+    this.pegaId()
+    this.retronaCnae()
+    this.retronaAtividade()
   }
 
-  createForm(estabelecimento: Estabelecimento) {
+  createForm (estabelecimento: Estabelecimento) {
     this.estabelecimentoForm = new FormGroup({
       id: new FormControl(estabelecimento.id),
       atividade: new FormControl(estabelecimento.atividade, Validators.required),
@@ -74,273 +74,274 @@ export class CadastroEstabelecimentoComponent implements OnInit {
       data_licenca: new FormControl(estabelecimento.data_licenca),
       email: new FormControl(estabelecimento.email)
 
-    });
+    })
   }
-  salvar() {
-    this.loadingCadastro = false;
+  salvar () {
+    this.loadingCadastro = false
     if (this.estabelecimentoForm.valid === false) {
-      window.scrollTo(0, 0);
+      window.scrollTo(0, 0)
       swal.fire({
         icon: 'warning',
         title: 'Preencha todos os campos obrigatórios',
         showConfirmButton: false,
         timer: 2000
-      });
-      this.formSubmitted = true;
-      this.loadingCadastro = true;
+      })
+      this.formSubmitted = true
+      this.loadingCadastro = true
     } else {
       this.estabelecimentoservice.cadastrarEstabelecimento(this.estabelecimentoForm.value).subscribe((data: Estabelecimento) => {
-        this.loadingCadastro = true;
-        window.scrollTo(0, 0);
+        this.loadingCadastro = true
+        window.scrollTo(0, 0)
         swal.fire({
           icon: 'success',
           title: 'Estabelecimento cadastrado com sucesso',
           showConfirmButton: false,
           timer: 2000
-        });
+        })
         const navigationExtras: NavigationExtras = {
           queryParams: {
             id: data.id
           }
-        };
+        }
         setTimeout(() => {
-          this.router.navigate(['/estabelecimento/'], navigationExtras);
-        }, 3000);
+          this.router.navigate(['/estabelecimento/'], navigationExtras)
+        }, 3000)
       }, (error) => {
-        this.loadingCadastro = true;
-        window.scrollTo(0, 0);
+        this.loadingCadastro = true
+        window.scrollTo(0, 0)
         swal.fire({
           icon: 'warning',
           title: 'Falha ao cadastrar estabelecimento',
           showConfirmButton: false,
           timer: 2000
-        });
-      });
+        })
+      })
     }
   }
 
-  atualizar() {
-    this.loadingCadastro = false;
+  atualizar () {
+    this.loadingCadastro = false
     if (this.estabelecimentoForm.valid === false) {
-      window.scrollTo(0, 0);
+      window.scrollTo(0, 0)
       swal.fire({
         icon: 'warning',
         title: 'Preencha todos os campos obrigatórios',
         showConfirmButton: false,
         timer: 2000
-      });
-      this.formSubmitted = true;
-      this.loadingCadastro = true;
+      })
+      this.formSubmitted = true
+      this.loadingCadastro = true
     } else {
       this.estabelecimentoservice.atualizarEstabelecimento(this.estabelecimentoForm.value, this.idupdate).subscribe(() => {
-        this.loadingCadastro = true;
-        window.scrollTo(0, 0);
+        this.loadingCadastro = true
+        window.scrollTo(0, 0)
         swal.fire({
           icon: 'success',
           title: 'Estabelecimento atualizado com sucesso',
           showConfirmButton: false,
           timer: 2000
-        });
+        })
         const navigationExtras: NavigationExtras = {
           queryParams: {
             id: this.idupdate
           }
-        };
+        }
         setTimeout(() => {
-          this.router.navigate(['/estabelecimento/'], navigationExtras);
-        }, 3000);
+          this.router.navigate(['/estabelecimento/'], navigationExtras)
+        }, 3000)
       }, (error) => {
-        this.loadingCadastro = true;
-        window.scrollTo(0, 0);
+        this.loadingCadastro = true
+        window.scrollTo(0, 0)
         swal.fire({
           icon: 'warning',
           title: 'Falha na atualização do estabelecimento',
           showConfirmButton: false,
           timer: 2000
-        });
-      });
+        })
+      })
     }
   }
-  pegaId() {
+  pegaId () {
     this.route.queryParams.subscribe(
       queryParams => {
-        this.idupdate = queryParams.id;
+        this.idupdate = queryParams.id
         if (this.idupdate != null) {
-          window.scrollTo(0, 0);
-          this.titulo = 'Atualizar Estabelecimento';
+          window.scrollTo(0, 0)
+          this.titulo = 'Atualizar Estabelecimento'
           this.estabelecimentoservice.listarEstabelecimentoPorID(this.idupdate).subscribe((estabelecimentos) => {
-            this.estabelecimento = estabelecimentos;
-            estabelecimentos.status = '' + estabelecimentos.status;
-            this.createForm(this.estabelecimento);
-            this.mascaracnpj();
-            this.estabelecimentoForm.value.cnpj = estabelecimentos.cnpj;
+            this.estabelecimento = estabelecimentos
+            estabelecimentos.status = '' + estabelecimentos.status
+            this.createForm(this.estabelecimento)
+            this.mascaracnpj()
+            this.estabelecimentoForm.value.cnpj = estabelecimentos.cnpj
           }, () => {
-          });
+          })
         } else {
-          window.scrollTo(0, 0);
-          this.titulo = 'Cadastrar Estabelecimento';
-          this.createForm(new Estabelecimento());
+          window.scrollTo(0, 0)
+          this.titulo = 'Cadastrar Estabelecimento'
+          this.createForm(new Estabelecimento())
         }
       }
-    );
+    )
   }
 
-  retronaCnae() {
+  retronaCnae () {
     this.estabelecimentoservice.listarTodosCnae()
       .subscribe((cnae) => {
-        this.CNAE = cnae;
+        this.CNAE = cnae
       }, () => {
-      });
+      })
   }
 
-  retronaAtividade() {
-    this.estabelecimentoservice.ListarTodasAtividades()
-      .subscribe((atividade) => {
-        this.Atividade = atividade;
-      }, () => {
-      });
+  async retronaAtividade () {
+    const atividade = await this.estabelecimentoservice.ListarTodasAtividades().toPromise()
+    if (atividade) {
+      this.Atividade = atividade
+    }
+
   }
-  numLicenca() {
-    const val = (this.textSearch);
-    console.log(val);
+  numLicenca () {
+    const val = (this.textSearch)
+    console.log(val)
     this.estabelecimentoservice.getValueMaxLicenca().subscribe(async (itens: Estabelecimento) => {
       if (itens.licenca < val) {
-        window.scrollTo(0, 0);
+        window.scrollTo(0, 0)
         swal.fire({
           icon: 'warning',
           title: 'Número da Licenca Incorreto',
           showConfirmButton: false,
           timer: 2000
-        });
-        this.textSearch = '';
+        })
+        this.textSearch = ''
       }
-    });
+    })
 
   }
 
-  mascaracnpj() {
-   if (this.estabelecimentoForm.value.pessoa.toString() === '1') {
-      this.cnpj = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+  mascaracnpj () {
+    if (this.estabelecimentoForm.value.pessoa.toString() === '1') {
+      this.cnpj = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/]
     } else {
-      this.cnpj = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+      this.cnpj = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/]
     }
   }
 
 
-  dados(item, i) {
-    this.anexo = item;
-    this.indice = i;
+  dados (item, i) {
+    this.anexo = item
+    this.indice = i
   }
 
-  ListaArq() {
-    this.loadingNumvem = false;
+  ListaArq () {
+    this.loadingNumvem = false
     if (this.status === 'abrir') {
-      this.status = 'fechar';
+      this.status = 'fechar'
       this.anexoService.listFilesByModel('estabelecimento', this.idupdate).subscribe((arq: Arquivos[]) => {
-        this.listaArq = arq;
-        this.loadingNumvem = true;
-        for (let i = 0; i < this.listaArq.length; i++) {
-          this.loadingRemove[i] = true;
+        console.log(arq)
+        this.listaArq = arq
+        this.loadingNumvem = true
+        for (let i = 0;i < this.listaArq.length;i++) {
+          this.loadingRemove[i] = true
         }
-      });
+      })
     } else {
-      this.loadingNumvem = true;
-      this.status = 'abrir';
-      this.listaArq.splice(0);
+      this.loadingNumvem = true
+      this.status = 'abrir'
+      this.listaArq.splice(0)
     }
   }
 
-  onUploadChange(evt) {
-    const files = evt.target.files;
-    for (let i = 0, f; f = files[i]; i++) {
-      const reader = new FileReader();
+  onUploadChange (evt) {
+    const files = evt.target.files
+    for (let i = 0, f;f = files[i];i++) {
+      const reader = new FileReader()
       reader.onload = ((theFile) => {
         return (e) => {
-          this.arq.push(escape(theFile.type));
-          console.log(this.arq);
-          this.nomeArquivo.push(theFile.name);
-          let url = e.target.result;
-          const index = Number(url.toLowerCase().indexOf(',') + 1);
-          url = url.slice(index);
-          this.base64textString.push(url);
-          this.inicializaLoding();
-        };
+          this.arq.push(escape(theFile.type))
+          console.log(this.arq)
+          this.nomeArquivo.push(theFile.name)
+          let url = e.target.result
+          const index = Number(url.toLowerCase().indexOf(',') + 1)
+          url = url.slice(index)
+          this.base64textString.push(url)
+          this.inicializaLoding()
+        }
       })
-        (f);
-      reader.readAsDataURL(f);
+        (f)
+      reader.readAsDataURL(f)
     }
   }
-  inicializaLoding() {
-    for (let i = 0; i < this.base64textString.length; i++) {
-      this.loading[i] = true;
+  inicializaLoding () {
+    for (let i = 0;i < this.base64textString.length;i++) {
+      this.loading[i] = true
     }
   }
-  removeTudoDaLista(i) {
-    this.base64textString.splice(i, 1); this.arq.splice(i, 1); this.nomeArquivo.splice(i, 1);
-    this.loading.splice(i, 1); this.descricao.splice(i, 1);
+  removeTudoDaLista (i) {
+    this.base64textString.splice(i, 1); this.arq.splice(i, 1); this.nomeArquivo.splice(i, 1)
+    this.loading.splice(i, 1); this.descricao.splice(i, 1)
   }
-  removerDaLista(i) {
-    this.base64textString.splice(i, 1); this.arq.splice(i, 1); this.nomeArquivo.splice(i, 1);
-    this.loading.splice(i, 1); this.descricao.splice(i, 1);
+  removerDaLista (i) {
+    this.base64textString.splice(i, 1); this.arq.splice(i, 1); this.nomeArquivo.splice(i, 1)
+    this.loading.splice(i, 1); this.descricao.splice(i, 1)
   }
-  formatType(doc) {
+  formatType (doc) {
     if (doc === 'vnd.openxmlformats-officedocument.wordprocessingml.document') {
-      return 'docx';
+      return 'docx'
     } else if (doc === 'pdf') {
-      return 'pdf';
+      return 'pdf'
     } else {
-      return '';
+      return ''
     }
   }
-  enviar(src, i) {
+  enviar (src, i) {
     if (this.estabelecimentoForm.value.id != null) {
-      this.arquivos.descricao = this.nomeArquivo[i];
-      this.arquivos.descricao_completa = this.descricao[i];
-      this.arquivos.id_estabelecimento = this.estabelecimentoForm.value.id;
-      this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1));
-      this.arquivos.path = src;
-      this.loading[i] = false;
+      this.arquivos.descricao = this.nomeArquivo[i]
+      this.arquivos.descricao_completa = this.descricao[i]
+      this.arquivos.id_estabelecimento = this.estabelecimentoForm.value.id
+      this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1))
+      this.arquivos.path = src
+      this.loading[i] = false
       this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
-        this.loading[i] = true;
-        this.removerDaLista(i);
+        this.loading[i] = true
+        this.removerDaLista(i)
       }, (error) => {
         swal.fire({
           icon: 'warning',
           title: 'Falha na Criação do Anexo',
           showConfirmButton: false,
           timer: 2000
-        });
-      });
+        })
+      })
     } else {
       swal.fire({
         icon: 'warning',
         title: 'Cadastre um estabelecimento, ou atualize um existente',
         showConfirmButton: false,
         timer: 2000
-      });
+      })
     }
   }
-  enviarTodos() {
+  enviarTodos () {
     if (this.estabelecimentoForm.value.id != null) {
-      for (let i = 0; i < this.base64textString.length; i++) {
-        this.loading[i] = false;
-        this.arquivos.path = this.base64textString[i];
-        this.arquivos.descricao = this.nomeArquivo[i];
-        this.arquivos.descricao_completa = this.descricao[i];
-        this.arquivos.id_estabelecimento = this.estabelecimentoForm.value.id;
-        this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1));
+      for (let i = 0;i < this.base64textString.length;i++) {
+        this.loading[i] = false
+        this.arquivos.path = this.base64textString[i]
+        this.arquivos.descricao = this.nomeArquivo[i]
+        this.arquivos.descricao_completa = this.descricao[i]
+        this.arquivos.id_estabelecimento = this.estabelecimentoForm.value.id
+        this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1))
         this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
-          this.removeTudoDaLista(this.index);
-          this.loading[i] = true;
+          this.removeTudoDaLista(this.index)
+          this.loading[i] = true
         }, (error) => {
-          this.index += 1;
+          this.index += 1
           swal.fire({
             icon: 'warning',
             title: 'Falha na Criação do Anexo',
             showConfirmButton: false,
             timer: 2000
-          });
-        });
+          })
+        })
       }
     } else {
       swal.fire({
@@ -348,20 +349,20 @@ export class CadastroEstabelecimentoComponent implements OnInit {
         title: 'Cadastre um estabelecimento, ou atualize um existente',
         showConfirmButton: false,
         timer: 2000
-      });
+      })
     }
   }
-  apagarArquivo() {
-    this.loadingRemove[this.indice] = false;
+  apagarArquivo () {
+    this.loadingRemove[this.indice] = false
     this.anexoService.deleteFileByKey(this.anexo.key).subscribe(
       () => {
-        for (let i = 0; i <= this.listaArq.length; i++) {
+        for (let i = 0;i <= this.listaArq.length;i++) {
           if (this.listaArq[i].key === this.anexo.key) {
-            this.listaArq.splice(i, 1);
-            this.loadingRemove.splice(i, 1);
+            this.listaArq.splice(i, 1)
+            this.loadingRemove.splice(i, 1)
           }
         }
-        this.loadingRemove[this.indice] = true;
+        this.loadingRemove[this.indice] = true
       },
       error => {
         swal.fire({
@@ -369,12 +370,12 @@ export class CadastroEstabelecimentoComponent implements OnInit {
           title: 'Falha ao remover Anexo',
           showConfirmButton: false,
           timer: 2000
-        });
+        })
       }
-    );
+    )
   }
 
-  async solicitarNumeroLicenca() {
+  async solicitarNumeroLicenca () {
     swal.fire({
       title: 'Você tem certeza que deseja solicitar um número de Licença?',
       text: '',
@@ -386,40 +387,40 @@ export class CadastroEstabelecimentoComponent implements OnInit {
       confirmButtonText: 'Solicitar!'
     }).then((result) => {
       if (result.value) {
-        this.getValueMaxLicenca();
+        this.getValueMaxLicenca()
       }
-    });
+    })
     // const r = confirm('Socilitar um novo número de Licença ?');
     // if (r === true) {
     //   this.getValueMaxLicenca();
     // }
   }
 
-  getValueMaxLicenca() {
+  getValueMaxLicenca () {
     this.estabelecimentoservice.getValueMaxLicenca().subscribe(async (itens: Estabelecimento) => {
-      this.licencaValueMax = itens.licenca += 1;
-      this.textSearch = this.licencaValueMax;
+      this.licencaValueMax = itens.licenca += 1
+      this.textSearch = this.licencaValueMax
       swal.fire(
         'Adicionado!',
         'Número da licenca adicionado com sucesso.',
         'success'
-      );
+      )
     }, (error) => {
       swal.fire({
         icon: 'warning',
         title: 'Falha ao adicionar número da licença',
         showConfirmButton: false,
         timer: 2000
-      });
-    });
+      })
+    })
   }
-verAnexoCarregado(i) {
-this.itemCarregado.descricao =  this.nomeArquivo[i];
-this.itemCarregado.url_location  =  'data:image/png;base64,' + this.base64textString[i];
-this.itemCarregado.descricao_completa = this.descricao[i];
-this.item = this.itemCarregado;
-}
-  verAnexo(item) {
-    this.item = item;
+  verAnexoCarregado (i) {
+    this.itemCarregado.descricao = this.nomeArquivo[i]
+    this.itemCarregado.url_location = 'data:image/png;base64,' + this.base64textString[i]
+    this.itemCarregado.descricao_completa = this.descricao[i]
+    this.item = this.itemCarregado
+  }
+  verAnexo (item) {
+    this.item = item
   }
 }

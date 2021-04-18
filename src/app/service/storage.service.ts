@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Usuario } from '../login/usuario';
-import { Estabelecimento } from '../estabelecimento';
+import { Injectable } from '@angular/core'
+import { Usuario } from '../login/usuario'
+import { Estabelecimento } from '../estabelecimento'
 
-const TOKEN_KEY = '_token';
-const USER_KEY = '_user';
-const ESTABELECIMENTO_KEY = 'estabelecimentos';
+const TOKEN_KEY = '_token'
+const USER_KEY = '_user'
+const ESTABELECIMENTO_KEY = 'estabelecimentos'
 
 @Injectable({
   providedIn: 'root'
@@ -12,36 +12,36 @@ const ESTABELECIMENTO_KEY = 'estabelecimentos';
 
 export class StorageService {
 
-  constructor() { }
+  constructor () { }
 
-  addToken(token) {
-    
-    return localStorage.setItem(TOKEN_KEY, token);
+  addToken (token) {
+
+    return localStorage.setItem(TOKEN_KEY, token)
   }
 
-  deleteToken() {
+  deleteToken () {
     return new Promise((resolve, reject) => {
-      localStorage.setItem(USER_KEY, '');
-      resolve(localStorage.setItem(TOKEN_KEY, ''));  
-    });
-    
+      localStorage.setItem(USER_KEY, '')
+      resolve(localStorage.setItem(TOKEN_KEY, ''))
+    })
+
   }
 
-  getStorageToken() {
-    return new Promise((resolve, reject) => {
+  getStorageToken (): Promise<string> {
+    return new Promise((resolve, _reject) => {
       resolve(localStorage.getItem(TOKEN_KEY))
-    });
+    })
   }
 
-  setUser(user: Usuario) {
-    return localStorage.setItem(USER_KEY, JSON.stringify(user));
+  setUser (user: Usuario) {
+    return localStorage.setItem(USER_KEY, JSON.stringify(user))
   }
 
-  deleteUser() {
-    return localStorage.setItem(USER_KEY, '');
+  deleteUser () {
+    return localStorage.setItem(USER_KEY, '')
   }
 
-  getStorageUser() {
+  getStorageUser () {
     return localStorage.getItem(USER_KEY)
   }
 

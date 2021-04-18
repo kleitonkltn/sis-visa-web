@@ -1,6 +1,6 @@
 {
-  "name": "home-visa",
-  "version": "0.0.0",
+  "name": "sis-visa-web",
+  "version": "2.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

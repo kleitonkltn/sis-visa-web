@@ -7,10 +7,9 @@ export const environment = {
   apiUrl_pdfProtocolo: 'http://localhost:3333/api/getprotocolo/',
   apiUrl_pdfRelatorio: 'http://localhost:3333/api/pdf/relatorios/',
   apiUrl_pdfTermo: 'http://localhost:3333/api/pdf/termos/',
-  apiUrl_Login: 'http://localhost:3333/api/login',
+  apiUrl_Login: 'http://localhost:3333/api/auth/sign-in',
   apiUrl_pdfLicenca: 'http://localhost:3333/api/licenca/',
   apiUrl_Denuncias: 'http://localhost:3333/api/denuncias',
-  apiUrl_Anexos: 'http://localhost:3333/api/anexos',
   apiUrl_Anexos2: 'http://localhost:3333/api/files',
   apiUrl_Licencas: 'http://localhost:3333/api/licencas',
   apiUrl_LicencasPost: 'http://localhost:3333/api/licencas',
@@ -23,5 +22,5 @@ export const environment = {
   apiUrl_sendLicenca: 'http://localhost:3333/api/pdf/email/licenca',
   apiUrl_sendRelatorio: 'http://localhost:3333/api/pdf/email/relatorio',
   apiUrl_sendProtocolo: 'http://localhost:3333/api/pdf/email/protocolo',
-};
+}
 

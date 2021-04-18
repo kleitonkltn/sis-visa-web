@@ -4,7 +4,9 @@
 
 <head>
     <meta charset="UTF-8" />
-    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
+    <link
+        href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css"
+        rel="stylesheet" />
 </head>
 
 <body>
@@ -15,92 +17,171 @@
                     <span></span><span></span><span></span>
                 </div>
                 <ul>
-                    <div class="menu"><img routerLink="home" (click)="toggleSidebar()" src="assets/logo.png" style="width: 5rem;">
+                    <div class="menu"><img routerLink="home"
+                            (click)="toggleSidebar()" src="assets/logo.svg"
+                            style="width: 8rem;">
                     </div>
                     <a routerLink="">
-                        <li (click)="toggleSidebar()"><i class="fa fa-align-left" aria-hidden="true"></i> Home
+                        <li (click)="toggleSidebar()"><i
+                                class="ml-2 mr-2 fa fa-align-left"
+                                aria-hidden="true"></i>
+                            Home
                         </li>
                     </a>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-home" aria-hidden="true"></i> Estabelecimentos
+                        <a class="dropdown-toggle" href="#"
+                            id="navbarDropdownMenuLink" role="button"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="ml-2 mr-2 fa fa-home"
+                                aria-hidden="true"></i>
+                            Estabelecimentos
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" routerLink="listaEstabelecimentos" (click)="toggleSidebar()">Listar</a>
-                            <a class="dropdown-item" routerLink="cadastrar" (click)="toggleSidebar()">Cadastrar</a>
+                        <div class="dropdown-menu"
+                            aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item"
+                                routerLink="listaEstabelecimentos"
+                                (click)="toggleSidebar()">Listar</a>
+                            <a class="dropdown-item" routerLink="cadastrar"
+                                (click)="toggleSidebar()">Cadastrar</a>
                         </div>
                     </li>
 
                     <li class="dropdown">
-                        <a class="dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-paper-plane" aria-hidden="true"></i> Protocolos
+                        <a class="dropdown-toggle" href="#"
+                            id="navbarDropdownMenuLink" role="button"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="ml-2 mr-2 fa fa-paper-plane"
+                                aria-hidden="true"></i>
+                            Protocolos
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" routerLink="listarProtocolo" (click)="toggleSidebar()">Listar</a>
-                            <a class="dropdown-item" routerLink="cadastroProtocolo" (click)="toggleSidebar()">Cadastrar</a>
+                        <div class="dropdown-menu"
+                            aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item"
+                                routerLink="listarProtocolo"
+                                (click)="toggleSidebar()">Listar</a>
+                            <a class="dropdown-item"
+                                routerLink="cadastroProtocolo"
+                                (click)="toggleSidebar()">Cadastrar</a>
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Denuncias
+                        <a class="dropdown-toggle" href="#"
+                            id="navbarDropdownMenuLink" role="button"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="ml-2 mr-2 fa fa-exclamation-circle"
+                                aria-hidden="true"></i> Denuncias
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" routerLink="ListarDenuncias" (click)="toggleSidebar()">Listar</a>
-                            <a class="dropdown-item" routerLink="Cadastrodenuncias" (click)="toggleSidebar()">Cadastrar</a>
+                        <div class="dropdown-menu"
+                            aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item"
+                                routerLink="ListarDenuncias"
+                                (click)="toggleSidebar()">Listar</a>
+                            <a class="dropdown-item"
+                                routerLink="Cadastrodenuncias"
+                                (click)="toggleSidebar()">Cadastrar</a>
                         </div>
                     </li>
 
                     <a routerLink="lista_licenca">
-                        <li (click)="toggleSidebar()"><i class="fa fa-key" aria-hidden="true"></i> Licenças
+                        <li (click)="toggleSidebar()"><i
+                                class="ml-2 mr-2 fa fa-key"
+                                aria-hidden="true"></i> Licenças
                         </li>
                     </a>
 
                     <li class="dropdown">
-                        <a class="dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-search" aria-hidden="true"></i> Termos
+                        <a class="dropdown-toggle" href="#"
+                            id="navbarDropdownMenuLink" role="button"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="ml-2 mr-2 fa fa-search"
+                                aria-hidden="true"></i>
+                            Termos
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" routerLink="listatermo" (click)="toggleSidebar()">Listar</a>
-                            <a class="dropdown-item" href="CadastroTermo" (click)="toggleSidebar()">Cadastrar</a>
+                        <div class="dropdown-menu"
+                            aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" routerLink="listatermo"
+                                (click)="toggleSidebar()">Listar</a>
+                            <a class="dropdown-item" href="CadastroTermo"
+                                (click)="toggleSidebar()">Cadastrar</a>
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-book" aria-hidden="true"></i> Documentos
+                        <a class="dropdown-toggle" href="#"
+                            id="navbarDropdownMenuLink" role="button"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="ml-2 mr-2 fa fa-book"
+                                aria-hidden="true"></i>
+                            Documentos
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" routerLink="ListaDocumento" (click)="toggleSidebar()">Listar</a>
-                            <a class="dropdown-item" routerLink="CadastroDocumento" (click)="toggleSidebar()">Cadastrar</a>
-                        </div>
-                    </li>
-
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-sticky-note" aria-hidden="true"></i> Embasamentos
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" routerLink="ListaEmbasamento" (click)="toggleSidebar()">Listar</a>
-                            <a class="dropdown-item" routerLink="CadastroEmbasamento" (click)="toggleSidebar()">Cadastrar</a>
-                        </div>
-                    </li>
-
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-sticky-note" aria-hidden="true"></i> Atividades
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" routerLink="ListaAtividade" (click)="toggleSidebar()">Listar</a>
-                            <a class="dropdown-item" routerLink="CadastroAtividade" (click)="toggleSidebar()">Cadastrar</a>
+                        <div class="dropdown-menu"
+                            aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" routerLink="ListaDocumento"
+                                (click)="toggleSidebar()">Listar</a>
+                            <a class="dropdown-item"
+                                routerLink="CadastroDocumento"
+                                (click)="toggleSidebar()">Cadastrar</a>
                         </div>
                     </li>
 
                     <li class="dropdown">
-                        <a class="dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-pencil-square" aria-hidden="true"></i> Relatório
+                        <a class="dropdown-toggle" href="#"
+                            id="navbarDropdownMenuLink" role="button"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="ml-2 mr-2 fa fa-sticky-note"
+                                aria-hidden="true"></i>
+                            Embasamentos
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" routerLink="ListaRelatorio" (click)="toggleSidebar()">Listar</a>
-                            <a class="dropdown-item" routerLink="CadastroRelatorio" (click)="toggleSidebar()">Cadastrar</a>
+                        <div class="dropdown-menu"
+                            aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item"
+                                routerLink="ListaEmbasamento"
+                                (click)="toggleSidebar()">Listar</a>
+                            <a class="dropdown-item"
+                                routerLink="CadastroEmbasamento"
+                                (click)="toggleSidebar()">Cadastrar</a>
+                        </div>
+                    </li>
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" href="#"
+                            id="navbarDropdownMenuLink" role="button"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="ml-2 mr-2 fa fa-file-alt"
+                                aria-hidden="true"></i>
+                            Atividades
+                        </a>
+                        <div class="dropdown-menu"
+                            aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" routerLink="ListaAtividade"
+                                (click)="toggleSidebar()">Listar</a>
+                            <a class="dropdown-item"
+                                routerLink="CadastroAtividade"
+                                (click)="toggleSidebar()">Cadastrar</a>
+                        </div>
+                    </li>
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" href="#"
+                            id="navbarDropdownMenuLink" role="button"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="ml-2 mr-2 fa fa-pencil-square"
+                                aria-hidden="true"></i> Relatório
+                        </a>
+                        <div class="dropdown-menu"
+                            aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" routerLink="ListaRelatorio"
+                                (click)="toggleSidebar()">Listar</a>
+                            <a class="dropdown-item"
+                                routerLink="CadastroRelatorio"
+                                (click)="toggleSidebar()">Cadastrar</a>
                         </div>
                     </li>
 
@@ -108,28 +189,42 @@
             </div>
             <div class="t">
                 <div class="userDropdown">
-                    <i class="fa fa-user-o" aria-hidden="true" style="font-size: 25px; color: white;"></i>
+                    <i class="ml-2 mr-2 fa fa-user-o" aria-hidden="true"
+                        style="font-size: 25px; color: white;"></i>
                     <div class="userContent">
                         <div class="userInfo">
-                            <i class="fa fa-user-circle-o userImg" aria-hidden="true"></i>
+                            <i class="ml-2 mr-2 fa fa-user-circle-o userImg"
+                                aria-hidden="true"></i>
                             <div class="vertical">
                                 <div class="userDescription" *ngIf="user">
                                     <b>{{user.nome}}</b>
-                                    <p><b>Matricula: </b> <span>{{user.matricula}}</span></p>
-                                    <p><b>Acesso: </b> <span>{{user.nivel_acesso}}</span></p>
+                                    <p><b>Matrícula: </b>
+                                        <span>{{user.matricula}}</span>
+                                    </p>
+                                    <p><b>Acesso: </b>
+                                        <span
+                                            class="text-capitalize">{{user.nivel_acesso}}</span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="buttonContent row" style="margin-top: 20px;">
+                        <div class="buttonContent row"
+                            style="margin-top: 20px;">
                             <div class="col-md-6">
-                                <button class="btn btn-outline-primary form-control" data-toggle="modal" data-target="#exampleModalCenter"><i
-                    class="fa fa-user-o" aria-hidden="true"></i> Perfil</button>
+                                <button
+                                    class="btn btn-outline-primary form-control"
+                                    data-toggle="modal"
+                                    data-target="#exampleModalCenter"><i
+                                        class="ml-2 mr-2 fa fa-user-o"
+                                        aria-hidden="true"></i> Perfil</button>
                             </div>
                             <div class="col-md-6">
-                                <button (click)="logout()" class="btn btn-outline-primary form-control"><i
-                    class="fa fa-window-close-o" aria-hidden="true"></i>
-                  Sair</button>
+                                <button (click)="logout()"
+                                    class="btn btn-outline-primary form-control"><i
+                                        class="ml-2 mr-2 fa fa-window-close-o"
+                                        aria-hidden="true"></i>
+                                    Sair</button>
                             </div>
                         </div>
                     </div>
@@ -137,23 +232,32 @@
             </div>
         </nav>
         <br><br><br><br>
-        <div align="center" class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document" style="height: 200px;">
+        <div align="center" class="modal fade" id="exampleModalCenter"
+            tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document"
+                style="height: 200px;">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+                        <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <div class="modal-body" *ngIf="user" style="margin: 50px;">
                         <div class="row">
                             <div class="col-md-2">
-                                <i class="fa fa-user-circle fa-5x" aria-hidden="true"></i>
+                                <i class="ml-2 mr-2 fa fa-user-circle fa-5x"
+                                    aria-hidden="true"></i>
                             </div>
                             <div class="col-md-10">
                                 <b>{{user.nome}}</b>
-                                <p><b>Matricula: </b> <span>{{user.matricula}}</span></p>
-                                <p><b>Acesso: </b> <span>{{user.nivel_acesso}}</span></p>
+                                <p><b>Matricula: </b>
+                                    <span>{{user.matricula}}</span>
+                                </p>
+                                <p><b>Acesso: </b>
+                                    <span>{{user.nivel_acesso}}</span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -165,7 +269,7 @@
         <router-outlet></router-outlet>
     </div>
     <footer id="footer">
-        <p class="text-center"><b>FASCOM - SISVISA</b></p>
+        <p class="text-center"><b>SISVISA</b></p>
     </footer>
 </body>
 
