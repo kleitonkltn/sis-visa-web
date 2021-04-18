@@ -1,9 +1,9 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
-import { Estabelecimento } from '../estabelecimento';
-import { EstabelecimentoService } from '../service/estabelecimento.service';
-import * as moment from 'moment';
+import { Component, OnInit, Input, Output } from '@angular/core'
+import { Estabelecimento } from '../../models/estabelecimento'
+import { EstabelecimentoService } from '../service/estabelecimento.service'
+import * as moment from 'moment'
 
-declare var $: any;
+declare var $: any
 
 @Component({
   selector: 'app-lista-estabelecimento',
@@ -13,39 +13,39 @@ declare var $: any;
 export class ListaEstabelecimentoComponent implements OnInit {
   OrderID = 'ASC'; OrderRazao = 'ASC'; OrderFantasia = 'ASC';
   @Input() estabelecimentos: Estabelecimento[] = [];
-  @Input() listabelecimentoinput: Estabelecimento;
+  @Input() listabelecimentoinput: Estabelecimento
   @Input() est: Estabelecimento; loading = false; statusEst = false;
   textSearch = '';
   listItems = [];
   dataAtual = new Date();
   public paginaAtual = 1;
 
-  constructor(private estabelecimentoService: EstabelecimentoService) {
+  constructor (private estabelecimentoService: EstabelecimentoService) {
   }
-  subirTela() {
-    window.scrollTo(0, 0);
+  subirTela () {
+    window.scrollTo(0, 0)
   }
 
-  ngOnInit() {
-    this.subirTela();
-    this.getListaLicenca();
+  ngOnInit () {
+    this.subirTela()
+    this.getListaLicenca()
   }
-  getListaLicenca() {
+  getListaLicenca () {
     this.estabelecimentoService.ListarTodosEstabelecimentos()
       .subscribe((estabelecimentos: Estabelecimento[]) => {
-        this.statusEst = true;
-        this.estabelecimentos = estabelecimentos;
-        this.initList();
+        this.statusEst = true
+        this.estabelecimentos = estabelecimentos
+        this.initList()
       }, () => {
-      });
+      })
   }
-  initList() {
-    this.listItems = this.estabelecimentos;
+  initList () {
+    this.listItems = this.estabelecimentos
   }
-  search() {
+  search () {
     if (this.textSearch.length > 0) {
-      const val = this.textSearch;
-      this.filtroPesquisa();
+      const val = this.textSearch
+      this.filtroPesquisa()
       this.listItems = this.listItems.filter((item) => {
         return (
           String(item.id).indexOf(val.toLowerCase()) > -1 ||
@@ -55,48 +55,48 @@ export class ListaEstabelecimentoComponent implements OnInit {
           String(item.bairro).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           this.formatDate(item.data_licenca).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           String(item.status).toLowerCase().indexOf(val.toLowerCase()) > -1
-        );
-      });
+        )
+      })
     } else {
-      this.filtroPesquisa();
+      this.filtroPesquisa()
     }
   }
-  formatDate(data) {
-    return moment(data).format('DD/MM/YYYY');
+  formatDate (data) {
+    return moment(data).format('DD/MM/YYYY')
   }
-  listarTudo(id) {
+  listarTudo (id) {
     this.estabelecimentoService.listarEstabelecimentoPorID(id)
       .subscribe((licencas: Estabelecimento) => {
-        this.est = licencas;
+        this.est = licencas
       }, () => {
-      });
+      })
 
   }
-  filtroPesquisa() {
-    let filtro = $('select').val();
+  filtroPesquisa () {
+    let filtro = $('select').val()
     if (filtro === 'todos') {
-      this.initList();
+      this.initList()
     } else {
       this.listItems = this.estabelecimentos.filter((item) => {
-        const dataAtual = moment(this.dataAtual);
-        const dataLicenca = moment(item.data_retorno);
-        const diferencaEntreDatas = dataLicenca.diff(dataAtual, 'days');
+        const dataAtual = moment(this.dataAtual)
+        const dataLicenca = moment(item.data_retorno)
+        const diferencaEntreDatas = dataLicenca.diff(dataAtual, 'days')
         if ((filtro === 'vencida' && !item.data_retorno) || (!item.data_licenca && filtro === 'vencida')) {
-          return item;
+          return item
         } else if (filtro === 'vencida') {
           if (diferencaEntreDatas < 0) {
-            return item;
+            return item
           }
         } else if (filtro === 'avencer') {
           if (diferencaEntreDatas >= 0 && diferencaEntreDatas <= 31) {
-            return (item);
+            return (item)
           }
         } else if (filtro === 'licenciado') {
           if (diferencaEntreDatas > 31) {
-            return (item);
+            return (item)
           }
         }
-      });
+      })
     }
   }
 }

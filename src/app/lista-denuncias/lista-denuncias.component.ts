@@ -1,8 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
-import * as $ from 'jquery';
-import { DenunciaService } from '../service/denuncia.service';
-import { Denuncias } from '../denuncias';
-import * as moment from 'moment';
+import { Component, OnInit, Input } from '@angular/core'
+import * as $ from 'jquery'
+import { DenunciaService } from '../service/denuncia.service'
+import { Denuncias } from '../../models/denuncias'
+import * as moment from 'moment'
 
 
 @Component({
@@ -16,20 +16,20 @@ export class ListaDenunciasComponent implements OnInit {
   textSearch = '';
   listItems = [];
 
-  constructor(private denunciasService: DenunciaService) { }
+  constructor (private denunciasService: DenunciaService) { }
 
-  ngOnInit() {
-    this.subirTela();
-    this.getListaDenuncias();
+  ngOnInit () {
+    this.subirTela()
+    this.getListaDenuncias()
   }
-  subirTela() {
-    window.scrollTo(0, 0);
+  subirTela () {
+    window.scrollTo(0, 0)
   }
-  search() {
-    this.initList();
+  search () {
+    this.initList()
     if (this.textSearch.length > 0) {
-      const val = this.textSearch;
-      this.filtroPesquisa();
+      const val = this.textSearch
+      this.filtroPesquisa()
       this.listItems = this.listItems.filter((item) => {
         return (
           String(item.id).indexOf(val.toLowerCase()) > -1 ||
@@ -37,60 +37,60 @@ export class ListaDenunciasComponent implements OnInit {
           String(item.reclamante).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           String(item.descricao).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           this.formatDate(item.data).toLowerCase().indexOf(val.toLowerCase()) > -1
-        );
-      });
+        )
+      })
     } else {
-      this.filtroPesquisa();
+      this.filtroPesquisa()
     }
   }
-  formatDate(data) {
-    return moment(data).format('DD/MM/YYYY');
+  formatDate (data) {
+    return moment(data).format('DD/MM/YYYY')
   }
 
-  formatarStatusDenuncia(tipoTermo) {
+  formatarStatusDenuncia (tipoTermo) {
     switch (tipoTermo) {
       case 'notificada':
-        return 'Notificada';
+        return 'Notificada'
       case 'providenciasDiversas':
-        return 'Providencia Diversas';
+        return 'Providencia Diversas'
       case 'arquivada':
-        return 'Arquivada';
+        return 'Arquivada'
       case 'aguardandoConstatacao':
-        return 'Aguardando Constatação';
+        return 'Aguardando Constatação'
       case 'plubicadaEmEdital':
-        return 'Plubicada em Edital';
+        return 'Plubicada em Edital'
       case 'infracionada':
-        return 'Infracionada';
+        return 'Infracionada'
     }
   }
 
 
-  getListaDenuncias() {
+  getListaDenuncias () {
     this.denunciasService.ListarTodasDenuncias()
       .subscribe((denuncias: Denuncias[]) => {
-        this.denuncias = denuncias;
-        this.statusEst = true;
-        for (let i = 0; i < this.denuncias.length; i++) {
-          this.denuncias[i].status = this.formatarStatusDenuncia(this.denuncias[i].status);
+        this.denuncias = denuncias
+        this.statusEst = true
+        for (let i = 0;i < this.denuncias.length;i++) {
+          this.denuncias[i].status = this.formatarStatusDenuncia(this.denuncias[i].status)
         }
-        this.initList();
+        this.initList()
       }, () => {
-      });
+      })
   }
-  initList() {
-    this.listItems = this.denuncias;
+  initList () {
+    this.listItems = this.denuncias
   }
 
-  filtroPesquisa() {
-    let filtro = $('select').val();
+  filtroPesquisa () {
+    let filtro = $('select').val()
     if (filtro === 'Todas') {
-      this.initList();
+      this.initList()
     } else {
       this.listItems = this.denuncias.filter((item) => {
         return (
           String(item.status).toLowerCase().indexOf(filtro.toLowerCase()) > -1
-        );
-      });
+        )
+      })
     }
   }
 }

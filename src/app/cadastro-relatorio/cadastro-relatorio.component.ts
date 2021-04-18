@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
-import { jQuery } from 'jquery';
-import { Relatorio } from '../relatorio';
+import { Component, OnInit } from '@angular/core'
+import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms'
+import { jQuery } from 'jquery'
+import { Relatorio } from '../../models/relatorio'
 
-import { UsuarioService } from '../service/usuario.service';
-import { Usuario } from '../login/usuario';
-import { RelatorioService } from '../service/relatorio.service';
-import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
-import { Estabelecimento } from '../estabelecimento';
-import { EstabelecimentoService } from '../service/estabelecimento.service';
-import { AutenticarService } from '../service/autenticar.service';
-declare var $: any;
-import swal from 'sweetalert2';
+import { UsuarioService } from '../service/usuario.service'
+import { Usuario } from '../../models/usuario'
+import { RelatorioService } from '../service/relatorio.service'
+import { NavigationExtras, Router, ActivatedRoute } from '@angular/router'
+import { Estabelecimento } from '../../models/estabelecimento'
+import { EstabelecimentoService } from '../service/estabelecimento.service'
+import { AutenticarService } from '../service/autenticar.service'
+declare var $: any
+import swal from 'sweetalert2'
 
 @Component({
   selector: 'app-cadastro-relatorio',
@@ -20,35 +20,35 @@ import swal from 'sweetalert2';
 })
 export class CadastroRelatorioComponent implements OnInit {
   public cep = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
-  relatorio: Relatorio; titulo = 'Cadastrar Relatório'; listfiscais; fiscais: Usuario[];
+  relatorio: Relatorio; titulo = 'Cadastrar Relatório'; listfiscais; fiscais: Usuario[]
   relatorioForm: FormGroup; cont = 0; idestabelecimento; relatorioEst: Relatorio = {} as Relatorio;
   formSubmitted; public idupdate; loading = true; loadingCadastro = true;
-  usuario: Usuario; user;
+  usuario: Usuario; user
   itemsForm = [];
   name = '';
   cnpj = (rawValue) => {
-    var numbers = rawValue.match(/\d/g);
-    var numberLength = 0;
+    var numbers = rawValue.match(/\d/g)
+    var numberLength = 0
     if (numbers) {
-      numberLength = numbers.join('').length;
+      numberLength = numbers.join('').length
     }
     if (numberLength <= 11) {
-      return [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+      return [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/]
     } else {
-      return [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+      return [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/]
     }
   }
 
   contatomask = (rawValue) => {
-    var numbers = rawValue.match(/\d/g);
-    var numberLength = 0;
+    var numbers = rawValue.match(/\d/g)
+    var numberLength = 0
     if (numbers) {
-      numberLength = numbers.join('').length;
+      numberLength = numbers.join('').length
     }
     if (numberLength <= 10) {
-      return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
+      return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/]
     } else {
-      return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
+      return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/]
     }
   }
   ItemsForm = new FormArray([
@@ -75,21 +75,21 @@ export class CadastroRelatorioComponent implements OnInit {
   irregularidades = this.FormGroupIrregularidades.get('irregularidades') as FormArray;
   items = this.irregularidades.controls[0].get('items') as FormArray;
 
-  constructor(private usuarios: UsuarioService, private relatorioservice: RelatorioService,
+  constructor (private usuarios: UsuarioService, private relatorioservice: RelatorioService,
     private router: Router, private route: ActivatedRoute,
     private estabelecimentoservice: EstabelecimentoService,
     private authService: AutenticarService) {
-    this.usuario = this.authService._user['params'];
-    this.user = this.usuario.nivel_acesso;
+    this.usuario = this.authService._user['params']
+    this.user = this.usuario.nivel_acesso
   }
 
-  ngOnInit() {
-    this.createForm(new Relatorio());
-    this.getListFiscais();
-    this.pegaId();
-    this.carregaSelect();
+  ngOnInit () {
+    this.createForm(new Relatorio())
+    this.getListFiscais()
+    this.pegaId()
+    this.carregaSelect()
   }
-  createForm(relatorio: Relatorio) {
+  createForm (relatorio: Relatorio) {
     this.relatorioForm = new FormGroup({
       id: new FormControl(relatorio.id),
       fantasia: new FormControl(relatorio.fantasia, Validators.required),
@@ -115,222 +115,222 @@ export class CadastroRelatorioComponent implements OnInit {
       situacao: new FormControl(relatorio.situacao),
       fiscal_responsavel: new FormControl(relatorio.fiscal_responsavel),
       fiscais_presentes: new FormControl(relatorio.fiscais_presentes)
-    });
+    })
   }
-  pegaId() {
+  pegaId () {
     this.route.queryParams.subscribe(
       queryParams => {
-        this.idupdate = queryParams.id;
-        this.idestabelecimento = queryParams.id_est;
+        this.idupdate = queryParams.id
+        this.idestabelecimento = queryParams.id_est
         if (this.idupdate != null) {
-          window.scrollTo(0, 0);
-          this.titulo = 'Atualizar Relatório';
+          window.scrollTo(0, 0)
+          this.titulo = 'Atualizar Relatório'
           this.relatorioservice.listRelatorioeById(this.idupdate).subscribe((relatorio) => {
-            this.relatorio = relatorio;
+            this.relatorio = relatorio
             console.log(this.relatorio.irregularidades[1])
-            for (let i = 0; i < this.relatorio.irregularidades.length; i++) {
-              this.addIrregularidades2(this.relatorio.irregularidades[i]);
+            for (let i = 0;i < this.relatorio.irregularidades.length;i++) {
+              this.addIrregularidades2(this.relatorio.irregularidades[i])
             }
-            this.createForm(this.relatorio);
+            this.createForm(this.relatorio)
           }, () => {
-          });
+          })
         }
         if (this.idestabelecimento != null) {
           this.estabelecimentoservice.listarEstabelecimentoPorID(this.idestabelecimento).subscribe((est: Estabelecimento) => {
-            console.log(est);
-            this.titulo = 'Cadastrar Relatório';
-            window.scrollTo(0, 0);
-            this.relatorioEst.razao = est.razao;
-            this.relatorioEst.fantasia = est.fantasia;
-            this.relatorioEst.cnpj = est.cnpj;
-            this.relatorioEst.endereco = est.endereco;
-            this.relatorioEst.bairro = est.bairro;
-            this.relatorioEst.cep = est.cep;
-            this.relatorioEst.telefone = est.telefone;
-            this.createForm(this.relatorioEst);
+            console.log(est)
+            this.titulo = 'Cadastrar Relatório'
+            window.scrollTo(0, 0)
+            this.relatorioEst.razao = est.razao
+            this.relatorioEst.fantasia = est.fantasia
+            this.relatorioEst.cnpj = est.cnpj
+            this.relatorioEst.endereco = est.endereco
+            this.relatorioEst.bairro = est.bairro
+            this.relatorioEst.cep = est.cep
+            this.relatorioEst.telefone = est.telefone
+            this.createForm(this.relatorioEst)
           }, () => {
-          });
+          })
         }
       }
-    );
+    )
 
   }
-  selecFiscais() {
-    var a = [];
-    a = this.relatorioForm.value.fiscais_presentes.split(', ');
-    $('#selectfiscais').val(a);
-    $('#selectfiscais').trigger('change');
+  selecFiscais () {
+    var a = []
+    a = this.relatorioForm.value.fiscais_presentes.split(', ')
+    $('#selectfiscais').val(a)
+    $('#selectfiscais').trigger('change')
   }
-  getListFiscais() {
+  getListFiscais () {
     this.usuarios.ListarTodosUsuarios().subscribe(items => {
       this.fiscais = items.filter(item => {
         return (
           item.nivel_acesso.toLowerCase().indexOf('fiscal') > -1
-        );
-      });
-    });
+        )
+      })
+    })
 
   }
 
-  atualizar() {
-    this.relatorioForm.value.irregularidades = this.FormGroupIrregularidades.value.irregularidades;
-    this.relatorioForm.value.fiscais_presentes = this.listfiscais;
-    this.loadingCadastro = false;
+  atualizar () {
+    this.relatorioForm.value.irregularidades = this.FormGroupIrregularidades.value.irregularidades
+    this.relatorioForm.value.fiscais_presentes = this.listfiscais
+    this.loadingCadastro = false
     if (this.relatorioForm.valid === false) {
-      window.scrollTo(0, 0);
+      window.scrollTo(0, 0)
       swal.fire({
         icon: 'warning',
         title: 'Preencha todos os campos obrigatórios',
         showConfirmButton: false,
         timer: 2000
-      });
-      this.formSubmitted = true;
-      this.loadingCadastro = true;
+      })
+      this.formSubmitted = true
+      this.loadingCadastro = true
     } else {
       this.relatorioservice.updateRelatorios(this.relatorioForm.value).subscribe(() => {
-        this.loadingCadastro = true;
-        window.scrollTo(0, 0);
+        this.loadingCadastro = true
+        window.scrollTo(0, 0)
         swal.fire({
           icon: 'success',
           title: 'Relatório atualizado com sucesso',
           showConfirmButton: false,
           timer: 2000
-        });
+        })
         const navigationExtras: NavigationExtras = {
           queryParams: {
             id: this.idupdate
           }
-        };
+        }
         setTimeout(() => {
-          this.router.navigate(['/relatorio/'], navigationExtras);
-        }, 3000);
+          this.router.navigate(['/relatorio/'], navigationExtras)
+        }, 3000)
       }, (error) => {
-        window.scrollTo(0, 0);
-        this.loadingCadastro = true;
+        window.scrollTo(0, 0)
+        this.loadingCadastro = true
         swal.fire({
           icon: 'warning',
           title: 'Falha na atualização do Relatório',
           showConfirmButton: false,
           timer: 2000
-        });
-      });
+        })
+      })
     }
   }
 
-  salvar() {
-    this.relatorioForm.value.irregularidades = this.FormGroupIrregularidades.value.irregularidades;
-    this.relatorioForm.value.fiscais_presentes = this.listfiscais;
-    this.loadingCadastro = false;
+  salvar () {
+    this.relatorioForm.value.irregularidades = this.FormGroupIrregularidades.value.irregularidades
+    this.relatorioForm.value.fiscais_presentes = this.listfiscais
+    this.loadingCadastro = false
     if (this.relatorioForm.valid === false) {
-      window.scrollTo(0, 0);
+      window.scrollTo(0, 0)
       swal.fire({
         icon: 'warning',
         title: 'Preencha todos os campos obrigatórios',
         showConfirmButton: false,
         timer: 2000
-      });
-      this.formSubmitted = true;
-      this.loadingCadastro = true;
+      })
+      this.formSubmitted = true
+      this.loadingCadastro = true
     } else {
       this.relatorioservice.createRelatorio(this.relatorioForm.value).subscribe((data: Relatorio) => {
-        this.loadingCadastro = true;
-        window.scrollTo(0, 0);
+        this.loadingCadastro = true
+        window.scrollTo(0, 0)
         swal.fire({
           icon: 'success',
           title: 'Relatório cadastrado com sucesso',
           showConfirmButton: false,
           timer: 2000
-        });
+        })
         const navigationExtras: NavigationExtras = {
           queryParams: {
             id: data.id
           }
-        };
+        }
         setTimeout(() => {
-          this.router.navigate(['/relatorio/'], navigationExtras);
-        }, 3000);
+          this.router.navigate(['/relatorio/'], navigationExtras)
+        }, 3000)
       }, (error) => {
-        this.loadingCadastro = true;
-        window.scrollTo(0, 0);
+        this.loadingCadastro = true
+        window.scrollTo(0, 0)
         swal.fire({
           icon: 'warning',
           title: 'Falha ao cadastrar relatório',
           showConfirmButton: false,
           timer: 2000
-        });
-      });
+        })
+      })
     }
 
   }
-  carregaSelect() {
+  carregaSelect () {
     $('.select-fiscais').select2({
       placeholder: 'Selecione um Inspertor',
       llowClear: true
-    });
+    })
 
     $('.select-fiscais').on('change', () => {
-      this.selectfiscais();
-    });
+      this.selectfiscais()
+    })
   }
-  selectfiscais() {
-    const fiscais = [];
-    const opcao = $('.select-fiscais').find(':selected');
-    for (let i = 0; i < opcao.length; i++) {
-      fiscais[i] = opcao[i].value;
+  selectfiscais () {
+    const fiscais = []
+    const opcao = $('.select-fiscais').find(':selected')
+    for (let i = 0;i < opcao.length;i++) {
+      fiscais[i] = opcao[i].value
     }
-    this.listfiscais = fiscais.join(', ');
+    this.listfiscais = fiscais.join(', ')
   }
-  addIrregularidades2(a) {
+  addIrregularidades2 (a) {
     if (this.cont > 0) {
       const group = new FormGroup({
         item_id: new FormControl(a.item_id),
         descricao_item: new FormControl(a.descricao_item),
         items: new FormArray([])
-      });
-      this.irregularidades.push(group);
+      })
+      this.irregularidades.push(group)
     }
-    for (let i = 0; i < a.items.length; i++) {
-      this.addItem2(this.cont, a.items[i]);
+    for (let i = 0;i < a.items.length;i++) {
+      this.addItem2(this.cont, a.items[i])
     }
-    this.cont++;
+    this.cont++
   }
-  addIrregularidades() {
+  addIrregularidades () {
     const group = new FormGroup({
       item_id: new FormControl('5.' + ((this.irregularidades.length + 1))),
       descricao_item: new FormControl(''),
       items: new FormArray([])
-    });
-    this.irregularidades.push(group);
+    })
+    this.irregularidades.push(group)
   }
-  addItem2(i, item) {
-    this.items = this.irregularidades.controls[i].get('items') as FormArray;
-    this.itemsForm.push(this.items);
-    const id = this.irregularidades.controls[i].get('item_id').value;
+  addItem2 (i, item) {
+    this.items = this.irregularidades.controls[i].get('items') as FormArray
+    this.itemsForm.push(this.items)
+    const id = this.irregularidades.controls[i].get('item_id').value
     const group = new FormGroup({
       id: new FormControl(item.id),
       recomendacoes: new FormControl(item.recomendacoes),
       irregularidades: new FormControl(item.irregularidades),
       prazo: new FormControl(item.prazo)
-    });
-    this.items.push(group);
+    })
+    this.items.push(group)
   }
 
-  addItem(i) {
-    this.items = this.irregularidades.controls[i].get('items') as FormArray;
-    this.itemsForm.push(this.items);
-    const id = this.irregularidades.controls[i].get('item_id').value;
+  addItem (i) {
+    this.items = this.irregularidades.controls[i].get('items') as FormArray
+    this.itemsForm.push(this.items)
+    const id = this.irregularidades.controls[i].get('item_id').value
     const group = new FormGroup({
       id: new FormControl(id + '.' + (this.items.length + 1)),
       recomendacoes: new FormControl(''),
       irregularidades: new FormControl(''),
       prazo: new FormControl('')
-    });
-    this.items.push(group);
+    })
+    this.items.push(group)
   }
-  setItem(data, i, f) {
-    this.irregularidades.controls[i].get('items')['controls'][f].setValue(data);
+  setItem (data, i, f) {
+    this.irregularidades.controls[i].get('items')['controls'][f].setValue(data)
   }
-  log(log) {
-    console.log(log);
+  log (log) {
+    console.log(log)
   }
 }

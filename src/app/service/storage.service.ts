@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Usuario } from '../login/usuario'
-import { Estabelecimento } from '../estabelecimento'
+import { Usuario } from '../../models/usuario'
 
 const TOKEN_KEY = '_token'
 const USER_KEY = '_user'

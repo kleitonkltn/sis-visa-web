@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core'
-import { Licencas } from '../licencas'
+import { Licencas } from '../../models/licencas'
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import * as moment from 'moment'
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router'
 import { AutenticarService } from '../service/autenticar.service'
-import { Usuario } from '../login/usuario'
+import { Usuario } from '../../models/usuario'
 import { EstabelecimentoService } from '../service/estabelecimento.service'
-import { Estabelecimento } from '../estabelecimento'
+import { Estabelecimento } from '../../models/estabelecimento'
 import { LicencaService } from '../service/licenca.service'
-import { Arquivos } from '../arquivos'
+import { Arquivos } from '../../models/arquivos'
 import { AnexoService } from '../service/anexo.service'
 import swal from 'sweetalert2'
 declare var $: any
@@ -34,7 +34,7 @@ export class CadastroLicencaComponent implements OnInit {
   loading: boolean[] = []; loadingRemove: boolean[] = []; loadingNumvem = true;
   status = 'abrir'; index
 
-  constructor(private route: ActivatedRoute, private authService: AutenticarService,
+  constructor (private route: ActivatedRoute, private authService: AutenticarService,
     private estabelecimentoservice: EstabelecimentoService, private licencaService: LicencaService,
     private anexoService: AnexoService, private router: Router) {
 
@@ -42,44 +42,44 @@ export class CadastroLicencaComponent implements OnInit {
     this.user = this.usuario.nivel_acesso
   }
 
-  get alterouStatusPrimeiroFiscal(): boolean {
+  get alterouStatusPrimeiroFiscal (): boolean {
     return this.f.status_fiscal.value === 'autorizada' && this.f.fiscal.value === this.usuario.matricula
   }
-  get isFiscal(): boolean {
+  get isFiscal (): boolean {
     return this.usuario.nivel_acesso === 'fiscal'
   }
-  get isGerente(): boolean {
+  get isGerente (): boolean {
     return this.usuario.nivel_acesso === 'gerente'
   }
-  get statusFiscalAguardando(): boolean {
+  get statusFiscalAguardando (): boolean {
     return this.f.status_fiscal.value === 'aguardando'
   }
-  get isFiscalAutorizada(): boolean {
+  get isFiscalAutorizada (): boolean {
     return this.f.status_fiscal.value === 'autorizada'
   }
-  get isSegundoFiscalAutorizada(): boolean {
+  get isSegundoFiscalAutorizada (): boolean {
     return this.f.status_segundo_fiscal.value === 'autorizada'
   }
-  get statusSegundoFiscalAguardando(): boolean {
+  get statusSegundoFiscalAguardando (): boolean {
     return this.f.status_segundo_fiscal.value === 'aguardando'
   }
-  get statusGerenteAguardando(): boolean {
+  get statusGerenteAguardando (): boolean {
     return this.f.status_gerente.value === 'aguardando'
   }
 
-  get statusGerenteFiscalAutorizado(): boolean {
+  get statusGerenteFiscalAutorizado (): boolean {
     return this.f.status_fiscal.value === 'autorizada' && this.f.status_segundo_fiscal.value === 'autorizada'
   }
-  get statusFiscaisAguardando(): boolean {
+  get statusFiscaisAguardando (): boolean {
     return this.f.status_fiscal.value === 'aguardando' && this.f.status_segundo_fiscal.value === 'aguardando'
   }
-  get autorizadaPorOutroFiscal(): boolean {
+  get autorizadaPorOutroFiscal (): boolean {
     return this.f.status_fiscal.value === 'autorizada' && this.f.fiscal.value !== this.usuario.matricula
   }
-  get usuarioAtualAutorizouFiscal(): boolean {
+  get usuarioAtualAutorizouFiscal (): boolean {
     return this.f.status_fiscal.value === 'autorizada' && this.f.fiscal.value === this.usuario.matricula
   }
-  get usuarioFiscalAtualAutorizouSegundoFiscal(): boolean {
+  get usuarioFiscalAtualAutorizouSegundoFiscal (): boolean {
     return this.f.status_segundo_fiscal.value === 'autorizada' && this.f.segundo_fiscal.value === this.usuario.matricula
   }
 
@@ -87,12 +87,12 @@ export class CadastroLicencaComponent implements OnInit {
 
 
 
-  ngOnInit() {
+  ngOnInit () {
     this.dataEstabelecimento = ''
     this.createForm(new Licencas())
     this.pegaId()
   }
-  createForm(licenca: Licencas) {
+  createForm (licenca: Licencas) {
     this.formLicenca = new FormGroup({
       id: new FormControl(licenca.id),
       licenca: new FormControl(licenca.licenca),
@@ -112,7 +112,7 @@ export class CadastroLicencaComponent implements OnInit {
       data_validade: new FormControl(licenca.data_validade || this.newDatePlusOneYear())
     })
   }
-  pegaId() {
+  pegaId () {
     this.route.queryParams.subscribe(
       queryParams => {
         this.idlicenca = queryParams.id
@@ -154,15 +154,15 @@ export class CadastroLicencaComponent implements OnInit {
     )
   }
 
-  newDate() {
+  newDate () {
     return moment().format('YYYY-MM-DD')
   }
-  newDatePlusOneYear() {
+  newDatePlusOneYear () {
     return moment().add('1', 'year').format('YYYY-MM-DD')
   }
-  get f() { return this.formLicenca.controls }
+  get f () { return this.formLicenca.controls }
 
-  cadastrar() {
+  cadastrar () {
     this.loadingCadastro = false
     if (this.formLicenca.valid === false) {
       window.scrollTo(0, 0)
@@ -210,7 +210,7 @@ export class CadastroLicencaComponent implements OnInit {
     }
   }
 
-  Atualizar() {
+  Atualizar () {
     this.loadingCadastro = false
     if (this.formLicenca.valid === false) {
       window.scrollTo(0, 0)
@@ -252,7 +252,7 @@ export class CadastroLicencaComponent implements OnInit {
       })
     }
   }
-  changeSegundoFiscal() {
+  changeSegundoFiscal () {
     if (this.formLicenca.value.status_segundo_fiscal === 'autorizada') {
       this.f.segundo_fiscal.setValue(this.usuario.matricula)
     }
@@ -274,12 +274,12 @@ export class CadastroLicencaComponent implements OnInit {
     }
   }
 
-  dados(item, i) {
+  dados (item, i) {
     this.anexo = item
     this.indice = i
   }
 
-  ListaArq() {
+  ListaArq () {
     this.loadingNumvem = false
     if (this.status === 'abrir') {
       this.status = 'fechar'
@@ -293,7 +293,7 @@ export class CadastroLicencaComponent implements OnInit {
               String(item.descricao).indexOf('Pedido:' + this.licenca.id) > -1
             )
           })
-          for (let i = 0; i < this.listaArq.length; i++) {
+          for (let i = 0;i < this.listaArq.length;i++) {
             this.loadingRemove[i] = true
           }
         }
@@ -306,9 +306,9 @@ export class CadastroLicencaComponent implements OnInit {
 
   }
 
-  onUploadChange(evt) {
+  onUploadChange (evt) {
     const files = evt.target.files
-    for (let i = 0, f; f = files[i]; i++) {
+    for (let i = 0, f;f = files[i];i++) {
       const reader = new FileReader()
       reader.onload = ((theFile) => {
         return (e) => {
@@ -325,20 +325,20 @@ export class CadastroLicencaComponent implements OnInit {
       reader.readAsDataURL(f)
     }
   }
-  inicializaLoding() {
-    for (let i = 0; i < this.base64textString.length; i++) {
+  inicializaLoding () {
+    for (let i = 0;i < this.base64textString.length;i++) {
       this.loading[i] = true
     }
   }
-  removeTudoDaLista(i) {
+  removeTudoDaLista (i) {
     this.base64textString.splice(i, 1); this.arq.splice(i, 1); this.nomeArquivo.splice(i, 1)
     this.loading.splice(i, 1); this.descricao.splice(i, 1)
   }
-  removerDaLista(i) {
+  removerDaLista (i) {
     this.base64textString.splice(i, 1); this.arq.splice(i, 1); this.nomeArquivo.splice(i, 1)
     this.loading.splice(i, 1); this.descricao.splice(i, 1)
   }
-  enviar(src, i) {
+  enviar (src, i) {
     if (this.formLicenca.value.id != null) {
       this.arquivos.descricao = this.nomeArquivo[i]
       this.arquivos.descricao_completa = this.descricao[i]
@@ -370,9 +370,9 @@ export class CadastroLicencaComponent implements OnInit {
       })
     }
   }
-  enviarTodos() {
+  enviarTodos () {
     if (this.formLicenca.value.id != null) {
-      for (let i = 0; i < this.base64textString.length; i++) {
+      for (let i = 0;i < this.base64textString.length;i++) {
         this.loading[i] = false
         this.arquivos.descricao = this.nomeArquivo[i]
         this.arquivos.path = this.base64textString[i]
@@ -403,11 +403,11 @@ export class CadastroLicencaComponent implements OnInit {
       })
     }
   }
-  apagarArquivo() {
+  apagarArquivo () {
     this.loadingRemove[this.indice] = false
     this.anexoService.deleteFileByKey(this.anexo.key).subscribe(
       () => {
-        for (let i = 0; i <= this.listaArq.length; i++) {
+        for (let i = 0;i <= this.listaArq.length;i++) {
           if (this.listaArq[i].key === this.anexo.key) {
             this.listaArq.splice(i, 1)
             this.loadingRemove.splice(i, 1)
@@ -426,13 +426,13 @@ export class CadastroLicencaComponent implements OnInit {
     )
   }
 
-  verAnexoCarregado(i) {
+  verAnexoCarregado (i) {
     this.itemCarregado.descricao = this.nomeArquivo[i]
     this.itemCarregado.url_location = 'data:image/png;base64,' + this.base64textString[i]
     this.itemCarregado.descricao_completa = this.descricao[i]
     this.item = this.itemCarregado
   }
-  verAnexo(item) {
+  verAnexo (item) {
     this.item = item
   }
 }

@@ -1,10 +1,10 @@
-import { Component, OnInit, Input} from '@angular/core';
-import { ProtocoloService } from '../service/protocolo.service';
-import { PdfService } from '../service/pdf.service';
-import { Protocolo } from '../protocolo';
-import { ActivatedRoute } from '@angular/router';
-import * as $ from 'jquery';
-import * as moment from 'moment';
+import { Component, OnInit, Input } from '@angular/core'
+import { ProtocoloService } from '../service/protocolo.service'
+import { PdfService } from '../service/pdf.service'
+import { Protocolo } from '../../models/protocolo'
+import { ActivatedRoute } from '@angular/router'
+import * as $ from 'jquery'
+import * as moment from 'moment'
 
 @Component({
   selector: 'app-lista-protocolo',
@@ -18,33 +18,33 @@ export class ListaProtocoloComponent implements OnInit {
   @Input() pdf; statusEst = false; loading = false;
   public paginaAtual = 1;
   textSearch = '';
-   listItems = [];
-  constructor(private protocoloService: ProtocoloService, private route: ActivatedRoute, private pdfservice: PdfService) { }
+  listItems = [];
+  constructor (private protocoloService: ProtocoloService, private route: ActivatedRoute, private pdfservice: PdfService) { }
 
-  ngOnInit() {
-    this.subirTela();
-    this.getListaProtocolo();
+  ngOnInit () {
+    this.subirTela()
+    this.getListaProtocolo()
   }
-  subirTela() {
-    window.scrollTo(0, 0);
+  subirTela () {
+    window.scrollTo(0, 0)
   }
 
-  getListaProtocolo() {
+  getListaProtocolo () {
     this.protocoloService.ListarTodosProtocolos()
       .subscribe((protocolo: Protocolo[]) => {
-        this.statusEst = true;
-        this.protocolos = protocolo;
-        this.initList();
+        this.statusEst = true
+        this.protocolos = protocolo
+        this.initList()
       }, () => {
-      });
+      })
   }
-  initList() {
-    this.listItems = this.protocolos;
+  initList () {
+    this.listItems = this.protocolos
   }
-  search() {
+  search () {
     if (this.textSearch.length > 0) {
-      let val = this.textSearch;
-      this.filtroPesquisa();
+      let val = this.textSearch
+      this.filtroPesquisa()
       this.listItems = this.listItems.filter((item) => {
         return (
           String(item.id).indexOf(val.toLowerCase()) > -1 ||
@@ -54,24 +54,24 @@ export class ListaProtocoloComponent implements OnInit {
           String(item.contato).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           String(item.descricao).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           this.formatDate(item.data).toLowerCase().indexOf(val.toLowerCase()) > -1
-        );
-      });
+        )
+      })
     } else {
-      this.filtroPesquisa();
+      this.filtroPesquisa()
     }
   }
-  formatDate(data) {
-    return moment(data).format('DD/MM/YYYY');
+  formatDate (data) {
+    return moment(data).format('DD/MM/YYYY')
   }
-  filtroPesquisa() {
-    var filtro = $('select').val();
+  filtroPesquisa () {
+    var filtro = $('select').val()
     if (filtro === 'todos') {
-      this.initList();
+      this.initList()
     } else {
       this.listItems = this.protocolos.filter((item) => {
         return (
-          String((item.requerido)).toLowerCase().indexOf(filtro.toLowerCase()) > -1 );
-      });
+          String((item.requerido)).toLowerCase().indexOf(filtro.toLowerCase()) > -1)
+      })
     }
   }
 }

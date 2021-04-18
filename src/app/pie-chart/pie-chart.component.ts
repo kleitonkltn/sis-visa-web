@@ -1,10 +1,10 @@
 
-import { Component, OnInit, Input } from '@angular/core';
-import { ChartOptions, ChartType } from 'chart.js';
-import { Label, SingleDataSet } from 'ng2-charts';
-import { Estabelecimento } from '../estabelecimento';
-import { EstabelecimentoService } from '../service/estabelecimento.service';
-import * as moment from 'moment';
+import { Component, OnInit, Input } from '@angular/core'
+import { ChartOptions, ChartType } from 'chart.js'
+import { Label, SingleDataSet } from 'ng2-charts'
+import { Estabelecimento } from '../../models/estabelecimento'
+import { EstabelecimentoService } from '../service/estabelecimento.service'
+import * as moment from 'moment'
 
 
 @Component({
@@ -18,8 +18,8 @@ export class PieChartComponent implements OnInit {
     responsive: true,
   };
   @Input() estabelecimentos: Estabelecimento[] = [];
-  estabelecimento: Estabelecimento;
-  public licencaAtiva: number;
+  estabelecimento: Estabelecimento
+  public licencaAtiva: number
   public dataAtual: Date; public vencidaCount = 0; public avencerCount = 0; public vigenteCount = 0;
   public pieChartLabels: Label[] = ['Licenças Vencidas', 'Licenças à Vencer', 'Licenças Vigentes'];
   public pieChartData: SingleDataSet = [this.vencidaCount, this.avencerCount, this.vigenteCount];
@@ -33,43 +33,43 @@ export class PieChartComponent implements OnInit {
   ];
 
 
-  constructor(private estabelecimentoService: EstabelecimentoService) { }
+  constructor (private estabelecimentoService: EstabelecimentoService) { }
 
-  ngOnInit() {
-    this.getListaLicenca();
+  ngOnInit () {
+    this.getListaLicenca()
   }
 
-  getListaLicenca() {
+  getListaLicenca () {
     this.estabelecimentoService.ListarTodosEstabelecimentos()
       .subscribe((estabelecimentos) => {
-        this.estabelecimentos = estabelecimentos;
-        this.countLicencaStatus();
+        this.estabelecimentos = estabelecimentos
+        this.countLicencaStatus()
       }, () => {
-      });
+      })
   }
 
-  countLicencaStatus() {
+  countLicencaStatus () {
     this.estabelecimentos.filter(item => {
       if (!item.data_retorno || !item.data_licenca) {
-        return this.vencidaCount++;
+        return this.vencidaCount++
       }
-      var dataAtual = moment(this.dataAtual);
-      var dataLicenca = moment(item.data_retorno);
-      let diferencaEntreDatas = dataLicenca.diff(dataAtual, 'days');
+      var dataAtual = moment(this.dataAtual)
+      var dataLicenca = moment(item.data_retorno)
+      let diferencaEntreDatas = dataLicenca.diff(dataAtual, 'days')
       if (diferencaEntreDatas < 0) {
-        return this.vencidaCount++;
+        return this.vencidaCount++
       }
       if (diferencaEntreDatas >= 0 && diferencaEntreDatas <= 31) {
-        this.avencerCount++;
+        this.avencerCount++
       }
       if (diferencaEntreDatas > 31) {
-        this.vigenteCount++;
+        this.vigenteCount++
       }
-    });
-    this.pieChartData = [this.vencidaCount, this.avencerCount, this.vigenteCount];
+    })
+    this.pieChartData = [this.vencidaCount, this.avencerCount, this.vigenteCount]
   }
 
-  addSlice() {
-    this.pieChartColors[0].backgroundColor.push('rgba(196,79,244,0.3)');
-}
+  addSlice () {
+    this.pieChartColors[0].backgroundColor.push('rgba(196,79,244,0.3)')
+  }
 }

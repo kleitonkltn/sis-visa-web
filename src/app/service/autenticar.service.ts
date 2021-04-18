@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core'
-import { Usuario } from '../login/usuario'
+import { Usuario } from '../../models/usuario'
 import { BehaviorSubject } from 'rxjs'
 import { StorageService } from './storage.service'
 import { JwtHelperService } from '@auth0/angular-jwt'
