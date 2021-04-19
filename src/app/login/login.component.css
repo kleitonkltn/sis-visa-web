@@ -40,14 +40,14 @@ body {
 }
 
 input[type="text"] {
-  padding: 5%;
+  padding: 3.5%;
   border-radius: 2px;
   text-align: center;
   font-weight: 400;
 }
 
 input[type="password"] {
-  padding: 5%;
+  padding: 3.5%;
   border-radius: 2px;
   text-align: center;
   font-weight: 400;
@@ -64,6 +64,10 @@ input[type="button"] {
 @media (min-width: 800px) {
   img {
     height: 40vh;
+  }
+  input[type="button"] {
+    padding: 2%;
+    margin-bottom: 10px;
   }
 }
 
