@@ -67,7 +67,7 @@ export class ListaDenunciasComponent implements OnInit {
 
   getListaDenuncias () {
     this.denunciasService.ListarTodasDenuncias()
-      .toPromise().then((denuncias: Denuncias[]) => {
+      .subscribe((denuncias: Denuncias[]) => {
         this.denuncias = denuncias
         this.statusEst = true
         for (let i = 0;i < this.denuncias.length;i++) {

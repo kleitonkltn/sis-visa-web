@@ -11,7 +11,7 @@ export const environment = {
   apiUrl_pdfRelatorio: 'https://sis-visa-api.herokuapp.com/api/pdf/relatorios/',
   apiUrl_pdfTermo: 'https://sis-visa-api.herokuapp.com/api/pdf/termos/',
   apiUrl_pdfLicenca: 'https://sis-visa-api.herokuapp.com/api/licenca/',
-  apiUrl_Login: 'https://sis-visa-api.herokuapp.com/api/login',
+  apiUrl_Login: 'https://sis-visa-api.herokuapp.com/api/auth/sign-in',
   apiUrl_Denuncias: 'https://sis-visa-api.herokuapp.com/api/denuncias',
   apiUrl_Anexos: 'https://sis-visa-api.herokuapp.com/api/anexos',
   apiUrl_Anexos2: 'https://sis-visa-api.herokuapp.com/api/files',

@@ -31,7 +31,7 @@ export class ListaProtocoloComponent implements OnInit {
 
   getListaProtocolo () {
     this.protocoloService.ListarTodosProtocolos()
-      .toPromise().then((protocolo: Protocolo[]) => {
+      .subscribe((protocolo: Protocolo[]) => {
         this.statusEst = true
         this.protocolos = protocolo
         this.initList()

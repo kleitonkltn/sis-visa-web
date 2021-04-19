@@ -118,14 +118,14 @@ export class CadastroRelatorioComponent implements OnInit {
     })
   }
   pegaId () {
-    this.route.queryParams.toPromise().then(
+    this.route.queryParams.subscribe(
       queryParams => {
         this.idupdate = queryParams.id
         this.idestabelecimento = queryParams.id_est
         if (this.idupdate != null) {
           window.scrollTo(0, 0)
           this.titulo = 'Atualizar Relatório'
-          this.relatorioservice.listRelatorioeById(this.idupdate).toPromise().then((relatorio) => {
+          this.relatorioservice.listRelatorioeById(this.idupdate).subscribe((relatorio) => {
             this.relatorio = relatorio
             console.log(this.relatorio.irregularidades[1])
             for (let i = 0;i < this.relatorio.irregularidades.length;i++) {
@@ -136,7 +136,7 @@ export class CadastroRelatorioComponent implements OnInit {
           })
         }
         if (this.idestabelecimento != null) {
-          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idestabelecimento).toPromise().then((est: Estabelecimento) => {
+          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idestabelecimento).subscribe((est: Estabelecimento) => {
             console.log(est)
             this.titulo = 'Cadastrar Relatório'
             window.scrollTo(0, 0)
@@ -162,7 +162,7 @@ export class CadastroRelatorioComponent implements OnInit {
     $('#selectfiscais').trigger('change')
   }
   getListFiscais () {
-    this.usuarios.ListarTodosUsuarios().toPromise().then(items => {
+    this.usuarios.ListarTodosUsuarios().subscribe(items => {
       this.fiscais = items.filter(item => {
         return (
           item.nivel_acesso.toLowerCase().indexOf('fiscal') > -1
@@ -187,7 +187,7 @@ export class CadastroRelatorioComponent implements OnInit {
       this.formSubmitted = true
       this.loadingCadastro = true
     } else {
-      this.relatorioservice.updateRelatorios(this.relatorioForm.value).toPromise().then(() => {
+      this.relatorioservice.updateRelatorios(this.relatorioForm.value).subscribe(() => {
         this.loadingCadastro = true
         window.scrollTo(0, 0)
         swal.fire({
@@ -232,7 +232,7 @@ export class CadastroRelatorioComponent implements OnInit {
       this.formSubmitted = true
       this.loadingCadastro = true
     } else {
-      this.relatorioservice.createRelatorio(this.relatorioForm.value).toPromise().then((data: Relatorio) => {
+      this.relatorioservice.createRelatorio(this.relatorioForm.value).subscribe((data: Relatorio) => {
         this.loadingCadastro = true
         window.scrollTo(0, 0)
         swal.fire({

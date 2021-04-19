@@ -27,7 +27,7 @@ export class ListaLicencaComponent implements OnInit {
 
   getListaLicenca () {
     this.licencaservice.ListarTodosLicencas()
-      .toPromise().then((licencas: Licencas[]) => {
+      .subscribe((licencas: Licencas[]) => {
         this.statusEst = true
         this.licencas = licencas
         this.initList()

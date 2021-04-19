@@ -43,27 +43,28 @@ export class TermosComponent implements OnInit {
     })
   }
 
-  pegaId () {
-    this.route.queryParams.toPromise().then(
-      queryParams => {
-        this.idupdate = queryParams.id
-        if (this.idupdate != null) {
-          window.scrollTo(0, 0)
-          this.termoservice.ListarTermoPorID(this.idupdate).toPromise().then((termos) => {
-            this.termos = termos
-            this.statusTer = true
+  async pegaId () {
+    this.route.queryParams.subscribe((data) => {
+      this.idupdate = data['id']
+      if (this.idupdate != null) {
+        window.scrollTo(0, 0)
+        this.termoservice.ListarTermoPorID(this.idupdate).subscribe((termos) => {
+          console.log(termos)
+          this.termos = termos
+          this.statusTer = true
+        }).add(() => {
+          this.anexoService.listFilesByModel('termo', this.idupdate).subscribe((arq: Arquivos[]) => {
+            this.arquivo = arq
+            if (this.arquivo.length > 0) {
+              this.titulo = 'Anexos do Termo'
+            }
           }, () => {
           })
-        }
+        })
       }
-    )
-    this.anexoService.listFilesByModel('termo', this.idupdate).toPromise().then((arq: Arquivos[]) => {
-      this.arquivo = arq
-      if (this.arquivo.length > 0) {
-        this.titulo = 'Anexos do Termo'
-      }
-    }, () => {
     })
+
+
   }
   verAnexo (item) {
     this.item = item
@@ -82,7 +83,7 @@ export class TermosComponent implements OnInit {
   termoPDF () {
     this.loading = false
     if (this.idupdate != null) {
-      this.pdfService.downloadFileTermo(this.idupdate).toPromise().then(response => {
+      this.pdfService.downloadFileTermo(this.idupdate).subscribe(response => {
         const file = new Blob([response], { type: 'application/pdf' })
         const fileURL = URL.createObjectURL(file)
         this.loading = true
@@ -117,7 +118,7 @@ export class TermosComponent implements OnInit {
           email: this.email.destinatario,
           texthtml: this.email.mensagem
         }
-        this.emailservice.sendTermoByEmail(dataSend).toPromise().then((data) => {
+        this.emailservice.sendTermoByEmail(dataSend).subscribe((data) => {
           resolve(data)
           $('.modal-header .close').click()
           window.scrollTo(0, 0)

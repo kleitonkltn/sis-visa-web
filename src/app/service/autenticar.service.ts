@@ -6,6 +6,7 @@ import { JwtHelperService } from '@auth0/angular-jwt'
 import { LoginProviderService } from '../providers/login-provider-service'
 import { Router } from '@angular/router'
 import { Location } from '@angular/common'
+import Swal from 'sweetalert2'
 
 declare let $: any
 
@@ -45,8 +46,8 @@ export class AutenticarService {
   login (credentials) {
     this.loading = false
     return this.loginProvider.login(credentials)
-      .toPromise().then(res => {
-        if (res['token'] && !res['error']) {
+      .subscribe(res => {
+        if (res['token']) {
           this._user = this.helper.decodeToken(res['token'])
           this.storage.addToken(res['token'])
           this.storage.setUser(this._user)
@@ -54,13 +55,12 @@ export class AutenticarService {
           location.reload()
           this.loading = true
         } else {
-          this.authenticationState.next(false)
-          this.showDialogMessage('Matrícula e/ou senha incorreta, verifique suas credenciais', 'danger')
+          return this.showDialogMessage('Matrícula e/ou senha incorreta. Verifique suas credenciais', 'error')
         }
-      }, (err) => {
-        throw err
-      }).catch(() => {
-        this.showDialogMessage('Matrícula e/ou senha incorreta \n Verifique suas credenciais', 'danger')
+      }, (e) => {
+        return this.showDialogMessage('Matrícula e/ou senha incorreta. Verifique suas credenciais', 'error')
+      }).add(() => {
+        this.loading = true
       })
   }
 
@@ -77,24 +77,12 @@ export class AutenticarService {
   }
 
   showDialogMessage (mensagem, tipo) {
-    this.loading = true
-    const cssMessage = 'display: block; position: fixed; top: 0; left: 20%; right: 20%; width: 60%; padding-top: 10px; z-index: 9999;'
-    const cssInner = 'margin: 0 auto; box-shadow: 1px 1px 5px black;'
-    let dialogo = ''
-    dialogo += '<div id="message" style="' + cssMessage + '">'
-    dialogo += '    <div class="alert alert-' + tipo + ' alert-dismissable" style="' + cssInner + '">'
-    dialogo += '    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>'
-    dialogo += mensagem
-    dialogo += '    </div>'
-    dialogo += '</div>'
-    $('body').append(dialogo)
-
-    window.setTimeout(() => {
-      $('#message').fadeTo(1500, 0).slideDown(1000, () => {
-        $('.alert').hide()
-      })
-    }, 2000)
-
+    Swal.fire({
+      icon: tipo,
+      title: mensagem,
+      showConfirmButton: false,
+      timer: 2000
+    })
   }
 
 }

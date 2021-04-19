@@ -49,7 +49,7 @@ export class CadastroAtividadeComponent implements OnInit {
       this.formSubmitted = true
       this.loadingCadastro = true
     } else {
-      this.atividadeService.createAtividade(this.atividadeForm.value).toPromise().then((data: Atividades) => {
+      this.atividadeService.createAtividade(this.atividadeForm.value).subscribe((data: Atividades) => {
         this.loadingCadastro = true
         window.scrollTo(0, 0)
         swal.fire({
@@ -86,7 +86,7 @@ export class CadastroAtividadeComponent implements OnInit {
       this.formSubmitted = true
       this.loadingCadastro = true
     } else {
-      this.atividadeService.updateAtividade(this.atividadeForm.value).toPromise().then(() => {
+      this.atividadeService.updateAtividade(this.atividadeForm.value).subscribe(() => {
         this.loadingCadastro = true
         window.scrollTo(0, 0)
         swal.fire({
@@ -112,13 +112,13 @@ export class CadastroAtividadeComponent implements OnInit {
   }
 
   pegaId () {
-    this.route.queryParams.toPromise().then(
+    this.route.queryParams.subscribe(
       queryParams => {
         this.idupdate = queryParams.id
         if (this.idupdate != null) {
           window.scrollTo(0, 0)
           this.titulo = 'Atualizar Atividade'
-          this.atividadeService.listAtividadeById(this.idupdate).toPromise().then((documento: Atividades) => {
+          this.atividadeService.listAtividadeById(this.idupdate).subscribe((documento: Atividades) => {
             this.createForm(documento)
           }, () => {
           })

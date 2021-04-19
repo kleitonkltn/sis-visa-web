@@ -28,7 +28,7 @@ export class ListaDocumentoComponent implements OnInit {
   }
   getListaLicenca () {
     this.documentoService.listAllDocumentos()
-      .toPromise().then((documentos: Documentos[]) => {
+      .subscribe((documentos: Documentos[]) => {
         this.statusEst = true
         this.documentos = documentos
         this.initList()

@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "appsisvisa": {
+      "hosting": {
+        "HOME-VISA": [
+          "appsisvisa"
+        ]
+      }
+    }
+  }
+}

@@ -1,12 +1,9 @@
 {
   "extends": "tslint:recommended",
   "rules": {
-
     "array-type": false,
     "arrow-parens": false,
-    "deprecation": {
-      "severity": "warning"
-    },
+    "deprecation": false,
     "component-class-suffix": true,
     "contextual-lifecycle": true,
     "directive-class-suffix": true,
@@ -33,11 +30,10 @@
       140
     ],
     "member-access": false,
-    "semicolon":false,
-    "comment-format":false,
-    "space-before-function-paren":false,
-
-    "no-trailing-whitespace":false,
+    "semicolon": false,
+    "comment-format": false,
+    "space-before-function-paren": false,
+    "no-trailing-whitespace": false,
     "member-ordering": [
       true,
       {
@@ -66,7 +62,6 @@
     ],
     "no-non-null-assertion": true,
     "no-redundant-jsdoc": true,
-
     "no-switch-case-fall-through": true,
     "no-use-before-declare": true,
     "no-var-requires": false,
@@ -80,8 +75,8 @@
       true,
       "single"
     ],
-    "no-string-literal":false,
-    "align":false,
+    "no-string-literal": false,
+    "align": false,
     "trailing-comma": false,
     "no-conflicting-lifecycle": true,
     "no-host-metadata-property": true,

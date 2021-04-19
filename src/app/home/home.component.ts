@@ -31,25 +31,25 @@ export class HomeComponent implements OnInit {
   }
   getListaLicenca () {
     this.licencaservice.ListarTodosLicencas()
-      .toPromise().then((licenca) => {
+      .subscribe((licenca) => {
         this.cont = licenca.length
       }, () => {
       })
 
     this.estbelecimentoService.ListarTodosEstabelecimentos()
-      .toPromise().then((estabelecimento) => {
+      .subscribe((estabelecimento) => {
         this.contEst = estabelecimento.length
       }, () => {
       })
 
     this.denunciaService.ListarTodasDenuncias()
-      .toPromise().then((denuncias) => {
+      .subscribe((denuncias) => {
         this.contDen = denuncias.length
       }, () => {
       })
 
     this.termoService.ListarTodosTermos()
-      .toPromise().then((termos) => {
+      .subscribe((termos) => {
         this.contTer = termos.length
       }, () => {
       })

@@ -99,7 +99,7 @@ export class CadastroTermosComponent implements OnInit {
     return moment().format('HH:mm')
   }
   pegaId () {
-    this.route.queryParams.toPromise().then(
+    this.route.queryParams.subscribe(
       queryParams => {
         this.idupdate = queryParams.id
         this.id_termo = queryParams.id_termo
@@ -108,7 +108,7 @@ export class CadastroTermosComponent implements OnInit {
           window.scrollTo(0, 0)
           this.titulo = 'Cadastrar Termo'
           window.scrollTo(0, 0)
-          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idupdate).toPromise().then((est) => {
+          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idupdate).subscribe((est) => {
             this.estabelecimento = est
             this.f.estabelecimento.setValue(this.idupdate)
             this.f.cnpj.setValue(this.estabelecimento.cnpj)
@@ -123,7 +123,7 @@ export class CadastroTermosComponent implements OnInit {
         } else if (this.id_termo != null) {
           window.scrollTo(0, 0)
           this.titulo = 'Atualizar Termo'
-          this.termoservice.ListarTermoPorID(this.id_termo).toPromise().then((data: Termos) => {
+          this.termoservice.ListarTermoPorID(this.id_termo).subscribe((data: Termos) => {
             this.doc = ' ' + data.doc_solicitados
             this.fiscaispresente = String(data.fiscais_presentes)
             this.createForm(data)
@@ -266,7 +266,7 @@ export class CadastroTermosComponent implements OnInit {
         this.formSubmitted = true
         this.loadingCadastro = true
       } else {
-        this.termoservice.cadastrarTermo(this.termosForm.value).toPromise().then((data: Termos) => {
+        this.termoservice.cadastrarTermo(this.termosForm.value).subscribe((data: Termos) => {
           this.loadingCadastro = true
           window.scrollTo(0, 0)
           swal.fire({
@@ -311,7 +311,7 @@ export class CadastroTermosComponent implements OnInit {
     this.loadingCadastro = false
     this.termosForm.value.fiscais_presentes = this.fiscaispresente
     console.log(this.termosForm.value)
-    this.termoservice.atualizarTermo(this.termosForm.value).toPromise().then(() => {
+    this.termoservice.atualizarTermo(this.termosForm.value).subscribe(() => {
       this.loadingCadastro = true
       window.scrollTo(0, 0)
       swal.fire({
@@ -341,27 +341,27 @@ export class CadastroTermosComponent implements OnInit {
   }
 
   pegaListAtividades () {
-    this.atividadeservice.listAllAtividades().toPromise().then(itens => {
+    this.atividadeservice.listAllAtividades().subscribe(itens => {
       this.atividades = itens
     })
   }
 
 
   pegaEmbasamentos () {
-    this.embasamentoservice.listAllEmbasamentos().toPromise().then(itens => {
+    this.embasamentoservice.listAllEmbasamentos().subscribe(itens => {
       console.log(this.embasamentos)
       this.embasamentos = itens
     })
   }
 
   pegaDocumentos () {
-    this.documentosService.listAllDocumentos().toPromise().then(itens => {
+    this.documentosService.listAllDocumentos().subscribe(itens => {
       this.documentos = itens
     })
   }
 
   getListFiscais () {
-    this.usuarios.ListarTodosUsuarios().toPromise().then(items => {
+    this.usuarios.ListarTodosUsuarios().subscribe(items => {
       this.fiscais = items.filter(item => {
         return (
           item.nivel_acesso.toLowerCase().indexOf('fiscal') > -1
@@ -379,7 +379,7 @@ export class CadastroTermosComponent implements OnInit {
     this.loadingNumvem = false
     if (this.status === 'abrir') {
       this.status = 'fechar'
-      this.anexoService.listFilesByModel('termo', this.id_termo).toPromise().then((arq: Arquivos[]) => {
+      this.anexoService.listFilesByModel('termo', this.id_termo).subscribe((arq: Arquivos[]) => {
         this.listaArq = arq
         this.loadingNumvem = true
         for (let i = 0;i < this.listaArq.length;i++) {
@@ -443,7 +443,7 @@ export class CadastroTermosComponent implements OnInit {
       this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1))
       this.arquivos.path = src
       this.loading[i] = false
-      this.anexoService.salvarAnexo(this.arquivos).toPromise().then((data: Arquivos) => {
+      this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
         this.loading[i] = true
         this.removerDaLista(i)
       }, (error) => {
@@ -473,7 +473,7 @@ export class CadastroTermosComponent implements OnInit {
         this.arquivos.descricao_completa = this.descricao[i]
         this.arquivos.id_termo = this.termosForm.value.id
         this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1))
-        this.anexoService.salvarAnexo(this.arquivos).toPromise().then((data: Arquivos) => {
+        this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
           this.removeTudoDaLista(this.index)
           this.loading[i] = true
         }, (error) => {
@@ -497,7 +497,7 @@ export class CadastroTermosComponent implements OnInit {
   }
   apagarArquivo () {
     this.loadingRemove[this.indice] = false
-    this.anexoService.deleteFileByKey(this.anexo.key).toPromise().then(
+    this.anexoService.deleteFileByKey(this.anexo.key).subscribe(
       () => {
         for (let i = 0;i <= this.listaArq.length;i++) {
           if (this.listaArq[i].key === this.anexo.key) {

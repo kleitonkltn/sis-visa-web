@@ -50,7 +50,7 @@ export class ListaTermoComponent implements OnInit {
 
   getListaDenuncias () {
     this.termoService.ListarTodosTermos()
-      .toPromise().then((termos: Termos[]) => {
+      .subscribe((termos: Termos[]) => {
         this.statusEst = true
         this.termos = termos
         this.initList()

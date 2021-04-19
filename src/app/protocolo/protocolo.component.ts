@@ -42,12 +42,12 @@ export class ProtocoloComponent implements OnInit {
     })
   }
   pegaId () {
-    this.route.queryParams.toPromise().then(
+    this.route.queryParams.subscribe(
       queryParams => {
         this.idprotocolo = queryParams.id
         if (this.idprotocolo != null) {
           window.scrollTo(0, 0)
-          this.protocoloService.ListarTodosProtocolosPorID(this.idprotocolo).toPromise().then((protocolo) => {
+          this.protocoloService.ListarTodosProtocolosPorID(this.idprotocolo).subscribe((protocolo) => {
             this.protocolos = protocolo
             this.statusProt = true
           }, () => {
@@ -56,7 +56,7 @@ export class ProtocoloComponent implements OnInit {
       }
     )
 
-    this.anexoService.listFilesByModel('protocolo', this.idprotocolo).toPromise().then((arq: Arquivos[]) => {
+    this.anexoService.listFilesByModel('protocolo', this.idprotocolo).subscribe((arq: Arquivos[]) => {
       this.arquivo = arq
       if (this.arquivo.length > 0) {
         this.titulo = 'Anexos do Protocolo'
@@ -68,7 +68,7 @@ export class ProtocoloComponent implements OnInit {
   protocoloPdf () {
     this.loading = false
     if (this.idprotocolo != null) {
-      this.pdfservice.downloadFileProtocolo(this.idprotocolo).toPromise().then(response => {
+      this.pdfservice.downloadFileProtocolo(this.idprotocolo).subscribe(response => {
         const file = new Blob([response], { type: 'application/pdf' })
         const fileURL = URL.createObjectURL(file)
         this.loading = true
@@ -108,7 +108,7 @@ export class ProtocoloComponent implements OnInit {
           email: this.email.destinatario,
           texthtml: this.email.mensagem
         }
-        this.emailservice.sendProtocoloByEmail(dataSend).toPromise().then((data) => {
+        this.emailservice.sendProtocoloByEmail(dataSend).subscribe((data) => {
           resolve(data)
           $('.modal-header .close').click()
           window.scrollTo(0, 0)

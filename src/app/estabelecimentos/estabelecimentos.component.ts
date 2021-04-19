@@ -53,12 +53,12 @@ export class EstabelecimentosComponent implements OnInit {
     })
   }
   pegaId () {
-    this.route.queryParams.toPromise().then(
+    this.route.queryParams.subscribe(
       queryParams => {
         this.idupdate = queryParams.id
         if (this.idupdate != null) {
           window.scrollTo(0, 0)
-          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idupdate).toPromise().then((estabelecimentos) => {
+          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idupdate).subscribe((estabelecimentos) => {
             this.estabelecimentos = estabelecimentos
             this.retornaCampos()
             this.statusEst = true
@@ -67,7 +67,7 @@ export class EstabelecimentosComponent implements OnInit {
         }
       }
     )
-    this.anexoService.listFilesByModel('estabelecimento', this.idupdate).toPromise().then((arq: Arquivos[]) => {
+    this.anexoService.listFilesByModel('estabelecimento', this.idupdate).subscribe((arq: Arquivos[]) => {
       this.arquivo = arq
       if (this.arquivo.length > 0) {
         this.titulo = 'Anexos do Estabelecimento'
@@ -83,13 +83,13 @@ export class EstabelecimentosComponent implements OnInit {
   }
   retornaCampos () {
     this.estabelecimentoservice.ListarAtividadesPorID(this.estabelecimentos.atividade)
-      .toPromise().then((atividade) => {
+      .subscribe((atividade) => {
         this.Atividade = atividade
         this.estabelecimentos.atividade = this.Atividade.atividade
       }, () => {
       })
     this.estabelecimentoservice.listarCnaePorID(this.estabelecimentos.cnae)
-      .toPromise().then((cnae) => {
+      .subscribe((cnae) => {
         this.CNAE = cnae
         this.estabelecimentos.cnae = this.CNAE.descricao
       }, () => {
@@ -113,7 +113,7 @@ export class EstabelecimentosComponent implements OnInit {
   licencaPdf () {
     this.loading = false
     if (this.idupdate != null) {
-      this.pdfservice.downloadFile(this.idupdate).toPromise().then(response => {
+      this.pdfservice.downloadFile(this.idupdate).subscribe(response => {
         const file = new Blob([response], { type: 'application/pdf' })
         const fileURL = URL.createObjectURL(file)
         this.loading = true
@@ -196,7 +196,7 @@ export class EstabelecimentosComponent implements OnInit {
           email: this.email.destinatario,
           texthtml: this.email.mensagem
         }
-        this.emailservice.sendLicencaByEmail(dataSend).toPromise().then((data) => {
+        this.emailservice.sendLicencaByEmail(dataSend).subscribe((data) => {
           resolve(data)
           $('.modal-header .close').click()
           window.scrollTo(0, 0)

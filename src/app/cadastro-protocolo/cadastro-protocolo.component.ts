@@ -62,7 +62,7 @@ export class CadastroProtocoloComponent implements OnInit {
   }
   salvar () {
     this.loadingCadastro = false
-    this.protocoloservice.cadastrarProtocolo(this.protocoloForm.value).toPromise().then((data: Protocolo) => {
+    this.protocoloservice.cadastrarProtocolo(this.protocoloForm.value).subscribe((data: Protocolo) => {
       this.loadingCadastro = true
       window.scrollTo(0, 0)
       swal.fire({
@@ -93,7 +93,7 @@ export class CadastroProtocoloComponent implements OnInit {
 
   atualizar () {
     this.loadingCadastro = false
-    this.protocoloservice.atualizarProtocolo(this.protocoloForm.value, this.idupdate).toPromise().then(() => {
+    this.protocoloservice.atualizarProtocolo(this.protocoloForm.value, this.idupdate).subscribe(() => {
       this.loadingCadastro = true
       window.scrollTo(0, 0)
       swal.fire({
@@ -122,13 +122,13 @@ export class CadastroProtocoloComponent implements OnInit {
     })
   }
   pegaId () {
-    this.route.queryParams.toPromise().then(
+    this.route.queryParams.subscribe(
       queryParams => {
         this.idupdate = queryParams.id
         if (this.idupdate != null) {
           this.titulo = 'Atualizar Protocolo'
           window.scrollTo(0, 0)
-          this.protocoloservice.ListarTodosProtocolosPorID(this.idupdate).toPromise().then((proto) => {
+          this.protocoloservice.ListarTodosProtocolosPorID(this.idupdate).subscribe((proto) => {
             this.protocolo = proto
             this.createForm(this.protocolo)
           })
@@ -149,7 +149,7 @@ export class CadastroProtocoloComponent implements OnInit {
     this.loadingNumvem = false
     if (this.status === 'abrir') {
       this.status = 'fechar'
-      this.anexoService.listFilesByModel('protocolo', this.idupdate).toPromise().then((arq: Arquivos[]) => {
+      this.anexoService.listFilesByModel('protocolo', this.idupdate).subscribe((arq: Arquivos[]) => {
         this.listaArq = arq
         this.loadingNumvem = true
         for (let i = 0;i < this.listaArq.length;i++) {
@@ -213,7 +213,7 @@ export class CadastroProtocoloComponent implements OnInit {
       console.log(this.arquivos.type)
       this.arquivos.path = src
       this.loading[i] = false
-      this.anexoService.salvarAnexo(this.arquivos).toPromise().then((data: Arquivos) => {
+      this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
         this.loading[i] = true
         this.removerDaLista(i)
       }, (error) => {
@@ -243,7 +243,7 @@ export class CadastroProtocoloComponent implements OnInit {
         this.arquivos.descricao_completa = this.descricao[i]
         this.arquivos.id_protocolo = this.protocoloForm.value.id
         this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1))
-        this.anexoService.salvarAnexo(this.arquivos).toPromise().then((data: Arquivos) => {
+        this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
           this.removeTudoDaLista(this.index)
           this.loading[i] = true
           // alert('Anexo  ' + data.descricao_completa + ' Cadastrado com Sucesso');
@@ -268,7 +268,7 @@ export class CadastroProtocoloComponent implements OnInit {
   }
   apagarArquivo () {
     this.loadingRemove[this.indice] = false
-    this.anexoService.deleteFileByKey(this.anexo.key).toPromise().then(
+    this.anexoService.deleteFileByKey(this.anexo.key).subscribe(
       () => {
         for (let i = 0;i <= this.listaArq.length;i++) {
           if (this.listaArq[i].key === this.anexo.key) {

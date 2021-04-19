@@ -32,7 +32,7 @@ export class ListaEstabelecimentoComponent implements OnInit {
   }
   getListaLicenca () {
     this.estabelecimentoService.ListarTodosEstabelecimentos()
-      .toPromise().then((estabelecimentos: Estabelecimento[]) => {
+      .subscribe((estabelecimentos: Estabelecimento[]) => {
         this.statusEst = true
         this.estabelecimentos = estabelecimentos
         this.initList()
@@ -66,7 +66,7 @@ export class ListaEstabelecimentoComponent implements OnInit {
   }
   listarTudo (id) {
     this.estabelecimentoService.listarEstabelecimentoPorID(id)
-      .toPromise().then((licencas: Estabelecimento) => {
+      .subscribe((licencas: Estabelecimento) => {
         this.est = licencas
       }, () => {
       })

@@ -26,7 +26,7 @@ export class ListaAtividadeComponent implements OnInit {
   }
   getListaLicenca () {
     this.atividadeService.listAllAtividades()
-      .toPromise().then((atividade: Atividades[]) => {
+      .subscribe((atividade: Atividades[]) => {
         this.statusEst = true
         this.atividade = atividade
         this.initList()

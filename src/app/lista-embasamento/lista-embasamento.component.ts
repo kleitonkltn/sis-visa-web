@@ -27,7 +27,7 @@ export class ListaEmbasamentoComponent implements OnInit {
   getListaLicenca () {
     this.subirTela()
     this.embasmentoService.listAllEmbasamentos()
-      .toPromise().then((embasamentos: Embasamentos[]) => {
+      .subscribe((embasamentos: Embasamentos[]) => {
         this.statusEst = true
         this.embasamentos = embasamentos
         this.initList()

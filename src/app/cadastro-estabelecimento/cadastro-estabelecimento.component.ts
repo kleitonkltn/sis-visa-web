@@ -89,7 +89,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
       this.formSubmitted = true
       this.loadingCadastro = true
     } else {
-      this.estabelecimentoservice.cadastrarEstabelecimento(this.estabelecimentoForm.value).toPromise().then((data: Estabelecimento) => {
+      this.estabelecimentoservice.cadastrarEstabelecimento(this.estabelecimentoForm.value).subscribe((data: Estabelecimento) => {
         this.loadingCadastro = true
         window.scrollTo(0, 0)
         swal.fire({
@@ -132,7 +132,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
       this.formSubmitted = true
       this.loadingCadastro = true
     } else {
-      this.estabelecimentoservice.atualizarEstabelecimento(this.estabelecimentoForm.value, this.idupdate).toPromise().then(() => {
+      this.estabelecimentoservice.atualizarEstabelecimento(this.estabelecimentoForm.value, this.idupdate).subscribe(() => {
         this.loadingCadastro = true
         window.scrollTo(0, 0)
         swal.fire({
@@ -162,13 +162,13 @@ export class CadastroEstabelecimentoComponent implements OnInit {
     }
   }
   pegaId () {
-    this.route.queryParams.toPromise().then(
+    this.route.queryParams.subscribe(
       queryParams => {
         this.idupdate = queryParams.id
         if (this.idupdate != null) {
           window.scrollTo(0, 0)
           this.titulo = 'Atualizar Estabelecimento'
-          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idupdate).toPromise().then((estabelecimentos) => {
+          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idupdate).subscribe((estabelecimentos) => {
             this.estabelecimento = estabelecimentos
             estabelecimentos.status = '' + estabelecimentos.status
             this.createForm(this.estabelecimento)
@@ -187,7 +187,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
 
   retronaCnae () {
     this.estabelecimentoservice.listarTodosCnae()
-      .toPromise().then((cnae) => {
+      .subscribe((cnae) => {
         this.CNAE = cnae
       }, () => {
       })
@@ -203,7 +203,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
   numLicenca () {
     const val = (this.textSearch)
     console.log(val)
-    this.estabelecimentoservice.getValueMaxLicenca().toPromise().then(async (itens: Estabelecimento) => {
+    this.estabelecimentoservice.getValueMaxLicenca().subscribe(async (itens: Estabelecimento) => {
       if (itens.licenca < val) {
         window.scrollTo(0, 0)
         swal.fire({
@@ -236,7 +236,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
     this.loadingNumvem = false
     if (this.status === 'abrir') {
       this.status = 'fechar'
-      this.anexoService.listFilesByModel('estabelecimento', this.idupdate).toPromise().then((arq: Arquivos[]) => {
+      this.anexoService.listFilesByModel('estabelecimento', this.idupdate).subscribe((arq: Arquivos[]) => {
         console.log(arq)
         this.listaArq = arq
         this.loadingNumvem = true
@@ -253,6 +253,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
 
   onUploadChange (evt) {
     const files = evt.target.files
+    // tslint:disable-next-line: no-conditional-assignment
     for (let i = 0, f;f = files[i];i++) {
       const reader = new FileReader()
       reader.onload = ((theFile) => {
@@ -301,7 +302,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
       this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1))
       this.arquivos.path = src
       this.loading[i] = false
-      this.anexoService.salvarAnexo(this.arquivos).toPromise().then((data: Arquivos) => {
+      this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
         this.loading[i] = true
         this.removerDaLista(i)
       }, (error) => {
@@ -330,7 +331,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
         this.arquivos.descricao_completa = this.descricao[i]
         this.arquivos.id_estabelecimento = this.estabelecimentoForm.value.id
         this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1))
-        this.anexoService.salvarAnexo(this.arquivos).toPromise().then((data: Arquivos) => {
+        this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
           this.removeTudoDaLista(this.index)
           this.loading[i] = true
         }, (error) => {
@@ -354,7 +355,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
   }
   apagarArquivo () {
     this.loadingRemove[this.indice] = false
-    this.anexoService.deleteFileByKey(this.anexo.key).toPromise().then(
+    this.anexoService.deleteFileByKey(this.anexo.key).subscribe(
       () => {
         for (let i = 0;i <= this.listaArq.length;i++) {
           if (this.listaArq[i].key === this.anexo.key) {
@@ -397,7 +398,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
   }
 
   getValueMaxLicenca () {
-    this.estabelecimentoservice.getValueMaxLicenca().toPromise().then(async (itens: Estabelecimento) => {
+    this.estabelecimentoservice.getValueMaxLicenca().subscribe(async (itens: Estabelecimento) => {
       this.licencaValueMax = itens.licenca += 1
       this.textSearch = this.licencaValueMax
       swal.fire(

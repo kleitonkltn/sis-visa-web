@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Injectable } from '@angular/core'
 import { Usuario } from '../../models/usuario'
 
 const TOKEN_KEY = '_token'
 const USER_KEY = '_user'
-const ESTABELECIMENTO_KEY = 'estabelecimentos'
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +11,13 @@ const ESTABELECIMENTO_KEY = 'estabelecimentos'
 
 export class StorageService {
 
-  constructor () { }
-
   addToken (token) {
 
     return localStorage.setItem(TOKEN_KEY, token)
   }
 
   deleteToken () {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       localStorage.setItem(USER_KEY, '')
       resolve(localStorage.setItem(TOKEN_KEY, ''))
     })
@@ -27,7 +25,7 @@ export class StorageService {
   }
 
   getStorageToken (): Promise<string> {
-    return new Promise((resolve, _reject) => {
+    return new Promise((resolve) => {
       resolve(localStorage.getItem(TOKEN_KEY))
     })
   }

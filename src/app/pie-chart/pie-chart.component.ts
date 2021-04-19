@@ -41,7 +41,7 @@ export class PieChartComponent implements OnInit {
 
   getListaLicenca () {
     this.estabelecimentoService.ListarTodosEstabelecimentos()
-      .toPromise().then((estabelecimentos) => {
+      .subscribe((estabelecimentos) => {
         this.estabelecimentos = estabelecimentos
         this.countLicencaStatus()
       }, () => {

@@ -28,11 +28,11 @@ export class DenunciasComponent implements OnInit {
   }
 
   pegaId () {
-    this.route.queryParams.toPromise().then(
+    this.route.queryParams.subscribe(
       queryParams => {
         this.idupdate = queryParams.id
         if (this.idupdate != null) {
-          this.denunciaService.ListarDenunciasPorID(this.idupdate).toPromise().then((denuncia) => {
+          this.denunciaService.ListarDenunciasPorID(this.idupdate).subscribe((denuncia) => {
             window.scrollTo(0, 0)
             this.denuncia = denuncia
             this.denuncia.status = this.formatarStatusDenuncia(denuncia.status)
@@ -47,7 +47,7 @@ export class DenunciasComponent implements OnInit {
       }
     )
 
-    this.anexoService.listFilesByModel('denuncia', this.idupdate).toPromise().then((arq: Arquivos[]) => {
+    this.anexoService.listFilesByModel('denuncia', this.idupdate).subscribe((arq: Arquivos[]) => {
       this.arquivo = arq
       if (this.arquivo.length > 0) {
         this.titulo = 'Anexos do Denúncia'

@@ -50,7 +50,7 @@ export class CadastroEmbasamentoComponent implements OnInit {
       this.formSubmitted = true
       this.loadingCadastro = true
     } else {
-      this.embasamentoservice.createEmbasamentos(this.embasamentoForm.value).toPromise().then((data: Embasamentos) => {
+      this.embasamentoservice.createEmbasamentos(this.embasamentoForm.value).subscribe((data: Embasamentos) => {
         this.loadingCadastro = true
         window.scrollTo(0, 0)
         swal.fire({
@@ -87,7 +87,7 @@ export class CadastroEmbasamentoComponent implements OnInit {
       this.formSubmitted = true
       this.loadingCadastro = true
     } else {
-      this.embasamentoservice.updateEmbasamentos(this.embasamentoForm.value).toPromise().then(() => {
+      this.embasamentoservice.updateEmbasamentos(this.embasamentoForm.value).subscribe(() => {
         this.loadingCadastro = true
         window.scrollTo(0, 0)
         swal.fire({
@@ -113,13 +113,13 @@ export class CadastroEmbasamentoComponent implements OnInit {
   }
 
   pegaId () {
-    this.route.queryParams.toPromise().then(
+    this.route.queryParams.subscribe(
       queryParams => {
         this.idupdate = queryParams.id
         if (this.idupdate != null) {
           window.scrollTo(0, 0)
           this.titulo = 'Atualizar Embasamento'
-          this.embasamentoservice.listEmbasamentosById(this.idupdate).toPromise().then((documento: Embasamentos) => {
+          this.embasamentoservice.listEmbasamentosById(this.idupdate).subscribe((documento: Embasamentos) => {
             this.createForm(documento)
           }, () => {
           })
