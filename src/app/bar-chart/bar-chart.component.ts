@@ -40,21 +40,21 @@ export class BarChartComponent implements OnInit {
   ];
 
 
-  constructor (private termoservice: TermoService) { }
+  constructor(private termoservice: TermoService) { }
 
-  ngOnInit () {
+  ngOnInit() {
     this.getListatermo()
   }
 
-  getListatermo () {
+  getListatermo() {
     this.termoservice.ListarTodosTermos()
-      .toPromise().then((termo) => {
+      .subscribe((termo) => {
         this.termo = termo
 
       }).add(() => { this.fillChart() })
   }
 
-  fillChart () {
+  fillChart() {
     this.termo.filter(item => {
       if (item.tipo_termo === 'inspecao') {
         this.inspecao++
