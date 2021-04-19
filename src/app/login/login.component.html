@@ -12,42 +12,54 @@
         <div class="col p-2 align-self-center">
             <div class="container-fluid">
                 <div class="row">
-                    <div *ngIf="showLogin === false" class="justify-content-center mx-auto col-xl-6 col-12">
-                        <form class="col-10 login m-1 p-6 mx-auto container login fundologin">
-                            <h2 class="text-center pt-3">Login
-                            </h2>
+                    <div *ngIf="showLogin === false"
+                        class="justify-content-center mx-auto col-xl-6 col-md-6 col-12">
+                        <form
+                            class="col-12 col-xl-9 login mx-auto login fundologin">
+                            <div class="text-title"> Login </div>
                             <div>
                                 <label class="ml-3 float-left col-form-label">
                                     <b>
                                         Matrícula</b>
                                 </label>
                                 <div class="col-sm-12">
-                                    <input type="text" [(ngModel)]="usuario.matricula" name="matricula"
-                                        class="form-control" placeholder="Matrícula">
+                                    <input type="text"
+                                        [(ngModel)]="usuario.matricula"
+                                        name="matricula" class="form-control"
+                                        placeholder="Matrícula">
                                 </div>
                             </div>
                             <div>
-                                <label class="ml-3 float-left col-form-label"><b>
+                                <label
+                                    class="ml-3 float-left col-form-label"><b>
                                         Senha</b></label>
                                 <div class="col-sm-12">
-                                    <input type="password" [(ngModel)]="usuario.password" name="password"
-                                        class="form-control marge" placeholder="Senha">
+                                    <input type="password"
+                                        [(ngModel)]="usuario.password"
+                                        name="password"
+                                        class="form-control marge"
+                                        placeholder="Senha">
                                 </div>
-                                <div class="col mt-4 pb-5 mx-auto justify-content-center">
+                                <div
+                                    class="col btn-send justify-content-center">
                                     <div class="d-flex justify-content-center">
-                                        <span class="spinner-border" role="status"
-                                            [ngClass]="{ spinnerLoading: autenticar.loading }" aria-hidden="true">
+                                        <span class="spinner-border"
+                                            role="status"
+                                            [ngClass]="{ spinnerLoading: autenticar.loading }"
+                                            aria-hidden="true">
                                         </span>
                                     </div>
 
-                                    <input type="button" [ngClass]="{ spinnerLoading: !loading }"
-                                        class="btn btn-success btn-block w-100 mt-4 p-2" (click)="fazerlogin()"
-                                        value="Entrar">
+                                    <input type="button"
+                                        [ngClass]="{ spinnerLoading: !loading }"
+                                        class="btn btn-sm btn-success btn-block w-100 mt-2"
+                                        (click)="fazerlogin()" value="Entrar">
                                 </div>
                             </div>
                         </form>
                     </div>
-                    <div class="row justify-content-center col-xl-6 col-12 mx-auto order-first">
+                    <div
+                        class="row justify-content-center col-xl-6 col-md-6 col-12 mx-auto order-first">
                         <img src="assets/logo.svg" class="img p-2 m-4">
                     </div>
                 </div>
