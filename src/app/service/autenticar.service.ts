@@ -77,7 +77,7 @@ export class AutenticarService {
     return this.authenticationState.value
   }
 
-  showDialogMessage (mensagem, tipo) {
+  showDialogMessage (mensagem, tipo?) {
     this.loading = true
     Swal.fire({
       icon: tipo || 'warning',
