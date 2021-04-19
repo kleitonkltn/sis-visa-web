@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Injectable, EventEmitter } from '@angular/core'
 import { Usuario } from '../../models/usuario'
 import { BehaviorSubject } from 'rxjs'
@@ -77,8 +78,9 @@ export class AutenticarService {
   }
 
   showDialogMessage (mensagem, tipo) {
+    this.loading = true
     Swal.fire({
-      icon: tipo,
+      icon: tipo || 'warning',
       title: mensagem,
       showConfirmButton: false,
       timer: 2000
