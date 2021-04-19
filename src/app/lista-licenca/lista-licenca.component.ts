@@ -4,7 +4,7 @@ import { Licencas } from '../../models/licencas'
 import * as moment from 'moment'
 import { EstabelecimentoService } from '../service/estabelecimento.service'
 import { Estabelecimento } from '../../models/estabelecimento'
-declare var $: any
+declare let $: any
 
 @Component({
   selector: 'app-lista-licenca',
@@ -27,7 +27,7 @@ export class ListaLicencaComponent implements OnInit {
 
   getListaLicenca () {
     this.licencaservice.ListarTodosLicencas()
-      .subscribe((licencas: Licencas[]) => {
+      .toPromise().then((licencas: Licencas[]) => {
         this.statusEst = true
         this.licencas = licencas
         this.initList()

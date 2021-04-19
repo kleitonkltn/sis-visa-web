@@ -31,7 +31,7 @@ export class ListaProtocoloComponent implements OnInit {
 
   getListaProtocolo () {
     this.protocoloService.ListarTodosProtocolos()
-      .subscribe((protocolo: Protocolo[]) => {
+      .toPromise().then((protocolo: Protocolo[]) => {
         this.statusEst = true
         this.protocolos = protocolo
         this.initList()
@@ -43,7 +43,7 @@ export class ListaProtocoloComponent implements OnInit {
   }
   search () {
     if (this.textSearch.length > 0) {
-      let val = this.textSearch
+      const val = this.textSearch
       this.filtroPesquisa()
       this.listItems = this.listItems.filter((item) => {
         return (
@@ -64,7 +64,7 @@ export class ListaProtocoloComponent implements OnInit {
     return moment(data).format('DD/MM/YYYY')
   }
   filtroPesquisa () {
-    var filtro = $('select').val()
+    const filtro = $('select').val()
     if (filtro === 'todos') {
       this.initList()
     } else {

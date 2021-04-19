@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { Denuncias } from '../../models/denuncias'
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { DenunciaService } from '../service/denuncia.service'
@@ -6,7 +6,6 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router'
 import { Arquivos } from '../../models/arquivos'
 import { AnexoService } from '../service/anexo.service'
 import * as moment from 'moment'
-import * as $ from 'jquery'
 import swal from 'sweetalert2'
 
 export class Procedimentos {
@@ -105,7 +104,7 @@ export class CadastroDenunciasComponent implements OnInit {
       this.formSubmitted = true
       this.loadingCadastro = true
     } else {
-      this.denunciasService.createDenuncias(this.DenuciasForm.value).subscribe((data: Denuncias) => {
+      this.denunciasService.createDenuncias(this.DenuciasForm.value).toPromise().then((data: Denuncias) => {
         this.loadingCadastro = true
         this.createForm(data)
         this.denuncia = data
@@ -149,7 +148,7 @@ export class CadastroDenunciasComponent implements OnInit {
       this.formSubmitted = true
       this.loadingCadastro = true
     } else {
-      this.denunciasService.atualizarDenuncia(this.DenuciasForm.value).subscribe(() => {
+      this.denunciasService.atualizarDenuncia(this.DenuciasForm.value).toPromise().then(() => {
         this.loadingCadastro = true
         window.scrollTo(0, 0)
         swal.fire({
@@ -180,7 +179,7 @@ export class CadastroDenunciasComponent implements OnInit {
   }
 
   pegaId () {
-    this.route.queryParams.subscribe(
+    this.route.queryParams.toPromise().then(
       queryParams => {
         this.idupdate = queryParams.id
         if (this.idupdate != null) {
@@ -196,7 +195,7 @@ export class CadastroDenunciasComponent implements OnInit {
     )
   }
   getDenuncia () {
-    this.denunciasService.ListarDenunciasPorID(this.idupdate).subscribe((denuncia) => {
+    this.denunciasService.ListarDenunciasPorID(this.idupdate).toPromise().then((denuncia) => {
       this.denuncia = denuncia
       if (denuncia.procedimentos != null) {
         this.procedimentos.push(...denuncia.procedimentos)
@@ -204,7 +203,6 @@ export class CadastroDenunciasComponent implements OnInit {
 
       denuncia.status = '' + denuncia.status
       this.createForm(this.denuncia)
-    }, () => {
     })
   }
   setupForm (procedimentos: Procedimentos) {
@@ -247,7 +245,7 @@ export class CadastroDenunciasComponent implements OnInit {
     const denuncia = new Denuncias()
     denuncia.procedimentos = jsonNew
     denuncia.id = this.denuncia.id
-    this.denunciasService.atualizarDenuncia(denuncia).subscribe(
+    this.denunciasService.atualizarDenuncia(denuncia).toPromise().then(
       () => {
         this.loadingProcedimento = true
         this.ordernarPorData()
@@ -289,7 +287,7 @@ export class CadastroDenunciasComponent implements OnInit {
     this.loadingNumvem = false
     if (this.status === 'abrir') {
       this.status = 'fechar'
-      this.anexoService.listFilesByModel('denuncia', this.idupdate).subscribe((arq: Arquivos[]) => {
+      this.anexoService.listFilesByModel('denuncia', this.idupdate).toPromise().then((arq: Arquivos[]) => {
         this.loadingNumvem = true
         this.listaArq = arq
         for (let i = 0;i < this.listaArq.length;i++) {
@@ -352,7 +350,7 @@ export class CadastroDenunciasComponent implements OnInit {
       this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1))
       this.arquivos.path = src
       this.loading[i] = false
-      this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
+      this.anexoService.salvarAnexo(this.arquivos).toPromise().then((data: Arquivos) => {
         this.loading[i] = true
         this.removerDaLista(i)
         return swal.fire({
@@ -387,7 +385,7 @@ export class CadastroDenunciasComponent implements OnInit {
         this.arquivos.descricao_completa = this.descricao[i]
         this.arquivos.id_denuncia = this.DenuciasForm.value.id
         this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1))
-        this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
+        this.anexoService.salvarAnexo(this.arquivos).toPromise().then((data: Arquivos) => {
           this.removeTudoDaLista(this.index)
           swal.fire({
             icon: 'success',
@@ -417,7 +415,7 @@ export class CadastroDenunciasComponent implements OnInit {
   }
   apagarArquivo () {
     this.loadingRemove[this.indice] = false
-    this.anexoService.deleteFileByKey(this.anexo.key).subscribe(
+    this.anexoService.deleteFileByKey(this.anexo.key).toPromise().then(
       () => {
         for (let i = 0;i <= this.listaArq.length;i++) {
           if (this.listaArq[i].key === this.anexo.key) {

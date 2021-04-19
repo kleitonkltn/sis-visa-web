@@ -31,7 +31,7 @@ export class ListaTermoComponent implements OnInit {
   search () {
     this.initList()
     if (this.textSearch.length > 0) {
-      let val = this.textSearch
+      const val = this.textSearch
       this.filtroPesquisa()
       this.listItems = this.listItems.filter((item) => {
         return (
@@ -50,7 +50,7 @@ export class ListaTermoComponent implements OnInit {
 
   getListaDenuncias () {
     this.termoService.ListarTodosTermos()
-      .subscribe((termos: Termos[]) => {
+      .toPromise().then((termos: Termos[]) => {
         this.statusEst = true
         this.termos = termos
         this.initList()

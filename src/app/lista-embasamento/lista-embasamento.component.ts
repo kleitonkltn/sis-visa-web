@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core'
-import { Embasamentos } from '../../models/Embasamentos'
+import { Embasamentos } from '../../models/embasamentos'
 import { EmbasamentoService } from '../service/embasamento.service'
 
 @Component({
@@ -27,7 +27,7 @@ export class ListaEmbasamentoComponent implements OnInit {
   getListaLicenca () {
     this.subirTela()
     this.embasmentoService.listAllEmbasamentos()
-      .subscribe((embasamentos: Embasamentos[]) => {
+      .toPromise().then((embasamentos: Embasamentos[]) => {
         this.statusEst = true
         this.embasamentos = embasamentos
         this.initList()
@@ -39,7 +39,7 @@ export class ListaEmbasamentoComponent implements OnInit {
   }
   search () {
     if (this.textSearch.length > 0) {
-      let val = this.textSearch
+      const val = this.textSearch
       this.initList()
       this.listItems = this.listItems.filter((item) => {
         return (

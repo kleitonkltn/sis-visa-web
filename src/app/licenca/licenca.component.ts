@@ -37,7 +37,7 @@ export class LicencaComponent implements OnInit {
     this.loadingPdf = false
     if ((this.licenca.status_fiscal === 'autorizada' && this.licenca.status_gerente === 'autorizada') || (this.licenca.status_fiscal === 'autorizada' && this.licenca.status_segundo_fiscal === 'autorizada')) {
       if (this.licenca.estabelecimento != null) {
-        this.pdfservice.downloadFile(this.licenca.estabelecimento).subscribe(response => {
+        this.pdfservice.downloadFile(this.licenca.estabelecimento).toPromise().then(response => {
           const file = new Blob([response], { type: 'application/pdf' })
           const fileURL = URL.createObjectURL(file)
           this.loadingPdf = true
@@ -66,12 +66,12 @@ export class LicencaComponent implements OnInit {
 
   }
   pegaId () {
-    this.route.queryParams.subscribe(
+    this.route.queryParams.toPromise().then(
       queryParams => {
         this.idlicenca = queryParams.id
         if (this.idlicenca != null) {
           window.scrollTo(0, 0)
-          this.licencaService.ListarLicencaPorID(this.idlicenca).subscribe((licenca) => {
+          this.licencaService.ListarLicencaPorID(this.idlicenca).toPromise().then((licenca) => {
             this.licenca = licenca
             this.id_Estabelecimento = this.licenca.estabelecimento
             this.statusLi = true
@@ -84,12 +84,12 @@ export class LicencaComponent implements OnInit {
     )
   }
   getDataEstabelecimentos () {
-    this.estabelecimentoServce.listarEstabelecimentoPorID(this.id_Estabelecimento).subscribe((arg) => {
+    this.estabelecimentoServce.listarEstabelecimentoPorID(this.id_Estabelecimento).toPromise().then((arg) => {
       this.dataEstabelecimento = arg
     })
   }
   pegaAnexos () {
-    this.anexoService.listFilesByModel('estabelecimento', this.id_Estabelecimento).subscribe((arg) => {
+    this.anexoService.listFilesByModel('estabelecimento', this.id_Estabelecimento).toPromise().then((arg) => {
       if (arg.length > 0) {
         this.titulo = 'Anexos da Licença'
         this.arquivo = arg.filter((item) => {

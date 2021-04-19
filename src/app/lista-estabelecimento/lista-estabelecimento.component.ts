@@ -3,7 +3,7 @@ import { Estabelecimento } from '../../models/estabelecimento'
 import { EstabelecimentoService } from '../service/estabelecimento.service'
 import * as moment from 'moment'
 
-declare var $: any
+declare let $: any
 
 @Component({
   selector: 'app-lista-estabelecimento',
@@ -32,7 +32,7 @@ export class ListaEstabelecimentoComponent implements OnInit {
   }
   getListaLicenca () {
     this.estabelecimentoService.ListarTodosEstabelecimentos()
-      .subscribe((estabelecimentos: Estabelecimento[]) => {
+      .toPromise().then((estabelecimentos: Estabelecimento[]) => {
         this.statusEst = true
         this.estabelecimentos = estabelecimentos
         this.initList()
@@ -66,14 +66,14 @@ export class ListaEstabelecimentoComponent implements OnInit {
   }
   listarTudo (id) {
     this.estabelecimentoService.listarEstabelecimentoPorID(id)
-      .subscribe((licencas: Estabelecimento) => {
+      .toPromise().then((licencas: Estabelecimento) => {
         this.est = licencas
       }, () => {
       })
 
   }
   filtroPesquisa () {
-    let filtro = $('select').val()
+    const filtro = $('select').val()
     if (filtro === 'todos') {
       this.initList()
     } else {

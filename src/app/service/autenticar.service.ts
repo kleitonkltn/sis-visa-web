@@ -7,7 +7,7 @@ import { LoginProviderService } from '../providers/login-provider-service'
 import { Router } from '@angular/router'
 import { Location } from '@angular/common'
 
-declare var $: any
+declare let $: any
 
 @Injectable({
   providedIn: 'root'

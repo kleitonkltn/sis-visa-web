@@ -48,7 +48,7 @@ export class BarChartComponent implements OnInit {
 
   getListatermo () {
     this.termoservice.ListarTodosTermos()
-      .subscribe((termo) => {
+      .toPromise().then((termo) => {
         this.termo = termo
 
       }).add(() => { this.fillChart() })

@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { EmbasamentoService } from '../service/embasamento.service'
 import * as $ from 'jquery'
-import { Embasamentos } from '../../models/Embasamentos'
+import { Embasamentos } from '../../models/embasamentos'
 import swal from 'sweetalert2'
 
 @Component({
@@ -50,7 +50,7 @@ export class CadastroEmbasamentoComponent implements OnInit {
       this.formSubmitted = true
       this.loadingCadastro = true
     } else {
-      this.embasamentoservice.createEmbasamentos(this.embasamentoForm.value).subscribe((data: Embasamentos) => {
+      this.embasamentoservice.createEmbasamentos(this.embasamentoForm.value).toPromise().then((data: Embasamentos) => {
         this.loadingCadastro = true
         window.scrollTo(0, 0)
         swal.fire({
@@ -87,7 +87,7 @@ export class CadastroEmbasamentoComponent implements OnInit {
       this.formSubmitted = true
       this.loadingCadastro = true
     } else {
-      this.embasamentoservice.updateEmbasamentos(this.embasamentoForm.value).subscribe(() => {
+      this.embasamentoservice.updateEmbasamentos(this.embasamentoForm.value).toPromise().then(() => {
         this.loadingCadastro = true
         window.scrollTo(0, 0)
         swal.fire({
@@ -113,13 +113,13 @@ export class CadastroEmbasamentoComponent implements OnInit {
   }
 
   pegaId () {
-    this.route.queryParams.subscribe(
+    this.route.queryParams.toPromise().then(
       queryParams => {
         this.idupdate = queryParams.id
         if (this.idupdate != null) {
           window.scrollTo(0, 0)
           this.titulo = 'Atualizar Embasamento'
-          this.embasamentoservice.listEmbasamentosById(this.idupdate).subscribe((documento: Embasamentos) => {
+          this.embasamentoservice.listEmbasamentosById(this.idupdate).toPromise().then((documento: Embasamentos) => {
             this.createForm(documento)
           }, () => {
           })

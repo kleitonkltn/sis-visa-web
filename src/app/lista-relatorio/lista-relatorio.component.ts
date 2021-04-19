@@ -27,7 +27,7 @@ export class ListaRelatorioComponent implements OnInit {
   }
   getListaLicenca () {
     this.relatorioService.listAllRelatorio()
-      .subscribe((relatorio: Relatorio[]) => {
+      .toPromise().then((relatorio: Relatorio[]) => {
         this.statusEst = true
         this.relatorios = relatorio
         for (let i = 0;i < this.relatorios.length;i++) {

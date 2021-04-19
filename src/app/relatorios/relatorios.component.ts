@@ -41,12 +41,12 @@ export class RelatoriosComponent implements OnInit {
     })
   }
   pegaId () {
-    this.route.queryParams.subscribe(
+    this.route.queryParams.toPromise().then(
       queryParams => {
         this.idrelatorio = queryParams.id
         if (this.idrelatorio != null) {
           window.scrollTo(0, 0)
-          this.relatorioService.listRelatorioeById(this.idrelatorio).subscribe((relatorio) => {
+          this.relatorioService.listRelatorioeById(this.idrelatorio).toPromise().then((relatorio) => {
             this.relatorio = relatorio
             this.relatorio.situacao = this.formatarSituacao(this.relatorio.situacao)
             this.relatorio.tipo_inspecao = this.formatarTipoInspecao(this.relatorio.tipo_inspecao)
@@ -86,7 +86,7 @@ export class RelatoriosComponent implements OnInit {
   }
 
   pegaAnexos () {
-    this.anexoService.listFilesByModel('estabelecimento', this.id_Estabelecimento).subscribe((arg) => {
+    this.anexoService.listFilesByModel('estabelecimento', this.id_Estabelecimento).toPromise().then((arg) => {
       if (arg.length > 0) {
         this.titulo = 'Anexos da Licença'
         this.arquivo = arg.filter((item) => {
@@ -103,7 +103,7 @@ export class RelatoriosComponent implements OnInit {
   relatorioPdf () {
     this.loading = false
     if (this.idrelatorio != null) {
-      this.pdfservice.downloadFileRelatorio(this.idrelatorio).subscribe(response => {
+      this.pdfservice.downloadFileRelatorio(this.idrelatorio).toPromise().then(response => {
         const file = new Blob([response], { type: 'application/pdf' })
         const fileURL = URL.createObjectURL(file)
         this.loading = true
@@ -132,7 +132,7 @@ export class RelatoriosComponent implements OnInit {
           email: this.email.destinatario,
           texthtml: this.email.mensagem
         }
-        this.emailservice.sendRelatorioByEmail(dataSend).subscribe((data) => {
+        this.emailservice.sendRelatorioByEmail(dataSend).toPromise().then((data) => {
           resolve(data)
           $('.modal-header .close').click()
           window.scrollTo(0, 0)

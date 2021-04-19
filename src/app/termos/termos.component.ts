@@ -8,7 +8,7 @@ import { AnexoService } from '../service/anexo.service'
 import { EmailService } from '../service/email.service'
 import { FormGroup, Validators, FormControl } from '@angular/forms'
 import { Email } from '../../models/email'
-declare var $: any
+declare let $: any
 import swal from 'sweetalert2'
 import { PdfService } from '../service/pdf.service'
 
@@ -44,12 +44,12 @@ export class TermosComponent implements OnInit {
   }
 
   pegaId () {
-    this.route.queryParams.subscribe(
+    this.route.queryParams.toPromise().then(
       queryParams => {
         this.idupdate = queryParams.id
         if (this.idupdate != null) {
           window.scrollTo(0, 0)
-          this.termoservice.ListarTermoPorID(this.idupdate).subscribe((termos) => {
+          this.termoservice.ListarTermoPorID(this.idupdate).toPromise().then((termos) => {
             this.termos = termos
             this.statusTer = true
           }, () => {
@@ -57,7 +57,7 @@ export class TermosComponent implements OnInit {
         }
       }
     )
-    this.anexoService.listFilesByModel('termo', this.idupdate).subscribe((arq: Arquivos[]) => {
+    this.anexoService.listFilesByModel('termo', this.idupdate).toPromise().then((arq: Arquivos[]) => {
       this.arquivo = arq
       if (this.arquivo.length > 0) {
         this.titulo = 'Anexos do Termo'
@@ -82,7 +82,7 @@ export class TermosComponent implements OnInit {
   termoPDF () {
     this.loading = false
     if (this.idupdate != null) {
-      this.pdfService.downloadFileTermo(this.idupdate).subscribe(response => {
+      this.pdfService.downloadFileTermo(this.idupdate).toPromise().then(response => {
         const file = new Blob([response], { type: 'application/pdf' })
         const fileURL = URL.createObjectURL(file)
         this.loading = true
@@ -94,7 +94,8 @@ export class TermosComponent implements OnInit {
         reader.onloadend = () => {
           this.loading = true
           const errorMsg = reader.result.toString().replace(/"|"/gi, '').replace(',', '\n')
-          alert('Estabelecimento Não Licenciado' + errorMsg)
+          console.log(errorMsg)
+          alert('Falha ao gerar termo' + errorMsg)
         }
 
       }))
@@ -116,7 +117,7 @@ export class TermosComponent implements OnInit {
           email: this.email.destinatario,
           texthtml: this.email.mensagem
         }
-        this.emailservice.sendTermoByEmail(dataSend).subscribe((data) => {
+        this.emailservice.sendTermoByEmail(dataSend).toPromise().then((data) => {
           resolve(data)
           $('.modal-header .close').click()
           window.scrollTo(0, 0)

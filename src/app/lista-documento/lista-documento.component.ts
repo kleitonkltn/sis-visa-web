@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core'
 import * as moment from 'moment'
 import { Documentos } from '../../models/documento'
 import { DocumentoService } from '../service/documento.service'
-declare var $: any
+declare let $: any
 
 @Component({
   selector: 'app-lista-documento',
@@ -28,7 +28,7 @@ export class ListaDocumentoComponent implements OnInit {
   }
   getListaLicenca () {
     this.documentoService.listAllDocumentos()
-      .subscribe((documentos: Documentos[]) => {
+      .toPromise().then((documentos: Documentos[]) => {
         this.statusEst = true
         this.documentos = documentos
         this.initList()
@@ -41,7 +41,7 @@ export class ListaDocumentoComponent implements OnInit {
 
   search () {
     if (this.textSearch.length > 0) {
-      let val = this.textSearch
+      const val = this.textSearch
       this.initList()
       this.listItems = this.listItems.filter((item) => {
         return (

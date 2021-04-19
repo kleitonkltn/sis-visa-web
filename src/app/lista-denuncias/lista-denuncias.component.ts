@@ -67,7 +67,7 @@ export class ListaDenunciasComponent implements OnInit {
 
   getListaDenuncias () {
     this.denunciasService.ListarTodasDenuncias()
-      .subscribe((denuncias: Denuncias[]) => {
+      .toPromise().then((denuncias: Denuncias[]) => {
         this.denuncias = denuncias
         this.statusEst = true
         for (let i = 0;i < this.denuncias.length;i++) {
@@ -82,7 +82,7 @@ export class ListaDenunciasComponent implements OnInit {
   }
 
   filtroPesquisa () {
-    let filtro = $('select').val()
+    const filtro = $('select').val()
     if (filtro === 'Todas') {
       this.initList()
     } else {

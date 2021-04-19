@@ -11,7 +11,7 @@ import { LicencaService } from '../service/licenca.service'
 import { Arquivos } from '../../models/arquivos'
 import { AnexoService } from '../service/anexo.service'
 import swal from 'sweetalert2'
-declare var $: any
+declare let $: any
 
 
 
@@ -113,18 +113,18 @@ export class CadastroLicencaComponent implements OnInit {
     })
   }
   pegaId () {
-    this.route.queryParams.subscribe(
+    this.route.queryParams.toPromise().then(
       queryParams => {
         this.idlicenca = queryParams.id
         this.idestabelecimento = queryParams.id_est
         if (this.idlicenca != null) {
-          this.licencaService.ListarLicencaPorID(this.idlicenca).subscribe((licenca: Licencas) => {
+          this.licencaService.ListarLicencaPorID(this.idlicenca).toPromise().then((licenca: Licencas) => {
             this.titulo = 'Emitir Licença'
             window.scrollTo(0, 0)
             this.licenca = licenca
             this.createForm(this.licenca)
 
-            this.estabelecimentoservice.listarEstabelecimentoPorID(licenca.estabelecimento).subscribe((est: Estabelecimento) => {
+            this.estabelecimentoservice.listarEstabelecimentoPorID(licenca.estabelecimento).toPromise().then((est: Estabelecimento) => {
               this.dataEstabelecimento = est
             }, () => {
             })
@@ -135,7 +135,7 @@ export class CadastroLicencaComponent implements OnInit {
         }
 
         if (this.idestabelecimento != null) {
-          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idestabelecimento).subscribe((est: Estabelecimento) => {
+          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idestabelecimento).toPromise().then((est: Estabelecimento) => {
             this.titulo = 'Pedido de licença'
             window.scrollTo(0, 0)
             this.dataEstabelecimento = est
@@ -180,7 +180,7 @@ export class CadastroLicencaComponent implements OnInit {
       this.licenca.status_gerente = 'aguardando'
       this.licenca.status_segundo_fiscal = 'aguardando'
       this.formLicenca.controls.solicitado_por.setValue(this.usuario.matricula)
-      this.licencaService.createLicenca(this.formLicenca.value).subscribe((data: Licencas) => {
+      this.licencaService.createLicenca(this.formLicenca.value).toPromise().then((data: Licencas) => {
         this.loadingCadastro = true
         window.scrollTo(0, 0)
         swal.fire({
@@ -223,7 +223,7 @@ export class CadastroLicencaComponent implements OnInit {
       this.formSubmitted = true
       this.loadingCadastro = true
     } else {
-      this.licencaService.updateLicenca(this.formLicenca.value).subscribe((data: Licencas) => {
+      this.licencaService.updateLicenca(this.formLicenca.value).toPromise().then((data: Licencas) => {
         this.loadingCadastro = true
         window.scrollTo(0, 0)
         swal.fire({
@@ -284,7 +284,7 @@ export class CadastroLicencaComponent implements OnInit {
     if (this.status === 'abrir') {
       this.status = 'fechar'
 
-      this.anexoService.listFilesByModel('estabelecimento', this.formLicenca.value.estabelecimento).subscribe((arg) => {
+      this.anexoService.listFilesByModel('estabelecimento', this.formLicenca.value.estabelecimento).toPromise().then((arg) => {
         this.loadingNumvem = true
         if (arg.length > 0) {
           this.titulo = 'Anexos da Licença'
@@ -349,7 +349,7 @@ export class CadastroLicencaComponent implements OnInit {
       this.arquivos.path = src
       this.loading[i] = false
       this.arquivos.id_licenca = this.formLicenca.value.id_licenca
-      this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
+      this.anexoService.salvarAnexo(this.arquivos).toPromise().then((data: Arquivos) => {
         this.loading[i] = true
         this.removerDaLista(i)
       }, (error) => {
@@ -381,7 +381,7 @@ export class CadastroLicencaComponent implements OnInit {
           '/Documentos Licença:' + (this.f.licenca.value) + '/' + new Date().getFullYear().toString()
         this.arquivos.id_estabelecimento = this.formLicenca.value.estabelecimento
         this.arquivos.type = this.arq[i]
-        this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
+        this.anexoService.salvarAnexo(this.arquivos).toPromise().then((data: Arquivos) => {
           this.removeTudoDaLista(this.index)
           this.loading[i] = true
         }, (error) => {
@@ -405,7 +405,7 @@ export class CadastroLicencaComponent implements OnInit {
   }
   apagarArquivo () {
     this.loadingRemove[this.indice] = false
-    this.anexoService.deleteFileByKey(this.anexo.key).subscribe(
+    this.anexoService.deleteFileByKey(this.anexo.key).toPromise().then(
       () => {
         for (let i = 0;i <= this.listaArq.length;i++) {
           if (this.listaArq[i].key === this.anexo.key) {

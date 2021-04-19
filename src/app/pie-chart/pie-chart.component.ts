@@ -41,7 +41,7 @@ export class PieChartComponent implements OnInit {
 
   getListaLicenca () {
     this.estabelecimentoService.ListarTodosEstabelecimentos()
-      .subscribe((estabelecimentos) => {
+      .toPromise().then((estabelecimentos) => {
         this.estabelecimentos = estabelecimentos
         this.countLicencaStatus()
       }, () => {
@@ -53,9 +53,9 @@ export class PieChartComponent implements OnInit {
       if (!item.data_retorno || !item.data_licenca) {
         return this.vencidaCount++
       }
-      var dataAtual = moment(this.dataAtual)
-      var dataLicenca = moment(item.data_retorno)
-      let diferencaEntreDatas = dataLicenca.diff(dataAtual, 'days')
+      const dataAtual = moment(this.dataAtual)
+      const dataLicenca = moment(item.data_retorno)
+      const diferencaEntreDatas = dataLicenca.diff(dataAtual, 'days')
       if (diferencaEntreDatas < 0) {
         return this.vencidaCount++
       }
