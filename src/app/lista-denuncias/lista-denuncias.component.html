@@ -1,33 +1,42 @@
 <div>
     <div *ngIf="statusEst === false" align="center" style="margin-top: 50px;">
-        <span class="spinner-border spinner-border-sm" role="status" [ngClass]="{ spinnerLoading: loading}" aria-hidden="true"></span>
+        <span class="spinner-border spinner-border-sm" role="status"
+            [ngClass]="{ spinnerLoading: loading}" aria-hidden="true"></span>
     </div>
 
 
-    <div *ngIf="denuncias && statusEst === true" align="center" style="margin-left: 2%; margin-right: 2%;">
+    <div *ngIf="denuncias && statusEst === true" align="center"
+        style="margin-left: 2%; margin-right: 2%;">
         <div class="responsiva">
             <h1 class="text-center">Lista de Denúncias</h1>
         </div>
         <div class="input-group col-xs-9 col-sm-9">
-            <input class="form-control" id="myInput" [(ngModel)]="textSearch" (keyup)="search()" type="text" placeholder="Busca..">
+            <input class="form-control" id="myInput" [(ngModel)]="textSearch"
+                (keyup)="search()" type="text"
+                placeholder="Campos filtrados (Nº Denúncia, Status, Endereço, Bairro, Ponto de Referência, Reclamante, Denunciado, Descrição, Data)">
             <div class="input-group-append">
-                <select name="filtoPesquisa" id="select" class="custom-select" (change)="filtroPesquisa()">
+                <select name="filtoPesquisa" id="select" class="custom-select"
+                    (change)="filtroPesquisa()">
                     <option value="Todas" selected>Todas</option>
-                    <option value="Aguardando Constatação">Aguardado Constatação</option>
+                    <option value="Aguardando Constatação">Aguardado Constatação
+                    </option>
                     <option value="Infracionada">Infracionada </option>
                     <option value="Notificada">Notificada </option>
-                    <option value="Plubicada em Edital">Plubicada em Edital</option>
-                    <option value="Providencia Diversas">Providências Diversas</option>
+                    <option value="Plubicada em Edital">Plubicada em Edital
+                    </option>
+                    <option value="Providencia Diversas">Providências Diversas
+                    </option>
                     <option value="Arquivada">Arquivadas</option>
-                  </select>
+                </select>
             </div>
         </div>
 
-        <table class="table table-bordered table-responsive-sm col-xs-9  col-md-9">
+        <table
+            class="table table-bordered table-responsive-sm col-xs-9  col-md-9">
             <div *ngIf="denuncias">
                 <thead class="thead-light">
                     <tr>
-                      <th>ID</th>
+                        <th>ID</th>
                         <th>Status da Denúncia</th>
                         <th>Reclamante</th>
                         <th>Descrição</th>
@@ -35,16 +44,20 @@
                         <th>Opção</th>
                     </tr>
                 </thead>
-                <tbody id="myTable" *ngFor="let den of listItems | paginate: { itemsPerPage: 15, currentPage: paginaAtual }; let i = index">
-                    <tr><td>{{den.id}}</td>
+                <tbody id="myTable"
+                    *ngFor="let den of listItems | paginate: { itemsPerPage: 15, currentPage: paginaAtual }; let i = index">
+                    <tr>
+                        <td>{{den.id}}</td>
                         <td>{{den.status}}</td>
                         <td class="text-justify">{{den.reclamante}}</td>
                         <td class="text-justify">{{den.descricao}}</td>
                         <td>{{den.data| date: 'dd/MM/yyyy' + " "+den.hora}}</td>
                         <td>
                             <div class="text-center">
-                                <a class="btn" [routerLink]="['/Denuncia/']" [queryParams]="{ id: den.id}">
-                                    <i class="fa fa-eye" aria-hidden="true" style="font-size: 25px"></i>
+                                <a class="btn" [routerLink]="['/Denuncia/']"
+                                    [queryParams]="{ id: den.id}">
+                                    <i class="fa fa-eye" aria-hidden="true"
+                                        style="font-size: 25px"></i>
                                 </a>
                             </div>
                         </td>
@@ -52,7 +65,9 @@
                 </tbody>
             </div>
         </table>
-        <pagination-controls class="text-center" (pageChange)="paginaAtual = $event" (click)="subirTela()" previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
+        <pagination-controls class="text-center"
+            (pageChange)="paginaAtual = $event" (click)="subirTela()"
+            previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
     </div>
     <div class="fab">
         <button class="main" [routerLink]="['/Cadastrodenuncias/']">

@@ -30,11 +30,15 @@ export class ListaDenunciasComponent implements OnInit {
     if (this.textSearch.length > 0) {
       const val = this.textSearch
       this.filtroPesquisa()
-      this.listItems = this.listItems.filter((item) => {
+      this.listItems = this.listItems.filter((item: Denuncias) => {
         return (
           String(item.id).indexOf(val.toLowerCase()) > -1 ||
           String(item.status).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+          String(item.endereco).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+          String(item.bairro).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+          String(item.ponto_de_referencia).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           String(item.reclamante).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+          String(item.denunciado).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           String(item.descricao).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           this.formatDate(item.data).toLowerCase().indexOf(val.toLowerCase()) > -1
         )
