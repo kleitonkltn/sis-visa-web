@@ -1,39 +1,47 @@
 <body class="body">
   <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
-        aria-controls="nav-home" aria-selected="true">Dados</a>
-      <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
-        aria-controls="nav-profile" aria-selected="false">Anexos</a>
+      <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
+        href="#nav-home" role="tab" aria-controls="nav-home"
+        aria-selected="true">Dados</a>
+      <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
+        href="#nav-profile" role="tab" aria-controls="nav-profile"
+        aria-selected="false">Anexos</a>
     </div>
   </nav>
   <div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+      aria-labelledby="nav-home-tab">
       <div class="row" style="margin-left: 2%; margin-right: 2%;">
         <div class="col-md-1"></div>
         <div class="col-md-10 border">
           <form method="post" [formGroup]="formLicenca">
             <div class="responsiva" style="margin-bottom: 50px;">
               <h1 class="text-center">{{titulo}}</h1>
-              <h4 class="text-center" style="margin-bottom: 25px;"> Campos com (*) são
+              <h4 class="text-center" style="margin-bottom: 25px;"> Campos com
+                (*) são
                 obrigatórios </h4>
             </div>
             <div class="row">
               <div class="col-md-1">
                 <b> ID:</b>
-                <input class="form-control" formControlName="id" type="number" readonly>
+                <input class="form-control" formControlName="id" type="number"
+                  readonly>
               </div>
               <div class="col-md-3">
                 <b> ID Estabelecimento:</b>
-                <input class="form-control" formControlName="estabelecimento" type="number" readonly>
+                <input class="form-control" formControlName="estabelecimento"
+                  type="number" readonly>
               </div>
               <div class="col-md-3">
                 <b> Licença: </b>
-                <input class="form-control" formControlName="licenca" readonly type="number">
+                <input class="form-control" formControlName="licenca" readonly
+                  type="number">
               </div>
               <div class="col-md-5">
                 <b> Razão Social: </b>
-                <input class="form-control" [value]="dataEstabelecimento.razao" readonly>
+                <input class="form-control" [value]="dataEstabelecimento.razao"
+                  readonly>
               </div>
 
             </div>
@@ -41,16 +49,19 @@
             <div class="row">
               <div class="col-md-6">
                 <b> Fantasia </b>
-                <input class="form-control" [value]="dataEstabelecimento.fantasia" readonly>
+                <input class="form-control"
+                  [value]="dataEstabelecimento.fantasia" readonly>
               </div>
               <div class="col-md-3">
                 <b>Data de Emissão:</b>
-                <input type="date" class="form-control" formControlName="data_emissao" display-format="DD/MM/YYYY"
+                <input type="date" class="form-control"
+                  formControlName="data_emissao" display-format="DD/MM/YYYY"
                   max="2030-12-31">
               </div>
               <div class="col-md-3">
                 <b>Válida Até: </b>
-                <input type="date" class="form-control" formControlName="data_validade" display-format="DD/MM/YYYY"
+                <input type="date" class="form-control"
+                  formControlName="data_validade" display-format="DD/MM/YYYY"
                   max="2030-12-31">
               </div>
 
@@ -59,11 +70,13 @@
             <div class="row " [hidden]="idestabelecimento != null">
               <div class="col-md">
                 <b>Solicitado Por:</b>
-                <input class="form-control" formControlName="solicitado_por" name="solicitado_por" readonly>
+                <input class="form-control" formControlName="solicitado_por"
+                  name="solicitado_por" readonly>
               </div>
               <div class="col-md-4" *ngIf="!statusGerenteAguardando">
                 <b> *Status Gerente: </b>
-                <select class="form-control" formControlName="status_gerente" [attr.disabled]="isGerente"
+                <select class="form-control" formControlName="status_gerente"
+                  [attr.disabled]="isGerente"
                   [ngClass]="{'form-submitted': formSubmitted}">
                   <option value="autorizada">Autorizado </option>
                   <option value="aguardando" selected> Aguardando</option>
@@ -72,7 +85,8 @@
               </div>
               <div class="col-md-4" *ngIf="!autorizadaPorOutroFiscal">
                 <b> *Status Fiscal: </b>
-                <select (change)="changeFiscal()" class="form-control" formControlName="status_fiscal" [disabled]=true
+                <select (change)="changeFiscal()" class="form-control"
+                  formControlName="status_fiscal" [disabled]=true
                   [ngClass]="{'form-submitted': formSubmitted}">
                   <option value="autorizada">Autorizado </option>
                   <option value="aguardando" selected> Aguardando</option>
@@ -82,7 +96,8 @@
               <div class="col-md-4"
                 [hidden]="!isFiscal || (statusGerenteFiscalAutorizado && !usuarioFiscalAtualAutorizouSegundoFiscal) || !statusGerenteAguardando || (!isFiscalAutorizada) || !autorizadaPorOutroFiscal ">
                 <b> *Status Segundo Fiscal: </b>
-                <select (change)="changeSegundoFiscal()" class="form-control" formControlName="status_segundo_fiscal"
+                <select (change)="changeSegundoFiscal()" class="form-control"
+                  formControlName="status_segundo_fiscal"
                   [ngClass]="{'form-submitted': formSubmitted}">
                   <option value="autorizada">Autorizado </option>
                   <option value="aguardando" selected> Aguardando</option>
@@ -93,133 +108,176 @@
             <div class="row ">
               <div class="col-md-6">
                 <b> Obeservação Gerente: </b>
-                <textarea class="form-control " formControlName="observacao_gerente" [readonly]="user !=='gerente' ">
+                <textarea class="form-control "
+                  formControlName="observacao_gerente"
+                  [readonly]="user !=='gerente' ">
                 </textarea>
               </div>
               <div class="col-md-6">
                 <b> Obeservação Fiscal: </b>
-                <textarea class="form-control" formControlName="observacao_fiscal" [readonly]="user !='fiscal' ">
+                <textarea class="form-control"
+                  formControlName="observacao_fiscal"
+                  [readonly]="user !='fiscal' ">
                </textarea>
               </div>
             </div>
             <div class="row ">
               <div class="col-md-12">
                 <b> Obeservação Pedido: </b>
-                <textarea class="form-control" rows=6 formControlName="observacao_pedido" name="observacao_pedido">
+                <textarea class="form-control" rows=6
+                  formControlName="observacao_pedido" name="observacao_pedido">
                        </textarea>
               </div>
             </div>
             <div class="text-center" *ngIf="idestabelecimento != null">
               <button class="btn btn-dark" (click)="cadastrar()">
                 <span class="spinner-border spinner-border-sm" role="status"
-                  [ngClass]="{ spinnerLoading: loadingCadastro }" aria-hidden="true"></span>
-                <i [ngClass]="{ spinnerLoading: !loadingCadastro }" aria-hidden="true"></i>
+                  [ngClass]="{ spinnerLoading: loadingCadastro }"
+                  aria-hidden="true"></span>
+                <i [ngClass]="{ spinnerLoading: !loadingCadastro }"
+                  aria-hidden="true"></i>
                 Fazer Pedido</button>
             </div>
             <div class="text-center" *ngIf="idlicenca != null">
               <button class="btn btn-dark" (click)="Atualizar()">
                 <span class="spinner-border spinner-border-sm" role="status"
-                  [ngClass]="{ spinnerLoading: loadingCadastro }" aria-hidden="true"></span>
-                <i [ngClass]="{ spinnerLoading: !loadingCadastro }" aria-hidden="true"></i>
+                  [ngClass]="{ spinnerLoading: loadingCadastro }"
+                  aria-hidden="true"></span>
+                <i [ngClass]="{ spinnerLoading: !loadingCadastro }"
+                  aria-hidden="true"></i>
                 Salvar</button>
             </div>
           </form>
         </div>
       </div>
     </div>
-    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+    <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+      aria-labelledby="nav-profile-tab">
       <div style="margin-left: 2%; margin-right: 2%;">
-        <div style="margin-top:10px;" align="center">
-          <input type="file" id="teste" style="display: block;" class="text-center inputSemMagin"
-            (change)="onUploadChange($event)" accept=".png, .jpg, .jpeg, .pdf, .docx" multiple>
+        <div style="margin-top:10px;">
+          <input type="file" id="teste" style="display: block;"
+            class="text-center inputSemMagin" (change)="onUploadChange($event)"
+            accept=".png, .jpg, .jpeg, .pdf, .docx" multiple>
         </div>
         <div class="col-md-12" style="margin-left: 20px;">
           <div class="row">
-            <div class=" t col-md-3" *ngFor="let item of base64textString; let i = index" style="max-width: 285px;">
+            <div class=" t col-md-3"
+              *ngFor="let item of base64textString; let i = index"
+              style="max-width: 285px;">
               <div class="card-header text-right col-md-12">
-                <i class="fa fa-times" aria-hidden="true " (click)="removerDaLista(i) "></i>
+                <i class="fa fa-times" aria-hidden="true "
+                  (click)="removerDaLista(i) "></i>
               </div>
               <div class="card">
-                <div align="center">
-                  <button *ngIf="arq[i]==='image/png' || arq[i]==='image/jpeg' " data-toggle="modal"
-                    class="max-height: 5rem" data-target=".bd-example-modal-lg" (click)="verAnexoCarregado(i)">
-                    <img class="text-center " src='data:image/png;base64,{{base64textString[i]}}' alt=" "
-                      class="cad-img-top " id="img " style="max-width: 100%; max-height: 80px;
+                <div>
+                  <button *ngIf="arq[i]==='image/png' || arq[i]==='image/jpeg' "
+                    data-toggle="modal" data-target=".bd-example-modal-lg"
+                    (click)="verAnexoCarregado(i)">
+                    <img class="text-center "
+                      src='data:image/png;base64,{{base64textString[i]}}'
+                      alt=" " class="cad-img-top " id="img " style="max-width: 100%; max-height: 80px;
                                         min-width: 80px; ">
                   </button>
 
-                  <i *ngIf="arq[i]==='application/pdf' " class="text-center " class="fa fa-file-pdf-o fa-5x "></i>
+                  <i *ngIf="arq[i]==='application/pdf' " class="text-center "
+                    class="fa fa-file-pdf-o fa-5x "></i>
                   <i *ngIf="arq[i]==='application/vnd.openxmlformats-officedocument.wordprocessingml.document' "
-                    class="text-center " class="fa fa-file-word-o fa-5x " aria-hidden="true "></i>
-                  <p align="center" style="margin-top: 10px; ">
+                    class="text-center " class="fa fa-file-word-o fa-5x "
+                    aria-hidden="true "></i>
+                  <p style="margin-top: 10px; ">
                     {{nomeArquivo[i]}}</p>
 
                 </div>
-                <input class="form-control inputSemMagin" type="text " [(ngModel)]="descricao[i] "
-                  placeholder="Adicionar Descrição " name="descricao_completa ">
-                <button class="btn btn-dark form-control " id="btn " value="Enviar Arquivo " (click)="enviar(item, i) ">
+                <input class="form-control inputSemMagin" type="text "
+                  [(ngModel)]="descricao[i] " placeholder="Adicionar Descrição "
+                  name="descricao_completa ">
+                <button class="btn btn-dark form-control " id="btn "
+                  value="Enviar Arquivo " (click)="enviar(item, i) ">
                   <span class="spinner-border spinner-border-sm " role="status "
-                    [ngClass]="{ spinnerLoading: loading[i]} " aria-hidden="true "></span>
-                  <i [ngClass]="{ spinnerLoading: !loading } " aria-hidden="true "></i> Enviar Arquivo
+                    [ngClass]="{ spinnerLoading: loading[i]} "
+                    aria-hidden="true "></span>
+                  <i [ngClass]="{ spinnerLoading: !loading } "
+                    aria-hidden="true "></i> Enviar Arquivo
                 </button>
 
               </div>
             </div>
           </div>
           <div *ngIf="base64textString.length> 1" class="text-center">
-            <input type="submit" class="btn btn-dark" value="Enviar Arquivos" (click)="enviarTodos()">
+            <input type="submit" class="btn btn-dark" value="Enviar Arquivos"
+              (click)="enviarTodos()">
           </div>
         </div>
-        <div class="col-md-12" style="border-top: 1px solid #bdc3c7; margin-top: 50px; margin-left: 0px !important;">
-          <div align="center" style="margin-top: 10px;">
+        <div class="col-md-12"
+          style="border-top: 1px solid #bdc3c7; margin-top: 50px; margin-left: 0px !important;">
+          <div style="margin-top: 10px;">
             <a (click)=" ListaArq()">
-              <i [ngClass]="{ spinnerLoading: !loadingNumvem }" class="fa fa-cloud-download fa-2x"
-                aria-hidden="tue"></i>
-              <span class="spinner-border spinner-border-sm" role="status" [ngClass]="{ spinnerLoading: loadingNumvem }"
-                aria-hidden="true" style="margin-right: 15px;"></span> Visualizar
+              <i [ngClass]="{ spinnerLoading: !loadingNumvem }"
+                class="fa fa-cloud-download fa-2x" aria-hidden="tue"></i>
+              <span class="spinner-border spinner-border-sm" role="status"
+                [ngClass]="{ spinnerLoading: loadingNumvem }" aria-hidden="true"
+                style="margin-right: 15px;"></span> Visualizar
               arquivos já armazenados
             </a>
           </div>
 
           <div style="margin-left: 20px;">
             <div class="row">
-              <div class="t col-md-3" style="max-width: 280px" *ngFor="let item of listaArq; let i = index">
+              <div class="t col-md-3" style="max-width: 280px"
+                *ngFor="let item of listaArq; let i = index">
                 <div>
                   <div class="card-header text-right">
                   </div>
                   <div class="card">
-                    <div align="center">
-                      <button *ngIf="item.type.toString() === 'png' || item.type.toString() === 'jpeg'"
-                        data-toggle="modal" class="max-height: 5rem" data-target=".bd-example-modal-lg"
+                    <div>
+                      <button
+                        *ngIf="item.type.toString() === 'png' || item.type.toString() === 'jpeg'"
+                        data-toggle="modal" class="max-height: 80vh"
+                        data-target=".bd-example-modal-lg"
                         (click)="verAnexo(item)">
-                        <img *ngIf="item.type.toString() ==='jpeg'" class="text-center cad-img-top"
+                        <img *ngIf="item.type.toString() ==='jpeg'"
+                          class="text-center cad-img-top"
                           src="{{item.url_location}}" id="img "
                           style="max-width: 100%; max-height: 80px; min-width: 80px;" />
                       </button>
-                      <i *ngIf="item.type.toString() ==='pdf' " class="text-center "
-                        class="fa fa-file-pdf-o cad-img-top" aria-hidden="true " style="font-size: 80px; "></i>
-                      <i *ngIf="item.type.toString() ==='docx'" class="text-center" class="fa fa-file-word-o"
-                        aria-hidden="true" style="font-size: 80px;"></i>
+                      <a [href]="item.url_location" target="_blank"
+                        rel="noopener noreferrer">
+                        <i *ngIf="item.type ==='pdf' " class="text-center "
+                          class="fa fa-file-pdf-o cad-img-top"
+                          aria-hidden="true " style="font-size: 80px; "></i>
+                      </a>
+                      <a [href]="item.url_location" target="_blank"
+                        rel="noopener noreferrer">
+                        <i *ngIf="item.type ==='docx'" class="text-center"
+                          class="fa fa-file-word-o" aria-hidden="true"
+                          style="font-size: 80px;"></i>
+                      </a>
                       <p style="margin-top: 10px;">
                         {{item.descricao}}</p>
                     </div>
 
-                    <button style="margin-bottom: 15px;" class="btn btn-danger form-control" data-toggle="modal"
+                    <button style="margin-bottom: 15px;"
+                      class="btn btn-danger form-control" data-toggle="modal"
                       data-target="#exampleModalLong" (click)="dados(item, i)">
-                      <span class="spinner-border spinner-border-sm" role="status"
-                        [ngClass]="{ spinnerLoading: loadingRemove[i] }" aria-hidden="true"></span>
-                      <i [ngClass]="{ spinnerLoading: !loading }" aria-hidden="true"></i> Remover
+                      <span class="spinner-border spinner-border-sm"
+                        role="status"
+                        [ngClass]="{ spinnerLoading: loadingRemove[i] }"
+                        aria-hidden="true"></span>
+                      <i [ngClass]="{ spinnerLoading: !loading }"
+                        aria-hidden="true"></i> Remover
                     </button>
                   </div>
                 </div>
 
-                <div class="modal fade" tabindex="-1" id="exampleModalLong" role="dialog" tabindex="-1"
-                  aria-labelledby="exampleModalLong" aria-hidden="true">
+                <div class="modal fade" tabindex="-1" id="exampleModalLong"
+                  role="dialog" tabindex="-1" aria-labelledby="exampleModalLong"
+                  aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header bg-danger text-white">
                         Excluir Item
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="modal"
+                          aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
@@ -228,28 +286,32 @@
                           excluir esse anexo.</h5>
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal"
+                        <button type="button" class="btn btn-success"
+                          data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger"
+                          data-dismiss="modal"
                           (click)="apagarArquivo()">Apagar</button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
-                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+              <div class="modal fade bd-example-modal-lg" tabindex="-1"
+                role="dialog" aria-labelledby="myLargeModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                   <div class="modal-content">
                     <div *ngIf="item" class="modal-header">
                       <b>{{item.descricao}}</b>
-                      <button type="button" class="close iconeFechar" data-dismiss="modal" aria-label="Close">
+                      <button type="button" class="close iconeFechar"
+                        data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                     <div *ngIf="item" class="modal-body">
                       <div class="text-center" style="margin: 5px 0 25px">
-                        <img src="{{item.url_location}}" class="cad-img-top" id="imd"
-                          style="max-width: 100%; max-height: 300px" />
+                        <img src="{{item.url_location}}" class="cad-img-top"
+                          id="imd" style="max-width: 100%; max-height: 300px" />
                       </div>
                       <textarea style="width: 100%;"
                         [readonly]="true">Descrição : {{item.descricao_completa}}</textarea>

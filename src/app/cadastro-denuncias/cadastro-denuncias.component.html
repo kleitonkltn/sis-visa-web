@@ -223,7 +223,7 @@
                 </div>
                 <div *ngIf="denuncia && denuncia.procedimentos != null"
                     class="col-md-6" style=" margin-top: 50px;">
-                    <table  class=" table table-bordered"
+                    <table class=" table table-bordered"
                         *ngFor="let item of denuncia.procedimentos">
                         <tr>
                             <th>Descrição</th>
@@ -262,7 +262,6 @@
                                     <button
                                         *ngIf="arq[i]==='image/png' || arq[i]==='image/jpeg' "
                                         data-toggle="modal"
-                                        class="max-height: 5rem"
                                         data-target=".bd-example-modal-lg"
                                         (click)="verAnexoCarregado(i)">
                                         <img class="text-center "
@@ -336,7 +335,6 @@
                                             <button
                                                 *ngIf="item.type.toString() === 'png' || item.type.toString() === 'jpeg'"
                                                 data-toggle="modal"
-                                                class="max-height: 5rem"
                                                 data-target=".bd-example-modal-lg"
                                                 (click)="verAnexo(item)">
                                                 <img *ngIf="item.type.toString() ==='jpeg'"
@@ -345,16 +343,24 @@
                                                     id="img "
                                                     style="max-width: 100%; max-height: 80px; min-width: 80px;" />
                                             </button>
-                                            <i *ngIf="item.type.toString() ==='pdf' "
-                                                class="text-center "
-                                                class="fa fa-file-pdf-o cad-img-top"
-                                                aria-hidden="true "
-                                                style="font-size: 80px; "></i>
-                                            <i *ngIf="item.type.toString() ==='docx'"
-                                                class="text-center"
-                                                class="fa fa-file-word-o"
-                                                aria-hidden="true"
-                                                style="font-size: 80px;"></i>
+                                            <a [href]="item.url_location"
+                                                target="_blank"
+                                                rel="noopener noreferrer">
+                                                <i *ngIf="item.type ==='pdf' "
+                                                    class="text-center "
+                                                    class="fa fa-file-pdf-o cad-img-top"
+                                                    aria-hidden="true "
+                                                    style="font-size: 80px; "></i>
+                                            </a>
+                                            <a [href]="item.url_location"
+                                                target="_blank"
+                                                rel="noopener noreferrer">
+                                                <i *ngIf="item.type ==='docx'"
+                                                    class="text-center"
+                                                    class="fa fa-file-word-o"
+                                                    aria-hidden="true"
+                                                    style="font-size: 80px;"></i>
+                                            </a>
                                             <p style="margin-top: 10px;">
                                                 {{item.descricao}}</p>
                                         </div>

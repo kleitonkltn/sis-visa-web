@@ -345,7 +345,7 @@ export class CadastroLicencaComponent implements OnInit {
       this.arquivos.descricao = 'Pedido:' + this.formLicenca.value.id +
         '/Documentos Licença:' + (this.f.licenca.value) + '/' + new Date().getFullYear().toString()
       this.arquivos.id_estabelecimento = this.formLicenca.value.estabelecimento
-      this.arquivos.type = this.arq[i]
+      this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1))
       this.arquivos.path = src
       this.loading[i] = false
       this.arquivos.id_licenca = this.formLicenca.value.id_licenca
@@ -380,12 +380,15 @@ export class CadastroLicencaComponent implements OnInit {
         this.arquivos.descricao = 'Pedido:' + this.formLicenca.value.id +
           '/Documentos Licença:' + (this.f.licenca.value) + '/' + new Date().getFullYear().toString()
         this.arquivos.id_estabelecimento = this.formLicenca.value.estabelecimento
-        this.arquivos.type = this.arq[i]
+        this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1))
+        console.log(this.arquivos);
         this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
           this.removeTudoDaLista(this.index)
           this.loading[i] = true
         }, (error) => {
+          console.log(error);
           this.index += 1
+          this.loading[i] = true
           swal.fire({
             icon: 'warning',
             title: 'Falha na Criação do Anexo',
@@ -401,6 +404,15 @@ export class CadastroLicencaComponent implements OnInit {
         showConfirmButton: false,
         timer: 2000
       })
+    }
+  }
+  formatType (doc) {
+    if (doc === 'vnd.openxmlformats-officedocument.wordprocessingml.document') {
+      return 'docx'
+    } else if (doc === 'pdf') {
+      return 'pdf'
+    } else {
+      return ''
     }
   }
   apagarArquivo () {
