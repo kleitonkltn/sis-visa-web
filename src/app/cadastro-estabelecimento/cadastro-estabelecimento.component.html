@@ -282,7 +282,7 @@
         <div class="tab-pane fade" id="nav-profile" role="tabpanel"
             aria-labelledby="nav-profile-tab">
             <div style="margin-left: 2%; margin-right: 2%;">
-                <div style="margin-top:10px;">
+                <div style="margin-top:10px;" align="center">
                     <input type="file" id="teste" style="display: block;"
                         class="text-center" (change)="onUploadChange($event)"
                         accept=".png, .jpg, .jpeg, .pdf, .docx" multiple>
@@ -297,7 +297,7 @@
                                     (click)="removerDaLista(i) "></i>
                             </div>
                             <div class="card">
-                                <div>
+                                <div align="center">
                                     <button
                                         *ngIf="arq[i]==='image/png' || arq[i]==='image/jpeg' "
                                         data-toggle="modal"
@@ -317,7 +317,8 @@
                                         class="text-center "
                                         class="fa fa-file-word-o fa-5x "
                                         aria-hidden="true "></i>
-                                    <p style="margin-top: 10px; ">
+                                    <p align="center"
+                                        style="margin-top: 10px; ">
                                         {{nomeArquivo[i]}}</p>
 
                                 </div>
@@ -347,7 +348,7 @@
                 </div>
                 <div class="col-md-12"
                     style="border-top: 1px solid #bdc3c7; margin-top: 50px; margin-left: 0px !important;">
-                    <div style="margin-top: 10px;">
+                    <div align="center" style="margin-top: 10px;">
                         <a (click)=" ListaArq()">
                             <i [ngClass]="{ spinnerLoading: !loadingNumvem }"
                                 class="fa fa-cloud-download fa-2x"
@@ -369,7 +370,7 @@
                                     <div class="card-header text-right">
                                     </div>
                                     <div class="card">
-                                        <div>
+                                        <div align="center">
                                             <button
                                                 *ngIf="item.type === 'png' || item.type === 'jpeg'"
                                                 data-toggle="modal"

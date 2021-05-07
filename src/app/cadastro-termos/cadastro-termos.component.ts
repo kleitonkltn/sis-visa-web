@@ -155,6 +155,7 @@ export class CadastroTermosComponent implements OnInit {
       cnpj: new FormControl(termo.cnpj, Validators.required),
       telefone: new FormControl(termo.telefone),
       estabelecimento: new FormControl(termo.estabelecimento),
+      denuncia: new FormControl(termo.denuncia),
       municipio: new FormControl(termo.municipio, Validators.required),
       proprietario_nome: new FormControl(termo.proprietario_nome),
       proprietario_rg: new FormControl(termo.proprietario_rg),

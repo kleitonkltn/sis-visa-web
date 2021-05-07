@@ -141,14 +141,22 @@
                             <button
                                 *ngIf="item.type.toString() ==='pdf' || item.type.toString() ==='docx'"
                                 (click)="verAnexo(item)">
-                                <i *ngIf="item.type.toString() ==='pdf'"
-                                    class="text-center "
-                                    class="fa fa-file-pdf-o fa-5x"
-                                    style="margin-top: 10px;margin-bottom: 10px;"></i>
-                                <i *ngIf="item.type.toString() ==='docx'"
-                                    class="text-center form-group"
-                                    class="fa fa-file-word-o fa-5x"
-                                    style="margin-top: 10px;margin-bottom: 10px;"></i>
+                                <a [href]="item.url_location" target="_blank"
+                                    rel="noopener noreferrer">
+                                    <i *ngIf="item.type ==='pdf' "
+                                        class="text-center "
+                                        class="fa fa-file-pdf-o cad-img-top"
+                                        aria-hidden="true "
+                                        style="font-size: 80px; "></i>
+                                </a>
+                                <a [href]="item.url_location" target="_blank"
+                                    rel="noopener noreferrer">
+                                    <i *ngIf="item.type ==='docx'"
+                                        class="text-center"
+                                        class="fa fa-file-word-o"
+                                        aria-hidden="true"
+                                        style="font-size: 80px;"></i>
+                                </a>
                             </button>
                         </div>
                     </div>

@@ -1,15 +1,25 @@
 <div *ngIf="statusDen === false" align="center" style="margin-top: 50px;">
-    <span class="spinner-border spinner-border-sm" role="status" [ngClass]="{ spinnerLoading: loadingTable}" aria-hidden="true" style="width: 50px; height: 50px;"></span>
+    <span class="spinner-border spinner-border-sm" role="status"
+        [ngClass]="{ spinnerLoading: loadingTable}" aria-hidden="true"
+        style="width: 50px; height: 50px;"></span>
 </div>
 
 <div *ngIf="idupdate > 0 && statusDen === true">
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Dados</a>
-        <a class="nav-item nav-link" id="nav-procedimento-tab" data-toggle="tab" href="#nav-procedimento" role="tab" aria-controls="nav-procedimento" aria-selected="false">Procedimentos</a>
-        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Anexos</a>
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
+            href="#nav-home" role="tab" aria-controls="nav-home"
+            aria-selected="true">Dados</a>
+        <a class="nav-item nav-link" id="nav-procedimento-tab" data-toggle="tab"
+            href="#nav-procedimento" role="tab" aria-controls="nav-procedimento"
+            aria-selected="false">Procedimentos</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
+            href="#nav-profile" role="tab" aria-controls="nav-profile"
+            aria-selected="false">Anexos</a>
     </div>
-    <div *ngIf="denuncia" class="tab-content" id="nav-tabContent" style="margin-left: 2%; margin-right: 2%;">
-        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+    <div *ngIf="denuncia" class="tab-content" id="nav-tabContent"
+        style="margin-left: 2%; margin-right: 2%;">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+            aria-labelledby="nav-home-tab">
             <div class="responsiva">
                 <h1 class="text-center"> Dados da Denúncia</h1>
             </div>
@@ -36,7 +46,8 @@
                 </tr>
                 <tr>
                     <th>Data</th>
-                    <td>{{denuncia.data| date: 'dd/MM/yyyy'}} {{denuncia.hora}}</td>
+                    <td>{{denuncia.data| date: 'dd/MM/yyyy'}} {{denuncia.hora}}
+                    </td>
                 </tr>
 
                 <tr>
@@ -62,17 +73,21 @@
                 </tr>
             </table>
             <div class="text-center">
-                <a class="btn" [routerLink]="['/Cadastrodenuncias/']" [queryParams]="{ id: denuncia.id}">
-                    <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
+                <a class="btn" [routerLink]="['/Cadastrodenuncias/']"
+                    [queryParams]="{ id: denuncia.id}">
+                    <i class="fa fa-pencil-square-o fa-2x"
+                        aria-hidden="true"></i>
                     <b>Atualizar Denúncia</b></a>
             </div>
         </div>
-        <div class="tab-pane fade" id="nav-procedimento" role="tabpanel" aria-labelledby="nav-procedimento-tab" align="center">
+        <div class="tab-pane fade" id="nav-procedimento" role="tabpanel"
+            aria-labelledby="nav-procedimento-tab" align="center">
             <div class="responsiva">
                 <h1 class="text-center"> {{titoProcedimento}} </h1>
             </div>
             <div *ngIf="denuncia" class="col-md-6" style=" margin-top: 50px;">
-                <table class=" table table-bordered" *ngFor="let item of denuncia.procedimentos">
+                <table class=" table table-bordered"
+                    *ngFor="let item of denuncia.procedimentos">
                     <tr>
                         <th>Descrição</th>
                         <th>data</th>
@@ -87,7 +102,8 @@
                 </table>
             </div>
         </div>
-        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+            aria-labelledby="nav-profile-tab">
             <div class="responsiva">
                 <h1 class="text-center">{{titulo}}</h1>
             </div>
@@ -95,30 +111,56 @@
             <div class="row" style="margin-left: 10px; margin-right: 10px;">
                 <div class="form-group col-md-2" *ngFor="let item of arquivo">
                     <div class="card" *ngIf="arquivo">
-                        <button *ngIf="item.type.toString() === 'png' || item.type.toString() === 'jpeg'" data-toggle="modal" class="max-height: 5rem" data-target=".bd-example-modal-lg" (click)="verAnexo(item)">
-                            <img  class="text-center" src="{{item.url_location}}" alt=" " style="max-height: 100px;" />
-                      </button>
-                        <button *ngIf="item.type.toString() ==='pdf' || item.type.toString() ==='docx'" class="max-height: 5rem" (click)="verAnexo(item)">
-                        <i *ngIf="item.type.toString() ==='pdf'" class="text-center "class="fa fa-file-pdf-o fa-5x" style="margin-top: 10px;margin-bottom: 10px;"></i>
-                        <i *ngIf="item.type.toString() ==='docx'" class="text-center form-group" class="fa fa-file-word-o fa-5x" style="margin-top: 10px;margin-bottom: 10px;"></i>
-                  </button>
+                        <button
+                            *ngIf="item.type.toString() === 'png' || item.type.toString() === 'jpeg'"
+                            data-toggle="modal" class="max-height: 5rem"
+                            data-target=".bd-example-modal-lg"
+                            (click)="verAnexo(item)">
+                            <img class="text-center" src="{{item.url_location}}"
+                                alt=" " style="max-height: 100px;" />
+                        </button>
+                        <button
+                            *ngIf="item.type.toString() ==='pdf' || item.type.toString() ==='docx'"
+                            class="max-height: 5rem" (click)="verAnexo(item)">
+                            <a [href]="item.url_location" target="_blank"
+                                rel="noopener noreferrer">
+                                <i *ngIf="item.type ==='pdf' "
+                                    class="text-center "
+                                    class="fa fa-file-pdf-o cad-img-top"
+                                    aria-hidden="true "
+                                    style="font-size: 80px; "></i>
+                            </a>
+                            <a [href]="item.url_location" target="_blank"
+                                rel="noopener noreferrer">
+                                <i *ngIf="item.type ==='docx'"
+                                    class="text-center"
+                                    class="fa fa-file-word-o" aria-hidden="true"
+                                    style="font-size: 80px;"></i>
+                            </a>
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal fade bd-example-modal-lg" tabindex="-1"
+                role="dialog" aria-labelledby="myLargeModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
                             <b *ngIf="item">{{item.descricao}}</b>
-                            <button type="button" class="close iconeFechar" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+                            <button type="button" class="close iconeFechar"
+                                data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="modal-body" *ngIf="item">
                             <div class="text-center" style="margin: 5px 0 25px">
-                                <img src="{{item.url_location}}" class="cad-img-top" id="imd" style="max-width: 100%; max-height: 300px" />
+                                <img src="{{item.url_location}}"
+                                    class="cad-img-top" id="imd"
+                                    style="max-width: 100%; max-height: 300px" />
                             </div>
-                            <textarea style="width: 100%;" [readonly]="true">Descrição : {{item.descricao_completa}}</textarea>
+                            <textarea style="width: 100%;"
+                                [readonly]="true">Descrição : {{item.descricao_completa}}</textarea>
                         </div>
                     </div>
                 </div>

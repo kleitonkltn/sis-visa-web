@@ -52,6 +52,7 @@ export class ListaEstabelecimentoComponent implements OnInit {
           String(item.razao).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           String(item.fantasia).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           String(item.endereco).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+          String(item.licenca).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           String(item.bairro).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           this.formatDate(item.data_licenca).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           String(item.status).toLowerCase().indexOf(val.toLowerCase()) > -1

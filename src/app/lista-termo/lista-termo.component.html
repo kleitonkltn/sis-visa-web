@@ -34,7 +34,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Termo</th>
-                        <th> Razão social</th>
+                        <th>Razão Social / Nome Fantasia</th>
                         <th>Data</th>
                         <th>Opção</th>
                     </tr>
@@ -44,7 +44,11 @@
                     <tr>
                         <td>{{termo.id}}</td>
                         <td>{{termo.tipo_termo}}</td>
-                        <td class="text-justify">{{termo.razao}}</td>
+                        <td class="text-justify">{{termo.razao}}
+                            <p>
+                                {{termo.fantasia}}
+                            </p>
+                        </td>
                         <td>{{termo.data| date: 'dd/MM/yyyy' + " "+termo.hora}}
                         </td>
                         <td>

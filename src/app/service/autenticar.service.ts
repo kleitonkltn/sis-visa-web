@@ -36,7 +36,7 @@ export class AutenticarService {
         this.storage.setUser(this._user)
         this.authenticationState.next(true)
       } else {
-        this.showDialogMessage('Sessão Finalizada, Logue Novamente', 'danger')
+        this.showDialogMessage('Sessão Finalizada, Logue Novamente', 'error')
         this.authenticationState.next(false)
         this.storage.deleteToken()
         this.storage.deleteUser()
