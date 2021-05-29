@@ -226,34 +226,38 @@
               <div class="t col-md-3" style="max-width: 280px"
                 *ngFor="let item of listaArq; let i = index">
                 <div>
-                  <div class="card-header text-right">
-                  </div>
                   <div class="card">
                     <div align="center">
-                      <button
-                        *ngIf="item.type.toString() === 'png' || item.type.toString() === 'jpeg'"
-                        data-toggle="modal" class="max-height: 80vh"
-                        data-target=".bd-example-modal-lg"
-                        (click)="verAnexo(item)">
-                        <img *ngIf="item.type.toString() ==='jpeg'"
-                          class="text-center cad-img-top"
-                          src="{{item.url_location}}" id="img "
-                          style="max-width: 100%; max-height: 80px; min-width: 80px;" />
-                      </button>
-                      <a [href]="item.url_location" target="_blank"
-                        rel="noopener noreferrer">
-                        <i *ngIf="item.type ==='pdf' " class="text-center "
-                          class="fa fa-file-pdf-o cad-img-top"
-                          aria-hidden="true " style="font-size: 80px; "></i>
-                      </a>
-                      <a [href]="item.url_location" target="_blank"
-                        rel="noopener noreferrer">
-                        <i *ngIf="item.type ==='docx'" class="text-center"
-                          class="fa fa-file-word-o" aria-hidden="true"
-                          style="font-size: 80px;"></i>
-                      </a>
-                      <p style="margin-top: 10px;">
+                      <div class="card-body">
+                        <button
+                          *ngIf="item.type.toString() === 'png' || item.type.toString() === 'jpeg'"
+                          data-toggle="modal" data-target=".bd-example-modal-lg"
+                          (click)="verAnexo(item)">
+                          <img *ngIf="item.type.toString() ==='jpeg'"
+                            class="text-center cad-img-top"
+                            src="{{item.url_location}}" id="img "
+                            style="max-width: 100%; max-height: 80px; min-width: 80px;" />
+                        </button>
+
+                        <a [href]="item.url_location" target="_blank"
+                          rel="noopener noreferrer">
+                          <i *ngIf="item.type ==='pdf' " class="text-center"
+                            class="fa fa-file-pdf-o cad-img-top"
+                            aria-hidden="true " style="font-size: 80px; "></i>
+                        </a>
+
+                        <a [href]="item.url_location" target="_blank"
+                          rel="noopener noreferrer">
+                          <i *ngIf="item.type ==='docx'" class="text-center"
+                            class="fa fa-file-word-o" aria-hidden="true"
+                            style="font-size: 80px;"></i>
+                        </a>
+                      </div>
+
+                      <p style="margin-top: 10px;" class="card-text">
                         {{item.descricao}}</p>
+
+
                     </div>
 
                     <button style="margin-bottom: 15px;"
@@ -297,8 +301,7 @@
                 </div>
               </div>
               <div class="modal fade bd-example-modal-lg" tabindex="-1"
-                role="dialog" aria-labelledby="myLargeModalLabel"
-                aria-hidden="true">
+                role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                   <div class="modal-content">
                     <div *ngIf="item" class="modal-header">
@@ -310,8 +313,11 @@
                     </div>
                     <div *ngIf="item" class="modal-body">
                       <div class="text-center" style="margin: 5px 0 25px">
-                        <img src="{{item.url_location}}" class="cad-img-top"
-                          id="imd" style="max-width: 100%; max-height: 300px" />
+                        <a [href]="item.url_location" target="_blank">
+                          <img src="{{item.url_location}}" class="cad-img-top"
+                            id="imd"
+                            style="max-width: 100%; max-height: 70vh" />
+                        </a>
                       </div>
                       <textarea style="width: 100%;"
                         [readonly]="true">Descrição : {{item.descricao_completa}}</textarea>

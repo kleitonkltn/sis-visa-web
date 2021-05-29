@@ -288,9 +288,10 @@ export class CadastroLicencaComponent implements OnInit {
         this.loadingNumvem = true
         if (arg.length > 0) {
           this.titulo = 'Anexos da Licença'
-          this.listaArq = arg.filter((item) => {
+          this.listaArq = arg.filter((item: Arquivos) => {
             return (
-              String(item.descricao).indexOf('Pedido:' + this.licenca.id) > -1
+              String(item.descricao).indexOf('Pedido:' + this.licenca.id) > -1 ||
+              item.id_licenca == this.licenca.id
             )
           })
           for (let i = 0;i < this.listaArq.length;i++) {
@@ -377,16 +378,15 @@ export class CadastroLicencaComponent implements OnInit {
         this.arquivos.descricao = this.nomeArquivo[i]
         this.arquivos.path = this.base64textString[i]
         this.arquivos.descricao_completa = this.descricao[i]
-        this.arquivos.descricao = 'Pedido:' + this.formLicenca.value.id +
-          '/Documentos Licença:' + (this.f.licenca.value) + '/' + new Date().getFullYear().toString()
         this.arquivos.id_estabelecimento = this.formLicenca.value.estabelecimento
+        this.arquivos.id_licenca = this.idlicenca
         this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1))
-        console.log(this.arquivos);
+        console.log(this.arquivos)
         this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
           this.removeTudoDaLista(this.index)
           this.loading[i] = true
         }, (error) => {
-          console.log(error);
+          console.log(error)
           this.index += 1
           this.loading[i] = true
           swal.fire({

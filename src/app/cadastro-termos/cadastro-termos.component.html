@@ -246,7 +246,7 @@
                             <div class="form-group col-sm-12">
                                 <b>*Descrição:</b>
                                 <textarea class="form-control" rows="5"
-                                    [(ngModel)]="desc"
+                                    maxlength="450" [(ngModel)]="desc"
                                     formControlName="descricao" name="descricao"
                                     type="text"
                                     [ngClass]="{'form-submitted': formSubmitted}"></textarea>
