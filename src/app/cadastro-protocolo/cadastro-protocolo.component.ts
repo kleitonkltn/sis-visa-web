@@ -279,6 +279,7 @@ export class CadastroProtocoloComponent implements OnInit {
         this.loadingRemove[this.indice] = true
       },
       error => {
+        this.loadingRemove[this.indice] = true
         return swal.fire({
           icon: 'warning',
           title: 'Falha ao remover Anexo',

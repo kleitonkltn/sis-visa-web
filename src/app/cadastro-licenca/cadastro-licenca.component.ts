@@ -349,7 +349,7 @@ export class CadastroLicencaComponent implements OnInit {
       this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1))
       this.arquivos.path = src
       this.loading[i] = false
-      this.arquivos.id_licenca = this.formLicenca.value.id_licenca
+      this.arquivos.id_licenca = this.formLicenca.value.id
       this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
         this.loading[i] = true
         this.removerDaLista(i)
@@ -379,9 +379,8 @@ export class CadastroLicencaComponent implements OnInit {
         this.arquivos.path = this.base64textString[i]
         this.arquivos.descricao_completa = this.descricao[i]
         this.arquivos.id_estabelecimento = this.formLicenca.value.estabelecimento
-        this.arquivos.id_licenca = this.idlicenca
+        this.arquivos.id_licenca = this.formLicenca.value.id
         this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1))
-        console.log(this.arquivos)
         this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
           this.removeTudoDaLista(this.index)
           this.loading[i] = true

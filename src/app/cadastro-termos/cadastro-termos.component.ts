@@ -268,31 +268,30 @@ export class CadastroTermosComponent implements OnInit {
         this.loadingCadastro = true
       } else {
         this.termoservice.cadastrarTermo(this.termosForm.value).subscribe((data: Termos) => {
-          this.loadingCadastro = true
           window.scrollTo(0, 0)
           swal.fire({
             icon: 'success',
             title: 'Termo Cadastrado com sucesso',
             showConfirmButton: false,
             timer: 2000
-          })
-          const navigationExtras: NavigationExtras = {
-            queryParams: {
-              id: data.id
+          }).then(() => {
+            this.loadingCadastro = true
+            const navigationExtras: NavigationExtras = {
+              queryParams: {
+                id: data.id
+              }
             }
-          }
-          setTimeout(() => {
             this.router.navigate(['/termo/'], navigationExtras)
-          }, 3000)
+          })
         }, (error) => {
-          this.loadingCadastro = false
-          console.log(error)
+          this.loadingCadastro = true
+          console.log(error.error)
           window.scrollTo(0, 0)
           swal.fire({
             icon: 'warning',
-            title: 'Falha no Cadastro do Termo:' + JSON.stringify(error),
+            title: `<span>${error.error.msg}</span>`,
             showConfirmButton: false,
-            timer: 2000
+            timer: 4000
           })
         })
       }
@@ -449,6 +448,7 @@ export class CadastroTermosComponent implements OnInit {
         this.removerDaLista(i)
       }, (error) => {
         console.log(error)
+        this.loading[i] = true
         swal.fire({
           icon: 'warning',
           title: 'Falha na Criação do Anexo',
@@ -509,6 +509,7 @@ export class CadastroTermosComponent implements OnInit {
         this.loadingRemove[this.indice] = true
       },
       error => {
+        this.loadingRemove[this.indice] = true
         return swal.fire({
           icon: 'warning',
           title: 'Falha ao remover Anexo',
