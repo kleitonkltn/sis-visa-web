@@ -54,7 +54,6 @@ import { CadastroRelatorioComponent } from './cadastro-relatorio/cadastro-relato
 import { ListaRelatorioComponent } from './lista-relatorio/lista-relatorio.component'
 import { RelatoriosComponent } from './relatorios/relatorios.component'
 import { MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatSelectModule } from '@angular/material'
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search'
 
 
 
@@ -144,7 +143,6 @@ const appRoute: Routes = [
     FormsModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
-    NgxMatSelectSearchModule,
     MatFormFieldModule,
     MatInputModule,
     PdfViewerModule,

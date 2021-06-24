@@ -272,7 +272,9 @@
                         </div>
                         <div class="text-center">
                             <div *ngIf="id_termo  == null">
-                                <button type="button" class="btn btn-dark"
+                                <button type="button"
+                                    class="btn btn-primary px-4 my-4"
+                                    [disabled]='!loadingCadastro'
                                     value="Cadastrar" (click)="salvar()">
                                     <span
                                         class="spinner-border spinner-border-sm"
@@ -284,7 +286,9 @@
                                 </button>
                             </div>
                             <div *ngIf="id_termo  > 0">
-                                <button type="submit" class="btn btn-dark"
+                                <button type="submit"
+                                    class="btn btn-primary px-4 my-4"
+                                    [disabled]='!loadingCadastro'
                                     value="Atualizar" (click)="atualizar()">
                                     <span
                                         class="spinner-border spinner-border-sm"
