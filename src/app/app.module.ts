@@ -35,10 +35,10 @@ import { DatePipe, registerLocaleData } from '@angular/common';
 import { CadastroDenunciasComponent } from './presenter/features/denuncias/cadastro-denuncias/cadastro-denuncias.component';
 
 import { DenunciasComponent } from './presenter/features/denuncias/denuncias/denuncias.component';
-import { CadastroLicencaComponent } from './cadastro-licenca/cadastro-licenca.component';
-import { ListaLicencaComponent } from './lista-licenca/lista-licenca.component';
+import { CadastroLicencaComponent } from './presenter/features/licencas/cadastro-licenca/cadastro-licenca.component';
+import { ListaLicencaComponent } from './presenter/features/licencas/lista-licenca/lista-licenca.component';
 import { LicencaService } from './service/licenca.service';
-import { LicencaComponent } from './licenca/licenca.component';
+import { LicencaComponent } from './presenter/features/licencas/licenca/licenca.component';
 import { CadastroTermosComponent } from './presenter/features/termos/cadastro-termo/cadastro-termo.component';
 import { AtividadeService } from './service/atividade.service';
 import { ListaTermoComponent } from './presenter/features/termos/lista-termo/lista-termo.component';
