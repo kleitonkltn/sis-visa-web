@@ -39,10 +39,10 @@ import { CadastroLicencaComponent } from './cadastro-licenca/cadastro-licenca.co
 import { ListaLicencaComponent } from './lista-licenca/lista-licenca.component';
 import { LicencaService } from './service/licenca.service';
 import { LicencaComponent } from './licenca/licenca.component';
-import { CadastroTermosComponent } from './cadastro-termos/cadastro-termos.component';
+import { CadastroTermosComponent } from './presenter/features/termos/cadastro-termo/cadastro-termo.component';
 import { AtividadeService } from './service/atividade.service';
-import { ListaTermoComponent } from './lista-termo/lista-termo.component';
-import { TermosComponent } from './termos/termos.component';
+import { ListaTermoComponent } from './presenter/features/termos/lista-termo/lista-termo.component';
+import { TermosComponent } from './presenter/features/termos/termos/termo.component';
 import { CadastroDocumentoComponent } from './presenter/features/documentos/cadastro-documento/cadastro-documento.component';
 import { ListaDocumentoComponent } from './presenter/features/documentos/lista-documento/lista-documento.component';
 import { CadastroEmbasamentoComponent } from './presenter/features/embasamentos/cadastro-embasamento/cadastro-embasamento.component';
