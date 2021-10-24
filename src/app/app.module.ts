@@ -49,9 +49,9 @@ import { CadastroEmbasamentoComponent } from './presenter/features/embasamentos/
 import { ListaEmbasamentoComponent } from './presenter/features/embasamentos/lista-embasamento/lista-embasamento.component';
 import { CadastroAtividadeComponent } from './presenter/features/atividades/cadastro-atividade/cadastro-atividade.component';
 import { ListaAtividadeComponent } from './presenter/features/atividades/lista-atividade/lista-atividade.component';
-import { CadastroRelatorioComponent } from './cadastro-relatorio/cadastro-relatorio.component';
-import { ListaRelatorioComponent } from './lista-relatorio/lista-relatorio.component';
-import { RelatoriosComponent } from './relatorios/relatorios.component';
+import { CadastroRelatorioComponent } from './presenter/features/relatorios/cadastro-relatorio/cadastro-relatorio.component';
+import { ListaRelatorioComponent } from './presenter/features/relatorios/lista-relatorio/lista-relatorio.component';
+import { RelatoriosComponent } from './presenter/features/relatorios/relatorios/relatorios.component';
 import { MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatSelectModule } from '@angular/material';
 import { ListaDenunciasComponent } from './presenter/features/denuncias/lista-denuncias/lista-denuncias.component';
 
