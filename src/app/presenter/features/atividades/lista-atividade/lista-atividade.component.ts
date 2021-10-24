@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core'
-import { Atividades } from '../../models/atividade'
-import { AtividadeService } from '../service/atividade.service'
+import { Component, OnInit, Input } from '@angular/core';
+import { Atividades } from '../../../../../models/atividade';
+import { AtividadeService } from '../../../../service/atividade.service';
 
 @Component({
   selector: 'app-lista-atividade',
@@ -17,37 +17,39 @@ export class ListaAtividadeComponent implements OnInit {
   constructor (private atividadeService: AtividadeService) {
   }
   subirTela () {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
   }
 
   ngOnInit () {
-    this.subirTela()
-    this.getListaLicenca()
+    this.subirTela();
+    this.getListaLicenca();
   }
   getListaLicenca () {
     this.atividadeService.listAllAtividades()
       .subscribe((atividade: Atividades[]) => {
-        this.statusEst = true
-        this.atividade = atividade
-        this.initList()
+        this.statusEst = true;
+        this.atividade = atividade;
+        this.initList();
       }, () => {
-      })
+      });
   }
   initList () {
-    this.listItems = this.atividade
+    this.listItems = this.atividade;
   }
 
   search () {
-    if (this.textSearch.length > 0) {
-      const val = this.textSearch
-      this.initList()
+    if (this.textSearch.length > 0)
+    {
+      const val = this.textSearch;
+      this.initList();
       this.listItems = this.listItems.filter((item) => {
         return (
           String(item.descricao).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
-          String(item.atividade).toLowerCase().indexOf(val.toLowerCase()) > -1)
-      })
-    } else {
-      this.initList()
+          String(item.atividade).toLowerCase().indexOf(val.toLowerCase()) > -1);
+      });
+    } else
+    {
+      this.initList();
     }
   }
 }

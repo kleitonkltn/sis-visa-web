@@ -47,8 +47,8 @@ import { CadastroDocumentoComponent } from './cadastro-documento/cadastro-docume
 import { ListaDocumentoComponent } from './lista-documento/lista-documento.component';
 import { CadastroEmbasamentoComponent } from './cadastro-embasamento/cadastro-embasamento.component';
 import { ListaEmbasamentoComponent } from './lista-embasamento/lista-embasamento.component';
-import { CadastroAtividadeComponent } from './cadastro-atividade/cadastro-atividade.component';
-import { ListaAtividadeComponent } from './lista-atividade/lista-atividade.component';
+import { CadastroAtividadeComponent } from './presenter/features/atividades/cadastro-atividade/cadastro-atividade.component';
+import { ListaAtividadeComponent } from './presenter/features/atividades/lista-atividade/lista-atividade.component';
 import { CadastroRelatorioComponent } from './cadastro-relatorio/cadastro-relatorio.component';
 import { ListaRelatorioComponent } from './lista-relatorio/lista-relatorio.component';
 import { RelatoriosComponent } from './relatorios/relatorios.component';
