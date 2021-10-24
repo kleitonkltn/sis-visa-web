@@ -3,7 +3,7 @@ import * as $ from 'jquery';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Atividades } from '../../../../../models/atividade';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AtividadeService } from '../../../../service/atividade.service';
+import { AtividadeService } from '../../../../services/atividade.service';
 import swal from 'sweetalert2';
 
 @Component({

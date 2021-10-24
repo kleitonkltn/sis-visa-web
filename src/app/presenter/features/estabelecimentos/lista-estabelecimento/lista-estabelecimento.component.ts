@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { Estabelecimento } from '../../../../../models/estabelecimento';
-import { EstabelecimentoService } from '../../../../service/estabelecimento.service';
+import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
 import * as moment from 'moment';
 
 declare let $: any;

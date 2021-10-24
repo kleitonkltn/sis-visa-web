@@ -2,12 +2,12 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Relatorio } from '../../../../../models/relatorio';
 import { Arquivos } from '../../../../../models/arquivos';
 import { ActivatedRoute } from '@angular/router';
-import { RelatorioService } from '../../../../service/relatorio.service';
-import { AnexoService } from '../../../../service/anexo.service';
-import { PdfService } from '../../../../service/pdf.service';
+import { RelatorioService } from '../../../../services/relatorio.service';
+import { AnexoService } from '../../../../services/anexo.service';
+import { PdfService } from '../../../../services/pdf.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Email } from '../../../../../models/email';
-import { EmailService } from '../../../../service/email.service';
+import { EmailService } from '../../../../services/email.service';
 import * as $ from 'jquery';
 
 @Component({

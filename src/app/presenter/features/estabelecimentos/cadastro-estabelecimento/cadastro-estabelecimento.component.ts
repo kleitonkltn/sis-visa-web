@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { EstabelecimentoService } from '../../../../service/estabelecimento.service';
+import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Estabelecimento } from '../../../../../models/estabelecimento';
 import { stringify } from 'querystring';
 import { Arquivos } from '../../../../../models/arquivos';
-import { AnexoService } from '../../../../service/anexo.service';
+import { AnexoService } from '../../../../services/anexo.service';
 import swal from 'sweetalert2';
 
 declare let $: any;

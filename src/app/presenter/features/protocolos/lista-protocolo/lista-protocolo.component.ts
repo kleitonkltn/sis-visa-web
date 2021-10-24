@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ProtocoloService } from '../../../../service/protocolo.service';
-import { PdfService } from '../../../../service/pdf.service';
+import { ProtocoloService } from '../../../../services/protocolo.service';
+import { PdfService } from '../../../../services/pdf.service';
 import { Protocolo } from '../../../../../models/protocolo';
 import { ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';

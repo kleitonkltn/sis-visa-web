@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import * as $ from 'jquery';
 
 import * as moment from 'moment';
-import { DenunciaService } from 'src/app/service/denuncia.service';
+import { DenunciaService } from 'src/app/services/denuncia.service';
 import { Denuncias } from 'src/models/denuncias';
 
 

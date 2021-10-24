@@ -4,10 +4,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Denuncias } from '../../../../../models/denuncias';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DenunciaService } from '../../../../service/denuncia.service';
+import { DenunciaService } from '../../../../services/denuncia.service';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Arquivos } from '../../../../../models/arquivos';
-import { AnexoService } from '../../../../service/anexo.service';
+import { AnexoService } from '../../../../services/anexo.service';
 import * as moment from 'moment';
 import swal from 'sweetalert2';
 

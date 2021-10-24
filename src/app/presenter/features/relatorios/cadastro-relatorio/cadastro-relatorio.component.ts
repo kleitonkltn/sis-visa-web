@@ -3,13 +3,13 @@ import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { jQuery } from 'jquery';
 import { Relatorio } from '../../../../../models/relatorio';
 
-import { UsuarioService } from '../../../../service/usuario.service';
+import { UsuarioService } from '../../../../services/usuario.service';
 import { Usuario } from '../../../../../models/usuario';
-import { RelatorioService } from '../../../../service/relatorio.service';
+import { RelatorioService } from '../../../../services/relatorio.service';
 import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
 import { Estabelecimento } from '../../../../../models/estabelecimento';
-import { EstabelecimentoService } from '../../../../service/estabelecimento.service';
-import { AutenticarService } from '../../../../service/autenticar.service';
+import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
+import { AutenticarService } from '../../../../services/autenticar.service';
 declare let $: any;
 import swal from 'sweetalert2';
 

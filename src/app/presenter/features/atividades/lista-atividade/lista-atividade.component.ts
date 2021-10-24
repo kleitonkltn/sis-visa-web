@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Atividades } from '../../../../../models/atividade';
-import { AtividadeService } from '../../../../service/atividade.service';
+import { AtividadeService } from '../../../../services/atividade.service';
 
 @Component({
   selector: 'app-lista-atividade',

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Embasamentos } from '../../../../../models/embasamentos';
-import { EmbasamentoService } from '../../../../service/embasamento.service';
+import { EmbasamentoService } from '../../../../services/embasamento.service';
 
 @Component({
   selector: 'app-lista-embasamento',

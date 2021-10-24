@@ -3,13 +3,13 @@ import { Licencas } from '../../../../../models/licencas';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
-import { AutenticarService } from '../../../../service/autenticar.service';
+import { AutenticarService } from '../../../../services/autenticar.service';
 import { Usuario } from '../../../../../models/usuario';
-import { EstabelecimentoService } from '../../../../service/estabelecimento.service';
+import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
 import { Estabelecimento } from '../../../../../models/estabelecimento';
-import { LicencaService } from '../../../../service/licenca.service';
+import { LicencaService } from '../../../../services/licenca.service';
 import { Arquivos } from '../../../../../models/arquivos';
-import { AnexoService } from '../../../../service/anexo.service';
+import { AnexoService } from '../../../../services/anexo.service';
 import swal from 'sweetalert2';
 declare let $: any;
 

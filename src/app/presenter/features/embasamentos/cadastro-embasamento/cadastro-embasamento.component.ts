@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EmbasamentoService } from '../../../../service/embasamento.service';
+import { EmbasamentoService } from '../../../../services/embasamento.service';
 import * as $ from 'jquery';
 import { Embasamentos } from '../../../../../models/embasamentos';
 import swal from 'sweetalert2';

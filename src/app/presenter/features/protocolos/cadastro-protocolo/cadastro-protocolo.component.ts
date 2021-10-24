@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Protocolo } from '../../../../../models/protocolo';
-import { ProtocoloService } from '../../../../service/protocolo.service';
+import { ProtocoloService } from '../../../../services/protocolo.service';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { Arquivos } from '../../../../../models/arquivos';
-import { AnexoService } from '../../../../service/anexo.service';
+import { AnexoService } from '../../../../services/anexo.service';
 import { HttpClient } from '@angular/common/http';
 import * as $ from 'jquery';
 import swal from 'sweetalert2';

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { LicencaService } from '../../../../service/licenca.service';
+import { LicencaService } from '../../../../services/licenca.service';
 import { Licencas } from '../../../../../models/licencas';
 import * as moment from 'moment';
-import { EstabelecimentoService } from '../../../../service/estabelecimento.service';
+import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
 import { Estabelecimento } from '../../../../../models/estabelecimento';
 declare let $: any;
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Relatorio } from '../../../../../models/relatorio';
-import { RelatorioService } from '../../../../service/relatorio.service';
+import { RelatorioService } from '../../../../services/relatorio.service';
 import * as moment from 'moment';
 
 @Component({

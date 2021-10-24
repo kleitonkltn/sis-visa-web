@@ -2,10 +2,10 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Licencas } from '../../../../../models/licencas';
 import { Arquivos } from '../../../../../models/arquivos';
 import { ActivatedRoute } from '@angular/router';
-import { LicencaService } from '../../../../service/licenca.service';
-import { AnexoService } from '../../../../service/anexo.service';
-import { PdfService } from '../../../../service/pdf.service';
-import { EstabelecimentoService } from '../../../../service/estabelecimento.service';
+import { LicencaService } from '../../../../services/licenca.service';
+import { AnexoService } from '../../../../services/anexo.service';
+import { PdfService } from '../../../../services/pdf.service';
+import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
 import swal from 'sweetalert2';
 
 

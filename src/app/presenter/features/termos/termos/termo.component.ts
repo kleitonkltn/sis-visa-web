@@ -2,15 +2,15 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Termos } from '../../../../../models/termos';
 import { Arquivos } from '../../../../../models/arquivos';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TermoService } from '../../../../service/termo.service';
+import { TermoService } from '../../../../services/termo.service';
 // import * as $ from 'jquery';
-import { AnexoService } from '../../../../service/anexo.service';
-import { EmailService } from '../../../../service/email.service';
+import { AnexoService } from '../../../../services/anexo.service';
+import { EmailService } from '../../../../services/email.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Email } from '../../../../../models/email';
 declare let $: any;
 import swal from 'sweetalert2';
-import { PdfService } from '../../../../service/pdf.service';
+import { PdfService } from '../../../../services/pdf.service';
 
 @Component({
   selector: 'app-termo',

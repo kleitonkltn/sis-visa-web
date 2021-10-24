@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Termos } from '../../../../../models/termos';
-import { TermoService } from '../../../../service/termo.service';
+import { TermoService } from '../../../../services/termo.service';
 import * as $ from 'jquery';
 import * as moment from 'moment';
 

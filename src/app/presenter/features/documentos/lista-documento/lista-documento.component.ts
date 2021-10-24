@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as moment from 'moment';
 import { Documentos } from '../../../../../models/documento';
-import { DocumentoService } from '../../../../service/documento.service';
+import { DocumentoService } from '../../../../services/documento.service';
 declare let $: any;
 
 @Component({

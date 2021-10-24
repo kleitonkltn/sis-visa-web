@@ -1,14 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProtocoloService } from '../../../../service/protocolo.service';
-import { PdfService } from '../../../../service/pdf.service';
+import { ProtocoloService } from '../../../../services/protocolo.service';
+import { PdfService } from '../../../../services/pdf.service';
 import { Protocolo } from '../../../../../models/protocolo';
 import { Arquivos } from '../../../../../models/arquivos';
-import { AnexoService } from '../../../../service/anexo.service';
+import { AnexoService } from '../../../../services/anexo.service';
 import * as $ from 'jquery';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Email } from '../../../../../models/email';
-import { EmailService } from '../../../../service/email.service';
+import { EmailService } from '../../../../services/email.service';
 import swal from 'sweetalert2';
 
 @Component({

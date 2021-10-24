@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DenunciaService } from '../../../../service/denuncia.service';
+import { DenunciaService } from '../../../../services/denuncia.service';
 import { ActivatedRoute } from '@angular/router';
 import { Denuncias } from '../../../../../models/denuncias';
-import { AnexoService } from '../../../../service/anexo.service';
+import { AnexoService } from '../../../../services/anexo.service';
 import { Arquivos } from '../../../../../models/arquivos';
 import { Title } from '@angular/platform-browser';
 

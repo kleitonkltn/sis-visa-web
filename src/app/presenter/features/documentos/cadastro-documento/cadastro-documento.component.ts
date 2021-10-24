@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import * as $ from 'jquery';
 import { Documentos } from '../../../../../models/documento';
-import { DocumentoService } from '../../../../service/documento.service';
+import { DocumentoService } from '../../../../services/documento.service';
 import swal from 'sweetalert2';
 
 
