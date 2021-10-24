@@ -163,7 +163,7 @@ export class CadastroTermosComponent implements OnInit {
       responsavel_nome: new FormControl(termo.responsavel_nome),
       responsavel_rg: new FormControl(termo.responsavel_rg),
       responsavel_classe: new FormControl(termo.responsavel_classe),
-      embasamento_legal: new FormControl(termo.embasamento_legal, Validators.required),
+      embasamento_legal: new FormControl(termo.embasamento_legal, [Validators.required, Validators.maxLength(150)]),
       descricao: new FormControl(termo.descricao, Validators.required),
       data: new FormControl(termo.data || this.newDate(), Validators.required),
       hora: new FormControl(termo.hora || this.newTime(), Validators.required),

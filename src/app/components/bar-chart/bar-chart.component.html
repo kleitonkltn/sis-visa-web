@@ -1,0 +1,13 @@
+<h3 class="text-center">Termos Cadastrados {{momentNew.year()}} </h3>
+
+<div style="display: block;">
+  <canvas baseChart
+          [data]="barChartData"
+          [labels]="barChartLabels"
+          [options]="barChartOptions"
+          [plugins]="barChartPlugins"
+          [legend]="barChartLegend"
+          [colors]="barChartColors"
+          [chartType]="barChartType">
+  </canvas>
+</div>

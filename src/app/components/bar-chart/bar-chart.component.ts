@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core'
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js'
+import * as moment from 'moment'
 import { Label, SingleDataSet } from 'ng2-charts'
-import { Termos } from '../../models/termos'
-import { TermoService } from '../service/termo.service'
+import { Termos } from '../../../models/termos'
+import { TermoService } from '../../service/termo.service'
 
 
 @Component({
@@ -40,39 +41,45 @@ export class BarChartComponent implements OnInit {
   ];
 
 
-  constructor(private termoservice: TermoService) { }
+  constructor (private termoservice: TermoService) { }
 
-  ngOnInit() {
+  ngOnInit () {
     this.getListatermo()
   }
 
-  getListatermo() {
+  getListatermo () {
     this.termoservice.ListarTodosTermos()
       .subscribe((termo) => {
         this.termo = termo
       }).add(() => { this.fillChart() })
   }
 
-  fillChart() {
+  get momentNew (): moment.Moment { return moment(new Date()) }
+
+
+  fillChart () {
     this.termo.filter(item => {
-      if (item.tipo_termo === 'inspecao') {
-        this.inspecao++
-      } else if (item.tipo_termo === 'orientacao') {
-        this.orientacao++
-      } else if (item.tipo_termo === 'desinterdicao') {
-        this.desinterdicao++
-      } else if (item.tipo_termo === 'interdicao') {
-        this.interdicao++
-      } else if (item.tipo_termo === 'notificacao') {
-        this.notificacao++
-      } else if (item.tipo_termo === 'constatacao') {
-        this.constatacao++
-      } else if (item.tipo_termo === 'relatorio') {
-        this.relatorio++
-      } else if (item.tipo_termo === 'infracao') {
-        this.infracao++
-      } else if (item.tipo_termo === 'inutilizacao') {
-        this.inutilizacao++
+      const dataTermo = moment(item.data)
+      if (dataTermo.year() == this.momentNew.year()) {
+        if (item.tipo_termo === 'inspecao') {
+          this.inspecao++
+        } else if (item.tipo_termo === 'orientacao') {
+          this.orientacao++
+        } else if (item.tipo_termo === 'desinterdicao') {
+          this.desinterdicao++
+        } else if (item.tipo_termo === 'interdicao') {
+          this.interdicao++
+        } else if (item.tipo_termo === 'notificacao') {
+          this.notificacao++
+        } else if (item.tipo_termo === 'constatacao') {
+          this.constatacao++
+        } else if (item.tipo_termo === 'relatorio') {
+          this.relatorio++
+        } else if (item.tipo_termo === 'infracao') {
+          this.infracao++
+        } else if (item.tipo_termo === 'inutilizacao') {
+          this.inutilizacao++
+        }
       }
     }
     )
