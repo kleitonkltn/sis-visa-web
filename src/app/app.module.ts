@@ -43,8 +43,8 @@ import { CadastroTermosComponent } from './cadastro-termos/cadastro-termos.compo
 import { AtividadeService } from './service/atividade.service';
 import { ListaTermoComponent } from './lista-termo/lista-termo.component';
 import { TermosComponent } from './termos/termos.component';
-import { CadastroDocumentoComponent } from './cadastro-documento/cadastro-documento.component';
-import { ListaDocumentoComponent } from './lista-documento/lista-documento.component';
+import { CadastroDocumentoComponent } from './presenter/features/documentos/cadastro-documento/cadastro-documento.component';
+import { ListaDocumentoComponent } from './presenter/features/documentos/lista-documento/lista-documento.component';
 import { CadastroEmbasamentoComponent } from './cadastro-embasamento/cadastro-embasamento.component';
 import { ListaEmbasamentoComponent } from './lista-embasamento/lista-embasamento.component';
 import { CadastroAtividadeComponent } from './presenter/features/atividades/cadastro-atividade/cadastro-atividade.component';
