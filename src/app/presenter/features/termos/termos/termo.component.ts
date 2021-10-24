@@ -18,24 +18,37 @@ import { PdfService } from '../../../../service/pdf.service';
   styleUrls: ['./termo.component.css']
 })
 export class TermosComponent implements OnInit {
+  public idupdate: number;
+  @Input() pdf;
+  @Input() Atividade;
+  @Input() CNAE;
   emailForm: FormGroup;
   termos: Termos = {} as Termos;
-  public idupdate: number; statusTer = false; loadingTable = false;
-  @Input() pdf; @Input() Atividade; @Input() CNAE;
-  loading = true; email: Email; destinario = {} as Email;
-  arquivo: Arquivos[] = []; base64textString: string[] = [];
+  statusTer = false;
+  loadingTable = false;
+  loading = true;
+  email: Email;
+  destinario: Email = {
+    destinatario: '',
+    mensagem: ''
+  };
+  arquivo: Arquivos[] = [];
+  base64textString: string[] = [];
   titulo = 'Sem Anexos Cadastrado';
-  item: Arquivos; licencaValueMax;
+  item: Arquivos;
+  licencaValueMax;
 
   constructor (private route: ActivatedRoute, private termoservice: TermoService,
     private pdfService: PdfService,
-    private anexoService: AnexoService, private router: Router,
-    private emailservice: EmailService) {
-  }
+    private anexoService: AnexoService,
+    private emailservice: EmailService,
+  ) { }
+
   ngOnInit () {
     this.createForm(new Email());
     this.pegaId();
   }
+
   createForm (email: Email) {
     this.emailForm = new FormGroup({
       destinatario: new FormControl(email.destinatario, Validators.required),
