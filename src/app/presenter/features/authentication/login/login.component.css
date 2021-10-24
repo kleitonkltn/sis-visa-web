@@ -11,7 +11,7 @@ body {
 }
 
 .bg-image {
-  background-image: url("../../assets/background.jpeg");
+  background-image: url("../../../../../assets/background.jpeg");
   filter: blur(8px);
   -webkit-filter: blur(8px);
   height: 100vh;

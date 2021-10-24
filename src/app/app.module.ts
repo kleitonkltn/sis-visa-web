@@ -22,7 +22,7 @@ import { AutenticarService } from './service/autenticar.service';
 import { HomeComponent } from './home/home.component';
 import { ChartsModule } from 'ng2-charts';
 import { PieChartComponent } from './components/pie-chart/pie-chart.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './presenter/features/authentication/login/login.component';
 import { JwtHelperService, JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { LoginProviderService } from './providers/login-provider-service';
 import { StorageService } from './service/storage.service';
