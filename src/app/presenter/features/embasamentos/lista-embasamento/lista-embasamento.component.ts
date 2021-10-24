@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core'
-import { Embasamentos } from '../../models/embasamentos'
-import { EmbasamentoService } from '../service/embasamento.service'
+import { Component, OnInit, Input } from '@angular/core';
+import { Embasamentos } from '../../../../../models/embasamentos';
+import { EmbasamentoService } from '../../../../service/embasamento.service';
 
 @Component({
   selector: 'app-lista-embasamento',
@@ -18,36 +18,38 @@ export class ListaEmbasamentoComponent implements OnInit {
   constructor (private embasmentoService: EmbasamentoService) {
   }
   subirTela () {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
   }
 
   ngOnInit () {
-    this.getListaLicenca()
+    this.getListaLicenca();
   }
   getListaLicenca () {
-    this.subirTela()
+    this.subirTela();
     this.embasmentoService.listAllEmbasamentos()
       .subscribe((embasamentos: Embasamentos[]) => {
-        this.statusEst = true
-        this.embasamentos = embasamentos
-        this.initList()
+        this.statusEst = true;
+        this.embasamentos = embasamentos;
+        this.initList();
       }, () => {
-      })
+      });
   }
   initList () {
-    this.listItems = this.embasamentos
+    this.listItems = this.embasamentos;
   }
   search () {
-    if (this.textSearch.length > 0) {
-      const val = this.textSearch
-      this.initList()
+    if (this.textSearch.length > 0)
+    {
+      const val = this.textSearch;
+      this.initList();
       this.listItems = this.listItems.filter((item) => {
         return (
           String(item.descricao).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
-          String(item.descricao_completa).toLowerCase().indexOf(val.toLowerCase()) > -1)
-      })
-    } else {
-      this.initList()
+          String(item.descricao_completa).toLowerCase().indexOf(val.toLowerCase()) > -1);
+      });
+    } else
+    {
+      this.initList();
     }
   }
 }
