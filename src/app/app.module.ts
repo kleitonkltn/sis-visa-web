@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule, APP_BOOTSTRAP_LISTENER, LOCALE_ID } from '@angular/core';
 import { AppComponent } from './app.component';
-import { MenuComponent } from './menu/menu.component';
+import { MenuComponent } from './components/menu/menu.component';
 import { EstabelecimentosComponent } from './estabelecimentos/estabelecimentos.component';
 import { EstabelecimentoService } from './service/estabelecimento.service';
 import { ListaEstabelecimentoComponent } from './lista-estabelecimento/lista-estabelecimento.component';
