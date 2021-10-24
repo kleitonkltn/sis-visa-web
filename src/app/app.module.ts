@@ -32,8 +32,8 @@ import { BarChartComponent } from './components/bar-chart/bar-chart.component';
 import localeBr from '@angular/common/locales/br';
 import localeBrExtra from '@angular/common/locales/extra/br';
 import { DatePipe, registerLocaleData } from '@angular/common';
-import { CadastroDenunciasComponent } from './cadastro-denuncias/cadastro-denuncias.component';
-import { ListaDenunciasComponent } from './lista-denuncias/lista-denuncias.component';
+import { CadastroDenunciasComponent } from './presenter/features/denuncias/cadastro-denuncias/cadastro-denuncias.component';
+
 import { DenunciasComponent } from './denuncias/denuncias.component';
 import { CadastroLicencaComponent } from './cadastro-licenca/cadastro-licenca.component';
 import { ListaLicencaComponent } from './lista-licenca/lista-licenca.component';
@@ -53,6 +53,7 @@ import { CadastroRelatorioComponent } from './cadastro-relatorio/cadastro-relato
 import { ListaRelatorioComponent } from './lista-relatorio/lista-relatorio.component';
 import { RelatoriosComponent } from './relatorios/relatorios.component';
 import { MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatSelectModule } from '@angular/material';
+import { ListaDenunciasComponent } from './presenter/features/denuncias/lista-denuncias/lista-denuncias.component';
 
 
 
