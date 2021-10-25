@@ -1,14 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Relatorio } from '../../../../../models/relatorio';
-import { Arquivos } from '../../../../../models/arquivos';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { RelatorioService } from '../../../../services/relatorio.service';
-import { AnexoService } from '../../../../services/anexo.service';
-import { PdfService } from '../../../../services/pdf.service';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { Email } from '../../../../../models/email';
-import { EmailService } from '../../../../services/email.service';
 import * as $ from 'jquery';
+import { Arquivos } from '../../../../../models/arquivos';
+import { Email } from '../../../../../models/email';
+import { Relatorio } from '../../../../../models/relatorio';
+import { AnexoService } from '../../../../services/anexo.service';
+import { EmailService } from '../../../../services/email.service';
+import { PdfService } from '../../../../services/pdf.service';
+import { RelatorioService } from '../../../../services/relatorio.service';
 
 @Component({
   selector: 'app-relatorios',
@@ -44,8 +44,7 @@ export class RelatoriosComponent implements OnInit {
     this.route.queryParams.subscribe(
       queryParams => {
         this.idrelatorio = queryParams.id;
-        if (this.idrelatorio != null)
-        {
+        if (this.idrelatorio != null) {
           window.scrollTo(0, 0);
           this.relatorioService.listRelatorioeById(this.idrelatorio).subscribe((relatorio) => {
             this.relatorio = relatorio;
@@ -53,15 +52,13 @@ export class RelatoriosComponent implements OnInit {
             this.relatorio.tipo_inspecao = this.formatarTipoInspecao(this.relatorio.tipo_inspecao);
             this.relatorio.irregularidades = JSON.stringify(this.relatorio.irregularidades);
             this.statusRel = true;
-          }, () => {
           });
         }
       }
     );
   }
   formatarTipoInspecao (situacao) {
-    switch (situacao)
-    {
+    switch (situacao) {
       case 'inicial':
         return 'Inicial';
       case 'alteracoes':
@@ -73,8 +70,7 @@ export class RelatoriosComponent implements OnInit {
     }
   }
   formatarSituacao (situacao) {
-    switch (situacao)
-    {
+    switch (situacao) {
       case 'satisfatorio':
         return 'Satisfatório';
       case 'satisfatorio_restricoes':
@@ -90,8 +86,7 @@ export class RelatoriosComponent implements OnInit {
 
   pegaAnexos () {
     this.anexoService.listFilesByModel('estabelecimento', this.id_Estabelecimento).subscribe((arg) => {
-      if (arg.length > 0)
-      {
+      if (arg.length > 0) {
         this.titulo = 'Anexos da Licença';
         this.arquivo = arg.filter((item) => {
           return (
@@ -106,8 +101,7 @@ export class RelatoriosComponent implements OnInit {
   }
   relatorioPdf () {
     this.loading = false;
-    if (this.idrelatorio != null)
-    {
+    if (this.idrelatorio != null) {
       this.pdfservice.downloadFileRelatorio(this.idrelatorio).subscribe(response => {
         const file = new Blob([response], { type: 'application/pdf' });
         const fileURL = URL.createObjectURL(file);
@@ -128,11 +122,9 @@ export class RelatoriosComponent implements OnInit {
   }
   EnviarEmail () {
     this.email = this.emailForm.value;
-    if (this.emailForm.valid === false)
-    {
+    if (this.emailForm.valid === false) {
       alert('Campo destinatário é obrigatório');
-    } else
-    {
+    } else {
       return new Promise((resolve, reject) => {
         const dataSend = {
           id: Number(this.idrelatorio),
@@ -143,11 +135,9 @@ export class RelatoriosComponent implements OnInit {
           resolve(data);
           $('.modal-header .close').click();
           window.scrollTo(0, 0);
-          if (data !== null && data['code'] === 'EENVELOPE')
-          {
+          if (data !== null && data['code'] === 'EENVELOPE') {
             this.mostraDialogo2('Erro ao  enviar relatório', 'danger', 5000);
-          } else
-          {
+          } else {
             this.mostraDialogo2('Relatório enviado com Sucesso', 'success', 5000);
           }
         }, (err) => {

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { LicencaService } from '../../../../services/licenca.service';
-import { Licencas } from '../../../../../models/licencas';
 import * as moment from 'moment';
-import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
 import { Estabelecimento } from '../../../../../models/estabelecimento';
+import { Licencas } from '../../../../../models/licencas';
+import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
+import { LicencaService } from '../../../../services/licenca.service';
 declare let $: any;
 
 @Component({
@@ -31,7 +31,6 @@ export class ListaLicencaComponent implements OnInit {
         this.statusEst = true;
         this.licencas = licencas;
         this.initList();
-      }, () => {
       });
   }
 
@@ -39,8 +38,7 @@ export class ListaLicencaComponent implements OnInit {
     this.listItems = this.licencas;
   }
   search () {
-    if (this.textSearch.length > 0)
-    {
+    if (this.textSearch.length > 0) {
       const val = this.textSearch;
       this.filtroPesquisa();
       this.listItems = this.listItems.filter((item: Licencas) => {
@@ -55,8 +53,7 @@ export class ListaLicencaComponent implements OnInit {
           this.formatDate(item.data_emissao).toLowerCase().indexOf(val.toLowerCase()) > -1
         );
       });
-    } else
-    {
+    } else {
       this.filtroPesquisa();
     }
   }
@@ -65,32 +62,24 @@ export class ListaLicencaComponent implements OnInit {
   }
   filtroPesquisa () {
     const filtro = $('select').val();
-    if (filtro === 'todos')
-    {
+    if (filtro === 'todos') {
       this.initList();
-    } else
-    {
+    } else {
       this.listItems = this.licencas.filter((item) => {
-        if (filtro === 'pendente')
-        {
+        if (filtro === 'pendente') {
           if ((item.status_fiscal === 'aguardando' && item.status_gerente === 'aguardando')
-            || (item.status_fiscal === 'aguardando' && item.status_segundo_fiscal === 'aguardando'))
-          {
+            || (item.status_fiscal === 'aguardando' && item.status_segundo_fiscal === 'aguardando')) {
             return item;
           }
         } else
-          if (filtro === 'autorizada')
-          {
+          if (filtro === 'autorizada') {
             if ((item.status_fiscal === 'autorizada' && item.status_gerente === 'autorizada')
-              || (item.status_fiscal === 'autorizada' && item.status_segundo_fiscal === 'autorizada'))
-            {
+              || (item.status_fiscal === 'autorizada' && item.status_segundo_fiscal === 'autorizada')) {
               return item;
             }
           } else
-            if (filtro === 'observacao')
-            {
-              if (item.status_gerente === 'observacao' || item.status_fiscal === 'observacao')
-              {
+            if (filtro === 'observacao') {
+              if (item.status_gerente === 'observacao' || item.status_fiscal === 'observacao') {
                 return item;
               }
             }
@@ -98,6 +87,5 @@ export class ListaLicencaComponent implements OnInit {
       });
     }
   }
-
 
 }

@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Estabelecimento } from '../../../../../models/estabelecimento';
 import { stringify } from 'querystring';
-import { Arquivos } from '../../../../../models/arquivos';
-import { AnexoService } from '../../../../services/anexo.service';
 import swal from 'sweetalert2';
+import { Arquivos } from '../../../../../models/arquivos';
+import { Estabelecimento } from '../../../../../models/estabelecimento';
+import { AnexoService } from '../../../../services/anexo.service';
+import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
 
 declare let $: any;
 @Component({
@@ -15,10 +15,8 @@ declare let $: any;
   styleUrls: ['./cadastro-estabelecimento.component.css']
 })
 
-
 export class CadastroEstabelecimentoComponent implements OnInit {
   estabelecimentoForm: FormGroup;
-
 
   estabelecimento: Estabelecimento;
   titulo = 'Cadastrar Estabelecimento';
@@ -78,8 +76,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
   }
   salvar () {
     this.loadingCadastro = false;
-    if (this.estabelecimentoForm.valid === false)
-    {
+    if (this.estabelecimentoForm.valid === false) {
       window.scrollTo(0, 0);
       swal.fire({
         icon: 'warning',
@@ -89,8 +86,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
       });
       this.formSubmitted = true;
       this.loadingCadastro = true;
-    } else
-    {
+    } else {
       this.estabelecimentoservice.cadastrarEstabelecimento(this.estabelecimentoForm.value).subscribe((data: Estabelecimento) => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
@@ -123,8 +119,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
 
   atualizar () {
     this.loadingCadastro = false;
-    if (this.estabelecimentoForm.valid === false)
-    {
+    if (this.estabelecimentoForm.valid === false) {
       window.scrollTo(0, 0);
       swal.fire({
         icon: 'warning',
@@ -134,9 +129,8 @@ export class CadastroEstabelecimentoComponent implements OnInit {
       });
       this.formSubmitted = true;
       this.loadingCadastro = true;
-    } else
-    {
-      this.estabelecimentoservice.atualizarEstabelecimento(this.estabelecimentoForm.value, this.idupdate).subscribe(() => {
+    } else {
+      this.estabelecimentoservice.atualizarEstabelecimento(this.estabelecimentoForm.value, this.idupdate.toString()).subscribe(() => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
         swal.fire({
@@ -169,20 +163,17 @@ export class CadastroEstabelecimentoComponent implements OnInit {
     this.route.queryParams.subscribe(
       queryParams => {
         this.idupdate = queryParams.id;
-        if (this.idupdate != null)
-        {
+        if (this.idupdate != null) {
           window.scrollTo(0, 0);
           this.titulo = 'Atualizar Estabelecimento';
-          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idupdate).subscribe((estabelecimentos) => {
+          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idupdate.toString()).subscribe((estabelecimentos) => {
             this.estabelecimento = estabelecimentos;
             estabelecimentos.status = '' + estabelecimentos.status;
             this.createForm(this.estabelecimento);
             this.mascaracnpj();
             this.estabelecimentoForm.value.cnpj = estabelecimentos.cnpj;
-          }, () => {
           });
-        } else
-        {
+        } else {
           window.scrollTo(0, 0);
           this.titulo = 'Cadastrar Estabelecimento';
           this.createForm(new Estabelecimento());
@@ -195,14 +186,12 @@ export class CadastroEstabelecimentoComponent implements OnInit {
     this.estabelecimentoservice.listarTodosCnae()
       .subscribe((cnae) => {
         this.CNAE = cnae;
-      }, () => {
       });
   }
 
   async retronaAtividade () {
     const atividade = await this.estabelecimentoservice.ListarTodasAtividades().toPromise();
-    if (atividade)
-    {
+    if (atividade) {
       this.Atividade = atividade;
     }
 
@@ -211,8 +200,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
     const val = (this.textSearch);
     console.log(val);
     this.estabelecimentoservice.getValueMaxLicenca().subscribe(async (itens: Estabelecimento) => {
-      if (itens.licenca < val)
-      {
+      if (itens.licenca < val) {
         window.scrollTo(0, 0);
         swal.fire({
           icon: 'warning',
@@ -227,15 +215,12 @@ export class CadastroEstabelecimentoComponent implements OnInit {
   }
 
   mascaracnpj () {
-    if (this.estabelecimentoForm.value.pessoa.toString() === '1')
-    {
+    if (this.estabelecimentoForm.value.pessoa.toString() === '1') {
       this.cnpj = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/];
-    } else
-    {
+    } else {
       this.cnpj = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
     }
   }
-
 
   dados (item, i) {
     this.anexo = item;
@@ -244,20 +229,17 @@ export class CadastroEstabelecimentoComponent implements OnInit {
 
   ListaArq () {
     this.loadingNumvem = false;
-    if (this.status === 'abrir')
-    {
+    if (this.status === 'abrir') {
       this.status = 'fechar';
       this.anexoService.listFilesByModel('estabelecimento', this.idupdate).subscribe((arq: Arquivos[]) => {
         console.log(arq);
         this.listaArq = arq;
         this.loadingNumvem = true;
-        for (let i = 0; i < this.listaArq.length; i++)
-        {
+        for (let i = 0; i < this.listaArq.length; i++) {
           this.loadingRemove[i] = true;
         }
       });
-    } else
-    {
+    } else {
       this.loadingNumvem = true;
       this.status = 'abrir';
       this.listaArq.splice(0);
@@ -267,8 +249,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
   onUploadChange (evt) {
     const files = evt.target.files;
     // tslint:disable-next-line: no-conditional-assignment
-    for (let i = 0, f; f = files[i]; i++)
-    {
+    for (let i = 0, f; f = files[i]; i++) {
       const reader = new FileReader();
       reader.onload = ((theFile) => {
         return (e) => {
@@ -287,8 +268,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
     }
   }
   inicializaLoding () {
-    for (let i = 0; i < this.base64textString.length; i++)
-    {
+    for (let i = 0; i < this.base64textString.length; i++) {
       this.loading[i] = true;
     }
   }
@@ -301,20 +281,16 @@ export class CadastroEstabelecimentoComponent implements OnInit {
     this.loading.splice(i, 1); this.descricao.splice(i, 1);
   }
   formatType (doc) {
-    if (doc === 'vnd.openxmlformats-officedocument.wordprocessingml.document')
-    {
+    if (doc === 'vnd.openxmlformats-officedocument.wordprocessingml.document') {
       return 'docx';
-    } else if (doc === 'pdf')
-    {
+    } else if (doc === 'pdf') {
       return 'pdf';
-    } else
-    {
+    } else {
       return '';
     }
   }
   enviar (src, i) {
-    if (this.estabelecimentoForm.value.id != null)
-    {
+    if (this.estabelecimentoForm.value.id != null) {
       this.arquivos.descricao = this.nomeArquivo[i];
       this.arquivos.descricao_completa = this.descricao[i];
       this.arquivos.id_estabelecimento = this.estabelecimentoForm.value.id;
@@ -332,8 +308,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
           timer: 2000
         });
       });
-    } else
-    {
+    } else {
       swal.fire({
         icon: 'warning',
         title: 'Cadastre um estabelecimento, ou atualize um existente',
@@ -343,10 +318,8 @@ export class CadastroEstabelecimentoComponent implements OnInit {
     }
   }
   enviarTodos () {
-    if (this.estabelecimentoForm.value.id != null)
-    {
-      for (let i = 0; i < this.base64textString.length; i++)
-      {
+    if (this.estabelecimentoForm.value.id != null) {
+      for (let i = 0; i < this.base64textString.length; i++) {
         this.loading[i] = false;
         this.arquivos.path = this.base64textString[i];
         this.arquivos.descricao = this.nomeArquivo[i];
@@ -366,8 +339,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
           });
         });
       }
-    } else
-    {
+    } else {
       swal.fire({
         icon: 'warning',
         title: 'Cadastre um estabelecimento, ou atualize um existente',
@@ -380,10 +352,8 @@ export class CadastroEstabelecimentoComponent implements OnInit {
     this.loadingRemove[this.indice] = false;
     this.anexoService.deleteFileByKey(this.anexo.key).subscribe(
       () => {
-        for (let i = 0; i <= this.listaArq.length; i++)
-        {
-          if (this.listaArq[i].key === this.anexo.key)
-          {
+        for (let i = 0; i <= this.listaArq.length; i++) {
+          if (this.listaArq[i].key === this.anexo.key) {
             this.listaArq.splice(i, 1);
             this.loadingRemove.splice(i, 1);
           }
@@ -412,8 +382,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
       cancelButtonText: 'Cancelar',
       confirmButtonText: 'Solicitar!'
     }).then((result) => {
-      if (result.value)
-      {
+      if (result.value) {
         this.getValueMaxLicenca();
       }
     });

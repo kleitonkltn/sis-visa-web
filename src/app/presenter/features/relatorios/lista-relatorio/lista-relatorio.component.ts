@@ -1,22 +1,25 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import * as moment from 'moment';
 import { Relatorio } from '../../../../../models/relatorio';
 import { RelatorioService } from '../../../../services/relatorio.service';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-lista-relatorio',
   templateUrl: './lista-relatorio.component.html',
   styleUrls: ['./lista-relatorio.component.css']
 })
+
 export class ListaRelatorioComponent implements OnInit {
   @Input() relatorios: Relatorio[] = [];
-  textSearch = ''; statusEst = false; loading = false;
-  listItems = [];
+  textSearch: string = '';
+  statusEst: boolean = false;
+  loading: boolean = false;
+  listItems: Relatorio[] = [];
   dataAtual = new Date();
   public paginaAtual = 1;
 
-  constructor (private relatorioService: RelatorioService) {
-  }
+  constructor (private relatorioService: RelatorioService) { }
+
   subirTela () {
     window.scrollTo(0, 0);
   }
@@ -25,25 +28,26 @@ export class ListaRelatorioComponent implements OnInit {
     this.subirTela();
     this.getListaLicenca();
   }
+
   getListaLicenca () {
     this.relatorioService.listAllRelatorio()
       .subscribe((relatorio: Relatorio[]) => {
         this.statusEst = true;
         this.relatorios = relatorio;
-        for (let i = 0; i < this.relatorios.length; i++)
-        {
-          this.relatorios[i].situacao = this.formatarSituacao(this.relatorios[i].situacao);
-        }
+        this.relatorios.forEach(element => {
+          element.situacao = this.formatarSituacao(element.situacao);
+        });
+
         this.initList();
-      }, () => {
       });
   }
+
   initList () {
     this.listItems = this.relatorios;
   }
-  formatarSituacao (situacao) {
-    switch (situacao)
-    {
+
+  formatarSituacao (situacao: string) {
+    switch (situacao) {
       case 'satisfatorio':
         return 'Satisfatório';
       case 'satisfatorio_restricoes':
@@ -58,21 +62,17 @@ export class ListaRelatorioComponent implements OnInit {
   }
 
   search () {
-    if (this.textSearch.length > 0)
-    {
+    if (this.textSearch.length > 0) {
       const val = this.textSearch;
       this.initList();
-      this.listItems = this.listItems.filter((item) => {
+      this.listItems = this.listItems.filter((item: Relatorio) => {
         return (
           String(item.razao).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           String(item.cnpj).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           String(item.id).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
-          String(item.descricao).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
-          String(item.descricao_completa).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           String(moment(item.data_relatorio).format('DD/MM/YYYY')).toLowerCase().indexOf(val.toLowerCase()) > -1);
       });
-    } else
-    {
+    } else {
       this.initList();
     }
   }

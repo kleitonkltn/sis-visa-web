@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EmbasamentoService } from '../../../../services/embasamento.service';
 import * as $ from 'jquery';
-import { Embasamentos } from '../../../../../models/embasamentos';
 import swal from 'sweetalert2';
+import { Embasamentos } from '../../../../../models/embasamentos';
+import { EmbasamentoService } from '../../../../services/embasamento.service';
 
 @Component({
   selector: 'app-cadastro-embasamento',
@@ -20,15 +20,12 @@ export class CadastroEmbasamentoComponent implements OnInit {
   loading: boolean[] = []; loadingCadastro = true;
   formSubmitted = false;
 
-
-
   constructor (private route: ActivatedRoute, private embasamentoservice: EmbasamentoService, private router: Router) {
   }
   ngOnInit () {
     this.createForm(new Embasamentos());
     this.pegaId();
   }
-
 
   createForm (embasamento) {
     this.embasamentoForm = new FormGroup({
@@ -39,8 +36,7 @@ export class CadastroEmbasamentoComponent implements OnInit {
   }
   salvar () {
     this.loadingCadastro = false;
-    if (this.embasamentoForm.valid === false)
-    {
+    if (this.embasamentoForm.valid === false) {
       window.scrollTo(0, 0);
       swal.fire({
         icon: 'warning',
@@ -50,8 +46,7 @@ export class CadastroEmbasamentoComponent implements OnInit {
       });
       this.formSubmitted = true;
       this.loadingCadastro = true;
-    } else
-    {
+    } else {
       this.embasamentoservice.createEmbasamentos(this.embasamentoForm.value).subscribe((data: Embasamentos) => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
@@ -78,8 +73,7 @@ export class CadastroEmbasamentoComponent implements OnInit {
   }
   atualizar () {
     this.loadingCadastro = false;
-    if (this.embasamentoForm.valid === false)
-    {
+    if (this.embasamentoForm.valid === false) {
       window.scrollTo(0, 0);
       swal.fire({
         icon: 'warning',
@@ -89,8 +83,7 @@ export class CadastroEmbasamentoComponent implements OnInit {
       });
       this.formSubmitted = true;
       this.loadingCadastro = true;
-    } else
-    {
+    } else {
       this.embasamentoservice.updateEmbasamentos(this.embasamentoForm.value).subscribe(() => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
@@ -120,16 +113,13 @@ export class CadastroEmbasamentoComponent implements OnInit {
     this.route.queryParams.subscribe(
       queryParams => {
         this.idupdate = queryParams.id;
-        if (this.idupdate != null)
-        {
+        if (this.idupdate != null) {
           window.scrollTo(0, 0);
           this.titulo = 'Atualizar Embasamento';
           this.embasamentoservice.listEmbasamentosById(this.idupdate).subscribe((documento: Embasamentos) => {
             this.createForm(documento);
-          }, () => {
           });
-        } else
-        {
+        } else {
           window.scrollTo(0, 0);
           this.titulo = 'Cadastrar Embasamento';
           this.createForm(new Embasamentos());

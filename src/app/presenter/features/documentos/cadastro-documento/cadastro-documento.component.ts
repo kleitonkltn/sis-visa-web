@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import * as $ from 'jquery';
+import swal from 'sweetalert2';
 import { Documentos } from '../../../../../models/documento';
 import { DocumentoService } from '../../../../services/documento.service';
-import swal from 'sweetalert2';
-
 
 @Component({
   selector: 'app-cadastro-documento',
@@ -20,15 +19,12 @@ export class CadastroDocumentoComponent implements OnInit {
   loading: boolean[] = []; loadingCadastro = true;
   formSubmitted = false;
 
-
-
   constructor (private route: ActivatedRoute, private documentoservice: DocumentoService, private router: Router) {
   }
   ngOnInit () {
     this.createForm(new Documentos());
     this.pegaId();
   }
-
 
   createForm (documento: Documentos) {
     this.documentoForm = new FormGroup({
@@ -39,8 +35,7 @@ export class CadastroDocumentoComponent implements OnInit {
   }
   salvar () {
     this.loadingCadastro = false;
-    if (this.documentoForm.valid === false)
-    {
+    if (this.documentoForm.valid === false) {
       window.scrollTo(0, 0);
       swal.fire({
         icon: 'warning',
@@ -50,8 +45,7 @@ export class CadastroDocumentoComponent implements OnInit {
       });
       this.formSubmitted = true;
       this.loadingCadastro = true;
-    } else
-    {
+    } else {
       this.documentoservice.createDocumentos(this.documentoForm.value).subscribe((data: Documentos) => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
@@ -78,8 +72,7 @@ export class CadastroDocumentoComponent implements OnInit {
   }
   atualizar () {
     this.loadingCadastro = false;
-    if (this.documentoForm.valid === false)
-    {
+    if (this.documentoForm.valid === false) {
       window.scrollTo(0, 0);
       swal.fire({
         icon: 'warning',
@@ -89,8 +82,7 @@ export class CadastroDocumentoComponent implements OnInit {
       });
       this.formSubmitted = true;
       this.loadingCadastro = true;
-    } else
-    {
+    } else {
       this.documentoservice.updateDocumentos(this.documentoForm.value).subscribe(() => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
@@ -126,16 +118,13 @@ export class CadastroDocumentoComponent implements OnInit {
     this.route.queryParams.subscribe(
       queryParams => {
         this.idupdate = queryParams.id;
-        if (this.idupdate != null)
-        {
+        if (this.idupdate != null) {
           window.scrollTo(0, 0);
           this.titulo = 'Atualizar Documento';
           this.documentoservice.listDocumentosById(this.idupdate).subscribe((documento: Documentos) => {
             this.createForm(documento);
-          }, () => {
           });
-        } else
-        {
+        } else {
           window.scrollTo(0, 0);
           this.titulo = 'Cadastrar Documento';
           this.createForm(new Documentos());

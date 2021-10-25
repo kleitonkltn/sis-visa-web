@@ -1,10 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Estabelecimento } from '../../models/estabelecimento';
-import { EstabelecimentoService } from '../services/estabelecimento.service';
 import { Protocolo } from '../../models/protocolo';
 import { DenunciaService } from '../services/denuncia.service';
-import { TermoService } from '../services/termo.service';
+import { EstabelecimentoService } from '../services/estabelecimento.service';
 import { LicencaService } from '../services/licenca.service';
+import { TermoService } from '../services/termo.service';
 
 @Component({
   selector: 'app-home',
@@ -33,27 +33,22 @@ export class HomeComponent implements OnInit {
     this.licencaservice.ListarTodosLicencas()
       .subscribe((licenca) => {
         this.cont = licenca.length;
-      }, () => {
       });
 
     this.estbelecimentoService.ListarTodosEstabelecimentos()
       .subscribe((estabelecimento) => {
         this.contEst = estabelecimento.length;
-      }, () => {
       });
 
     this.denunciaService.ListarTodasDenuncias()
       .subscribe((denuncias) => {
         this.contDen = denuncias.length;
-      }, () => {
       });
 
     this.termoService.ListarTodosTermos()
       .subscribe((termos) => {
         this.contTer = termos.length;
-      }, () => {
       });
   }
 
 }
-

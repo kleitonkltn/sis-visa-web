@@ -1,11 +1,10 @@
 
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ChartOptions, ChartType } from 'chart.js';
+import * as moment from 'moment';
 import { Label, SingleDataSet } from 'ng2-charts';
 import { Estabelecimento } from '../../../models/estabelecimento';
 import { EstabelecimentoService } from '../../services/estabelecimento.service';
-import * as moment from 'moment';
-
 
 @Component({
   selector: 'app-pie-chart',
@@ -36,7 +35,6 @@ export class PieChartComponent implements OnInit {
     },
   ];
 
-
   constructor (private estabelecimentoService: EstabelecimentoService) { }
 
   ngOnInit () {
@@ -48,33 +46,27 @@ export class PieChartComponent implements OnInit {
       .subscribe((estabelecimentos) => {
         this.estabelecimentos = estabelecimentos;
         this.countLicencaStatus();
-      }, () => {
       });
   }
 
   countLicencaStatus () {
     this.estabelecimentos.filter(item => {
-      if (item.status == '0')
-      {
+      if (item.status === '0') {
         return this.inativosCount++;
       }
-      if (!item.data_retorno || !item.data_licenca)
-      {
+      if (!item.data_retorno || !item.data_licenca) {
         return this.vencidaCount++;
       }
       const dataAtual = moment(this.dataAtual);
       const dataLicenca = moment(item.data_retorno);
       const diferencaEntreDatas = dataLicenca.diff(dataAtual, 'days');
-      if (diferencaEntreDatas < 0)
-      {
+      if (diferencaEntreDatas < 0) {
         return this.vencidaCount++;
       }
-      if (diferencaEntreDatas >= 0 && diferencaEntreDatas <= 31)
-      {
+      if (diferencaEntreDatas >= 0 && diferencaEntreDatas <= 31) {
         this.avencerCount++;
       }
-      if (diferencaEntreDatas > 31)
-      {
+      if (diferencaEntreDatas > 31) {
         this.vigenteCount++;
       }
     });

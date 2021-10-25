@@ -1,9 +1,9 @@
 
+import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpEvent, HttpHandler, HttpRequest, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { StorageService } from '../services/storage.service';
 import { AutenticarService } from '../services/autenticar.service';
+import { StorageService } from '../services/storage.service';
 
 @Injectable()
 export class TokenInterceptorService implements HttpInterceptor {
@@ -12,11 +12,12 @@ export class TokenInterceptorService implements HttpInterceptor {
     if (this.auth.isAuthenticated)
     {
       const reqToken = this.addToken(req);
+
       return next.handle(reqToken);
     }
+
     return next.handle(req);
   }
-
 
   addToken (req: HttpRequest<any>): HttpRequest<any> {
     const httpOptions = ({

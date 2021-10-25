@@ -1,5 +1,8 @@
 {
   "extends": "tslint:recommended",
+  "linterOptions": {
+    "project": "./tsconfig.json"
+  },
   "rules": {
     "array-type": false,
     "arrow-parens": false,
@@ -30,7 +33,7 @@
       140
     ],
     "member-access": false,
-    "semicolon": false,
+    "semicolon": [true, "always"],
     "comment-format": false,
     "space-before-function-paren": false,
     "no-trailing-whitespace": false,
@@ -45,7 +48,7 @@
         ]
       }
     ],
-    "no-consecutive-blank-lines": false,
+    "no-consecutive-blank-lines": true,
     "no-console": [
       true,
       "debug",
@@ -55,22 +58,19 @@
       "trace"
     ],
     "variable-name": false,
-    "no-empty": false,
-    "no-inferrable-types": [
-      true,
-      "ignore-params"
-    ],
+    "no-empty": true,
     "no-non-null-assertion": true,
     "no-redundant-jsdoc": true,
     "no-switch-case-fall-through": true,
-    "no-use-before-declare": true,
+    "no-unused-expression":true,
+    "newline-before-return":true,
     "no-var-requires": false,
     "object-literal-key-quotes": [
       true,
       "as-needed"
     ],
     "object-literal-sort-keys": false,
-    "ordered-imports": false,
+    "ordered-imports": true,
     "quotemark": [
       true,
       "single"

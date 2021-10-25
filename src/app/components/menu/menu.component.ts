@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AutenticarService } from '../../services/autenticar.service';
 import { Usuario } from '../../../models/usuario';
+import { AutenticarService } from '../../services/autenticar.service';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
-
 
 export class MenuComponent implements OnInit {
   showMenu = true;
@@ -24,8 +23,6 @@ export class MenuComponent implements OnInit {
       }
     });
   }
-
-
 
   toggleSidebar () {
     document.getElementById('sidebar').classList.toggle('active');

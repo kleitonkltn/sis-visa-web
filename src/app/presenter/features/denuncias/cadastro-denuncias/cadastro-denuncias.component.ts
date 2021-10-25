@@ -2,20 +2,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, OnInit } from '@angular/core';
-import { Denuncias } from '../../../../../models/denuncias';
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DenunciaService } from '../../../../services/denuncia.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { Arquivos } from '../../../../../models/arquivos';
-import { AnexoService } from '../../../../services/anexo.service';
 import * as moment from 'moment';
 import swal from 'sweetalert2';
+import { Arquivos } from '../../../../../models/arquivos';
+import { Denuncias } from '../../../../../models/denuncias';
+import { AnexoService } from '../../../../services/anexo.service';
+import { DenunciaService } from '../../../../services/denuncia.service';
 
 export class Procedimentos {
   descricao: string;
   data: string;
 }
-
 
 @Component({
   selector: 'app-cadastro-denuncias',
@@ -42,18 +41,15 @@ export class CadastroDenunciasComponent implements OnInit {
   contatomask = (rawValue: string) => {
     const numbers = rawValue.match(/\d/g);
     let numberLength = 0;
-    if (numbers)
-    {
+    if (numbers) {
       numberLength = numbers.join('').length;
     }
-    if (numberLength <= 10)
-    {
+    if (numberLength <= 10) {
       return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
-    } else
-    {
+    } else {
       return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
     }
-  };
+  }
 
   constructor (private route: ActivatedRoute, private denunciasService: DenunciaService,
     private anexoService: AnexoService, private formBuilder: FormBuilder, private router: Router) {
@@ -99,8 +95,7 @@ export class CadastroDenunciasComponent implements OnInit {
   }
   salvar () {
     this.loadingCadastro = false;
-    if (this.DenuciasForm.valid === false)
-    {
+    if (this.DenuciasForm.valid === false) {
       window.scrollTo(0, 0);
       swal.fire({
         icon: 'warning',
@@ -110,8 +105,7 @@ export class CadastroDenunciasComponent implements OnInit {
       });
       this.formSubmitted = true;
       this.loadingCadastro = true;
-    } else
-    {
+    } else {
       this.denunciasService.createDenuncias(this.DenuciasForm.value).subscribe((data: Denuncias) => {
         this.loadingCadastro = true;
         this.createForm(data);
@@ -145,8 +139,7 @@ export class CadastroDenunciasComponent implements OnInit {
   }
   atualizar () {
     this.loadingCadastro = false;
-    if (this.DenuciasForm.valid === false)
-    {
+    if (this.DenuciasForm.valid === false) {
       window.scrollTo(0, 0);
       swal.fire({
         icon: 'warning',
@@ -156,8 +149,7 @@ export class CadastroDenunciasComponent implements OnInit {
       });
       this.formSubmitted = true;
       this.loadingCadastro = true;
-    } else
-    {
+    } else {
       this.denunciasService.atualizarDenuncia(this.DenuciasForm.value).subscribe(() => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
@@ -192,13 +184,11 @@ export class CadastroDenunciasComponent implements OnInit {
     this.route.queryParams.subscribe(
       queryParams => {
         this.idupdate = queryParams.id;
-        if (this.idupdate != null)
-        {
+        if (this.idupdate != null) {
           window.scrollTo(0, 0);
           this.titulo = 'Atualizar Denúncia';
           this.getDenuncia();
-        } else
-        {
+        } else {
           window.scrollTo(0, 0);
           this.titulo = 'Cadastrar Denúncia';
           this.createForm(new Denuncias());
@@ -209,8 +199,7 @@ export class CadastroDenunciasComponent implements OnInit {
   getDenuncia () {
     this.denunciasService.ListarDenunciasPorID(this.idupdate).subscribe((denuncia) => {
       this.denuncia = denuncia;
-      if (denuncia.procedimentos != null)
-      {
+      if (denuncia.procedimentos != null) {
         this.procedimentos.push(...denuncia.procedimentos);
       }
 
@@ -226,18 +215,16 @@ export class CadastroDenunciasComponent implements OnInit {
   }
   submitProcedimento () {
     this.loadingProcedimento = false;
-    if (this.DenuciasForm.value.id != null)
-    {
+    if (this.DenuciasForm.value.id != null) {
       this.submitted = true;
-      if (this.formProcedimento.status !== 'INVALID')
-      {
+      if (this.formProcedimento.status !== 'INVALID') {
         this.formProcedimento.value.data = moment(this.formProcedimento.value.data).format('YYYY-MM-DD');
         this.procedimentos.push(...[this.formProcedimento.value]);
         this.updateProcedimento();
-      } else
-      {
+      } else {
         this.loadingProcedimento = true;
         this.formSubmitted = true;
+
         return swal.fire({
           icon: 'warning',
           title: 'Falha no Cadastro Preencha os campos Marcados com (*):',
@@ -246,8 +233,7 @@ export class CadastroDenunciasComponent implements OnInit {
         });
 
       }
-    } else
-    {
+    } else {
       swal.fire({
         icon: 'warning',
         title: 'Cadastre uma denúncia, ou atualize uma existente',
@@ -268,6 +254,7 @@ export class CadastroDenunciasComponent implements OnInit {
         this.ordernarPorData();
         this.setupForm(new Procedimentos());
         this.getDenuncia();
+
         return swal.fire({
           icon: 'success',
           title: 'Procedimento cadastrado com sucesso',
@@ -278,6 +265,7 @@ export class CadastroDenunciasComponent implements OnInit {
       },
       error => {
         this.loadingProcedimento = true;
+
         return swal.fire({
           icon: 'warning',
           title: 'Falha ao cadastrar procedimento',
@@ -302,19 +290,16 @@ export class CadastroDenunciasComponent implements OnInit {
   }
   ListaArq () {
     this.loadingNumvem = false;
-    if (this.status === 'abrir')
-    {
+    if (this.status === 'abrir') {
       this.status = 'fechar';
       this.anexoService.listFilesByModel('denuncia', this.idupdate).subscribe((arq: Arquivos[]) => {
         this.loadingNumvem = true;
         this.listaArq = arq;
-        for (let i = 0; i < this.listaArq.length; i++)
-        {
+        for (let i = 0; i < this.listaArq.length; i++) {
           this.loadingRemove[i] = true;
         }
       });
-    } else
-    {
+    } else {
       this.loadingNumvem = true;
       this.status = 'abrir';
       this.listaArq.splice(0);
@@ -323,8 +308,7 @@ export class CadastroDenunciasComponent implements OnInit {
 
   onUploadChange (evt) {
     const files = evt.target.files;
-    for (let i = 0, f; f = files[i]; i++)
-    {
+    files.forEach((file) => {
       const reader = new FileReader();
       reader.onload = ((theFile) => {
         return (e) => {
@@ -337,13 +321,13 @@ export class CadastroDenunciasComponent implements OnInit {
           this.inicializaLoding();
         };
       })
-        (f);
-      reader.readAsDataURL(f);
-    }
+        (file);
+      reader.readAsDataURL(file);
+    });
   }
+
   inicializaLoding () {
-    for (let i = 0; i < this.base64textString.length; i++)
-    {
+    for (let i = 0; i < this.base64textString.length; i++) {
       this.loading[i] = true;
     }
   }
@@ -356,20 +340,16 @@ export class CadastroDenunciasComponent implements OnInit {
     this.loading.splice(i, 1); this.descricao.splice(i, 1);
   }
   formatType (doc: string) {
-    if (doc === 'vnd.openxmlformats-officedocument.wordprocessingml.document')
-    {
+    if (doc === 'vnd.openxmlformats-officedocument.wordprocessingml.document') {
       return 'docx';
-    } else if (doc === 'pdf')
-    {
+    } else if (doc === 'pdf') {
       return 'pdf';
-    } else
-    {
+    } else {
       return '';
     }
   }
   enviar (src: string, i: string | number) {
-    if (this.DenuciasForm.value.id != null)
-    {
+    if (this.DenuciasForm.value.id != null) {
       this.arquivos.descricao = this.nomeArquivo[i];
       this.arquivos.descricao_completa = this.descricao[i];
       this.arquivos.id_denuncia = this.DenuciasForm.value.id;
@@ -379,6 +359,7 @@ export class CadastroDenunciasComponent implements OnInit {
       this.anexoService.salvarAnexo(this.arquivos).subscribe(() => {
         this.loading[i] = true;
         this.removerDaLista(Number(i));
+
         return swal.fire({
           icon: 'success',
           title: 'Anexo cadastrado com sucesso',
@@ -393,8 +374,7 @@ export class CadastroDenunciasComponent implements OnInit {
           timer: 2000
         });
       });
-    } else
-    {
+    } else {
       swal.fire({
         icon: 'warning',
         title: 'Cadastre uma denúncia, ou atualize uma existente',
@@ -404,10 +384,8 @@ export class CadastroDenunciasComponent implements OnInit {
     }
   }
   enviarTodos () {
-    if (this.DenuciasForm.value.id != null)
-    {
-      for (let i = 0; i < this.base64textString.length; i++)
-      {
+    if (this.DenuciasForm.value.id != null) {
+      for (let i = 0; i < this.base64textString.length; i++) {
         this.loading[i] = false;
         this.arquivos.descricao = this.nomeArquivo[i];
         this.arquivos.path = this.base64textString[i];
@@ -433,8 +411,7 @@ export class CadastroDenunciasComponent implements OnInit {
           });
         });
       }
-    } else
-    {
+    } else {
       swal.fire({
         icon: 'warning',
         title: 'Cadastre uma denúncia, ou atualize uma existente',
@@ -447,10 +424,8 @@ export class CadastroDenunciasComponent implements OnInit {
     this.loadingRemove[this.indice] = false;
     this.anexoService.deleteFileByKey(this.anexo.key).subscribe(
       () => {
-        for (let i = 0; i <= this.listaArq.length; i++)
-        {
-          if (this.listaArq[i].key === this.anexo.key)
-          {
+        for (let i = 0; i <= this.listaArq.length; i++) {
+          if (this.listaArq[i].key === this.anexo.key) {
             this.listaArq.splice(i, 1);
             this.loadingRemove.splice(i, 1);
           }
@@ -479,4 +454,3 @@ export class CadastroDenunciasComponent implements OnInit {
     this.item = item;
   }
 }
-

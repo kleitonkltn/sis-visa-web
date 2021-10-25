@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Embasamentos } from '../../../../../models/embasamentos';
 import { EmbasamentoService } from '../../../../services/embasamento.service';
 
@@ -31,15 +31,13 @@ export class ListaEmbasamentoComponent implements OnInit {
         this.statusEst = true;
         this.embasamentos = embasamentos;
         this.initList();
-      }, () => {
       });
   }
   initList () {
     this.listItems = this.embasamentos;
   }
   search () {
-    if (this.textSearch.length > 0)
-    {
+    if (this.textSearch.length > 0) {
       const val = this.textSearch;
       this.initList();
       this.listItems = this.listItems.filter((item) => {
@@ -47,8 +45,7 @@ export class ListaEmbasamentoComponent implements OnInit {
           String(item.descricao).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           String(item.descricao_completa).toLowerCase().indexOf(val.toLowerCase()) > -1);
       });
-    } else
-    {
+    } else {
       this.initList();
     }
   }

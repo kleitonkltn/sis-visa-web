@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { DenunciaService } from '../../../../services/denuncia.service';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { Arquivos } from '../../../../../models/arquivos';
 import { Denuncias } from '../../../../../models/denuncias';
 import { AnexoService } from '../../../../services/anexo.service';
-import { Arquivos } from '../../../../../models/arquivos';
-import { Title } from '@angular/platform-browser';
-
+import { DenunciaService } from '../../../../services/denuncia.service';
 
 @Component({
   selector: 'app-denuncias',
@@ -31,19 +30,16 @@ export class DenunciasComponent implements OnInit {
     this.route.queryParams.subscribe(
       queryParams => {
         this.idupdate = queryParams.id;
-        if (this.idupdate != null)
-        {
+        if (this.idupdate != null) {
           this.denunciaService.ListarDenunciasPorID(this.idupdate).subscribe((denuncia) => {
             window.scrollTo(0, 0);
             this.denuncia = denuncia;
             this.denuncia.status = this.formatarStatusDenuncia(denuncia.status);
             this.denuncia.origem = this.formatarOrigemDenuncia(denuncia.origem);
             this.statusDen = true;
-            if (this.denuncia.procedimentos != null)
-            {
+            if (this.denuncia.procedimentos != null) {
               this.titoProcedimento = 'Procedimento da denúncia';
             }
-          }, () => {
           });
         }
       }
@@ -51,24 +47,20 @@ export class DenunciasComponent implements OnInit {
 
     this.anexoService.listFilesByModel('denuncia', this.idupdate).subscribe((arq: Arquivos[]) => {
       this.arquivo = arq;
-      if (this.arquivo.length > 0)
-      {
+      if (this.arquivo.length > 0) {
         this.titulo = 'Anexos do Denúncia';
       }
-    }, () => {
     });
   }
 
   verAnexo (item) {
     this.item = item;
-    if (item.type === 'pdf' || item.type === 'docx')
-    {
+    if (item.type === 'pdf' || item.type === 'docx') {
       window.open(item.url_location);
     }
   }
   formatarStatusDenuncia (tipoTermo) {
-    switch (tipoTermo)
-    {
+    switch (tipoTermo) {
       case 'notificada':
         return 'Notificada';
       case 'providenciasDiversas':
@@ -84,8 +76,7 @@ export class DenunciasComponent implements OnInit {
     }
   }
   formatarOrigemDenuncia (tipoTermo) {
-    switch (tipoTermo)
-    {
+    switch (tipoTermo) {
       case 'pagina_facebook':
         return 'Página do Facebook';
       case 'facebook':
@@ -98,6 +89,5 @@ export class DenunciasComponent implements OnInit {
         return 'Pessoalmente';
     }
   }
-
 
 }

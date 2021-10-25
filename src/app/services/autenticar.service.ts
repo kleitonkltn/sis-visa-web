@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Injectable, EventEmitter } from '@angular/core';
-import { Usuario } from '../../models/usuario';
-import { BehaviorSubject } from 'rxjs';
-import { StorageService } from './storage.service';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { LoginProviderService } from '../providers/login-provider-service';
-import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { EventEmitter, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { BehaviorSubject } from 'rxjs';
 import Swal from 'sweetalert2';
+import { Usuario } from '../../models/usuario';
+import { LoginProviderService } from '../providers/login-provider-service';
+import { StorageService } from './storage.service';
 
 declare let $: any;
 
@@ -27,18 +27,15 @@ export class AutenticarService {
 
   async checkToken () {
     const token = await this.storage.getStorageToken();
-    if (token)
-    {
+    if (token) {
       const decoded = this.helper.decodeToken(token);
       const isExpired = this.helper.isTokenExpired(token);
-      if (!isExpired)
-      {
+      if (!isExpired) {
         this._user = decoded;
         this._token = token;
         this.storage.setUser(this._user);
         this.authenticationState.next(true);
-      } else
-      {
+      } else {
         this.showDialogMessage('Sessão Finalizada, Logue Novamente', 'error');
         this.authenticationState.next(false);
         this.storage.deleteToken();
@@ -49,18 +46,17 @@ export class AutenticarService {
 
   login (credentials) {
     this.loading = false;
+
     return this.loginProvider.login(credentials)
       .subscribe(res => {
-        if (res['token'])
-        {
+        if (res['token']) {
           this._user = this.helper.decodeToken(res['token']);
           this.storage.addToken(res['token']);
           this.storage.setUser(this._user);
           this.authenticationState.next(true);
           location.reload();
           this.loading = true;
-        } else
-        {
+        } else {
           return this.showDialogMessage('Matrícula e/ou senha incorreta. Verifique suas credenciais', 'error');
         }
       }, (e) => {
@@ -79,6 +75,7 @@ export class AutenticarService {
 
   isAuthenticated () {
     this.checkToken();
+
     return this.authenticationState.value;
   }
 

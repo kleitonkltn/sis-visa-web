@@ -1,17 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import * as $ from 'jquery';
+import swal from 'sweetalert2';
+import { Arquivos } from '../../../../../models/arquivos';
+import { Email } from '../../../../../models/email';
 import { Estabelecimento } from '../../../../../models/estabelecimento';
-import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { Usuario } from '../../../../../models/usuario';
+import { AnexoService } from '../../../../services/anexo.service';
+import { AutenticarService } from '../../../../services/autenticar.service';
+import { EmailService } from '../../../../services/email.service';
 import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
 import { PdfService } from '../../../../services/pdf.service';
-import { Arquivos } from '../../../../../models/arquivos';
-import { AnexoService } from '../../../../services/anexo.service';
-import * as $ from 'jquery';
-import { AutenticarService } from '../../../../services/autenticar.service';
-import { Usuario } from '../../../../../models/usuario';
-import { EmailService } from '../../../../services/email.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Email } from '../../../../../models/email';
-import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-estabelecimentos',
@@ -41,7 +41,6 @@ export class EstabelecimentosComponent implements OnInit {
     this.createForm(new Email());
   }
 
-
   toggleSidebar () {
     document.getElementById('btnprincipal').classList.toggle('active');
 
@@ -56,31 +55,26 @@ export class EstabelecimentosComponent implements OnInit {
     this.route.queryParams.subscribe(
       queryParams => {
         this.idupdate = queryParams.id;
-        if (this.idupdate != null)
-        {
+        if (this.idupdate != null) {
           window.scrollTo(0, 0);
-          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idupdate).subscribe((estabelecimentos) => {
+          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idupdate.toString()).subscribe((estabelecimentos) => {
             this.estabelecimentos = estabelecimentos;
             this.retornaCampos();
             this.statusEst = true;
-          }, () => {
           });
         }
       }
     );
     this.anexoService.listFilesByModel('estabelecimento', this.idupdate).subscribe((arq: Arquivos[]) => {
       this.arquivo = arq;
-      if (this.arquivo.length > 0)
-      {
+      if (this.arquivo.length > 0) {
         this.titulo = 'Anexos do Estabelecimento';
       }
-    }, () => {
     });
   }
   verAnexo (item) {
     this.item = item;
-    if (item.type === 'pdf' || item.type === 'docx')
-    {
+    if (item.type === 'pdf' || item.type === 'docx') {
       window.open(item.url_location);
     }
   }
@@ -89,39 +83,31 @@ export class EstabelecimentosComponent implements OnInit {
       .subscribe((atividade) => {
         this.Atividade = atividade;
         this.estabelecimentos.atividade = this.Atividade.atividade;
-      }, () => {
       });
     this.estabelecimentoservice.listarCnaePorID(this.estabelecimentos.cnae)
       .subscribe((cnae) => {
         this.CNAE = cnae;
         this.estabelecimentos.cnae = this.CNAE.descricao;
-      }, () => {
       });
 
-    if (Number(this.estabelecimentos.status) < 0)
-    {
+    if (Number(this.estabelecimentos.status) < 0) {
       this.estabelecimentos.status = 'Ativo';
-    } else if (Number(this.estabelecimentos.status) === 1)
-    {
+    } else if (Number(this.estabelecimentos.status) === 1) {
       this.estabelecimentos.status = 'Documentação Pendente';
-    } else
-    {
+    } else {
       this.estabelecimentos.status = 'Inativo';
     }
 
-    if (Number(this.estabelecimentos.pessoa) < 1)
-    {
+    if (Number(this.estabelecimentos.pessoa) < 1) {
       this.estabelecimentos.pessoa = 'Pessoa Física';
-    } else
-    {
+    } else {
       this.estabelecimentos.pessoa = 'Pessoa Juridica';
     }
   }
 
   licencaPdf () {
     this.loading = false;
-    if (this.idupdate != null)
-    {
+    if (this.idupdate != null) {
       this.pdfservice.downloadFile(this.idupdate).subscribe(response => {
         const file = new Blob([response], { type: 'application/pdf' });
         const fileURL = URL.createObjectURL(file);
@@ -143,16 +129,14 @@ export class EstabelecimentosComponent implements OnInit {
   }
   get f () { return this.estabelecimentos; }
   verificaLicenca () {
-    if (this.estabelecimentos.licenca !== null)
-    {
+    if (this.estabelecimentos.licenca !== null) {
       const navigationExtras: NavigationExtras = {
         queryParams: {
           id_est: this.estabelecimentos.id
         }
       };
       this.router.navigate(['/Cadastrolicenca/'], navigationExtras);
-    } else
-    {
+    } else {
       window.scrollTo(0, 0);
       swal.fire({
         icon: 'warning',
@@ -165,16 +149,14 @@ export class EstabelecimentosComponent implements OnInit {
   }
 
   verificaUser () {
-    if (this.usuario.nivel_acesso === 'gerente' || this.usuario.nivel_acesso === 'fiscal')
-    {
+    if (this.usuario.nivel_acesso === 'gerente' || this.usuario.nivel_acesso === 'fiscal') {
       const navigationExtras: NavigationExtras = {
         queryParams: {
           id_est: this.estabelecimentos.id
         }
       };
       this.router.navigate(['/CadastroRelatorio/'], navigationExtras);
-    } else
-    {
+    } else {
       window.scrollTo(0, 0);
       swal.fire({
         icon: 'warning',
@@ -186,8 +168,7 @@ export class EstabelecimentosComponent implements OnInit {
 
   }
   VerificaEmail () {
-    if (this.estabelecimentos.email)
-    {
+    if (this.estabelecimentos.email) {
       this.destinario.destinatario = this.estabelecimentos.email;
       this.createForm(this.destinario);
     }
@@ -195,8 +176,7 @@ export class EstabelecimentosComponent implements OnInit {
   EnviarEmail () {
     this.loadingEmail = false;
     this.email = this.emailForm.value;
-    if (this.emailForm.valid === false)
-    {
+    if (this.emailForm.valid === false) {
       swal.fire({
         icon: 'warning',
         title: 'Campo destinatário é obrigatório',
@@ -204,8 +184,7 @@ export class EstabelecimentosComponent implements OnInit {
         timer: 2000
       });
       this.loadingEmail = true;
-    } else
-    {
+    } else {
       return new Promise((resolve, reject) => {
         const dataSend = {
           id: Number(this.idupdate),
@@ -217,8 +196,7 @@ export class EstabelecimentosComponent implements OnInit {
           $('.modal-header .close').click();
           window.scrollTo(0, 0);
           console.log(data);
-          if (data !== null && data['code'] === 'EENVELOPE')
-          {
+          if (data !== null && data['code'] === 'EENVELOPE') {
             this.loadingEmail = true;
             swal.fire({
               icon: 'warning',
@@ -226,8 +204,7 @@ export class EstabelecimentosComponent implements OnInit {
               showConfirmButton: false,
               timer: 4000
             });
-          } else
-          {
+          } else {
             swal.fire({
               icon: 'success',
               title: 'Licença Enviada com Sucesso',

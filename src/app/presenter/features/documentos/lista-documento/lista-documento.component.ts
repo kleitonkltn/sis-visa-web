@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Documentos } from '../../../../../models/documento';
 import { DocumentoService } from '../../../../services/documento.service';
@@ -32,7 +32,6 @@ export class ListaDocumentoComponent implements OnInit {
         this.statusEst = true;
         this.documentos = documentos;
         this.initList();
-      }, () => {
       });
   }
   initList () {
@@ -40,8 +39,7 @@ export class ListaDocumentoComponent implements OnInit {
   }
 
   search () {
-    if (this.textSearch.length > 0)
-    {
+    if (this.textSearch.length > 0) {
       const val = this.textSearch;
       this.initList();
       this.listItems = this.listItems.filter((item) => {
@@ -49,8 +47,7 @@ export class ListaDocumentoComponent implements OnInit {
           String(item.descricao).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           String(item.descricao_completa).toLowerCase().indexOf(val.toLowerCase()) > -1);
       });
-    } else
-    {
+    } else {
       this.initList();
     }
   }

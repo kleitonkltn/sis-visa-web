@@ -24,4 +24,4 @@ export const environment = {
   apiUrl_sendLicenca: 'https://ambiente-visa.herokuapp.com/api/pdf/email/licenca',
   apiUrl_sendRelatorio: 'https://ambiente-visa.herokuapp.com/api/pdf/email/relatorio',
   apiUrl_sendProtocolo: 'https://ambiente-visa.herokuapp.com/api/pdf/email/protocolo',
-}
+};

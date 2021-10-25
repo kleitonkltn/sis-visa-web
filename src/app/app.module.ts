@@ -1,61 +1,59 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgModule, APP_BOOTSTRAP_LISTENER, LOCALE_ID } from '@angular/core';
-import { AppComponent } from './app.component';
-import { MenuComponent } from './components/menu/menu.component';
-import { EstabelecimentosComponent } from './presenter/features/estabelecimentos/estabelecimentos/estabelecimentos.component';
-import { EstabelecimentoService } from './services/estabelecimento.service';
-import { ListaEstabelecimentoComponent } from './presenter/features/estabelecimentos/lista-estabelecimento/lista-estabelecimento.component';
-import { RouterModule, Routes } from '@angular/router';
+import { DatePipe, registerLocaleData } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxPaginationModule } from 'ngx-pagination';
-import { CadastroEstabelecimentoComponent } from './presenter/features/estabelecimentos/cadastro-estabelecimento/cadastro-estabelecimento.component';
-import { TextMaskModule } from 'angular2-text-mask';
-import { CadastroProtocoloComponent } from './presenter/features/protocolos/cadastro-protocolo/cadastro-protocolo.component';
-import { ProtocoloService } from './services/protocolo.service';
-import { ListaProtocoloComponent } from './presenter/features/protocolos/lista-protocolo/lista-protocolo.component';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { ProtocoloComponent } from './presenter/features/protocolos/protocolo/protocolo.component';
-import { PdfService } from './services/pdf.service';
-import { AutenticarService } from './services/autenticar.service';
-import { HomeComponent } from './home/home.component';
-import { ChartsModule } from 'ng2-charts';
-import { PieChartComponent } from './components/pie-chart/pie-chart.component';
-import { LoginComponent } from './presenter/features/authentication/login/login.component';
-import { JwtHelperService, JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
-import { LoginProviderService } from './providers/login-provider-service';
-import { StorageService } from './services/storage.service';
-import { AuthGuard } from './guards/auth-guard';
-import { TokenInterceptorService } from './intercerptors/token-interceptor.service';
-import { BarChartComponent } from './components/bar-chart/bar-chart.component';
 import localeBr from '@angular/common/locales/br';
 import localeBrExtra from '@angular/common/locales/extra/br';
-import { DatePipe, registerLocaleData } from '@angular/common';
+import { APP_BOOTSTRAP_LISTENER, LOCALE_ID, NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule, Routes } from '@angular/router';
+import { JwtHelperService, JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { TextMaskModule } from 'angular2-text-mask';
+import { ChartsModule } from 'ng2-charts';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { AppComponent } from './app.component';
+import { BarChartComponent } from './components/bar-chart/bar-chart.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { PieChartComponent } from './components/pie-chart/pie-chart.component';
+import { AuthGuard } from './guards/auth-guard';
+import { HomeComponent } from './home/home.component';
+import { TokenInterceptorService } from './intercerptors/token-interceptor.service';
+import { LoginComponent } from './presenter/features/authentication/login/login.component';
 import { CadastroDenunciasComponent } from './presenter/features/denuncias/cadastro-denuncias/cadastro-denuncias.component';
+import { CadastroEstabelecimentoComponent } from './presenter/features/estabelecimentos/cadastro-estabelecimento/cadastro-estabelecimento.component';
+import { EstabelecimentosComponent } from './presenter/features/estabelecimentos/estabelecimentos/estabelecimentos.component';
+import { ListaEstabelecimentoComponent } from './presenter/features/estabelecimentos/lista-estabelecimento/lista-estabelecimento.component';
+import { CadastroProtocoloComponent } from './presenter/features/protocolos/cadastro-protocolo/cadastro-protocolo.component';
+import { ListaProtocoloComponent } from './presenter/features/protocolos/lista-protocolo/lista-protocolo.component';
+import { ProtocoloComponent } from './presenter/features/protocolos/protocolo/protocolo.component';
+import { LoginProviderService } from './providers/login-provider-service';
+import { AutenticarService } from './services/autenticar.service';
+import { EstabelecimentoService } from './services/estabelecimento.service';
+import { PdfService } from './services/pdf.service';
+import { ProtocoloService } from './services/protocolo.service';
+import { StorageService } from './services/storage.service';
 
+import { MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatSelectModule } from '@angular/material';
+import { CadastroAtividadeComponent } from './presenter/features/atividades/cadastro-atividade/cadastro-atividade.component';
+import { ListaAtividadeComponent } from './presenter/features/atividades/lista-atividade/lista-atividade.component';
 import { DenunciasComponent } from './presenter/features/denuncias/denuncias/denuncias.component';
-import { CadastroLicencaComponent } from './presenter/features/licencas/cadastro-licenca/cadastro-licenca.component';
-import { ListaLicencaComponent } from './presenter/features/licencas/lista-licenca/lista-licenca.component';
-import { LicencaService } from './services/licenca.service';
-import { LicencaComponent } from './presenter/features/licencas/licenca/licenca.component';
-import { CadastroTermosComponent } from './presenter/features/termos/cadastro-termo/cadastro-termo.component';
-import { AtividadeService } from './services/atividade.service';
-import { ListaTermoComponent } from './presenter/features/termos/lista-termo/lista-termo.component';
-import { TermosComponent } from './presenter/features/termos/termos/termo.component';
+import { ListaDenunciasComponent } from './presenter/features/denuncias/lista-denuncias/lista-denuncias.component';
 import { CadastroDocumentoComponent } from './presenter/features/documentos/cadastro-documento/cadastro-documento.component';
 import { ListaDocumentoComponent } from './presenter/features/documentos/lista-documento/lista-documento.component';
 import { CadastroEmbasamentoComponent } from './presenter/features/embasamentos/cadastro-embasamento/cadastro-embasamento.component';
 import { ListaEmbasamentoComponent } from './presenter/features/embasamentos/lista-embasamento/lista-embasamento.component';
-import { CadastroAtividadeComponent } from './presenter/features/atividades/cadastro-atividade/cadastro-atividade.component';
-import { ListaAtividadeComponent } from './presenter/features/atividades/lista-atividade/lista-atividade.component';
+import { CadastroLicencaComponent } from './presenter/features/licencas/cadastro-licenca/cadastro-licenca.component';
+import { LicencaComponent } from './presenter/features/licencas/licenca/licenca.component';
+import { ListaLicencaComponent } from './presenter/features/licencas/lista-licenca/lista-licenca.component';
 import { CadastroRelatorioComponent } from './presenter/features/relatorios/cadastro-relatorio/cadastro-relatorio.component';
 import { ListaRelatorioComponent } from './presenter/features/relatorios/lista-relatorio/lista-relatorio.component';
 import { RelatoriosComponent } from './presenter/features/relatorios/relatorios/relatorios.component';
-import { MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatSelectModule } from '@angular/material';
-import { ListaDenunciasComponent } from './presenter/features/denuncias/lista-denuncias/lista-denuncias.component';
-
-
+import { CadastroTermosComponent } from './presenter/features/termos/cadastro-termo/cadastro-termo.component';
+import { ListaTermoComponent } from './presenter/features/termos/lista-termo/lista-termo.component';
+import { TermosComponent } from './presenter/features/termos/termos/termo.component';
+import { AtividadeService } from './services/atividade.service';
+import { LicencaService } from './services/licenca.service';
 
 export function jwtOptionsFactory (tokenService) {
   return {
@@ -93,7 +91,6 @@ const appRoute: Routes = [
   { path: 'relatorio', component: RelatoriosComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', resolve: { path: 'home' }, component: HomeComponent }
-
 
 ];
 @NgModule({

@@ -1,15 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ProtocoloService } from '../../../../services/protocolo.service';
-import { PdfService } from '../../../../services/pdf.service';
-import { Protocolo } from '../../../../../models/protocolo';
-import { Arquivos } from '../../../../../models/arquivos';
-import { AnexoService } from '../../../../services/anexo.service';
 import * as $ from 'jquery';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Email } from '../../../../../models/email';
-import { EmailService } from '../../../../services/email.service';
 import swal from 'sweetalert2';
+import { Arquivos } from '../../../../../models/arquivos';
+import { Email } from '../../../../../models/email';
+import { Protocolo } from '../../../../../models/protocolo';
+import { AnexoService } from '../../../../services/anexo.service';
+import { EmailService } from '../../../../services/email.service';
+import { PdfService } from '../../../../services/pdf.service';
+import { ProtocoloService } from '../../../../services/protocolo.service';
 
 @Component({
   selector: 'app-protocolo',
@@ -45,13 +45,11 @@ export class ProtocoloComponent implements OnInit {
     this.route.queryParams.subscribe(
       queryParams => {
         this.idprotocolo = queryParams.id;
-        if (this.idprotocolo != null)
-        {
+        if (this.idprotocolo != null) {
           window.scrollTo(0, 0);
           this.protocoloService.ListarTodosProtocolosPorID(this.idprotocolo).subscribe((protocolo) => {
             this.protocolos = protocolo;
             this.statusProt = true;
-          }, () => {
           });
         }
       }
@@ -59,18 +57,15 @@ export class ProtocoloComponent implements OnInit {
 
     this.anexoService.listFilesByModel('protocolo', this.idprotocolo).subscribe((arq: Arquivos[]) => {
       this.arquivo = arq;
-      if (this.arquivo.length > 0)
-      {
+      if (this.arquivo.length > 0) {
         this.titulo = 'Anexos do Protocolo';
       }
-    }, () => {
     });
   }
 
   protocoloPdf () {
     this.loading = false;
-    if (this.idprotocolo != null)
-    {
+    if (this.idprotocolo != null) {
       this.pdfservice.downloadFileProtocolo(this.idprotocolo).subscribe(response => {
         const file = new Blob([response], { type: 'application/pdf' });
         const fileURL = URL.createObjectURL(file);
@@ -90,24 +85,21 @@ export class ProtocoloComponent implements OnInit {
   }
   verAnexo (item) {
     this.item = item;
-    if (item.type === 'pdf' || item.type === 'docx')
-    {
+    if (item.type === 'pdf' || item.type === 'docx') {
       window.open(item.url_location);
     }
   }
 
   EnviarEmail () {
     this.email = this.emailForm.value;
-    if (this.emailForm.valid === false)
-    {
+    if (this.emailForm.valid === false) {
       swal.fire({
         icon: 'warning',
         title: 'Campo destinatário é obrigatório',
         showConfirmButton: false,
         timer: 2000
       });
-    } else
-    {
+    } else {
       return new Promise((resolve, reject) => {
         const dataSend = {
           id: Number(this.idprotocolo),
@@ -118,16 +110,14 @@ export class ProtocoloComponent implements OnInit {
           resolve(data);
           $('.modal-header .close').click();
           window.scrollTo(0, 0);
-          if (data !== null && data['code'] === 'EENVELOPE')
-          {
+          if (data !== null && data['code'] === 'EENVELOPE') {
             swal.fire({
               icon: 'warning',
               title: 'Erro ao  enviar protocolo',
               showConfirmButton: false,
               timer: 4000
             });
-          } else
-          {
+          } else {
             swal.fire({
               icon: 'success',
               title: 'Protocolo enviado com Sucesso',

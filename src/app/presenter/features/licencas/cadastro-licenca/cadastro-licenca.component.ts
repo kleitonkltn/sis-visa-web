@@ -1,19 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { Licencas } from '../../../../../models/licencas';
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import * as moment from 'moment';
-import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
-import { AutenticarService } from '../../../../services/autenticar.service';
-import { Usuario } from '../../../../../models/usuario';
-import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
-import { Estabelecimento } from '../../../../../models/estabelecimento';
-import { LicencaService } from '../../../../services/licenca.service';
-import { Arquivos } from '../../../../../models/arquivos';
-import { AnexoService } from '../../../../services/anexo.service';
 import swal from 'sweetalert2';
+import { Arquivos } from '../../../../../models/arquivos';
+import { Estabelecimento } from '../../../../../models/estabelecimento';
+import { Licencas } from '../../../../../models/licencas';
+import { Usuario } from '../../../../../models/usuario';
+import { AnexoService } from '../../../../services/anexo.service';
+import { AutenticarService } from '../../../../services/autenticar.service';
+import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
+import { LicencaService } from '../../../../services/licenca.service';
 declare let $: any;
-
-
 
 @Component({
   selector: 'app-cadastro-licenca',
@@ -83,10 +81,6 @@ export class CadastroLicencaComponent implements OnInit {
     return this.f.status_segundo_fiscal.value === 'autorizada' && this.f.segundo_fiscal.value === this.usuario.matricula;
   }
 
-
-
-
-
   ngOnInit () {
     this.dataEstabelecimento = '';
     this.createForm(new Licencas());
@@ -117,27 +111,21 @@ export class CadastroLicencaComponent implements OnInit {
       queryParams => {
         this.idlicenca = queryParams.id;
         this.idestabelecimento = queryParams.id_est;
-        if (this.idlicenca != null)
-        {
+        if (this.idlicenca != null) {
           this.licencaService.ListarLicencaPorID(this.idlicenca).subscribe((licenca: Licencas) => {
             this.titulo = 'Emitir Licença';
             window.scrollTo(0, 0);
             this.licenca = licenca;
             this.createForm(this.licenca);
 
-            this.estabelecimentoservice.listarEstabelecimentoPorID(licenca.estabelecimento).subscribe((est: Estabelecimento) => {
+            this.estabelecimentoservice.listarEstabelecimentoPorID(licenca.estabelecimento.toString()).subscribe((est: Estabelecimento) => {
               this.dataEstabelecimento = est;
-            }, () => {
             });
 
-          }, () => {
           });
-        } else
-        {
         }
 
-        if (this.idestabelecimento != null)
-        {
+        if (this.idestabelecimento != null) {
           this.estabelecimentoservice.listarEstabelecimentoPorID(this.idestabelecimento).subscribe((est: Estabelecimento) => {
             this.titulo = 'Pedido de licença';
             window.scrollTo(0, 0);
@@ -149,10 +137,7 @@ export class CadastroLicencaComponent implements OnInit {
             this.licenca.estabelecimento = est.id;
             this.licenca.licenca = Number(est.licenca);
             this.createForm(this.licenca);
-          }, () => {
           });
-        } else
-        {
         }
       }
     );
@@ -168,8 +153,7 @@ export class CadastroLicencaComponent implements OnInit {
 
   cadastrar () {
     this.loadingCadastro = false;
-    if (this.formLicenca.valid === false)
-    {
+    if (this.formLicenca.valid === false) {
       window.scrollTo(0, 0);
       swal.fire({
         icon: 'warning',
@@ -179,8 +163,7 @@ export class CadastroLicencaComponent implements OnInit {
       });
       this.formSubmitted = true;
       this.loadingCadastro = true;
-    } else
-    {
+    } else {
       this.formLicenca.value['razao'] = null;
       this.licenca.status_fiscal = 'aguardando';
       this.licenca.status_gerente = 'aguardando';
@@ -218,8 +201,7 @@ export class CadastroLicencaComponent implements OnInit {
 
   Atualizar () {
     this.loadingCadastro = false;
-    if (this.formLicenca.valid === false)
-    {
+    if (this.formLicenca.valid === false) {
       window.scrollTo(0, 0);
       swal.fire({
         icon: 'warning',
@@ -229,8 +211,7 @@ export class CadastroLicencaComponent implements OnInit {
       });
       this.formSubmitted = true;
       this.loadingCadastro = true;
-    } else
-    {
+    } else {
       this.licencaService.updateLicenca(this.formLicenca.value).subscribe((data: Licencas) => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
@@ -261,12 +242,10 @@ export class CadastroLicencaComponent implements OnInit {
     }
   }
   changeSegundoFiscal () {
-    if (this.formLicenca.value.status_segundo_fiscal === 'autorizada')
-    {
+    if (this.formLicenca.value.status_segundo_fiscal === 'autorizada') {
       this.f.segundo_fiscal.setValue(this.usuario.matricula);
     }
-    if (this.formLicenca.value.status_segundo_fiscal === 'aguardando')
-    {
+    if (this.formLicenca.value.status_segundo_fiscal === 'aguardando') {
       this.f.segundo_fiscal.setValue(null);
       this.f.fiscal.setValue(undefined);
       this.f.status_fiscal.setValue(undefined);
@@ -274,12 +253,10 @@ export class CadastroLicencaComponent implements OnInit {
   }
 
   changeFiscal () {
-    if (this.formLicenca.value.status_fiscal === 'autorizada')
-    {
+    if (this.formLicenca.value.status_fiscal === 'autorizada') {
       this.f.fiscal.setValue(this.usuario.matricula);
     }
-    if (this.formLicenca.value.status_fiscal === 'aguardando')
-    {
+    if (this.formLicenca.value.status_fiscal === 'aguardando') {
       this.f.fiscal.setValue(null);
       this.f.segundo_fiscal.setValue(undefined);
       this.f.status_segundo_fiscal.setValue(undefined);
@@ -293,29 +270,25 @@ export class CadastroLicencaComponent implements OnInit {
 
   ListaArq () {
     this.loadingNumvem = false;
-    if (this.status === 'abrir')
-    {
+    if (this.status === 'abrir') {
       this.status = 'fechar';
 
       this.anexoService.listFilesByModel('estabelecimento', this.formLicenca.value.estabelecimento).subscribe((arg) => {
         this.loadingNumvem = true;
-        if (arg.length > 0)
-        {
+        if (arg.length > 0) {
           this.titulo = 'Anexos da Licença';
           this.listaArq = arg.filter((item: Arquivos) => {
             return (
               String(item.descricao).indexOf('Pedido:' + this.licenca.id) > -1 ||
-              item.id_licenca == this.licenca.id
+              item.id_licenca === this.licenca.id
             );
           });
-          for (let i = 0; i < this.listaArq.length; i++)
-          {
+          for (let i = 0; i < this.listaArq.length; i++) {
             this.loadingRemove[i] = true;
           }
         }
       });
-    } else
-    {
+    } else {
       this.loadingNumvem = true;
       this.status = 'abrir';
       this.listaArq.splice(0);
@@ -325,8 +298,7 @@ export class CadastroLicencaComponent implements OnInit {
 
   onUploadChange (evt) {
     const files = evt.target.files;
-    for (let i = 0, f; f = files[i]; i++)
-    {
+    files.forEach((file) => {
       const reader = new FileReader();
       reader.onload = ((theFile) => {
         return (e) => {
@@ -339,13 +311,12 @@ export class CadastroLicencaComponent implements OnInit {
           this.inicializaLoding();
         };
       })
-        (f);
-      reader.readAsDataURL(f);
-    }
+        (file);
+      reader.readAsDataURL(file);
+    });
   }
   inicializaLoding () {
-    for (let i = 0; i < this.base64textString.length; i++)
-    {
+    for (let i = 0; i < this.base64textString.length; i++) {
       this.loading[i] = true;
     }
   }
@@ -358,8 +329,7 @@ export class CadastroLicencaComponent implements OnInit {
     this.loading.splice(i, 1); this.descricao.splice(i, 1);
   }
   enviar (src, i) {
-    if (this.formLicenca.value.id != null)
-    {
+    if (this.formLicenca.value.id != null) {
       this.arquivos.descricao = this.nomeArquivo[i];
       this.arquivos.descricao_completa = this.descricao[i];
       this.arquivos.descricao = 'Pedido:' + this.formLicenca.value.id +
@@ -381,8 +351,7 @@ export class CadastroLicencaComponent implements OnInit {
           timer: 2000
         });
       });
-    } else
-    {
+    } else {
       swal.fire({
         icon: 'warning',
         title: 'Cadastre uma licença, ou atualize uma existente',
@@ -392,10 +361,8 @@ export class CadastroLicencaComponent implements OnInit {
     }
   }
   enviarTodos () {
-    if (this.formLicenca.value.id != null)
-    {
-      for (let i = 0; i < this.base64textString.length; i++)
-      {
+    if (this.formLicenca.value.id != null) {
+      for (let i = 0; i < this.base64textString.length; i++) {
         this.loading[i] = false;
         this.arquivos.descricao = this.nomeArquivo[i];
         this.arquivos.path = this.base64textString[i];
@@ -418,8 +385,7 @@ export class CadastroLicencaComponent implements OnInit {
           });
         });
       }
-    } else
-    {
+    } else {
       swal.fire({
         icon: 'warning',
         title: 'Cadastre uma licença, ou atualize uma existente',
@@ -429,14 +395,11 @@ export class CadastroLicencaComponent implements OnInit {
     }
   }
   formatType (doc) {
-    if (doc === 'vnd.openxmlformats-officedocument.wordprocessingml.document')
-    {
+    if (doc === 'vnd.openxmlformats-officedocument.wordprocessingml.document') {
       return 'docx';
-    } else if (doc === 'pdf')
-    {
+    } else if (doc === 'pdf') {
       return 'pdf';
-    } else
-    {
+    } else {
       return '';
     }
   }
@@ -444,10 +407,8 @@ export class CadastroLicencaComponent implements OnInit {
     this.loadingRemove[this.indice] = false;
     this.anexoService.deleteFileByKey(this.anexo.key).subscribe(
       () => {
-        for (let i = 0; i <= this.listaArq.length; i++)
-        {
-          if (this.listaArq[i].key === this.anexo.key)
-          {
+        for (let i = 0; i <= this.listaArq.length; i++) {
+          if (this.listaArq[i].key === this.anexo.key) {
             this.listaArq.splice(i, 1);
             this.loadingRemove.splice(i, 1);
           }

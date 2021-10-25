@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AutenticarService } from './services/autenticar.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-root',

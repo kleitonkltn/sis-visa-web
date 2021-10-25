@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import * as $ from 'jquery';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Atividades } from '../../../../../models/atividade';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AtividadeService } from '../../../../services/atividade.service';
+import * as $ from 'jquery';
 import swal from 'sweetalert2';
+import { Atividades } from '../../../../../models/atividade';
+import { AtividadeService } from '../../../../services/atividade.service';
 
 @Component({
   selector: 'app-cadastro-atividade',
@@ -19,15 +19,12 @@ export class CadastroAtividadeComponent implements OnInit {
   loading: boolean[] = []; loadingCadastro = true;
   formSubmitted = false;
 
-
-
   constructor (private route: ActivatedRoute, private atividadeService: AtividadeService, private router: Router) {
   }
   ngOnInit () {
     this.createForm(new Atividades());
     this.pegaId();
   }
-
 
   createForm (atividades: Atividades) {
     this.atividadeForm = new FormGroup({
@@ -38,8 +35,7 @@ export class CadastroAtividadeComponent implements OnInit {
   }
   salvar () {
     this.loadingCadastro = false;
-    if (this.atividadeForm.valid === false)
-    {
+    if (this.atividadeForm.valid === false) {
       window.scrollTo(0, 0);
       swal.fire({
         icon: 'warning',
@@ -49,8 +45,7 @@ export class CadastroAtividadeComponent implements OnInit {
       });
       this.formSubmitted = true;
       this.loadingCadastro = true;
-    } else
-    {
+    } else {
       this.atividadeService.createAtividade(this.atividadeForm.value).subscribe((data: Atividades) => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
@@ -77,8 +72,7 @@ export class CadastroAtividadeComponent implements OnInit {
   }
   atualizar () {
     this.loadingCadastro = false;
-    if (this.atividadeForm.valid === false)
-    {
+    if (this.atividadeForm.valid === false) {
       window.scrollTo(0, 0);
       swal.fire({
         icon: 'warning',
@@ -88,8 +82,7 @@ export class CadastroAtividadeComponent implements OnInit {
       });
       this.formSubmitted = true;
       this.loadingCadastro = true;
-    } else
-    {
+    } else {
       this.atividadeService.updateAtividade(this.atividadeForm.value).subscribe(() => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
@@ -119,16 +112,13 @@ export class CadastroAtividadeComponent implements OnInit {
     this.route.queryParams.subscribe(
       queryParams => {
         this.idupdate = queryParams.id;
-        if (this.idupdate != null)
-        {
+        if (this.idupdate != null) {
           window.scrollTo(0, 0);
           this.titulo = 'Atualizar Atividade';
           this.atividadeService.listAtividadeById(this.idupdate).subscribe((documento: Atividades) => {
             this.createForm(documento);
-          }, () => {
           });
-        } else
-        {
+        } else {
           window.scrollTo(0, 0);
           this.titulo = 'Cadastrar Atividade';
           this.createForm(new Atividades());

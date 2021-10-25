@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
-import { jQuery } from 'jquery';
-import { Relatorio } from '../../../../../models/relatorio';
-
-import { UsuarioService } from '../../../../services/usuario.service';
-import { Usuario } from '../../../../../models/usuario';
-import { RelatorioService } from '../../../../services/relatorio.service';
-import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Estabelecimento } from '../../../../../models/estabelecimento';
-import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
+import { Relatorio } from '../../../../../models/relatorio';
+import { Usuario } from '../../../../../models/usuario';
 import { AutenticarService } from '../../../../services/autenticar.service';
+import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
+import { RelatorioService } from '../../../../services/relatorio.service';
+import { UsuarioService } from '../../../../services/usuario.service';
 declare let $: any;
 import swal from 'sweetalert2';
 
@@ -19,6 +17,14 @@ import swal from 'sweetalert2';
   styleUrls: ['./cadastro-relatorio.component.css']
 })
 export class CadastroRelatorioComponent implements OnInit {
+
+  constructor (private usuarios: UsuarioService, private relatorioservice: RelatorioService,
+    private router: Router, private route: ActivatedRoute,
+    private estabelecimentoservice: EstabelecimentoService,
+    private authService: AutenticarService) {
+    this.usuario = this.authService._user['params'];
+    this.user = this.usuario.nivel_acesso;
+  }
   public cep = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
   relatorio: Relatorio; titulo = 'Cadastrar Relatório'; listfiscais; fiscais: Usuario[];
   relatorioForm: FormGroup; cont = 0; idestabelecimento; relatorioEst: Relatorio = {} as Relatorio;
@@ -26,37 +32,6 @@ export class CadastroRelatorioComponent implements OnInit {
   usuario: Usuario; user;
   itemsForm = [];
   name = '';
-  cnpj = (rawValue) => {
-    const numbers = rawValue.match(/\d/g);
-    let numberLength = 0;
-    if (numbers)
-    {
-      numberLength = numbers.join('').length;
-    }
-    if (numberLength <= 11)
-    {
-      return [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
-    } else
-    {
-      return [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/];
-    }
-  };
-
-  contatomask = (rawValue) => {
-    const numbers = rawValue.match(/\d/g);
-    let numberLength = 0;
-    if (numbers)
-    {
-      numberLength = numbers.join('').length;
-    }
-    if (numberLength <= 10)
-    {
-      return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
-    } else
-    {
-      return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
-    }
-  };
   ItemsForm = new FormArray([
     new FormGroup({
       id: new FormControl(''),
@@ -81,12 +56,30 @@ export class CadastroRelatorioComponent implements OnInit {
   irregularidades = this.FormGroupIrregularidades.get('irregularidades') as FormArray;
   items = this.irregularidades.controls[0].get('items') as FormArray;
 
-  constructor (private usuarios: UsuarioService, private relatorioservice: RelatorioService,
-    private router: Router, private route: ActivatedRoute,
-    private estabelecimentoservice: EstabelecimentoService,
-    private authService: AutenticarService) {
-    this.usuario = this.authService._user['params'];
-    this.user = this.usuario.nivel_acesso;
+  cnpj = (rawValue) => {
+    const numbers = rawValue.match(/\d/g);
+    let numberLength = 0;
+    if (numbers) {
+      numberLength = numbers.join('').length;
+    }
+    if (numberLength <= 11) {
+      return [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+    } else {
+      return [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+    }
+  }
+
+  contatomask = (rawValue) => {
+    const numbers = rawValue.match(/\d/g);
+    let numberLength = 0;
+    if (numbers) {
+      numberLength = numbers.join('').length;
+    }
+    if (numberLength <= 10) {
+      return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
+    } else {
+      return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
+    }
   }
 
   ngOnInit () {
@@ -128,23 +121,20 @@ export class CadastroRelatorioComponent implements OnInit {
       queryParams => {
         this.idupdate = queryParams.id;
         this.idestabelecimento = queryParams.id_est;
-        if (this.idupdate != null)
-        {
+        if (this.idupdate != null) {
           window.scrollTo(0, 0);
           this.titulo = 'Atualizar Relatório';
           this.relatorioservice.listRelatorioeById(this.idupdate).subscribe((relatorio) => {
             this.relatorio = relatorio;
-            console.log(this.relatorio.irregularidades[1]);
-            for (let i = 0; i < this.relatorio.irregularidades.length; i++)
-            {
-              this.addIrregularidades2(this.relatorio.irregularidades[i]);
-            }
+
+            this.relatorio.irregularidades.forEach(element => {
+              this.addIrregularidades2(element);
+            });
+
             this.createForm(this.relatorio);
-          }, () => {
           });
         }
-        if (this.idestabelecimento != null)
-        {
+        if (this.idestabelecimento != null) {
           this.estabelecimentoservice.listarEstabelecimentoPorID(this.idestabelecimento).subscribe((est: Estabelecimento) => {
             console.log(est);
             this.titulo = 'Cadastrar Relatório';
@@ -157,7 +147,6 @@ export class CadastroRelatorioComponent implements OnInit {
             this.relatorioEst.cep = est.cep;
             this.relatorioEst.telefone = est.telefone;
             this.createForm(this.relatorioEst);
-          }, () => {
           });
         }
       }
@@ -185,8 +174,7 @@ export class CadastroRelatorioComponent implements OnInit {
     this.relatorioForm.value.irregularidades = this.FormGroupIrregularidades.value.irregularidades;
     this.relatorioForm.value.fiscais_presentes = this.listfiscais;
     this.loadingCadastro = false;
-    if (this.relatorioForm.valid === false)
-    {
+    if (this.relatorioForm.valid === false) {
       window.scrollTo(0, 0);
       swal.fire({
         icon: 'warning',
@@ -196,8 +184,7 @@ export class CadastroRelatorioComponent implements OnInit {
       });
       this.formSubmitted = true;
       this.loadingCadastro = true;
-    } else
-    {
+    } else {
       this.relatorioservice.updateRelatorios(this.relatorioForm.value).subscribe(() => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
@@ -232,8 +219,7 @@ export class CadastroRelatorioComponent implements OnInit {
     this.relatorioForm.value.irregularidades = this.FormGroupIrregularidades.value.irregularidades;
     this.relatorioForm.value.fiscais_presentes = this.listfiscais;
     this.loadingCadastro = false;
-    if (this.relatorioForm.valid === false)
-    {
+    if (this.relatorioForm.valid === false) {
       window.scrollTo(0, 0);
       swal.fire({
         icon: 'warning',
@@ -243,8 +229,7 @@ export class CadastroRelatorioComponent implements OnInit {
       });
       this.formSubmitted = true;
       this.loadingCadastro = true;
-    } else
-    {
+    } else {
       this.relatorioservice.createRelatorio(this.relatorioForm.value).subscribe((data: Relatorio) => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
@@ -288,15 +273,13 @@ export class CadastroRelatorioComponent implements OnInit {
   selectfiscais () {
     const fiscais = [];
     const opcao = $('.select-fiscais').find(':selected');
-    for (let i = 0; i < opcao.length; i++)
-    {
+    for (let i = 0; i < opcao.length; i++) {
       fiscais[i] = opcao[i].value;
     }
     this.listfiscais = fiscais.join(', ');
   }
   addIrregularidades2 (a) {
-    if (this.cont > 0)
-    {
+    if (this.cont > 0) {
       const group = new FormGroup({
         item_id: new FormControl(a.item_id),
         descricao_item: new FormControl(a.descricao_item),
@@ -304,12 +287,13 @@ export class CadastroRelatorioComponent implements OnInit {
       });
       this.irregularidades.push(group);
     }
-    for (let i = 0; i < a.items.length; i++)
-    {
-      this.addItem2(this.cont, a.items[i]);
-    }
+    a.items.forEach(element => {
+      this.addItem2(this.cont, element);
+    });
+
     this.cont++;
   }
+
   addIrregularidades () {
     const group = new FormGroup({
       item_id: new FormControl('5.' + ((this.irregularidades.length + 1))),
@@ -318,6 +302,7 @@ export class CadastroRelatorioComponent implements OnInit {
     });
     this.irregularidades.push(group);
   }
+
   addItem2 (i, item) {
     this.items = this.irregularidades.controls[i].get('items') as FormArray;
     this.itemsForm.push(this.items);
@@ -343,9 +328,11 @@ export class CadastroRelatorioComponent implements OnInit {
     });
     this.items.push(group);
   }
+
   setItem (data, i, f) {
     this.irregularidades.controls[i].get('items')['controls'][f].setValue(data);
   }
+
   log (log) {
     console.log(log);
   }

@@ -3,4 +3,3 @@ export class Atividades {
     descricao: string;
     atividade: string;
 }
-

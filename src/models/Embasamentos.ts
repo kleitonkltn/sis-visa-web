@@ -1,6 +1,6 @@
 export class Embasamentos {
-  id: string
-  descricao: string
-  data: string
-  descricao_completa: string
+  id: string;
+  descricao: string;
+  data: string;
+  descricao_completa: string;
 }

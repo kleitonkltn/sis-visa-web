@@ -1,14 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Protocolo } from '../../../../../models/protocolo';
-import { ProtocoloService } from '../../../../services/protocolo.service';
-import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
-import { Arquivos } from '../../../../../models/arquivos';
-import { AnexoService } from '../../../../services/anexo.service';
 import { HttpClient } from '@angular/common/http';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import * as $ from 'jquery';
 import swal from 'sweetalert2';
-
+import { Arquivos } from '../../../../../models/arquivos';
+import { Protocolo } from '../../../../../models/protocolo';
+import { AnexoService } from '../../../../services/anexo.service';
+import { ProtocoloService } from '../../../../services/protocolo.service';
 
 @Component({
   selector: 'app-cadastro-protocolo',
@@ -29,22 +28,18 @@ export class CadastroProtocoloComponent implements OnInit {
   contatomask = (rawValue) => {
     const numbers = rawValue.match(/\d/g);
     let numberLength = 0;
-    if (numbers)
-    {
+    if (numbers) {
       numberLength = numbers.join('').length;
     }
-    if (numberLength <= 10)
-    {
+    if (numberLength <= 10) {
       return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
-    } else
-    {
+    } else {
       return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
     }
-  };
+  }
 
-  constructor (private protocoloservice: ProtocoloService, private formBuilder: FormBuilder,
-    private route: ActivatedRoute, private anexoService: AnexoService, private http: HttpClient,
-    private router: Router) { }
+  constructor (private protocoloservice: ProtocoloService, private route: ActivatedRoute,
+    private anexoService: AnexoService, private router: Router) { }
 
   ngOnInit () {
     this.createForm(new Protocolo());
@@ -128,16 +123,14 @@ export class CadastroProtocoloComponent implements OnInit {
     this.route.queryParams.subscribe(
       queryParams => {
         this.idupdate = queryParams.id;
-        if (this.idupdate != null)
-        {
+        if (this.idupdate != null) {
           this.titulo = 'Atualizar Protocolo';
           window.scrollTo(0, 0);
           this.protocoloservice.ListarTodosProtocolosPorID(this.idupdate).subscribe((proto) => {
             this.protocolo = proto;
             this.createForm(this.protocolo);
           });
-        } else
-        {
+        } else {
           this.titulo = 'Cadastrar Protocolo';
           window.scrollTo(0, 0);
           this.createForm(new Protocolo());
@@ -152,19 +145,16 @@ export class CadastroProtocoloComponent implements OnInit {
   }
   ListaArq () {
     this.loadingNumvem = false;
-    if (this.status === 'abrir')
-    {
+    if (this.status === 'abrir') {
       this.status = 'fechar';
       this.anexoService.listFilesByModel('protocolo', this.idupdate).subscribe((arq: Arquivos[]) => {
         this.listaArq = arq;
         this.loadingNumvem = true;
-        for (let i = 0; i < this.listaArq.length; i++)
-        {
+        for (let i = 0; i < this.listaArq.length; i++) {
           this.loadingRemove[i] = true;
         }
       });
-    } else
-    {
+    } else {
       this.loadingNumvem = true;
       this.status = 'abrir';
       this.listaArq.splice(0);
@@ -173,13 +163,12 @@ export class CadastroProtocoloComponent implements OnInit {
 
   onUploadChange (evt) {
     const files = evt.target.files;
-    for (let i = 0, f; f = files[i]; i++)
-    {
+    files.forEach((file) => {
       const reader = new FileReader();
       reader.onload = ((theFile) => {
         return (e) => {
           this.arq.push(escape(theFile.type));
-          this.nomeArquivo.push(theFile.name);
+          this.nomeArquivo.push(theFile.stream.name);
           let url = e.target.result;
           const index = Number(url.toLowerCase().indexOf(',') + 1);
           url = url.slice(index);
@@ -187,13 +176,12 @@ export class CadastroProtocoloComponent implements OnInit {
           this.inicializaLoding();
         };
       })
-        (f);
-      reader.readAsDataURL(f);
-    }
+        (file);
+      reader.readAsDataURL(file);
+    });
   }
   inicializaLoding () {
-    for (let i = 0; i < this.base64textString.length; i++)
-    {
+    for (let i = 0; i < this.base64textString.length; i++) {
       this.loading[i] = true;
     }
   }
@@ -206,20 +194,16 @@ export class CadastroProtocoloComponent implements OnInit {
     this.loading.splice(i, 1); this.descricao.splice(i, 1);
   }
   formatType (doc) {
-    if (doc === 'vnd.openxmlformats-officedocument.wordprocessingml.document')
-    {
+    if (doc === 'vnd.openxmlformats-officedocument.wordprocessingml.document') {
       return 'docx';
-    } else if (doc === 'pdf')
-    {
+    } else if (doc === 'pdf') {
       return 'pdf';
-    } else
-    {
+    } else {
       return '';
     }
   }
   enviar (src, i) {
-    if (this.protocoloForm.value.id != null)
-    {
+    if (this.protocoloForm.value.id != null) {
       this.arquivos.descricao = this.nomeArquivo[i];
       this.arquivos.descricao_completa = this.descricao[i];
       this.arquivos.id_protocolo = this.protocoloForm.value.id;
@@ -239,8 +223,7 @@ export class CadastroProtocoloComponent implements OnInit {
           timer: 2000
         });
       });
-    } else
-    {
+    } else {
       swal.fire({
         icon: 'warning',
         title: 'Cadastre um protocolo, ou atualize um existente',
@@ -250,10 +233,8 @@ export class CadastroProtocoloComponent implements OnInit {
     }
   }
   enviarTodos () {
-    if (this.protocoloForm.value.id != null)
-    {
-      for (let i = 0; i < this.base64textString.length; i++)
-      {
+    if (this.protocoloForm.value.id != null) {
+      for (let i = 0; i < this.base64textString.length; i++) {
         this.loading[i] = false;
         this.arquivos.descricao = this.nomeArquivo[i];
         this.arquivos.path = this.base64textString[i];
@@ -274,8 +255,7 @@ export class CadastroProtocoloComponent implements OnInit {
           });
         });
       }
-    } else
-    {
+    } else {
       swal.fire({
         icon: 'warning',
         title: 'Cadastre um protocolo, ou atualize um existente',
@@ -288,10 +268,8 @@ export class CadastroProtocoloComponent implements OnInit {
     this.loadingRemove[this.indice] = false;
     this.anexoService.deleteFileByKey(this.anexo.key).subscribe(
       () => {
-        for (let i = 0; i <= this.listaArq.length; i++)
-        {
-          if (this.listaArq[i].key === this.anexo.key)
-          {
+        for (let i = 0; i <= this.listaArq.length; i++) {
+          if (this.listaArq[i].key === this.anexo.key) {
             this.listaArq.splice(i, 1);
             this.loadingRemove.splice(i, 1);
           }
@@ -300,6 +278,7 @@ export class CadastroProtocoloComponent implements OnInit {
       },
       error => {
         this.loadingRemove[this.indice] = true;
+
         return swal.fire({
           icon: 'warning',
           title: 'Falha ao remover Anexo',

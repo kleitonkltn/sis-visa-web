@@ -1,13 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Termos } from '../../../../../models/termos';
-import { Arquivos } from '../../../../../models/arquivos';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TermoService } from '../../../../services/termo.service';
+import { Arquivos } from '../../../../../models/arquivos';
+import { Email } from '../../../../../models/email';
+import { Termos } from '../../../../../models/termos';
 // import * as $ from 'jquery';
 import { AnexoService } from '../../../../services/anexo.service';
 import { EmailService } from '../../../../services/email.service';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { Email } from '../../../../../models/email';
+import { TermoService } from '../../../../services/termo.service';
 declare let $: any;
 import swal from 'sweetalert2';
 import { PdfService } from '../../../../services/pdf.service';
@@ -59,8 +59,7 @@ export class TermosComponent implements OnInit {
   async pegaId () {
     this.route.queryParams.subscribe((data) => {
       this.idupdate = data['id'];
-      if (this.idupdate != null)
-      {
+      if (this.idupdate != null) {
         window.scrollTo(0, 0);
         this.termoservice.ListarTermoPorID(this.idupdate).subscribe((termos) => {
           console.log(termos);
@@ -69,38 +68,32 @@ export class TermosComponent implements OnInit {
         }).add(() => {
           this.anexoService.listFilesByModel('termo', this.idupdate).subscribe((arq: Arquivos[]) => {
             this.arquivo = arq;
-            if (this.arquivo.length > 0)
-            {
+            if (this.arquivo.length > 0) {
               this.titulo = 'Anexos do Termo';
             }
-          }, () => {
           });
         });
       }
     });
 
-
   }
   verAnexo (item) {
     this.item = item;
-    if (item.type === 'pdf' || item.type === 'docx')
-    {
+    if (item.type === 'pdf' || item.type === 'docx') {
       window.open(item.url_location);
     }
   }
   get f () { return this.termos; }
 
   VerificaEmail () {
-    if (this.termos.email)
-    {
+    if (this.termos.email) {
       this.destinario.destinatario = this.termos.email;
       this.createForm(this.destinario);
     }
   }
   termoPDF () {
     this.loading = false;
-    if (this.idupdate != null)
-    {
+    if (this.idupdate != null) {
       this.pdfService.downloadFileTermo(this.idupdate).subscribe(response => {
         const file = new Blob([response], { type: 'application/pdf' });
         const fileURL = URL.createObjectURL(file);
@@ -122,16 +115,14 @@ export class TermosComponent implements OnInit {
   }
   EnviarEmail () {
     this.email = this.emailForm.value;
-    if (this.emailForm.valid === false)
-    {
+    if (this.emailForm.valid === false) {
       swal.fire({
         icon: 'warning',
         title: 'Campo destinatário é obrigatório',
         showConfirmButton: false,
         timer: 2000
       });
-    } else
-    {
+    } else {
       return new Promise((resolve, reject) => {
         const dataSend = {
           id: Number(this.idupdate),
@@ -142,16 +133,14 @@ export class TermosComponent implements OnInit {
           resolve(data);
           $('.modal-header .close').click();
           window.scrollTo(0, 0);
-          if (data !== null && data['code'] === 'EENVELOPE')
-          {
+          if (data !== null && data['code'] === 'EENVELOPE') {
             swal.fire({
               icon: 'warning',
               title: 'Erro ao  enviar termo',
               showConfirmButton: false,
               timer: 4000
             });
-          } else
-          {
+          } else {
             swal.fire({
               icon: 'success',
               title: 'Termo enviado com Sucesso',

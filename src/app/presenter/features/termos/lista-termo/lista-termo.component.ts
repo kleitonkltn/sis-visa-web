@@ -1,8 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Termos } from '../../../../../models/termos';
-import { TermoService } from '../../../../services/termo.service';
+import { Component, Input, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 import * as moment from 'moment';
+import { Termos } from '../../../../../models/termos';
+import { TermoService } from '../../../../services/termo.service';
 
 @Component({
   selector: 'app-lista-termo',
@@ -30,8 +30,7 @@ export class ListaTermoComponent implements OnInit {
   }
   search () {
     this.initList();
-    if (this.textSearch.length > 0)
-    {
+    if (this.textSearch.length > 0) {
       const val = this.textSearch;
       this.filtroPesquisa();
       this.listItems = this.listItems.filter((item) => {
@@ -44,8 +43,7 @@ export class ListaTermoComponent implements OnInit {
           this.formatDate(item.data).toLowerCase().indexOf(val.toLowerCase()) > -1
         );
       });
-    } else
-    {
+    } else {
       this.filtroPesquisa();
     }
   }
@@ -56,7 +54,6 @@ export class ListaTermoComponent implements OnInit {
         this.statusEst = true;
         this.termos = termos;
         this.initList();
-      }, () => {
       });
   }
   initList () {
@@ -65,11 +62,9 @@ export class ListaTermoComponent implements OnInit {
 
   filtroPesquisa () {
     const filtro = $('select').val();
-    if (filtro === 'Todas')
-    {
+    if (filtro === 'Todas') {
       this.initList();
-    } else
-    {
+    } else {
       this.listItems = this.termos.filter((item) => {
         return (
           String(item.tipo_termo).toLowerCase() === filtro.toLowerCase()

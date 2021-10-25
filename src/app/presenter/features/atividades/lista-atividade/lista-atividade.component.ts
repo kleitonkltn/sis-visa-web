@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Atividades } from '../../../../../models/atividade';
 import { AtividadeService } from '../../../../services/atividade.service';
 
@@ -30,7 +30,6 @@ export class ListaAtividadeComponent implements OnInit {
         this.statusEst = true;
         this.atividade = atividade;
         this.initList();
-      }, () => {
       });
   }
   initList () {
@@ -38,8 +37,7 @@ export class ListaAtividadeComponent implements OnInit {
   }
 
   search () {
-    if (this.textSearch.length > 0)
-    {
+    if (this.textSearch.length > 0) {
       const val = this.textSearch;
       this.initList();
       this.listItems = this.listItems.filter((item) => {
@@ -47,10 +45,8 @@ export class ListaAtividadeComponent implements OnInit {
           String(item.descricao).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           String(item.atividade).toLowerCase().indexOf(val.toLowerCase()) > -1);
       });
-    } else
-    {
+    } else {
       this.initList();
     }
   }
 }
-

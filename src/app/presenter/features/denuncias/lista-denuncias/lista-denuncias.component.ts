@@ -1,10 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 
 import * as moment from 'moment';
 import { DenunciaService } from 'src/app/services/denuncia.service';
 import { Denuncias } from 'src/models/denuncias';
-
 
 @Component({
   selector: 'app-lista-denuncias',
@@ -28,8 +27,7 @@ export class ListaDenunciasComponent implements OnInit {
   }
   search () {
     this.initList();
-    if (this.textSearch.length > 0)
-    {
+    if (this.textSearch.length > 0) {
       const val = this.textSearch;
       this.filtroPesquisa();
       this.listItems = this.listItems.filter((item: Denuncias) => {
@@ -45,8 +43,7 @@ export class ListaDenunciasComponent implements OnInit {
           this.formatDate(item.data).toLowerCase().indexOf(val.toLowerCase()) > -1
         );
       });
-    } else
-    {
+    } else {
       this.filtroPesquisa();
     }
   }
@@ -55,8 +52,7 @@ export class ListaDenunciasComponent implements OnInit {
   }
 
   formatarStatusDenuncia (tipoTermo) {
-    switch (tipoTermo)
-    {
+    switch (tipoTermo) {
       case 'notificada':
         return 'Notificada';
       case 'providenciasDiversas':
@@ -72,18 +68,16 @@ export class ListaDenunciasComponent implements OnInit {
     }
   }
 
-
   getListaDenuncias () {
     this.denunciasService.ListarTodasDenuncias()
       .subscribe((denuncias: Denuncias[]) => {
         this.denuncias = denuncias;
         this.statusEst = true;
-        for (let i = 0; i < this.denuncias.length; i++)
-        {
-          this.denuncias[i].status = this.formatarStatusDenuncia(this.denuncias[i].status);
-        }
+        this.denuncias.forEach(element => {
+          element.status = this.formatarStatusDenuncia(element.status);
+        });
+
         this.initList();
-      }, () => {
       });
   }
   initList () {
@@ -92,11 +86,9 @@ export class ListaDenunciasComponent implements OnInit {
 
   filtroPesquisa () {
     const filtro = $('select').val();
-    if (filtro === 'Todas')
-    {
+    if (filtro === 'Todas') {
       this.initList();
-    } else
-    {
+    } else {
       this.listItems = this.denuncias.filter((item) => {
         return (
           String(item.status).toLowerCase().indexOf(filtro.toLowerCase()) > -1

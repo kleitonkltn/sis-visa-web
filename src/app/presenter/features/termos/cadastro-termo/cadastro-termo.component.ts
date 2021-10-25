@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { Termos } from '../../../../../models/termos';
-import { Arquivos } from '../../../../../models/arquivos';
-import { AnexoService } from '../../../../services/anexo.service';
-import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import * as moment from 'moment';
-import { EmbasamentoService } from '../../../../services/embasamento.service';
-import { AutenticarService } from '../../../../services/autenticar.service';
-import { Usuario } from '../../../../../models/usuario';
-import { AtividadeService } from '../../../../services/atividade.service';
-import { DocumentoService } from '../../../../services/documento.service';
-import { UsuarioService } from '../../../../services/usuario.service';
-import { TermoService } from '../../../../services/termo.service';
-import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
-import { Estabelecimento } from '../../../../../models/estabelecimento';
 import swal from 'sweetalert2';
+import { Arquivos } from '../../../../../models/arquivos';
+import { Estabelecimento } from '../../../../../models/estabelecimento';
+import { Termos } from '../../../../../models/termos';
+import { Usuario } from '../../../../../models/usuario';
+import { AnexoService } from '../../../../services/anexo.service';
+import { AtividadeService } from '../../../../services/atividade.service';
+import { AutenticarService } from '../../../../services/autenticar.service';
+import { DocumentoService } from '../../../../services/documento.service';
+import { EmbasamentoService } from '../../../../services/embasamento.service';
+import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
+import { TermoService } from '../../../../services/termo.service';
+import { UsuarioService } from '../../../../services/usuario.service';
 
 declare let $: any;
 
@@ -32,40 +32,44 @@ export class CadastroTermosComponent implements OnInit {
   anexo: Arquivos; indice; status = 'abrir'; index; id_termo; doc;
   item: Arquivos; itemCarregado = {} as Arquivos;
   date: Date; formSubmitted = false; expanded = false; estabelecimento: Estabelecimento;
-  embasamentos; usuario: Usuario; textSearch; desc; fiscais: Usuario[]; fiscalResponsavel: Usuario; listfiscais;
-  titulo = 'Cadastrar Termo'; atividades; documentos; listdoc = []; fiscaispresente;
+  embasamentos;
+  usuario: Usuario;
+  textSearch;
+  desc;
+  fiscais: Usuario[];
+  fiscalResponsavel: Usuario;
+  listfiscais;
+  titulo: string = 'Cadastrar Termo';
+  atividades;
+  documentos;
+  listdoc = [];
+  fiscaispresente;
 
-  contatomask = (rawValue) => {
+  contatomask = (rawValue: string): (string | RegExp)[] => {
     const numbers = rawValue.match(/\d/g);
     let numberLength = 0;
-    if (numbers)
-    {
+    if (numbers) {
       numberLength = numbers.join('').length;
     }
-    if (numberLength <= 10)
-    {
+    if (numberLength <= 10) {
       return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
-    } else
-    {
+    } else {
       return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
     }
-  };
+  }
 
-  cnpjmask = (rawValue) => {
+  cnpjmask = (rawValue: string): (string | RegExp)[] => {
     const numbers = rawValue.match(/\d/g);
     let numberLength = 0;
-    if (numbers)
-    {
+    if (numbers) {
       numberLength = numbers.join('').length;
     }
-    if (numberLength <= 11)
-    {
+    if (numberLength <= 11) {
       return [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
-    } else
-    {
+    } else {
       return [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/];
     }
-  };
+  }
 
   constructor (private anexoService: AnexoService, private route: ActivatedRoute, private embasamentoservice: EmbasamentoService,
     private authService: AutenticarService, private atividadeservice: AtividadeService,
@@ -78,8 +82,7 @@ export class CadastroTermosComponent implements OnInit {
   ngOnInit () {
     this.fiscalResponsavel = this.authService._user['params'];
     setTimeout(() => {
-      if (this.fiscalResponsavel.nivel_acesso === 'administrativo')
-      {
+      if (this.fiscalResponsavel.nivel_acesso === 'administrativo') {
         swal.fire({
           icon: 'warning',
           title: 'A criação de Auto Termos somente é permitida a Fiscais e Gerentes',
@@ -111,12 +114,11 @@ export class CadastroTermosComponent implements OnInit {
         this.idupdate = queryParams.id;
         this.id_termo = queryParams.id_termo;
         this.carregaSelect();
-        if (this.idupdate != null)
-        {
+        if (this.idupdate != null) {
           window.scrollTo(0, 0);
           this.titulo = 'Cadastrar Termo';
           window.scrollTo(0, 0);
-          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idupdate).subscribe((est) => {
+          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idupdate.toString()).subscribe((est) => {
             this.estabelecimento = est;
             this.f.estabelecimento.setValue(this.idupdate);
             this.f.cnpj.setValue(this.estabelecimento.cnpj);
@@ -128,8 +130,7 @@ export class CadastroTermosComponent implements OnInit {
             this.f.telefone.setValue(this.estabelecimento.telefone);
             this.f.ramo.setValue(this.estabelecimento.atividade);
           });
-        } else if (this.id_termo != null)
-        {
+        } else if (this.id_termo != null) {
           window.scrollTo(0, 0);
           this.titulo = 'Atualizar Termo';
           this.termoservice.ListarTermoPorID(this.id_termo).subscribe((data: Termos) => {
@@ -138,8 +139,7 @@ export class CadastroTermosComponent implements OnInit {
             this.createForm(data);
 
           });
-        } else
-        {
+        } else {
           window.scrollTo(0, 0);
           this.titulo = 'Cadastrar Termo';
           window.scrollTo(0, 0);
@@ -150,8 +150,7 @@ export class CadastroTermosComponent implements OnInit {
   }
 
   createForm (termo: Termos) {
-    if (termo['atividade'])
-    {
+    if (termo['atividade']) {
       termo.ramo = termo['atividade'];
     }
     this.termosForm = new FormGroup({
@@ -202,7 +201,6 @@ export class CadastroTermosComponent implements OnInit {
       llowClear: true
     });
 
-
     $('.js-example-basic-multiple').on('change', (e) => {
       this.selectEmbasamento();
     });
@@ -218,66 +216,55 @@ export class CadastroTermosComponent implements OnInit {
     this.listdoc = [];
     const opcao = $('.select-doc').find(':selected');
 
-    for (let i = 0; i < opcao.length; i++)
-    {
+    for (let i = 0; i < opcao.length; i++) {
       this.listdoc[i] = opcao[i].value;
     }
     const documentos = this.listdoc.join(', ');
 
     let text = ' ';
     if (this.f.descricao.value != null &&
-      String(this.f.descricao.value).indexOf('Apresentar cópia dos seguintes documentos:') >= 1)
-    {
+      String(this.f.descricao.value).indexOf('Apresentar cópia dos seguintes documentos:') >= 1) {
       text = String(this.f.descricao.value).split(' Apresentar cópia dos seguintes documentos:')[0];
-    } else
-    {
+    } else {
       text = this.f.descricao.value != null ? this.f.descricao.value : ' ';
     }
     this.f.descricao.setValue(text + ' Apresentar cópia dos seguintes documentos: '
       + documentos);
-    if (opcao.length === 0)
-    {
+    if (opcao.length === 0) {
       this.f.descricao.setValue(text.split(' Apresentar cópia dos seguintes documentos:')[0]);
     }
   }
   selectEmbasamento () {
     const listEmbasamento = [];
     const opcao = $('.js-example-basic-multiple').find(':selected');
-    if (opcao.length === 0)
-    {
+    if (opcao.length === 0) {
       this.textSearch = '';
     }
-    for (let i = 0; i < opcao.length; i++)
-    {
+    for (let i = 0; i < opcao.length; i++) {
       listEmbasamento[i] = opcao[i].value;
     }
     const embasamentos = listEmbasamento.join(', ');
-    if (opcao.length > 0)
-    {
+    if (opcao.length > 0) {
       this.f.embasamento_legal.setValue(embasamentos);
     }
   }
   selectfiscais () {
     const fiscais = [];
     const opcao = $('.select-fiscais').find(':selected');
-    for (let i = 0; i < opcao.length; i++)
-    {
+    for (let i = 0; i < opcao.length; i++) {
       fiscais[i] = opcao[i].value;
     }
     this.listfiscais = fiscais.join(', ');
   }
 
-
   salvar () {
     this.loadingCadastro = false;
-    if (this.fiscalResponsavel.nivel_acesso === 'gerente' || this.fiscalResponsavel.nivel_acesso === 'fiscal')
-    {
+    if (this.fiscalResponsavel.nivel_acesso === 'gerente' || this.fiscalResponsavel.nivel_acesso === 'fiscal') {
       this.termosForm.value.doc_solicitados = this.listdoc;
       this.termosForm.value.fiscais_presentes = this.listfiscais;
       this.termosForm.value.fiscal_responsavel = this.fiscalResponsavel.matricula;
       if ((this.termosForm.valid === false) || (!this.termosForm.value.fiscais_presentes)
-        || (this.termosForm.value.fiscais_presentes === 'undefined'))
-      {
+        || (this.termosForm.value.fiscais_presentes === 'undefined')) {
         window.scrollTo(0, 0);
         swal.fire({
           icon: 'warning',
@@ -287,8 +274,7 @@ export class CadastroTermosComponent implements OnInit {
         });
         this.formSubmitted = true;
         this.loadingCadastro = true;
-      } else
-      {
+      } else {
         this.termoservice.cadastrarTermo(this.termosForm.value).subscribe((data: Termos) => {
           window.scrollTo(0, 0);
           swal.fire({
@@ -317,8 +303,7 @@ export class CadastroTermosComponent implements OnInit {
           });
         });
       }
-    } else
-    {
+    } else {
       window.scrollTo(0, 0);
       swal.fire({
         icon: 'warning',
@@ -369,7 +354,6 @@ export class CadastroTermosComponent implements OnInit {
     });
   }
 
-
   pegaEmbasamentos () {
     this.embasamentoservice.listAllEmbasamentos().subscribe(itens => {
       console.log(this.embasamentos);
@@ -400,19 +384,16 @@ export class CadastroTermosComponent implements OnInit {
   }
   ListaArq () {
     this.loadingNumvem = false;
-    if (this.status === 'abrir')
-    {
+    if (this.status === 'abrir') {
       this.status = 'fechar';
       this.anexoService.listFilesByModel('termo', this.id_termo).subscribe((arq: Arquivos[]) => {
         this.listaArq = arq;
         this.loadingNumvem = true;
-        for (let i = 0; i < this.listaArq.length; i++)
-        {
+        for (let i = 0; i < this.listaArq.length; i++) {
           this.loadingRemove[i] = true;
         }
       });
-    } else
-    {
+    } else {
       this.loadingNumvem = true;
       this.status = 'abrir';
       this.listaArq.splice(0);
@@ -421,8 +402,7 @@ export class CadastroTermosComponent implements OnInit {
 
   onUploadChange (evt) {
     const files = evt.target.files;
-    for (let i = 0, f; f = files[i]; i++)
-    {
+    files.forEach((file) => {
       const reader = new FileReader();
       reader.onload = ((theFile) => {
         return (e) => {
@@ -435,13 +415,12 @@ export class CadastroTermosComponent implements OnInit {
           this.inicializaLoding();
         };
       })
-        (f);
-      reader.readAsDataURL(f);
-    }
+        (file);
+      reader.readAsDataURL(file);
+    });
   }
   inicializaLoding () {
-    for (let i = 0; i < this.base64textString.length; i++)
-    {
+    for (let i = 0; i < this.base64textString.length; i++) {
       this.loading[i] = true;
     }
   }
@@ -455,20 +434,16 @@ export class CadastroTermosComponent implements OnInit {
     this.loading.splice(i, 1); this.descricao.splice(i, 1);
   }
   formatType (doc) {
-    if (doc === 'vnd.openxmlformats-officedocument.wordprocessingml.document')
-    {
+    if (doc === 'vnd.openxmlformats-officedocument.wordprocessingml.document') {
       return 'docx';
-    } else if (doc === 'pdf')
-    {
+    } else if (doc === 'pdf') {
       return 'pdf';
-    } else
-    {
+    } else {
       return '';
     }
   }
   enviar (src, i) {
-    if (this.termosForm.value.id != null)
-    {
+    if (this.termosForm.value.id != null) {
       this.arquivos.descricao = this.nomeArquivo[i];
       this.arquivos.descricao_completa = this.descricao[i];
       this.arquivos.id_termo = this.termosForm.value.id;
@@ -488,8 +463,7 @@ export class CadastroTermosComponent implements OnInit {
           timer: 2000
         });
       });
-    } else
-    {
+    } else {
       swal.fire({
         icon: 'warning',
         title: 'Cadastre um Termo, ou atualize um existente',
@@ -499,10 +473,8 @@ export class CadastroTermosComponent implements OnInit {
     }
   }
   enviarTodos () {
-    if (this.termosForm.value.id != null)
-    {
-      for (let i = 0; i < this.base64textString.length; i++)
-      {
+    if (this.termosForm.value.id != null) {
+      for (let i = 0; i < this.base64textString.length; i++) {
         this.loading[i] = false;
         this.arquivos.descricao = this.nomeArquivo[i];
         this.arquivos.path = this.base64textString[i];
@@ -522,8 +494,7 @@ export class CadastroTermosComponent implements OnInit {
           });
         });
       }
-    } else
-    {
+    } else {
       swal.fire({
         icon: 'warning',
         title: 'Cadastre um Termo, ou atualize um existente',
@@ -536,10 +507,8 @@ export class CadastroTermosComponent implements OnInit {
     this.loadingRemove[this.indice] = false;
     this.anexoService.deleteFileByKey(this.anexo.key).subscribe(
       () => {
-        for (let i = 0; i <= this.listaArq.length; i++)
-        {
-          if (this.listaArq[i].key === this.anexo.key)
-          {
+        for (let i = 0; i <= this.listaArq.length; i++) {
+          if (this.listaArq[i].key === this.anexo.key) {
             this.listaArq.splice(i, 1);
             this.loadingRemove.splice(i, 1);
           }
@@ -548,6 +517,7 @@ export class CadastroTermosComponent implements OnInit {
       },
       error => {
         this.loadingRemove[this.indice] = true;
+
         return swal.fire({
           icon: 'warning',
           title: 'Falha ao remover Anexo',

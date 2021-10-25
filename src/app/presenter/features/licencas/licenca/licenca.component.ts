@@ -1,13 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Licencas } from '../../../../../models/licencas';
-import { Arquivos } from '../../../../../models/arquivos';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LicencaService } from '../../../../services/licenca.service';
-import { AnexoService } from '../../../../services/anexo.service';
-import { PdfService } from '../../../../services/pdf.service';
-import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
 import swal from 'sweetalert2';
-
+import { Arquivos } from '../../../../../models/arquivos';
+import { Licencas } from '../../../../../models/licencas';
+import { AnexoService } from '../../../../services/anexo.service';
+import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
+import { LicencaService } from '../../../../services/licenca.service';
+import { PdfService } from '../../../../services/pdf.service';
 
 @Component({
   selector: 'app-licenca',
@@ -35,10 +34,8 @@ export class LicencaComponent implements OnInit {
   }
   licencaPdf () {
     this.loadingPdf = false;
-    if ((this.licenca.status_fiscal === 'autorizada' && this.licenca.status_gerente === 'autorizada') || (this.licenca.status_fiscal === 'autorizada' && this.licenca.status_segundo_fiscal === 'autorizada'))
-    {
-      if (this.licenca.estabelecimento != null)
-      {
+    if ((this.licenca.status_fiscal === 'autorizada' && this.licenca.status_gerente === 'autorizada') || (this.licenca.status_fiscal === 'autorizada' && this.licenca.status_segundo_fiscal === 'autorizada')) {
+      if (this.licenca.estabelecimento != null) {
         this.pdfservice.downloadFile(this.licenca.estabelecimento).subscribe(response => {
           const file = new Blob([response], { type: 'application/pdf' });
           const fileURL = URL.createObjectURL(file);
@@ -55,8 +52,7 @@ export class LicencaComponent implements OnInit {
           };
         }));
       }
-    } else
-    {
+    } else {
       swal.fire({
         icon: 'warning',
         title: 'Licença com Autorizações Pendente',
@@ -66,14 +62,12 @@ export class LicencaComponent implements OnInit {
       this.loadingPdf = true;
     }
 
-
   }
   pegaId () {
     this.route.queryParams.subscribe(
       queryParams => {
         this.idlicenca = queryParams.id;
-        if (this.idlicenca != null)
-        {
+        if (this.idlicenca != null) {
           window.scrollTo(0, 0);
           this.licencaService.ListarLicencaPorID(this.idlicenca).subscribe((licenca) => {
             this.licenca = licenca;
@@ -81,7 +75,6 @@ export class LicencaComponent implements OnInit {
             this.statusLi = true;
             this.pegaAnexos();
             this.getDataEstabelecimentos();
-          }, () => {
           });
         }
       }
@@ -94,8 +87,7 @@ export class LicencaComponent implements OnInit {
   }
   pegaAnexos () {
     this.anexoService.listFilesByModel('estabelecimento', this.id_Estabelecimento).subscribe((arg) => {
-      if (arg.length > 0)
-      {
+      if (arg.length > 0) {
         this.titulo = 'Anexos da Licença';
         this.arquivo = arg.filter((item) => {
           return (
@@ -109,4 +101,3 @@ export class LicencaComponent implements OnInit {
     this.item = item;
   }
 }
-

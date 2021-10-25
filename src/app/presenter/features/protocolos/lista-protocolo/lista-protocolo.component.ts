@@ -1,17 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ProtocoloService } from '../../../../services/protocolo.service';
-import { PdfService } from '../../../../services/pdf.service';
-import { Protocolo } from '../../../../../models/protocolo';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';
 import * as moment from 'moment';
+import { Protocolo } from '../../../../../models/protocolo';
+import { PdfService } from '../../../../services/pdf.service';
+import { ProtocoloService } from '../../../../services/protocolo.service';
 
 @Component({
   selector: 'app-lista-protocolo',
   templateUrl: './lista-protocolo.component.html',
   styleUrls: ['./lista-protocolo.component.css'],
 })
-
 
 export class ListaProtocoloComponent implements OnInit {
   @Input() protocolos: Protocolo[] = [];
@@ -35,15 +34,13 @@ export class ListaProtocoloComponent implements OnInit {
         this.statusEst = true;
         this.protocolos = protocolo;
         this.initList();
-      }, () => {
       });
   }
   initList () {
     this.listItems = this.protocolos;
   }
   search () {
-    if (this.textSearch.length > 0)
-    {
+    if (this.textSearch.length > 0) {
       const val = this.textSearch;
       this.filtroPesquisa();
       this.listItems = this.listItems.filter((item) => {
@@ -57,8 +54,7 @@ export class ListaProtocoloComponent implements OnInit {
           this.formatDate(item.data).toLowerCase().indexOf(val.toLowerCase()) > -1
         );
       });
-    } else
-    {
+    } else {
       this.filtroPesquisa();
     }
   }
@@ -67,11 +63,9 @@ export class ListaProtocoloComponent implements OnInit {
   }
   filtroPesquisa () {
     const filtro = $('select').val();
-    if (filtro === 'todos')
-    {
+    if (filtro === 'todos') {
       this.initList();
-    } else
-    {
+    } else {
       this.listItems = this.protocolos.filter((item) => {
         return (
           String((item.requerido)).toLowerCase().indexOf(filtro.toLowerCase()) > -1);

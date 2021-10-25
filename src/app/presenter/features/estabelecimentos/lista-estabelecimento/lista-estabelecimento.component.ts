@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
+import * as moment from 'moment';
 import { Estabelecimento } from '../../../../../models/estabelecimento';
 import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
-import * as moment from 'moment';
 
 declare let $: any;
 
@@ -36,15 +36,13 @@ export class ListaEstabelecimentoComponent implements OnInit {
         this.statusEst = true;
         this.estabelecimentos = estabelecimentos;
         this.initList();
-      }, () => {
       });
   }
   initList () {
     this.listItems = this.estabelecimentos;
   }
   search () {
-    if (this.textSearch.length > 0)
-    {
+    if (this.textSearch.length > 0) {
       const val = this.textSearch;
       this.filtroPesquisa();
       this.listItems = this.listItems.filter((item) => {
@@ -59,8 +57,7 @@ export class ListaEstabelecimentoComponent implements OnInit {
           String(item.status).toLowerCase().indexOf(val.toLowerCase()) > -1
         );
       });
-    } else
-    {
+    } else {
       this.filtroPesquisa();
     }
   }
@@ -71,40 +68,29 @@ export class ListaEstabelecimentoComponent implements OnInit {
     this.estabelecimentoService.listarEstabelecimentoPorID(id)
       .subscribe((licencas: Estabelecimento) => {
         this.est = licencas;
-      }, () => {
       });
-
   }
   filtroPesquisa () {
     const filtro = $('select').val();
-    if (filtro === 'todos')
-    {
+    if (filtro === 'todos') {
       this.initList();
-    } else
-    {
+    } else {
       this.listItems = this.estabelecimentos.filter((item) => {
         const dataAtual = moment(this.dataAtual);
         const dataLicenca = moment(item.data_retorno);
         const diferencaEntreDatas = dataLicenca.diff(dataAtual, 'days');
-        if ((filtro === 'vencida' && !item.data_retorno) || (!item.data_licenca && filtro === 'vencida'))
-        {
+        if ((filtro === 'vencida' && !item.data_retorno) || (!item.data_licenca && filtro === 'vencida')) {
           return item;
-        } else if (filtro === 'vencida')
-        {
-          if (diferencaEntreDatas < 0)
-          {
+        } else if (filtro === 'vencida') {
+          if (diferencaEntreDatas < 0) {
             return item;
           }
-        } else if (filtro === 'avencer')
-        {
-          if (diferencaEntreDatas >= 0 && diferencaEntreDatas <= 31)
-          {
+        } else if (filtro === 'avencer') {
+          if (diferencaEntreDatas >= 0 && diferencaEntreDatas <= 31) {
             return (item);
           }
-        } else if (filtro === 'licenciado')
-        {
-          if (diferencaEntreDatas > 31)
-          {
+        } else if (filtro === 'licenciado') {
+          if (diferencaEntreDatas > 31) {
             return (item);
           }
         }
