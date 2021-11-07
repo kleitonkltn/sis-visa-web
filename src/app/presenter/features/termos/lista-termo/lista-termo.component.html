@@ -12,7 +12,7 @@
             <input class="form-control" id="myInput" [(ngModel)]="textSearch"
                 (keyup)="search()" type="text" placeholder="Busca..">
             <div class="input-group-append">
-                <select name="filtoPesquisa" id="select" class="custom-select"
+                <select name="filtroPesquisa" id="select" class="custom-select"
                     (change)="filtroPesquisa()">
                     <option value="Todas" selected>Todas</option>
                     <option value="constatacao">Constatação</option>
@@ -69,7 +69,7 @@
             previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
     </div>
     <div class="fab">
-        <a href="/CadastroTermo">
+        <a href="/cadastro-termo">
             <button class="main">
             </button>
         </a>

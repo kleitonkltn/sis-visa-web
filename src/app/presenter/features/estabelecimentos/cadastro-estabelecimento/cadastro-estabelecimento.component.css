@@ -1,105 +1,98 @@
 .estilo {
-    margin-top: 2%;
+  margin-top: 2%;
 }
 
 .border {
-    background-color: white;
-    border: none;
+  background-color: white;
+  border: none;
 }
 
 .radio {
-    margin-left: 10%;
+  margin-left: 10%;
 }
 
 .teste {
-    display: inline-block;
-    margin-right: 50px;
-    margin-top: 50px;
-    margin-bottom: 15px;
-    width: 17rem;
-    box-shadow: 0 0 20px 2px #ccc;
+  display: inline-block;
+  margin-right: 50px;
+  margin-top: 50px;
+  margin-bottom: 15px;
+  width: 17rem;
+  box-shadow: 0 0 20px 2px #ccc;
 }
 
 .border {
-    margin-top: 50px;
-    margin-bottom: 50px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 .margin {
-    margin-left: 10%;
-    margin-right: 10%;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 p {
-    max-width: 18ch;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  max-width: 18ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .card-header {
-    max-height: 40px;
-    background-color: white;
-    border: none;
+  max-height: 40px;
+  background-color: white;
+  border: none;
 }
 
 .fa-times:hover {
-    color: red;
-    cursor: pointer;
+  color: red;
+  cursor: pointer;
 }
 
 .iconeFechar:hover {
-    color: red;
+  color: red;
 }
 
 .btn-dark {
-    margin: 10px 0px 10px;
-    border-radius: 0;
+  margin: 10px 0px 10px;
+  border-radius: 0;
 }
 
 .card {
-    border: none;
+  border: none;
 }
-
 
 /* h1 {
     margin: 0 0 50px;
 } */
 
 .spinnerLoading {
-    display: none;
+  display: none;
 }
 
 a:hover {
-    color: blue;
-    cursor: pointer;
+  color: blue;
+  cursor: pointer;
 }
 
 .fa-file-word-o {
-    color: blue;
+  color: blue;
 }
 
-.responsiva>h1 {
-    font-size: calc(2em + 1vw);
+.responsiva > h1 {
+  font-size: calc(2em + 1vw);
 }
 
 .ng-invalid:not(estabelecimentoForm).form-submitted {
-    border-bottom: solid 2px red;
+  border-bottom: solid 2px red;
 }
 
-
-/* .form-control:valid +.input-group-prepend {
-    display: none;
-} */
-
 .t {
-    margin-right: 35px;
-    margin-top: 50px;
-    box-shadow: 0 0 20px 2px #ccc;
+  margin-right: 35px;
+  margin-top: 50px;
+  box-shadow: 0 0 20px 2px #ccc;
 }
 
 .modal-header {
-    background-color: #0B2B40;
-    color: white;
-    /* background-color: aliceblue; */
+  background-color: #0b2b40;
+  color: white;
 }

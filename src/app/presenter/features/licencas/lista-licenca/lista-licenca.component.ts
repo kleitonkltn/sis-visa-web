@@ -14,7 +14,7 @@ declare let $: any;
 export class ListaLicencaComponent implements OnInit {
   licencas: Licencas[] = []; listItems; textSearch; paginaAtual = 0;
   li: Licencas = {} as Licencas; statusEst = false; loading = false;
-  constructor (private licencaservice: LicencaService, private estabelecimentoservice: EstabelecimentoService) { }
+  constructor (private licencaService: LicencaService) { }
 
   ngOnInit () {
     this.subirTela();
@@ -26,7 +26,7 @@ export class ListaLicencaComponent implements OnInit {
   }
 
   getListaLicenca () {
-    this.licencaservice.ListarTodosLicencas()
+    this.licencaService.ListarTodosLicencas()
       .subscribe((licencas: Licencas[]) => {
         this.statusEst = true;
         this.licencas = licencas;

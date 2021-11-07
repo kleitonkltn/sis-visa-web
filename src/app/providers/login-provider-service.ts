@@ -9,7 +9,7 @@ import { Usuario } from '../../models/usuario';
 export class LoginProviderService {
   constructor (private http: HttpClient) { }
 
-  login (Client: Usuario) {
-    return this.http.post(environment.apiUrl_Login, Client);
+  login (data: Usuario) {
+    return this.http.post(environment.apiUrl_Login, data);
   }
 }

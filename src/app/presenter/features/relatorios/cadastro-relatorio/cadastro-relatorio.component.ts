@@ -18,17 +18,17 @@ import swal from 'sweetalert2';
 })
 export class CadastroRelatorioComponent implements OnInit {
 
-  constructor (private usuarios: UsuarioService, private relatorioservice: RelatorioService,
+  constructor (private usuarios: UsuarioService, private relatorioService: RelatorioService,
     private router: Router, private route: ActivatedRoute,
-    private estabelecimentoservice: EstabelecimentoService,
+    private estabelecimentosService: EstabelecimentoService,
     private authService: AutenticarService) {
     this.usuario = this.authService._user['params'];
     this.user = this.usuario.nivel_acesso;
   }
   public cep = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
-  relatorio: Relatorio; titulo = 'Cadastrar Relatório'; listfiscais; fiscais: Usuario[];
-  relatorioForm: FormGroup; cont = 0; idestabelecimento; relatorioEst: Relatorio = {} as Relatorio;
-  formSubmitted; public idupdate; loading = true; loadingCadastro = true;
+  relatorio: Relatorio; titulo = 'Cadastrar Relatório'; listFiscais; fiscais: Usuario[];
+  relatorioForm: FormGroup; cont = 0; idEstabelecimento; relatorioEst: Relatorio = {} as Relatorio;
+  formSubmitted; public currentIdUpdate; loading = true; loadingCadastro = true;
   usuario: Usuario; user;
   itemsForm = [];
   name = '';
@@ -56,7 +56,7 @@ export class CadastroRelatorioComponent implements OnInit {
   irregularidades = this.FormGroupIrregularidades.get('irregularidades') as FormArray;
   items = this.irregularidades.controls[0].get('items') as FormArray;
 
-  cnpj = (rawValue) => {
+  cpfOurCnpjMask = (rawValue: string) => {
     const numbers = rawValue.match(/\d/g);
     let numberLength = 0;
     if (numbers) {
@@ -69,7 +69,7 @@ export class CadastroRelatorioComponent implements OnInit {
     }
   }
 
-  contatomask = (rawValue) => {
+  contatoMask = (rawValue: string) => {
     const numbers = rawValue.match(/\d/g);
     let numberLength = 0;
     if (numbers) {
@@ -119,12 +119,12 @@ export class CadastroRelatorioComponent implements OnInit {
   pegaId () {
     this.route.queryParams.subscribe(
       queryParams => {
-        this.idupdate = queryParams.id;
-        this.idestabelecimento = queryParams.id_est;
-        if (this.idupdate != null) {
+        this.currentIdUpdate = queryParams.id;
+        this.idEstabelecimento = queryParams.id_est;
+        if (this.currentIdUpdate != null) {
           window.scrollTo(0, 0);
           this.titulo = 'Atualizar Relatório';
-          this.relatorioservice.listRelatorioeById(this.idupdate).subscribe((relatorio) => {
+          this.relatorioService.listRelatoriosById(this.currentIdUpdate).subscribe((relatorio) => {
             this.relatorio = relatorio;
 
             this.relatorio.irregularidades.forEach(element => {
@@ -134,8 +134,8 @@ export class CadastroRelatorioComponent implements OnInit {
             this.createForm(this.relatorio);
           });
         }
-        if (this.idestabelecimento != null) {
-          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idestabelecimento).subscribe((est: Estabelecimento) => {
+        if (this.idEstabelecimento != null) {
+          this.estabelecimentosService.listarEstabelecimentoPorID(this.idEstabelecimento).subscribe((est: Estabelecimento) => {
             console.log(est);
             this.titulo = 'Cadastrar Relatório';
             window.scrollTo(0, 0);
@@ -153,14 +153,15 @@ export class CadastroRelatorioComponent implements OnInit {
     );
 
   }
-  selecFiscais () {
+  selectFiscais () {
     let a = [];
     a = this.relatorioForm.value.fiscais_presentes.split(', ');
-    $('#selectfiscais').val(a);
-    $('#selectfiscais').trigger('change');
+    $('#selectFiscais').val(a);
+    $('#selectFiscais').trigger('change');
   }
+
   getListFiscais () {
-    this.usuarios.ListarTodosUsuarios().subscribe(items => {
+    this.usuarios.listarTodosUsuarios().subscribe(items => {
       this.fiscais = items.filter(item => {
         return (
           item.nivel_acesso.toLowerCase().indexOf('fiscal') > -1
@@ -172,7 +173,7 @@ export class CadastroRelatorioComponent implements OnInit {
 
   atualizar () {
     this.relatorioForm.value.irregularidades = this.FormGroupIrregularidades.value.irregularidades;
-    this.relatorioForm.value.fiscais_presentes = this.listfiscais;
+    this.relatorioForm.value.fiscais_presentes = this.listFiscais;
     this.loadingCadastro = false;
     if (this.relatorioForm.valid === false) {
       window.scrollTo(0, 0);
@@ -185,7 +186,7 @@ export class CadastroRelatorioComponent implements OnInit {
       this.formSubmitted = true;
       this.loadingCadastro = true;
     } else {
-      this.relatorioservice.updateRelatorios(this.relatorioForm.value).subscribe(() => {
+      this.relatorioService.updateRelatorios(this.relatorioForm.value).subscribe(() => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
         swal.fire({
@@ -196,13 +197,13 @@ export class CadastroRelatorioComponent implements OnInit {
         });
         const navigationExtras: NavigationExtras = {
           queryParams: {
-            id: this.idupdate
+            id: this.currentIdUpdate
           }
         };
         setTimeout(() => {
           this.router.navigate(['/relatorio/'], navigationExtras);
         }, 3000);
-      }, (error) => {
+      }, (_) => {
         window.scrollTo(0, 0);
         this.loadingCadastro = true;
         swal.fire({
@@ -217,7 +218,7 @@ export class CadastroRelatorioComponent implements OnInit {
 
   salvar () {
     this.relatorioForm.value.irregularidades = this.FormGroupIrregularidades.value.irregularidades;
-    this.relatorioForm.value.fiscais_presentes = this.listfiscais;
+    this.relatorioForm.value.fiscais_presentes = this.listFiscais;
     this.loadingCadastro = false;
     if (this.relatorioForm.valid === false) {
       window.scrollTo(0, 0);
@@ -230,7 +231,7 @@ export class CadastroRelatorioComponent implements OnInit {
       this.formSubmitted = true;
       this.loadingCadastro = true;
     } else {
-      this.relatorioservice.createRelatorio(this.relatorioForm.value).subscribe((data: Relatorio) => {
+      this.relatorioService.createRelatorio(this.relatorioForm.value).subscribe((data: Relatorio) => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
         swal.fire({
@@ -247,12 +248,12 @@ export class CadastroRelatorioComponent implements OnInit {
         setTimeout(() => {
           this.router.navigate(['/relatorio/'], navigationExtras);
         }, 3000);
-      }, (error) => {
+      }, (_) => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
         swal.fire({
           icon: 'warning',
-          title: 'Falha ao cadastrar relatório',
+          title: 'Falha ao cadastrar Relatório',
           showConfirmButton: false,
           timer: 2000
         });
@@ -260,24 +261,27 @@ export class CadastroRelatorioComponent implements OnInit {
     }
 
   }
+
   carregaSelect () {
     $('.select-fiscais').select2({
-      placeholder: 'Selecione um Inspertor',
+      placeholder: 'Selecione os Fiscais',
       llowClear: true
     });
 
     $('.select-fiscais').on('change', () => {
-      this.selectfiscais();
+      this.didTapSelectFiscais();
     });
   }
-  selectfiscais () {
+
+  didTapSelectFiscais () {
     const fiscais = [];
     const opcao = $('.select-fiscais').find(':selected');
     for (let i = 0; i < opcao.length; i++) {
       fiscais[i] = opcao[i].value;
     }
-    this.listfiscais = fiscais.join(', ');
+    this.listFiscais = fiscais.join(', ');
   }
+
   addIrregularidades2 (a) {
     if (this.cont > 0) {
       const group = new FormGroup({
@@ -331,9 +335,5 @@ export class CadastroRelatorioComponent implements OnInit {
 
   setItem (data, i, f) {
     this.irregularidades.controls[i].get('items')['controls'][f].setValue(data);
-  }
-
-  log (log) {
-    console.log(log);
   }
 }

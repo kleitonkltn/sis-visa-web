@@ -13,7 +13,7 @@
     <!-- termina a verificação dos dados -->
 
     <!-- Verifica se tem Estabelecimento  para listar e se ja foi carrado os dados desse estabelecimento -->
-    <div *ngIf="idupdate > 0 && statusEst === true">
+    <div *ngIf="currentIdUpdate > 0 && statusEst === true">
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a class="nav-item nav-link active" id="nav-home-tab"
                 data-toggle="tab" href="#nav-home" role="tab"
@@ -26,11 +26,11 @@
             <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
                 aria-labelledby="nav-home-tab">
 
-                <!-- Dentro dessa classe as fontes ficam resposivel -->
-                <div class="FonteResponsiva">
+                <!-- Dentro dessa classe as fontes ficam responsivas -->
+                <div class="fonte-responsiva">
                     <h1 class="text-center">Dados do Estabelecimento</h1>
                 </div>
-                <!-- Fim das fontes resposivel -->
+                <!-- Fim das fontes responsivas -->
 
                 <!-- Tabela com os Dados do estabelecimento -->
                 <table class="table table-bordered col-sm-8" align="center">
@@ -58,7 +58,7 @@
 
                     </tr>
                     <tr>
-                        <th>Tipo Pessoa</th>
+                        <th>Tipo de Empresa (PJ/PF)</th>
                         <td>{{ estabelecimentos.pessoa }}</td>
                     </tr>
                     <tr>
@@ -101,7 +101,7 @@
                         <td>{{ estabelecimentos.celular }}</td>
                     </tr>
                     <tr>
-                        <th>Data Inspensão</th>
+                        <th>Data Inspeção</th>
                         <td>{{ estabelecimentos.data_inspecao | date:
                             "dd/MM/yyyy" }}</td>
                     </tr>
@@ -139,8 +139,8 @@
                 </table>
                 <!-- Fim da tabela -->
 
-                <!-- Dentro dessa Div fica os botões de controle do estabelimento onde pode ser visto
-                a licença, atualizar o cadastro, fazer pedido de licença, inspensionar, fazer relatorio
+                <!-- Dentro dessa Div fica os botões de controle do estabelecimento onde pode ser visto
+                a licença, atualizar o cadastro, fazer pedido de licença, inspecionar, fazer relatorio
                 e enviar Licença por email -->
                 <div class="text-center">
                     <a class="btn" [routerLink]="['/estabelecimento/']"
@@ -149,49 +149,49 @@
                         <i [ngClass]="{ spinnerLoading: !loading }"
                             class="fa fa-file-pdf-o fa-2x"
                             aria-hidden="true"></i>
-                        <span class="spinner-border spinner-border-sm margintop"
+                        <span class="spinner-border spinner-border-sm margin-top-zero"
                             role="status"
                             [ngClass]="{ spinnerLoading: loading }"
                             aria-hidden="true"></span>
-                        <b> Ver Licença</b>
+                        <b class="ml-1" > Ver Licença</b>
                     </a>
 
-                    <a class="btn" [routerLink]="['/cadastrar/']"
+                    <a class="btn" [routerLink]="['/cadastro-estabelecimento/']"
                         [queryParams]="{ id: estabelecimentos.id }">
                         <i class="fa fa-pencil-square-o fa-2x"
                             aria-hidden="true"></i>
-                        <b>Atualizar Cadastro</b>
+                        <b class="ml-1"> Editar Cadastro</b>
                     </a>
 
                     <a class="btn" (click)="verificaLicenca()">
                         <div class="alo">
                             <i class="fa fa-key fa-2x" aria-hidden="true"></i>
-                            <b class="alo">Pedido de Licença</b>
+                            <b class="alo ml-1"> Solicitar Licença</b>
                         </div>
                     </a>
                     <a class="btn"
-                        href='CadastroTermo?id={{estabelecimentos.id}}'>
+                        href='cadastro-termo?id={{estabelecimentos.id}}'>
                         <div class="alo">
                             <i class="fa fa-search fa-2x"
                                 aria-hidden="true"></i>
-                            <b class="alo">Inspecionar</b>
+                            <b class="alo ml-1"> Criar Termo</b>
                         </div>
                     </a>
 
-                    <a class="btn" (click)="verificaUser()">
+                    <!-- <a class="btn" (click)="verificaUser()">
                         <div class="alo">
                             <i class="fa fa-pencil-square fa-2x"
                                 aria-hidden="true"></i>
                             <b class="alo"> Relatório</b>
                         </div>
-                    </a>
+                    </a> -->
 
                     <a type="button" class="btn" data-toggle="modal"
                         data-target="#exampleModal" (click)="VerificaEmail()">
                         <div class="alo">
                             <i class="fa fa-envelope fa-2x"
                                 aria-hidden="true"></i>
-                            <b class="alo"> Enviar Licença</b>
+                            <b class="alo ml-1"> Encaminhar Licença</b>
                         </div>
                     </a>
 
@@ -226,10 +226,10 @@
                                         <div class="text-center">
                                             <button type="button"
                                                 class="btn btn-primary"
-                                                (click)="EnviarEmail()">
+                                                (click)="enviarEmail()">
 
                                                 <span
-                                                    class="spinner-border spinner-border-sm margintop"
+                                                    class="spinner-border spinner-border-sm margin-top-zero"
                                                     role="status"
                                                     [ngClass]="{ spinnerLoading: loadingEmail }"
                                                     aria-hidden="true"></span>
@@ -249,11 +249,11 @@
 
                 <!-- Nav botões  lateral -->
                 <nav class="fab">
-                    <button class="main" id="btnprincipal"
+                    <button class="main" id="btn-principal"
                         (click)="toggleSidebar()"> </button>
                     <ul>
                         <li>
-                            <a class="btn" [routerLink]="[ '/cadastrar/'] "
+                            <a class="btn" [routerLink]="[ '/cadastro-estabelecimento/'] "
                                 [queryParams]="{ id: estabelecimentos.id } ">
                                 <button id="opcao1 ">
                                     <i class="fa fa-pencil-square-o "
@@ -272,7 +272,7 @@
                         </li>
                         <li>
                             <a class="btn"
-                                href='CadastroTermo?id={{estabelecimentos.id}}'>
+                                href='cadastro-termo?id={{estabelecimentos.id}}'>
                                 <button id="opcao3 ">
                                     <i class="fa fa-search "
                                         aria-hidden="true "></i>

@@ -27,8 +27,7 @@ export class LoginComponent implements OnInit {
   verificar () {
     return new Promise((resolve, reject) => {
       this.autenticar.checkToken().then((data) => {
-        if (this.autenticar.authenticationState.value === true)
-        {
+        if (this.autenticar.authenticationState.value === true) {
           this.router.navigate(['home']);
         }
       });
@@ -41,7 +40,7 @@ export class LoginComponent implements OnInit {
       password: new FormControl(usuario.password)
     });
   }
-  fazerlogin () {
+  didTapLogin () {
     this.autenticar.login(this.usuario);
   }
 

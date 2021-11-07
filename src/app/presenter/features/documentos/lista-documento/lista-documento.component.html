@@ -24,7 +24,7 @@
                         <td>{{documento.descricao}}</td>
                         <td>{{documento.descricao_completa}}</td>
                         <td>
-                            <a class="btn" [routerLink]="['/CadastroDocumento/']" [queryParams]="{ id: documento.id}">
+                            <a class="btn" [routerLink]="['/cadastro-documento/']" [queryParams]="{ id: documento.id}">
                                 <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
 
                             </a>
@@ -36,7 +36,7 @@
         <pagination-controls class="text-center" (pageChange)="paginaAtual = $event" (click)="subirTela()" previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
     </div>
     <div class="fab">
-        <button class="main" [routerLink]="['/CadastroDocumento/']">
+        <button class="main" [routerLink]="['/cadastro-documento/']">
         </button>
     </div>
 </div>

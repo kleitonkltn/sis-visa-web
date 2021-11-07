@@ -36,10 +36,10 @@ export class EstabelecimentoService {
 
   //Atividades
   ListarTodasAtividades () {
-    return this.http.get(environment.apiUrl_Ativiades);
+    return this.http.get(environment.apiUrl_Atividades);
   }
   ListarAtividadesPorID (id: string) {
-    return this.http.get(`${environment.apiUrl_Ativiades}/${id}`);
+    return this.http.get(`${environment.apiUrl_Atividades}/${id}`);
   }
 
   getValueMaxLicenca () {

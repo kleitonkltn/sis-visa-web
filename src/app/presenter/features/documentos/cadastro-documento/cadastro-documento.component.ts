@@ -14,12 +14,12 @@ import { DocumentoService } from '../../../../services/documento.service';
 export class CadastroDocumentoComponent implements OnInit {
   titulo = 'Cadastrar Documento';
   documentoForm: FormGroup;
-  public idupdate: number;
+  public currentIdUpdate: number;
   submitted;
   loading: boolean[] = []; loadingCadastro = true;
   formSubmitted = false;
 
-  constructor (private route: ActivatedRoute, private documentoservice: DocumentoService, private router: Router) {
+  constructor (private route: ActivatedRoute, private documentoService: DocumentoService, private router: Router) {
   }
   ngOnInit () {
     this.createForm(new Documentos());
@@ -46,7 +46,7 @@ export class CadastroDocumentoComponent implements OnInit {
       this.formSubmitted = true;
       this.loadingCadastro = true;
     } else {
-      this.documentoservice.createDocumentos(this.documentoForm.value).subscribe((data: Documentos) => {
+      this.documentoService.createDocumentos(this.documentoForm.value).subscribe((data: Documentos) => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
         swal.fire({
@@ -83,7 +83,7 @@ export class CadastroDocumentoComponent implements OnInit {
       this.formSubmitted = true;
       this.loadingCadastro = true;
     } else {
-      this.documentoservice.updateDocumentos(this.documentoForm.value).subscribe(() => {
+      this.documentoService.updateDocumentos(this.documentoForm.value).subscribe(() => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
         swal.fire({
@@ -117,11 +117,11 @@ export class CadastroDocumentoComponent implements OnInit {
   pegaId () {
     this.route.queryParams.subscribe(
       queryParams => {
-        this.idupdate = queryParams.id;
-        if (this.idupdate != null) {
+        this.currentIdUpdate = queryParams.id;
+        if (this.currentIdUpdate != null) {
           window.scrollTo(0, 0);
           this.titulo = 'Atualizar Documento';
-          this.documentoservice.listDocumentosById(this.idupdate).subscribe((documento: Documentos) => {
+          this.documentoService.listDocumentosById(this.currentIdUpdate.toString()).subscribe((documento: Documentos) => {
             this.createForm(documento);
           });
         } else {

@@ -10,10 +10,8 @@ import { Usuario } from '../../models/usuario';
 export class UsuarioService {
 
   constructor (private http: HttpClient) { }
-  ListarTodosUsuarios (): Observable<Usuario[]> {
+
+  listarTodosUsuarios (): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(environment.apiUrl_Usuarios);
-  }
-  ListarUsuariosPorMatricula (matricula): Observable<Usuario> {
-    return this.http.get<Usuario>(environment.apiUrl_Usuarios + '/' + matricula);
   }
 }

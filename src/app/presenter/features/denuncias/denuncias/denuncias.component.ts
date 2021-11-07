@@ -17,7 +17,7 @@ export class DenunciasComponent implements OnInit {
   denuncia: Denuncias = {} as Denuncias;
   arquivo: Arquivos[] = []; statusDen = false; loadingTable = false;
   base64textString: string[] = [];
-  public idupdate: number;
+  public currentIdUpdate: number;
   titoProcedimento = 'Sem Procedimentos Cadastrados';
   titulo = 'Sem anexos cadastrados';
   item: Arquivos;
@@ -29,9 +29,9 @@ export class DenunciasComponent implements OnInit {
   pegaId () {
     this.route.queryParams.subscribe(
       queryParams => {
-        this.idupdate = queryParams.id;
-        if (this.idupdate != null) {
-          this.denunciaService.ListarDenunciasPorID(this.idupdate).subscribe((denuncia) => {
+        this.currentIdUpdate = queryParams.id;
+        if (this.currentIdUpdate != null) {
+          this.denunciaService.ListarDenunciasPorID(this.currentIdUpdate.toString()).subscribe((denuncia) => {
             window.scrollTo(0, 0);
             this.denuncia = denuncia;
             this.denuncia.status = this.formatarStatusDenuncia(denuncia.status);
@@ -45,7 +45,7 @@ export class DenunciasComponent implements OnInit {
       }
     );
 
-    this.anexoService.listFilesByModel('denuncia', this.idupdate).subscribe((arq: Arquivos[]) => {
+    this.anexoService.listFilesByModel('denuncia', this.currentIdUpdate.toString()).subscribe((arq: Arquivos[]) => {
       this.arquivo = arq;
       if (this.arquivo.length > 0) {
         this.titulo = 'Anexos do Denúncia';
@@ -69,8 +69,8 @@ export class DenunciasComponent implements OnInit {
         return 'Arquivada';
       case 'aguardandoConstatacao':
         return 'Aguardado Constatação';
-      case 'plubicadaEmEdital':
-        return 'Plubicada em Edital';
+      case 'publicadoEmEdital':
+        return 'Publicada em Edital';
       case 'infracionada':
         return 'Infracionada';
     }
@@ -81,8 +81,8 @@ export class DenunciasComponent implements OnInit {
         return 'Página do Facebook';
       case 'facebook':
         return 'Facebook';
-      case 'whatsapp':
-        return 'Whatsapp';
+      case 'whatsApp':
+        return 'WhatsApp';
       case 'telefone':
         return 'Telefone';
       case 'pessoalmente':

@@ -1,9 +1,9 @@
 {
   "targets": {
-    "sisvisacoxim": {
+    "appsigvisa": {
       "hosting": {
-        "HOME-VISA": [
-          "sisvisacoxim"
+        "SIGVISA": [
+          "appsigvisa"
         ]
       }
     }

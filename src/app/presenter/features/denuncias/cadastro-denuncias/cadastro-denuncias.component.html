@@ -5,7 +5,7 @@
                 data-toggle="tab" href="#nav-home" role="tab"
                 aria-controls="nav-home" aria-selected="true">Dados</a>
 
-            <a *ngIf="idupdate >0" class="nav-item nav-link"
+            <a *ngIf="currentIdUpdate >0" class="nav-item nav-link"
                 id="nav-procedimento-tab" data-toggle="tab"
                 href="#nav-procedimento" role="tab"
                 aria-controls="nav-procedimento"
@@ -27,7 +27,7 @@
                         <h4 class="text-center" style="margin-bottom: 25px;">
                             Campos com (*) são obrigatórios </h4>
                     </div>
-                    <form method="post" [formGroup]="DenuciasForm">
+                    <form method="post" [formGroup]="denunciasForm">
                         <fieldset>
                             <div class="row">
                                 <div class="form-group col-md-3">
@@ -53,7 +53,7 @@
                                                 Página do Facebook</option>
                                             <option value="facebook">Facebook
                                             </option>
-                                            <option value="whatsApp">Whatsapp
+                                            <option value="whatsApp">WhatsApp
                                             </option>
                                             <option value="telefone">Telefone
                                             </option>
@@ -100,7 +100,7 @@
                                 <div class="form-group col-md-3">
                                     <b>Contato Reclamante:</b>
                                     <input class="form-control"
-                                        [textMask]="{mask: contatomask}"
+                                        [textMask]="{mask: contatoMask}"
                                         formControlName="contato_reclamante"
                                         type="text" name="contato_reclamante"
                                         maxlength=“20”>
@@ -116,7 +116,7 @@
                                 <div class="form-group col-md-3">
                                     <b>Contato Denunciado:</b>
                                     <input class="form-control"
-                                        [textMask]="{mask: contatomask}"
+                                        [textMask]="{mask: contatoMask}"
                                         formControlName="contato_denunciado"
                                         name="contato_denunciado"
                                         maxlength=“20”>
@@ -156,7 +156,7 @@
                             </div>
                             <div class="row">
                             </div>
-                            <div *ngIf="idupdate == null" class="text-center">
+                            <div *ngIf="currentIdUpdate == null" class="text-center">
                                 <button type="button" class="btn btn-dark"
                                     (click)="salvar()">
                                     <span
@@ -169,7 +169,7 @@
                                 </button>
                             </div>
 
-                            <div *ngIf="idupdate > 0" class="text-center">
+                            <div *ngIf="currentIdUpdate > 0" class="text-center">
                                 <button type="submit" class="btn btn-dark"
                                     (click)="atualizar()">
                                     <span
@@ -186,7 +186,7 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="idupdate >0" class="tab-pane fade" id="nav-procedimento"
+        <div *ngIf="currentIdUpdate >0" class="tab-pane fade" id="nav-procedimento"
             role="tabpanel" aria-labelledby="nav-procedimento-tab" align=center>
             <div style="margin-left: 2%; margin-right: 2%;">
                 <div class="border col-sm-9 text-left">
@@ -311,12 +311,12 @@
                     style="border-top: 1px solid #bdc3c7; margin-top: 50px; margin-left: 0px !important;">
                     <div align="center" style="margin-top: 10px;">
                         <a (click)=" ListaArq()">
-                            <i [ngClass]="{ spinnerLoading: !loadingNumvem }"
+                            <i [ngClass]="{ spinnerLoading: !loadingNuvem }"
                                 class="fa fa-cloud-download fa-2x"
                                 aria-hidden="tue"></i>
                             <span class="spinner-border spinner-border-sm"
                                 role="status"
-                                [ngClass]="{ spinnerLoading: loadingNumvem }"
+                                [ngClass]="{ spinnerLoading: loadingNuvem }"
                                 aria-hidden="true"
                                 style="margin-right: 15px;"></span> Visualizar
                             arquivos já armazenados

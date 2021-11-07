@@ -15,12 +15,12 @@ import { EmbasamentoService } from '../../../../services/embasamento.service';
 export class CadastroEmbasamentoComponent implements OnInit {
   titulo = 'Cadastrar Embasamento';
   embasamentoForm: FormGroup;
-  public idupdate: number;
+  public currentIdUpdate: number;
   submitted;
   loading: boolean[] = []; loadingCadastro = true;
   formSubmitted = false;
 
-  constructor (private route: ActivatedRoute, private embasamentoservice: EmbasamentoService, private router: Router) {
+  constructor (private route: ActivatedRoute, private embasamentoService: EmbasamentoService, private router: Router) {
   }
   ngOnInit () {
     this.createForm(new Embasamentos());
@@ -47,7 +47,7 @@ export class CadastroEmbasamentoComponent implements OnInit {
       this.formSubmitted = true;
       this.loadingCadastro = true;
     } else {
-      this.embasamentoservice.createEmbasamentos(this.embasamentoForm.value).subscribe((data: Embasamentos) => {
+      this.embasamentoService.createEmbasamentos(this.embasamentoForm.value).subscribe((data: Embasamentos) => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
         swal.fire({
@@ -84,7 +84,7 @@ export class CadastroEmbasamentoComponent implements OnInit {
       this.formSubmitted = true;
       this.loadingCadastro = true;
     } else {
-      this.embasamentoservice.updateEmbasamentos(this.embasamentoForm.value).subscribe(() => {
+      this.embasamentoService.updateEmbasamentos(this.embasamentoForm.value).subscribe(() => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
         swal.fire({
@@ -112,13 +112,14 @@ export class CadastroEmbasamentoComponent implements OnInit {
   pegaId () {
     this.route.queryParams.subscribe(
       queryParams => {
-        this.idupdate = queryParams.id;
-        if (this.idupdate != null) {
+        this.currentIdUpdate = queryParams.id;
+        if (this.currentIdUpdate != null) {
           window.scrollTo(0, 0);
           this.titulo = 'Atualizar Embasamento';
-          this.embasamentoservice.listEmbasamentosById(this.idupdate).subscribe((documento: Embasamentos) => {
-            this.createForm(documento);
-          });
+          this.embasamentoService.listEmbasamentosById(this.currentIdUpdate.toString())
+            .subscribe((documento: Embasamentos) => {
+              this.createForm(documento);
+            });
         } else {
           window.scrollTo(0, 0);
           this.titulo = 'Cadastrar Embasamento';

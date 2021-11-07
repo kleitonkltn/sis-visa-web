@@ -1,272 +1,272 @@
 <div class="body">
-    <div *ngIf="statusTer === false" align="center" style="margin-top: 50px;">
-        <span class="spinner-border spinner-border-sm" role="status"
-            [ngClass]="{ spinnerLoading: loadingTable}" aria-hidden="true"
-            style="width: 50px; height: 50px;"></span>
+  <div *ngIf="statusTer === false" align="center" style="margin-top: 50px;">
+    <span class="spinner-border spinner-border-sm" role="status"
+      [ngClass]="{ spinnerLoading: loadingTable}" aria-hidden="true"
+      style="width: 50px; height: 50px;"></span>
+  </div>
+
+  <div *ngIf="currentIdUpdate > 0 && statusTer === true">
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      <a class="nav-item nav-link active" id="nav-home-tab"
+        data-toggle="tab" href="#nav-home" role="tab"
+        aria-controls="nav-home" aria-selected="true">Dados</a>
+      <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
+        href="#nav-profile" role="tab" aria-controls="nav-profile"
+        aria-selected="false">Anexos</a>
     </div>
-
-    <div *ngIf="idupdate > 0 && statusTer === true">
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="nav-home-tab"
-                data-toggle="tab" href="#nav-home" role="tab"
-                aria-controls="nav-home" aria-selected="true">Dados</a>
-            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
-                href="#nav-profile" role="tab" aria-controls="nav-profile"
-                aria-selected="false">Anexos</a>
+    <div class="tab-content" id="nav-tabContent"
+      style="margin-left: 2%; margin-right: 2%;">
+      <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+        aria-labelledby="nav-home-tab">
+        <div class="responsiva">
+          <h1 class="text-center">Dados do Termo</h1>
         </div>
-        <div class="tab-content" id="nav-tabContent"
-            style="margin-left: 2%; margin-right: 2%;">
-            <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
-                aria-labelledby="nav-home-tab">
-                <div class="responsiva">
-                    <h1 class="text-center">Dados do Termo</h1>
-                </div>
-                <table class="table table-bordered col-sm-8" align="center">
-                    <tr>
-                        <th>CNPJ ou CPF</th>
-                        <td>{{ termos.cnpj }}</td>
-                    </tr>
-                    <tr *ngIf="termos.estabelecimento">
-                        <th>Estabelecimento ID</th>
-                        <td>{{ termos.estabelecimento }}
-                            <a class="btn" [routerLink]="['/estabelecimento/']"
-                                [queryParams]="{ id: termos.estabelecimento}">
-                                <i class="fa fa-angle-double-right"
-                                    aria-hidden="true"
-                                    style="font-size: 25px"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Razão Social</th>
-                        <td>{{ termos.razao }}</td>
-                    </tr>
-                    <tr>
-                        <th>Nome Fantasia</th>
-                        <td>{{ termos.fantasia }}</td>
-                    </tr>
-                    <tr>
-                        <th>E-mail</th>
-                        <td>
-                            {{ termos.email }}
-                        </td>
+        <table class="table table-bordered col-sm-8" align="center">
+          <tr>
+            <th>CNPJ ou CPF</th>
+            <td>{{ termos.cnpj }}</td>
+          </tr>
+          <tr *ngIf="termos.estabelecimento">
+            <th>Estabelecimento ID</th>
+            <td>{{ termos.estabelecimento }}
+              <a class="btn" [routerLink]="['/estabelecimento/']"
+                [queryParams]="{ id: termos.estabelecimento}">
+                <i class="fa fa-angle-double-right"
+                  aria-hidden="true"
+                  style="font-size: 25px"></i>
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <th>Razão Social</th>
+            <td>{{ termos.razao }}</td>
+          </tr>
+          <tr>
+            <th>Nome Fantasia</th>
+            <td>{{ termos.fantasia }}</td>
+          </tr>
+          <tr>
+            <th>E-mail</th>
+            <td>
+              {{ termos.email }}
+            </td>
 
-                    </tr>
-                    <tr>
-                        <th>IE ou RG</th>
-                        <td>{{ termos.insc }}</td>
-                    </tr>
-                    <tr>
-                        <th>Endereço</th>
-                        <td>
-                            {{ termos.endereco }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Bairro</th>
-                        <td>{{ termos.bairro }}</td>
-                    </tr>
-                    <tr>
-                        <th>Telefone</th>
-                        <td>{{ termos.telefone }}</td>
-                    </tr>
-                    <tr>
-                        <th>Atividade</th>
-                        <td>{{ termos.ramo }}</td>
-                    </tr>
-                    <tr>
-                        <th>Data </th>
-                        <td>{{ termos.data | date: "dd/MM/yyyy" }}</td>
-                    </tr>
-                    <tr>
-                        <th>Tipo de Termo </th>
-                        <td>{{ termos.tipo_termo}}</td>
-                    </tr>
-                    <tr>
-                        <th>Nome do Responsável</th>
-                        <td>{{ termos.responsavel_nome }}</td>
-                    </tr>
-                    <tr>
-                        <th>RG do Responsável</th>
-                        <td>{{ termos.responsavel_rg }}</td>
-                    </tr>
-                    <tr>
-                        <th>Doc Classe Responsável</th>
-                        <td>{{ termos.responsavel_classe }}</td>
-                    </tr>
-                    <tr>
-                        <th>Nome do Propiretário:</th>
-                        <td>{{ termos.proprietario_nome }}</td>
-                    </tr>
-                    <tr>
-                        <th>RG Propiretário:</th>
-                        <td>{{ termos.proprietario_rg }}</td>
-                    </tr>
-                    <tr></tr>
-                    <tr>
-                        <th>Doc Classe Propiretário</th>
-                        <td>{{ termos.proprietario_classe }}</td>
-                    </tr>
-                    <tr>
-                        <th>Embasamentos Legal</th>
-                        <td>{{ termos.embasamento_legal }}</td>
-                    </tr>
-                    <tr>
-                        <th>Documentos</th>
-                        <td>{{ termos.doc_solicitados }}</td>
-                    </tr>
-                    <tr>
-                        <th>Descrição</th>
-                        <td>{{ termos.descricao }}</td>
-                    </tr>
-                    <tr>
-                        <th>Fiscais Presente</th>
-                        <td>{{ termos.fiscais_presentes }}</td>
-                    </tr>
-                    <tr>
-                        <th>Fiscal responsável</th>
-                        <td>{{ termos.fiscal_responsavel }}</td>
-                    </tr>
-                </table>
-                <div class="text-center">
-                    <a class="btn" (click)="termoPDF()">
-                        <i [ngClass]="{ spinnerLoading: !loading }"
-                            class="fa fa-file-pdf-o fa-2x"
-                            aria-hidden="true"></i>
-                        <span class="spinner-border spinner-border-sm margintop"
-                            role="status"
-                            [ngClass]="{ spinnerLoading: loading }"
-                            aria-hidden="true"></span>
-                        <b> Ver Termo</b>
-                    </a>
-                    <a class="btn" [routerLink]="['/CadastroTermo/']"
-                        [queryParams]="{ id_termo: termos.id }">
-                        <i class="fa fa-pencil-square-o fa-2x"
-                            aria-hidden="true"></i>
-                        <b>Atualizar Cadastro</b>
-                    </a>
-                    <a type="button" class="btn" data-toggle="modal"
-                        data-target="#exampleModal" (click)="VerificaEmail()">
-                        <div class="alo">
-                            <i class="fa fa-envelope fa-2x"
-                                aria-hidden="true"></i>
-                            <b class="alo"> Enviar Termo</b>
-                        </div>
-                    </a>
-                </div>
+          </tr>
+          <tr>
+            <th>IE ou RG</th>
+            <td>{{ termos.insc }}</td>
+          </tr>
+          <tr>
+            <th>Endereço</th>
+            <td>
+              {{ termos.endereco }}
+            </td>
+          </tr>
+          <tr>
+            <th>Bairro</th>
+            <td>{{ termos.bairro }}</td>
+          </tr>
+          <tr>
+            <th>Telefone</th>
+            <td>{{ termos.telefone }}</td>
+          </tr>
+          <tr>
+            <th>Atividade</th>
+            <td>{{ termos.ramo }}</td>
+          </tr>
+          <tr>
+            <th>Data </th>
+            <td>{{ termos.data | date: "dd/MM/yyyy" }}</td>
+          </tr>
+          <tr>
+            <th>Tipo de Termo </th>
+            <td>{{ termos.tipo_termo}}</td>
+          </tr>
+          <tr>
+            <th>Nome do Responsável</th>
+            <td>{{ termos.responsavel_nome }}</td>
+          </tr>
+          <tr>
+            <th>RG do Responsável</th>
+            <td>{{ termos.responsavel_rg }}</td>
+          </tr>
+          <tr>
+            <th>Doc Classe Responsável</th>
+            <td>{{ termos.responsavel_classe }}</td>
+          </tr>
+          <tr>
+            <th>Nome do Proprietário:</th>
+            <td>{{ termos.proprietario_nome }}</td>
+          </tr>
+          <tr>
+            <th>RG Proprietário:</th>
+            <td>{{ termos.proprietario_rg }}</td>
+          </tr>
+          <tr></tr>
+          <tr>
+            <th>Doc Classe Proprietário</th>
+            <td>{{ termos.proprietario_classe }}</td>
+          </tr>
+          <tr>
+            <th>Embasamentos Legal</th>
+            <td>{{ termos.embasamento_legal }}</td>
+          </tr>
+          <tr>
+            <th>Documentos</th>
+            <td>{{ termos.doc_solicitados }}</td>
+          </tr>
+          <tr>
+            <th>Descrição</th>
+            <td>{{ termos.descricao }}</td>
+          </tr>
+          <tr>
+            <th>Fiscais Presente</th>
+            <td>{{ termos.fiscais_presentes }}</td>
+          </tr>
+          <tr>
+            <th>Fiscal responsável</th>
+            <td>{{ termos.fiscal_responsavel }}</td>
+          </tr>
+        </table>
+        <div class="text-center">
+          <a class="btn" (click)="termoPDF()">
+            <i [ngClass]="{ spinnerLoading: !loading }"
+              class="fa fa-file-pdf-o fa-2x"
+              aria-hidden="true"></i>
+            <span class="spinner-border spinner-border-sm margintop"
+              role="status"
+              [ngClass]="{ spinnerLoading: loading }"
+              aria-hidden="true"></span>
+            <b> Ver Termo</b>
+          </a>
+          <a class="btn" [routerLink]="['/cadastro-termo/']"
+            [queryParams]="{ id_termo: termos.id }">
+            <i class="fa fa-pencil-square-o fa-2x"
+              aria-hidden="true"></i>
+            <b>Atualizar Cadastro</b>
+          </a>
+          <a type="button" class="btn" data-toggle="modal"
+            data-target="#exampleModal" (click)="VerificaEmail()">
+            <div class="alo">
+              <i class="fa fa-envelope fa-2x"
+                aria-hidden="true"></i>
+              <b class="alo"> Enviar Termo</b>
             </div>
-
-            <div class="modal fade" id="exampleModal" tabindex="-1"
-                role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <div class="text-center">
-                                <h5>Enviar Termo por Email</h5>
-                            </div>
-                            <button type="button" class="close"
-                                data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body text-left">
-                            <div class="modal-body text-left">
-                                <form method="post" [formGroup]="emailForm">
-                                    <div class="form-group">
-                                        <b>*Destinatário:</b>
-                                        <input class="form-control"
-                                            formControlName="destinatario"
-                                            name="destinatario">
-                                    </div>
-                                    <div class="form-group">
-                                        <b>Mensagem</b>
-                                        <textarea class="form-control"
-                                            formControlName="mensagem"
-                                            name="mensagem"></textarea>
-                                    </div>
-                                    <div class="text-center">
-                                        <button type="button"
-                                            class="btn btn-primary"
-                                            (click)="EnviarEmail()">Enviar</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-pane fade" id="nav-profile" role="tabpanel"
-                aria-labelledby="nav-profile-tab">
-                <div class="responsiva">
-                    <h1 class="text-center">{{titulo}}</h1>
-                </div>
-                <!-- ///// -->
-                <div class="row" style="margin-left: 10px; margin-right: 10px;">
-                    <div class="form-group col-md-2"
-                        *ngFor="let item of arquivo">
-                        <div class="card" *ngIf="arquivo">
-                            <button
-                                *ngIf="item.type.toString() === 'png' || item.type.toString() === 'jpeg'"
-                                data-toggle="modal" class="max-height: 5rem"
-                                data-target=".bd-example-modal-lg"
-                                (click)="verAnexo(item)">
-                                <img class="text-center"
-                                    src="{{item.url_location}}" alt=" "
-                                    style="max-height: 100px;" />
-                            </button>
-                            <button
-                                *ngIf="item.type.toString() ==='pdf' || item.type.toString() ==='docx'"
-                                class="max-height: 5rem"
-                                (click)="verAnexo(item)">
-                                <a [href]="item.url_location" target="_blank"
-                                    rel="noopener noreferrer">
-                                    <i *ngIf="item.type ==='pdf' "
-                                        class="text-center "
-                                        class="fa fa-file-pdf-o cad-img-top"
-                                        aria-hidden="true "
-                                        style="font-size: 80px; "></i>
-                                </a>
-                                <a [href]="item.url_location" target="_blank"
-                                    rel="noopener noreferrer">
-                                    <i *ngIf="item.type ==='docx'"
-                                        class="text-center"
-                                        class="fa fa-file-word-o"
-                                        aria-hidden="true"
-                                        style="font-size: 80px;"></i>
-                                </a>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal fade bd-example-modal-lg" tabindex="-1"
-                    role="dialog" aria-labelledby="myLargeModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div *ngIf="item" class="modal-header">
-                                <b>{{item.descricao}}</b>
-                                <button type="button" class="close"
-                                    data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body" *ngIf="item">
-                                <div class="text-center"
-                                    style="margin: 5px 0 25px">
-                                    <img src="{{item.url_location}}"
-                                        class="cad-img-top" id="imd"
-                                        style="max-width: 100%; max-height: 300px" />
-                                </div>
-                                <textarea style="width: 100%;"
-                                    [readonly]="true">Descrição : {{item.descricao_completa}}</textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+          </a>
         </div>
+      </div>
+
+      <div class="modal fade" id="exampleModal" tabindex="-1"
+        role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <div class="text-center">
+                <h5>Enviar Termo por Email</h5>
+              </div>
+              <button type="button" class="close"
+                data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-left">
+              <div class="modal-body text-left">
+                <form method="post" [formGroup]="emailForm">
+                  <div class="form-group">
+                    <b>*Destinatário:</b>
+                    <input class="form-control"
+                      formControlName="destinatario"
+                      name="destinatario">
+                  </div>
+                  <div class="form-group">
+                    <b>Mensagem</b>
+                    <textarea class="form-control"
+                      formControlName="mensagem"
+                      name="mensagem"></textarea>
+                  </div>
+                  <div class="text-center">
+                    <button type="button"
+                      class="btn btn-primary"
+                      (click)="EnviarEmail()">Enviar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+        aria-labelledby="nav-profile-tab">
+        <div class="responsiva">
+          <h1 class="text-center">{{titulo}}</h1>
+        </div>
+
+        <div class="row" style="margin-left: 10px; margin-right: 10px;">
+          <div class="form-group col-md-2"
+            *ngFor="let item of arquivo">
+            <div class="card" *ngIf="arquivo">
+              <button
+                *ngIf="item.type.toString() === 'png' || item.type.toString() === 'jpeg'"
+                data-toggle="modal" class="max-height: 5rem"
+                data-target=".bd-example-modal-lg"
+                (click)="verAnexo(item)">
+                <img class="text-center"
+                  src="{{item.url_location}}" alt=" "
+                  style="max-height: 100px;" />
+              </button>
+              <button
+                *ngIf="item.type.toString() ==='pdf' || item.type.toString() ==='docx'"
+                class="max-height: 5rem"
+                (click)="verAnexo(item)">
+                <a [href]="item.url_location" target="_blank"
+                  rel="noopener noreferrer">
+                  <i *ngIf="item.type ==='pdf' "
+                    class="text-center "
+                    class="fa fa-file-pdf-o cad-img-top"
+                    aria-hidden="true "
+                    style="font-size: 80px; "></i>
+                </a>
+                <a [href]="item.url_location" target="_blank"
+                  rel="noopener noreferrer">
+                  <i *ngIf="item.type ==='docx'"
+                    class="text-center"
+                    class="fa fa-file-word-o"
+                    aria-hidden="true"
+                    style="font-size: 80px;"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade bd-example-modal-lg" tabindex="-1"
+          role="dialog" aria-labelledby="myLargeModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div *ngIf="item" class="modal-header">
+                <b>{{item.descricao}}</b>
+                <button type="button" class="close"
+                  data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" *ngIf="item">
+                <div class="text-center"
+                  style="margin: 5px 0 25px">
+                  <img src="{{item.url_location}}"
+                    class="cad-img-top" id="imd"
+                    style="max-width: 100%; max-height: 300px" />
+                </div>
+                <textarea style="width: 100%;"
+                  [readonly]="true">Descrição : {{item.descricao_completa}}</textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
+  </div>
 </div>

@@ -18,7 +18,7 @@ export class ListaProtocoloComponent implements OnInit {
   public paginaAtual = 1;
   textSearch = '';
   listItems = [];
-  constructor (private protocoloService: ProtocoloService, private route: ActivatedRoute, private pdfservice: PdfService) { }
+  constructor (private protocoloService: ProtocoloService, private route: ActivatedRoute, private pdfService: PdfService) { }
 
   ngOnInit () {
     this.subirTela();

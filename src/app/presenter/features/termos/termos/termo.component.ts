@@ -18,7 +18,7 @@ import { PdfService } from '../../../../services/pdf.service';
   styleUrls: ['./termo.component.css']
 })
 export class TermosComponent implements OnInit {
-  public idupdate: number;
+  public currentIdUpdate: number;
   @Input() pdf;
   @Input() Atividade;
   @Input() CNAE;
@@ -28,7 +28,7 @@ export class TermosComponent implements OnInit {
   loadingTable = false;
   loading = true;
   email: Email;
-  destinario: Email = {
+  destinatario: Email = {
     destinatario: '',
     mensagem: ''
   };
@@ -38,10 +38,10 @@ export class TermosComponent implements OnInit {
   item: Arquivos;
   licencaValueMax;
 
-  constructor (private route: ActivatedRoute, private termoservice: TermoService,
+  constructor (private route: ActivatedRoute, private termosService: TermoService,
     private pdfService: PdfService,
     private anexoService: AnexoService,
-    private emailservice: EmailService,
+    private emailService: EmailService,
   ) { }
 
   ngOnInit () {
@@ -58,15 +58,15 @@ export class TermosComponent implements OnInit {
 
   async pegaId () {
     this.route.queryParams.subscribe((data) => {
-      this.idupdate = data['id'];
-      if (this.idupdate != null) {
+      this.currentIdUpdate = data['id'];
+      if (this.currentIdUpdate != null) {
         window.scrollTo(0, 0);
-        this.termoservice.ListarTermoPorID(this.idupdate).subscribe((termos) => {
+        this.termosService.ListarTermoPorID(this.currentIdUpdate).subscribe((termos) => {
           console.log(termos);
           this.termos = termos;
           this.statusTer = true;
         }).add(() => {
-          this.anexoService.listFilesByModel('termo', this.idupdate).subscribe((arq: Arquivos[]) => {
+          this.anexoService.listFilesByModel('termo', this.currentIdUpdate.toString()).subscribe((arq: Arquivos[]) => {
             this.arquivo = arq;
             if (this.arquivo.length > 0) {
               this.titulo = 'Anexos do Termo';
@@ -87,14 +87,14 @@ export class TermosComponent implements OnInit {
 
   VerificaEmail () {
     if (this.termos.email) {
-      this.destinario.destinatario = this.termos.email;
-      this.createForm(this.destinario);
+      this.destinatario.destinatario = this.termos.email;
+      this.createForm(this.destinatario);
     }
   }
   termoPDF () {
     this.loading = false;
-    if (this.idupdate != null) {
-      this.pdfService.downloadFileTermo(this.idupdate).subscribe(response => {
+    if (this.currentIdUpdate != null) {
+      this.pdfService.downloadFileTermo(this.currentIdUpdate.toString()).subscribe(response => {
         const file = new Blob([response], { type: 'application/pdf' });
         const fileURL = URL.createObjectURL(file);
         this.loading = true;
@@ -125,11 +125,11 @@ export class TermosComponent implements OnInit {
     } else {
       return new Promise((resolve, reject) => {
         const dataSend = {
-          id: Number(this.idupdate),
+          id: Number(this.currentIdUpdate),
           email: this.email.destinatario,
           texthtml: this.email.mensagem
         };
-        this.emailservice.sendTermoByEmail(dataSend).subscribe((data) => {
+        this.emailService.sendTermoByEmail(dataSend).subscribe((data) => {
           resolve(data);
           $('.modal-header .close').click();
           window.scrollTo(0, 0);

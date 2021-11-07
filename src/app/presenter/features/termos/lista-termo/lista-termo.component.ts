@@ -15,7 +15,7 @@ export class ListaTermoComponent implements OnInit {
   textSearch = '';
   listItems = [];
 
-  constructor (private termoService: TermoService) { }
+  constructor (private termosService: TermoService) { }
 
   ngOnInit () {
     this.subirTela();
@@ -49,7 +49,7 @@ export class ListaTermoComponent implements OnInit {
   }
 
   getListaDenuncias () {
-    this.termoService.ListarTodosTermos()
+    this.termosService.ListarTodosTermos()
       .subscribe((termos: Termos[]) => {
         this.statusEst = true;
         this.termos = termos;

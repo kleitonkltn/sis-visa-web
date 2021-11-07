@@ -7,19 +7,19 @@ import { environment } from '../../environments/environment';
 })
 export class EmailService {
 
-  constructor(private http: HttpClient) {
+  constructor (private http: HttpClient) {
   }
 
-  sendTermoByEmail(Client) {
-    return this.http.post(environment.apiUrl_sendTermo, Client);
-   }
-   sendLicencaByEmail(Client) {
-    return this.http.post(environment.apiUrl_sendLicenca, Client);
-   }
-   sendRelatorioByEmail(Client) {
-    return this.http.post(environment.apiUrl_sendRelatorio, Client);
-   }
-   sendProtocoloByEmail(Client) {
-    return this.http.post(environment.apiUrl_sendProtocolo, Client);
-   }
+  sendTermoByEmail (data: any) {
+    return this.http.post(environment.apiUrl_sendTermo, data);
+  }
+  sendLicencaByEmail (data: any) {
+    return this.http.post(environment.apiUrl_sendLicenca, data);
+  }
+  sendRelatorioByEmail (data: any) {
+    return this.http.post(environment.apiUrl_sendRelatorio, data);
+  }
+  sendProtocoloByEmail (data: any) {
+    return this.http.post(environment.apiUrl_sendProtocolo, data);
+  }
 }

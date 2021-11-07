@@ -18,14 +18,14 @@ export class CadastroProtocoloComponent implements OnInit {
   protocoloForm: FormGroup;
   protocolo: Protocolo; prot: Protocolo;
   titulo = 'Cadastrar Protocolo';
-  public idupdate: number; item: Arquivos; itemCarregado = {} as Arquivos;
+  public currentIdUpdate: number; item: Arquivos; itemCarregado = {} as Arquivos;
   base64textString = []; descricao = []; arq = []; nomeArquivo = [];
   arquivos: Arquivos = {} as Arquivos; listaArq: Arquivos[] = [];
   anexo: Arquivos; indice;
-  loading: boolean[] = []; loadingRemove: boolean[] = []; loadingNumvem = true; loadingCadastro = true;
+  loading: boolean[] = []; loadingRemove: boolean[] = []; loadingNuvem = true; loadingCadastro = true;
   status = 'abrir'; index; textContato = '';
 
-  contatomask = (rawValue) => {
+  contatoMask = (rawValue) => {
     const numbers = rawValue.match(/\d/g);
     let numberLength = 0;
     if (numbers) {
@@ -38,7 +38,7 @@ export class CadastroProtocoloComponent implements OnInit {
     }
   }
 
-  constructor (private protocoloservice: ProtocoloService, private route: ActivatedRoute,
+  constructor (private protocoloService: ProtocoloService, private route: ActivatedRoute,
     private anexoService: AnexoService, private router: Router) { }
 
   ngOnInit () {
@@ -60,7 +60,7 @@ export class CadastroProtocoloComponent implements OnInit {
   }
   salvar () {
     this.loadingCadastro = false;
-    this.protocoloservice.cadastrarProtocolo(this.protocoloForm.value).subscribe((data: Protocolo) => {
+    this.protocoloService.cadastrarProtocolo(this.protocoloForm.value).subscribe((data: Protocolo) => {
       this.loadingCadastro = true;
       window.scrollTo(0, 0);
       swal.fire({
@@ -91,7 +91,7 @@ export class CadastroProtocoloComponent implements OnInit {
 
   atualizar () {
     this.loadingCadastro = false;
-    this.protocoloservice.atualizarProtocolo(this.protocoloForm.value, this.idupdate).subscribe(() => {
+    this.protocoloService.atualizarProtocolo(this.protocoloForm.value, this.currentIdUpdate.toString()).subscribe(() => {
       this.loadingCadastro = true;
       window.scrollTo(0, 0);
       swal.fire({
@@ -102,7 +102,7 @@ export class CadastroProtocoloComponent implements OnInit {
       });
       const navigationExtras: NavigationExtras = {
         queryParams: {
-          id: this.idupdate
+          id: this.currentIdUpdate
         }
       };
       setTimeout(() => {
@@ -122,11 +122,11 @@ export class CadastroProtocoloComponent implements OnInit {
   pegaId () {
     this.route.queryParams.subscribe(
       queryParams => {
-        this.idupdate = queryParams.id;
-        if (this.idupdate != null) {
+        this.currentIdUpdate = queryParams.id;
+        if (this.currentIdUpdate != null) {
           this.titulo = 'Atualizar Protocolo';
           window.scrollTo(0, 0);
-          this.protocoloservice.ListarTodosProtocolosPorID(this.idupdate).subscribe((proto) => {
+          this.protocoloService.ListarTodosProtocolosPorID(this.currentIdUpdate).subscribe((proto) => {
             this.protocolo = proto;
             this.createForm(this.protocolo);
           });
@@ -144,43 +144,47 @@ export class CadastroProtocoloComponent implements OnInit {
     this.indice = i;
   }
   ListaArq () {
-    this.loadingNumvem = false;
+    this.loadingNuvem = false;
     if (this.status === 'abrir') {
       this.status = 'fechar';
-      this.anexoService.listFilesByModel('protocolo', this.idupdate).subscribe((arq: Arquivos[]) => {
+      this.anexoService.listFilesByModel('protocolo', this.currentIdUpdate.toString()).subscribe((arq: Arquivos[]) => {
         this.listaArq = arq;
-        this.loadingNumvem = true;
+        this.loadingNuvem = true;
         for (let i = 0; i < this.listaArq.length; i++) {
           this.loadingRemove[i] = true;
         }
       });
     } else {
-      this.loadingNumvem = true;
+      this.loadingNuvem = true;
       this.status = 'abrir';
       this.listaArq.splice(0);
     }
   }
 
-  onUploadChange (evt) {
-    const files = evt.target.files;
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = ((theFile) => {
-        return (e) => {
-          this.arq.push(escape(theFile.type));
-          this.nomeArquivo.push(theFile.stream.name);
-          let url = e.target.result;
-          const index = Number(url.toLowerCase().indexOf(',') + 1);
-          url = url.slice(index);
-          this.base64textString.push(url);
-          this.inicializaLoding();
-        };
-      })
-        (file);
-      reader.readAsDataURL(file);
-    });
+  onUploadChange (evt: Event) {
+    const target = evt.target as HTMLInputElement;
+    const files = target.files as FileList;
+    for (const key in files) {
+      if (Object.prototype.hasOwnProperty.call(files, key)) {
+        const file = files[key];
+        const reader = new FileReader();
+        reader.onload = ((theFile) => {
+          return (e) => {
+            this.arq.push(escape(theFile.type));
+            this.nomeArquivo.push(theFile.name);
+            let url = e.target.result;
+            const index = Number(url.toLowerCase().indexOf(',') + 1);
+            url = url.slice(index);
+            this.base64textString.push(url);
+            this.inicializaLoading();
+          };
+        })
+          (file);
+        reader.readAsDataURL(file);
+      }
+    }
   }
-  inicializaLoding () {
+  inicializaLoading () {
     for (let i = 0; i < this.base64textString.length; i++) {
       this.loading[i] = true;
     }

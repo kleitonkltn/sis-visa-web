@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Location } from '@angular/common';
-import { EventEmitter, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -18,11 +15,14 @@ declare let $: any;
 export class AutenticarService {
   _user: Usuario = null;
   authenticationState = new BehaviorSubject(false);
-  _token;
+  _token: string;
   loading = true;
 
-  constructor (private storage: StorageService, private location: Location,
-    private loginProvider: LoginProviderService, private router: Router, private helper: JwtHelperService) {
+  constructor (
+    private loginProvider: LoginProviderService,
+    private helper: JwtHelperService,
+    private storage: StorageService,
+  ) {
   }
 
   async checkToken () {
@@ -59,7 +59,7 @@ export class AutenticarService {
         } else {
           return this.showDialogMessage('Matrícula e/ou senha incorreta. Verifique suas credenciais', 'error');
         }
-      }, (e) => {
+      }, (_) => {
         return this.showDialogMessage('Matrícula e/ou senha incorreta. Verifique suas credenciais', 'error');
       }).add(() => {
         this.loading = true;
@@ -79,7 +79,7 @@ export class AutenticarService {
     return this.authenticationState.value;
   }
 
-  showDialogMessage (mensagem, tipo?) {
+  showDialogMessage (mensagem: string, tipo?) {
     this.loading = true;
     Swal.fire({
       icon: tipo || 'warning',

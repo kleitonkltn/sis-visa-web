@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Embasamentos } from 'src/models/embasamentos';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -7,18 +8,18 @@ import { environment } from '../../environments/environment';
 })
 export class EmbasamentoService {
 
-  constructor(private http: HttpClient) { }
+  constructor (private http: HttpClient) { }
 
-  listAllEmbasamentos() {
+  listAllEmbasamentos () {
     return this.http.get(environment.apiUrl_Embasamento);
   }
-  createEmbasamentos(Client) {
-    return this.http.post(environment.apiUrl_Embasamento, Client);
+  createEmbasamentos (data: Embasamentos) {
+    return this.http.post(environment.apiUrl_Embasamento, data);
   }
-  listEmbasamentosById(id) {
+  listEmbasamentosById (id: string) {
     return this.http.get(environment.apiUrl_Embasamento + '/' + id);
   }
-  updateEmbasamentos(Client) {
-    return this.http.put(environment.apiUrl_Embasamento + '/' + Client.id, Client);
+  updateEmbasamentos (data: Embasamentos) {
+    return this.http.put(environment.apiUrl_Embasamento + '/' + data.id, data);
   }
 }

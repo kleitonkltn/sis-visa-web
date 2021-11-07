@@ -25,8 +25,8 @@ declare let $: any;
 })
 
 export class CadastroTermosComponent implements OnInit {
-  termosForm: FormGroup; public idupdate: number;
-  loading: boolean[] = []; loadingRemove: boolean[] = []; loadingNumvem = true; loadingCadastro = true;
+  termosForm: FormGroup; public currentIdUpdate: number;
+  loading: boolean[] = []; loadingRemove: boolean[] = []; loadingNuvem = true; loadingCadastro = true;
   base64textString = []; descricao = []; arq = []; nomeArquivo = [];
   arquivos: Arquivos = {} as Arquivos; listaArq: Arquivos[] = [];
   anexo: Arquivos; indice; status = 'abrir'; index; id_termo; doc;
@@ -38,14 +38,14 @@ export class CadastroTermosComponent implements OnInit {
   desc;
   fiscais: Usuario[];
   fiscalResponsavel: Usuario;
-  listfiscais;
+  listFiscais;
   titulo: string = 'Cadastrar Termo';
   atividades;
   documentos;
-  listdoc = [];
-  fiscaispresente;
+  listDoc = [];
+  fiscaisPresentes;
 
-  contatomask = (rawValue: string): (string | RegExp)[] => {
+  contatoMask = (rawValue: string): (string | RegExp)[] => {
     const numbers = rawValue.match(/\d/g);
     let numberLength = 0;
     if (numbers) {
@@ -58,7 +58,7 @@ export class CadastroTermosComponent implements OnInit {
     }
   }
 
-  cnpjmask = (rawValue: string): (string | RegExp)[] => {
+  cpfOurCnpjMask = (rawValue: string): (string | RegExp)[] => {
     const numbers = rawValue.match(/\d/g);
     let numberLength = 0;
     if (numbers) {
@@ -71,10 +71,10 @@ export class CadastroTermosComponent implements OnInit {
     }
   }
 
-  constructor (private anexoService: AnexoService, private route: ActivatedRoute, private embasamentoservice: EmbasamentoService,
-    private authService: AutenticarService, private atividadeservice: AtividadeService,
+  constructor (private anexoService: AnexoService, private route: ActivatedRoute, private embasamentoService: EmbasamentoService,
+    private authService: AutenticarService, private atividadeService: AtividadeService,
     private documentosService: DocumentoService, private usuarios: UsuarioService,
-    private termoservice: TermoService, private estabelecimentoservice: EstabelecimentoService,
+    private termosService: TermoService, private estabelecimentosService: EstabelecimentoService,
     private router: Router) {
     this.usuario = this.authService._user['params'];
   }
@@ -111,16 +111,16 @@ export class CadastroTermosComponent implements OnInit {
   pegaId () {
     this.route.queryParams.subscribe(
       queryParams => {
-        this.idupdate = queryParams.id;
+        this.currentIdUpdate = queryParams.id;
         this.id_termo = queryParams.id_termo;
         this.carregaSelect();
-        if (this.idupdate != null) {
+        if (this.currentIdUpdate != null) {
           window.scrollTo(0, 0);
           this.titulo = 'Cadastrar Termo';
           window.scrollTo(0, 0);
-          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idupdate.toString()).subscribe((est) => {
+          this.estabelecimentosService.listarEstabelecimentoPorID(this.currentIdUpdate.toString()).subscribe((est) => {
             this.estabelecimento = est;
-            this.f.estabelecimento.setValue(this.idupdate);
+            this.f.estabelecimento.setValue(this.currentIdUpdate);
             this.f.cnpj.setValue(this.estabelecimento.cnpj);
             this.f.fantasia.setValue(this.estabelecimento.fantasia);
             this.f.razao.setValue(this.estabelecimento.razao);
@@ -133,9 +133,9 @@ export class CadastroTermosComponent implements OnInit {
         } else if (this.id_termo != null) {
           window.scrollTo(0, 0);
           this.titulo = 'Atualizar Termo';
-          this.termoservice.ListarTermoPorID(this.id_termo).subscribe((data: Termos) => {
+          this.termosService.ListarTermoPorID(this.id_termo).subscribe((data: Termos) => {
             this.doc = ' ' + data.doc_solicitados;
-            this.fiscaispresente = String(data.fiscais_presentes);
+            this.fiscaisPresentes = String(data.fiscais_presentes);
             this.createForm(data);
 
           });
@@ -208,18 +208,18 @@ export class CadastroTermosComponent implements OnInit {
       this.selectDoc();
     });
     $('.select-fiscais').on('change', () => {
-      this.selectfiscais();
+      this.selectFiscais();
     });
   }
 
   selectDoc () {
-    this.listdoc = [];
+    this.listDoc = [];
     const opcao = $('.select-doc').find(':selected');
 
     for (let i = 0; i < opcao.length; i++) {
-      this.listdoc[i] = opcao[i].value;
+      this.listDoc[i] = opcao[i].value;
     }
-    const documentos = this.listdoc.join(', ');
+    const documentos = this.listDoc.join(', ');
 
     let text = ' ';
     if (this.f.descricao.value != null &&
@@ -248,20 +248,20 @@ export class CadastroTermosComponent implements OnInit {
       this.f.embasamento_legal.setValue(embasamentos);
     }
   }
-  selectfiscais () {
+  selectFiscais () {
     const fiscais = [];
     const opcao = $('.select-fiscais').find(':selected');
     for (let i = 0; i < opcao.length; i++) {
       fiscais[i] = opcao[i].value;
     }
-    this.listfiscais = fiscais.join(', ');
+    this.listFiscais = fiscais.join(', ');
   }
 
   salvar () {
     this.loadingCadastro = false;
     if (this.fiscalResponsavel.nivel_acesso === 'gerente' || this.fiscalResponsavel.nivel_acesso === 'fiscal') {
-      this.termosForm.value.doc_solicitados = this.listdoc;
-      this.termosForm.value.fiscais_presentes = this.listfiscais;
+      this.termosForm.value.doc_solicitados = this.listDoc;
+      this.termosForm.value.fiscais_presentes = this.listFiscais;
       this.termosForm.value.fiscal_responsavel = this.fiscalResponsavel.matricula;
       if ((this.termosForm.valid === false) || (!this.termosForm.value.fiscais_presentes)
         || (this.termosForm.value.fiscais_presentes === 'undefined')) {
@@ -275,7 +275,7 @@ export class CadastroTermosComponent implements OnInit {
         this.formSubmitted = true;
         this.loadingCadastro = true;
       } else {
-        this.termoservice.cadastrarTermo(this.termosForm.value).subscribe((data: Termos) => {
+        this.termosService.cadastrarTermo(this.termosForm.value).subscribe((data: Termos) => {
           window.scrollTo(0, 0);
           swal.fire({
             icon: 'success',
@@ -317,9 +317,9 @@ export class CadastroTermosComponent implements OnInit {
 
   atualizar () {
     this.loadingCadastro = false;
-    this.termosForm.value.fiscais_presentes = this.fiscaispresente;
+    this.termosForm.value.fiscais_presentes = this.fiscaisPresentes;
     console.log(this.termosForm.value);
-    this.termoservice.atualizarTermo(this.termosForm.value).subscribe(() => {
+    this.termosService.atualizarTermo(this.termosForm.value).subscribe(() => {
       this.loadingCadastro = true;
       window.scrollTo(0, 0);
       swal.fire({
@@ -349,13 +349,13 @@ export class CadastroTermosComponent implements OnInit {
   }
 
   pegaListAtividades () {
-    this.atividadeservice.listAllAtividades().subscribe(itens => {
+    this.atividadeService.listAllAtividades().subscribe(itens => {
       this.atividades = itens;
     });
   }
 
   pegaEmbasamentos () {
-    this.embasamentoservice.listAllEmbasamentos().subscribe(itens => {
+    this.embasamentoService.listAllEmbasamentos().subscribe(itens => {
       console.log(this.embasamentos);
       this.embasamentos = itens;
     });
@@ -368,7 +368,7 @@ export class CadastroTermosComponent implements OnInit {
   }
 
   getListFiscais () {
-    this.usuarios.ListarTodosUsuarios().subscribe(items => {
+    this.usuarios.listarTodosUsuarios().subscribe(items => {
       this.fiscais = items.filter(item => {
         return (
           item.nivel_acesso.toLowerCase().indexOf('fiscal') > -1
@@ -383,43 +383,47 @@ export class CadastroTermosComponent implements OnInit {
     this.indice = i;
   }
   ListaArq () {
-    this.loadingNumvem = false;
+    this.loadingNuvem = false;
     if (this.status === 'abrir') {
       this.status = 'fechar';
       this.anexoService.listFilesByModel('termo', this.id_termo).subscribe((arq: Arquivos[]) => {
         this.listaArq = arq;
-        this.loadingNumvem = true;
+        this.loadingNuvem = true;
         for (let i = 0; i < this.listaArq.length; i++) {
           this.loadingRemove[i] = true;
         }
       });
     } else {
-      this.loadingNumvem = true;
+      this.loadingNuvem = true;
       this.status = 'abrir';
       this.listaArq.splice(0);
     }
   }
 
-  onUploadChange (evt) {
-    const files = evt.target.files;
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = ((theFile) => {
-        return (e) => {
-          this.arq.push(escape(theFile.type));
-          this.nomeArquivo.push(theFile.name);
-          let url = e.target.result;
-          const index = Number(url.toLowerCase().indexOf(',') + 1);
-          url = url.slice(index);
-          this.base64textString.push(url);
-          this.inicializaLoding();
-        };
-      })
-        (file);
-      reader.readAsDataURL(file);
-    });
+  onUploadChange (evt: Event) {
+    const target = evt.target as HTMLInputElement;
+    const files = target.files as FileList;
+    for (const key in files) {
+      if (Object.prototype.hasOwnProperty.call(files, key)) {
+        const file = files[key];
+        const reader = new FileReader();
+        reader.onload = ((theFile) => {
+          return (e) => {
+            this.arq.push(escape(theFile.type));
+            this.nomeArquivo.push(theFile.name);
+            let url = e.target.result;
+            const index = Number(url.toLowerCase().indexOf(',') + 1);
+            url = url.slice(index);
+            this.base64textString.push(url);
+            this.inicializaLoading();
+          };
+        })
+          (file);
+        reader.readAsDataURL(file);
+      }
+    }
   }
-  inicializaLoding () {
+  inicializaLoading () {
     for (let i = 0; i < this.base64textString.length; i++) {
       this.loading[i] = true;
     }

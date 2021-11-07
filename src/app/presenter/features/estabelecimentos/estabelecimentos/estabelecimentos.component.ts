@@ -22,18 +22,18 @@ import { PdfService } from '../../../../services/pdf.service';
 export class EstabelecimentosComponent implements OnInit {
   emailForm: FormGroup;
   estabelecimentos: Estabelecimento = {} as Estabelecimento;
-  public idupdate: number; usuario: Usuario; user;
+  public currentIdUpdate: number; usuario: Usuario; user;
   @Input() pdf; @Input() Atividade; @Input() CNAE;
   loading = true; statusEst = false; loadingTable = false; loadingEmail = true;
   arquivo: Arquivos[] = []; base64textString: string[] = [];
   titulo = 'Sem Anexos Cadastrado'; formSubmitted = false;
   item: Arquivos; licencaValueMax;
-  mensagem; email: Email; destinario = {} as Email;
+  mensagem; email: Email; destinatario = {} as Email;
 
-  constructor (private route: ActivatedRoute, private estabelecimentoservice: EstabelecimentoService,
-    private pdfservice: PdfService, private anexoService: AnexoService,
+  constructor (private route: ActivatedRoute, private estabelecimentosService: EstabelecimentoService,
+    private pdfService: PdfService, private anexoService: AnexoService,
     private router: Router, private authService: AutenticarService,
-    private emailservice: EmailService) {
+    private emailService: EmailService) {
     this.usuario = this.authService._user['params'];
   }
   ngOnInit () {
@@ -42,9 +42,9 @@ export class EstabelecimentosComponent implements OnInit {
   }
 
   toggleSidebar () {
-    document.getElementById('btnprincipal').classList.toggle('active');
-
+    document.getElementById('btn-principal').classList.toggle('active');
   }
+
   createForm (email: Email) {
     this.emailForm = new FormGroup({
       destinatario: new FormControl(email.destinatario, Validators.required),
@@ -54,10 +54,10 @@ export class EstabelecimentosComponent implements OnInit {
   pegaId () {
     this.route.queryParams.subscribe(
       queryParams => {
-        this.idupdate = queryParams.id;
-        if (this.idupdate != null) {
+        this.currentIdUpdate = queryParams.id;
+        if (this.currentIdUpdate != null) {
           window.scrollTo(0, 0);
-          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idupdate.toString()).subscribe((estabelecimentos) => {
+          this.estabelecimentosService.listarEstabelecimentoPorID(this.currentIdUpdate.toString()).subscribe((estabelecimentos) => {
             this.estabelecimentos = estabelecimentos;
             this.retornaCampos();
             this.statusEst = true;
@@ -65,26 +65,29 @@ export class EstabelecimentosComponent implements OnInit {
         }
       }
     );
-    this.anexoService.listFilesByModel('estabelecimento', this.idupdate).subscribe((arq: Arquivos[]) => {
-      this.arquivo = arq;
-      if (this.arquivo.length > 0) {
-        this.titulo = 'Anexos do Estabelecimento';
-      }
-    });
+    this.anexoService.listFilesByModel('estabelecimento', this.currentIdUpdate.toString())
+      .subscribe((arq: Arquivos[]) => {
+        this.arquivo = arq;
+        if (this.arquivo.length > 0) {
+          this.titulo = 'Anexos do Estabelecimento';
+        }
+      });
   }
+
   verAnexo (item) {
     this.item = item;
     if (item.type === 'pdf' || item.type === 'docx') {
       window.open(item.url_location);
     }
   }
+
   retornaCampos () {
-    this.estabelecimentoservice.ListarAtividadesPorID(this.estabelecimentos.atividade)
+    this.estabelecimentosService.ListarAtividadesPorID(this.estabelecimentos.atividade)
       .subscribe((atividade) => {
         this.Atividade = atividade;
         this.estabelecimentos.atividade = this.Atividade.atividade;
       });
-    this.estabelecimentoservice.listarCnaePorID(this.estabelecimentos.cnae)
+    this.estabelecimentosService.listarCnaePorID(this.estabelecimentos.cnae)
       .subscribe((cnae) => {
         this.CNAE = cnae;
         this.estabelecimentos.cnae = this.CNAE.descricao;
@@ -107,8 +110,8 @@ export class EstabelecimentosComponent implements OnInit {
 
   licencaPdf () {
     this.loading = false;
-    if (this.idupdate != null) {
-      this.pdfservice.downloadFile(this.idupdate).subscribe(response => {
+    if (this.currentIdUpdate != null) {
+      this.pdfService.downloadFile(this.currentIdUpdate.toString()).subscribe(response => {
         const file = new Blob([response], { type: 'application/pdf' });
         const fileURL = URL.createObjectURL(file);
         this.loading = true;
@@ -122,12 +125,12 @@ export class EstabelecimentosComponent implements OnInit {
           const errorMsg = reader.result.toString().replace(/"|"/gi, '').replace(',', '\n');
           alert('Estabelecimento Não Licenciado' + errorMsg);
         };
-
       }));
     }
 
   }
   get f () { return this.estabelecimentos; }
+
   verificaLicenca () {
     if (this.estabelecimentos.licenca !== null) {
       const navigationExtras: NavigationExtras = {
@@ -135,7 +138,7 @@ export class EstabelecimentosComponent implements OnInit {
           id_est: this.estabelecimentos.id
         }
       };
-      this.router.navigate(['/Cadastrolicenca/'], navigationExtras);
+      this.router.navigate(['/cadastro-licenca/'], navigationExtras);
     } else {
       window.scrollTo(0, 0);
       swal.fire({
@@ -155,7 +158,7 @@ export class EstabelecimentosComponent implements OnInit {
           id_est: this.estabelecimentos.id
         }
       };
-      this.router.navigate(['/CadastroRelatorio/'], navigationExtras);
+      this.router.navigate(['/cadastro-relatorio/'], navigationExtras);
     } else {
       window.scrollTo(0, 0);
       swal.fire({
@@ -169,11 +172,11 @@ export class EstabelecimentosComponent implements OnInit {
   }
   VerificaEmail () {
     if (this.estabelecimentos.email) {
-      this.destinario.destinatario = this.estabelecimentos.email;
-      this.createForm(this.destinario);
+      this.destinatario.destinatario = this.estabelecimentos.email;
+      this.createForm(this.destinatario);
     }
   }
-  EnviarEmail () {
+  enviarEmail () {
     this.loadingEmail = false;
     this.email = this.emailForm.value;
     if (this.emailForm.valid === false) {
@@ -187,11 +190,11 @@ export class EstabelecimentosComponent implements OnInit {
     } else {
       return new Promise((resolve, reject) => {
         const dataSend = {
-          id: Number(this.idupdate),
+          id: Number(this.currentIdUpdate),
           email: this.email.destinatario,
           texthtml: this.email.mensagem
         };
-        this.emailservice.sendLicencaByEmail(dataSend).subscribe((data) => {
+        this.emailService.sendLicencaByEmail(dataSend).subscribe((data) => {
           resolve(data);
           $('.modal-header .close').click();
           window.scrollTo(0, 0);

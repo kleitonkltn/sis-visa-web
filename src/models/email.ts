@@ -1,4 +1,4 @@
 export class Email {
-    destinatario: string;
-    mensagem: string;
-  }
+  destinatario: string;
+  mensagem: string;
+}

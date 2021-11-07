@@ -15,7 +15,7 @@ import { PdfService } from '../../../../services/pdf.service';
 })
 export class LicencaComponent implements OnInit {
 
-  public idlicenca;
+  public idLicenca;
   @Input() pdf; statusLi = false; loadingTable = false;
   @Input() licenca: Licencas = {} as Licencas;
   arquivo: Arquivos[] = [];
@@ -23,20 +23,25 @@ export class LicencaComponent implements OnInit {
   titulo = 'Sem anexos cadastrado';
   item: Arquivos;
   loadingPdf = true;
-  loading = true; id_Estabelecimento;
+  loading = true;
+  idEstabelecimento;
   dataEstabelecimento;
 
   constructor (private route: ActivatedRoute, private licencaService: LicencaService,
-    private anexoService: AnexoService, private pdfservice: PdfService, private estabelecimentoServce: EstabelecimentoService) { }
+    private anexoService: AnexoService, private pdfService: PdfService,
+    private estabelecimentoService: EstabelecimentoService) { }
 
   ngOnInit () {
     this.pegaId();
   }
   licencaPdf () {
     this.loadingPdf = false;
-    if ((this.licenca.status_fiscal === 'autorizada' && this.licenca.status_gerente === 'autorizada') || (this.licenca.status_fiscal === 'autorizada' && this.licenca.status_segundo_fiscal === 'autorizada')) {
+    if ((this.licenca.status_fiscal === 'autorizada'
+      && this.licenca.status_gerente === 'autorizada')
+      || (this.licenca.status_fiscal === 'autorizada'
+        && this.licenca.status_segundo_fiscal === 'autorizada')) {
       if (this.licenca.estabelecimento != null) {
-        this.pdfservice.downloadFile(this.licenca.estabelecimento).subscribe(response => {
+        this.pdfService.downloadFile(this.licenca.estabelecimento.toString()).subscribe(response => {
           const file = new Blob([response], { type: 'application/pdf' });
           const fileURL = URL.createObjectURL(file);
           this.loadingPdf = true;
@@ -66,12 +71,12 @@ export class LicencaComponent implements OnInit {
   pegaId () {
     this.route.queryParams.subscribe(
       queryParams => {
-        this.idlicenca = queryParams.id;
-        if (this.idlicenca != null) {
+        this.idLicenca = queryParams.id;
+        if (this.idLicenca != null) {
           window.scrollTo(0, 0);
-          this.licencaService.ListarLicencaPorID(this.idlicenca).subscribe((licenca) => {
+          this.licencaService.ListarLicencaPorID(this.idLicenca).subscribe((licenca) => {
             this.licenca = licenca;
-            this.id_Estabelecimento = this.licenca.estabelecimento;
+            this.idEstabelecimento = this.licenca.estabelecimento;
             this.statusLi = true;
             this.pegaAnexos();
             this.getDataEstabelecimentos();
@@ -81,12 +86,12 @@ export class LicencaComponent implements OnInit {
     );
   }
   getDataEstabelecimentos () {
-    this.estabelecimentoServce.listarEstabelecimentoPorID(this.id_Estabelecimento).subscribe((arg) => {
+    this.estabelecimentoService.listarEstabelecimentoPorID(this.idEstabelecimento).subscribe((arg) => {
       this.dataEstabelecimento = arg;
     });
   }
   pegaAnexos () {
-    this.anexoService.listFilesByModel('estabelecimento', this.id_Estabelecimento).subscribe((arg) => {
+    this.anexoService.listFilesByModel('estabelecimento', this.idEstabelecimento).subscribe((arg) => {
       if (arg.length > 0) {
         this.titulo = 'Anexos da Licença';
         this.arquivo = arg.filter((item) => {
@@ -97,7 +102,7 @@ export class LicencaComponent implements OnInit {
       }
     });
   }
-  verAnexo (item) {
+  verAnexo (item: Arquivos) {
     this.item = item;
   }
 }

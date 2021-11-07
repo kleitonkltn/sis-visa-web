@@ -15,17 +15,14 @@
                 (keyup)="search()" type="text"
                 placeholder="Campos filtrados (Nº Denúncia, Status, Endereço, Bairro, Ponto de Referência, Reclamante, Denunciado, Descrição, Data)">
             <div class="input-group-append">
-                <select name="filtoPesquisa" id="select" class="custom-select"
+                <select name="filtroPesquisa" id="select" class="custom-select"
                     (change)="filtroPesquisa()">
                     <option value="Todas" selected>Todas</option>
-                    <option value="Aguardando Constatação">Aguardado Constatação
-                    </option>
+                    <option value="Aguardando Constatação">Aguardado Constatação</option>
                     <option value="Infracionada">Infracionada </option>
                     <option value="Notificada">Notificada </option>
-                    <option value="Plubicada em Edital">Plubicada em Edital
-                    </option>
-                    <option value="Providencia Diversas">Providências Diversas
-                    </option>
+                    <option value="Publicada em Edital">Publicado em Edital</option>
+                    <option value="Providencia Diversas">Providências Diversas</option>
                     <option value="Arquivada">Arquivadas</option>
                 </select>
             </div>
@@ -70,7 +67,7 @@
             previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
     </div>
     <div class="fab">
-        <button class="main" [routerLink]="['/Cadastrodenuncias/']">
+        <button class="main" [routerLink]="['/cadastro-denuncias/']">
         </button>
     </div>
 </div>

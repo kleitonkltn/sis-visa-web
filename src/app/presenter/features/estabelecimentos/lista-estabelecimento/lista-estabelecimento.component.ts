@@ -11,10 +11,10 @@ declare let $: any;
   styleUrls: ['./lista-estabelecimento.component.css']
 })
 export class ListaEstabelecimentoComponent implements OnInit {
-  OrderID = 'ASC'; OrderRazao = 'ASC'; OrderFantasia = 'ASC';
   @Input() estabelecimentos: Estabelecimento[] = [];
-  @Input() listabelecimentoinput: Estabelecimento;
-  @Input() est: Estabelecimento; loading = false; statusEst = false;
+  @Input() est: Estabelecimento;
+  loading = false;
+  statusEst = false;
   textSearch = '';
   listItems = [];
   dataAtual = new Date();
@@ -85,7 +85,7 @@ export class ListaEstabelecimentoComponent implements OnInit {
           if (diferencaEntreDatas < 0) {
             return item;
           }
-        } else if (filtro === 'avencer') {
+        } else if (filtro === 'aVencer') {
           if (diferencaEntreDatas >= 0 && diferencaEntreDatas <= 31) {
             return (item);
           }

@@ -1,52 +1,58 @@
 <div *ngIf="statusEst === false" align="center" style="margin-top: 50px;">
-    <span class="spinner-border spinner-border-sm" role="status" [ngClass]="{ spinnerLoading: loading}" aria-hidden="true"></span>
+  <span class="spinner-border spinner-border-sm" role="status" [ngClass]="{ spinnerLoading: loading}"
+    aria-hidden="true"></span>
 </div>
 
 <div *ngIf="licencas && statusEst === true">
-    <div align="center" style="margin-left: 2%; margin-right: 2%;">
-        <div class="responsiva">
-            <h1 class="text-center responsiva">Lista de Licenças</h1>
-        </div>
-        <div class="input-group col-xs-9 col-sm-9">
-            <input class="form-control" id="myInput" [(ngModel)]="textSearch" (keyup)="search()" type="text" placeholder="Busca..">
-
-            <div class="input-group-append">
-                <select name="filtoPesquisa" id="select" class="custom-select" (change)="filtroPesquisa()">
-                    <option value="todos" selected>Todos</option>
-                    <option value="autorizada">Licenças Finalizadas</option>
-                    <option value="observacao">Licenças com Observação </option>
-                    <option value="pendente">Licenças Pendentes</option>
-                    </select>
-            </div>
-        </div>
-        <table class="table table-bordered table-responsive-sm col-xs-9  col-sm-9">
-            <div *ngIf="licencas">
-                <thead class="thead-light">
-                    <tr>
-                        <th>Id</th>
-                        <th>Nome Fantasia</th>
-                        <th>Data de Emissão</th>
-                        <th>Data de Validade</th>
-                        <th>Status</th>
-                        <th>Opção</th>
-                    </tr>
-                </thead>
-                <tbody id="myTable" *ngFor="let item of listItems | paginate: { itemsPerPage: 15, currentPage: paginaAtual }; let i = index">
-                    <tr>
-                        <td>{{item.id}}</td>
-                        <td>{{item.estabelecimento_data.fantasia}}</td>
-                        <td>{{item.data_emissao| date: 'dd/MM/yyyy'}}</td>
-                        <td>{{item.data_validade| date: 'dd/MM/yyyy'}}</td>
-                        <td style="text-transform: capitalize">{{(item.status_fiscal == 'autorizada' && item.status_gerente == 'autorizada')||(item.status_fiscal == 'autorizada' && item.status_segundo_fiscal == 'autorizada') ? 'Autorizada' : 'Pendente' }}</td>
-                        <td>
-                            <a class="btn" [routerLink]="['/licenca/']" [queryParams]="{ id: item.id}">
-                                <i class="fa fa-eye" aria-hidden="true" style="font-size: 25px"></i>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </div>
-        </table>
-        <pagination-controls class="text-center" (pageChange)="paginaAtual = $event" previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
+  <div align="center" style="margin-left: 2%; margin-right: 2%;">
+    <div class="responsiva">
+      <h1 class="text-center responsiva">Lista de Licenças</h1>
     </div>
+    <div class="input-group col-xs-9 col-sm-9">
+      <input class="form-control" id="myInput" [(ngModel)]="textSearch" (keyup)="search()" type="text"
+        placeholder="Busca..">
+
+      <div class="input-group-append">
+        <select name="filtroPesquisa" id="select" class="custom-select" (change)="filtroPesquisa()">
+          <option value="todos" selected>Todos</option>
+          <option value="autorizada">Licenças Finalizadas</option>
+          <option value="observacao">Licenças com Observação </option>
+          <option value="pendente">Licenças Pendentes</option>
+        </select>
+      </div>
+    </div>
+    <table class="table table-bordered table-responsive-sm col-xs-9  col-sm-9">
+      <div *ngIf="licencas">
+        <thead class="thead-light">
+          <tr>
+            <th>Id</th>
+            <th>Nome Fantasia</th>
+            <th>Data de Emissão</th>
+            <th>Data de Validade</th>
+            <th>Status</th>
+            <th>Opção</th>
+          </tr>
+        </thead>
+        <tbody id="myTable"
+          *ngFor="let item of listItems | paginate: { itemsPerPage: 15, currentPage: paginaAtual }; let i = index">
+          <tr>
+            <td>{{item.id}}</td>
+            <td>{{item.estabelecimento_data.fantasia}}</td>
+            <td>{{item.data_emissao| date: 'dd/MM/yyyy'}}</td>
+            <td>{{item.data_validade| date: 'dd/MM/yyyy'}}</td>
+            <td style="text-transform: capitalize">{{(item.status_fiscal == 'autorizada' && item.status_gerente ==
+              'autorizada')||(item.status_fiscal == 'autorizada' && item.status_segundo_fiscal == 'autorizada') ?
+              'Autorizada' : 'Pendente' }}</td>
+            <td>
+              <a class="btn" [routerLink]="['/licenca/']" [queryParams]="{ id: item.id}">
+                <i class="fa fa-eye" aria-hidden="true" style="font-size: 25px"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </div>
+    </table>
+    <pagination-controls class="text-center" (pageChange)="paginaAtual = $event" previousLabel="Anterior"
+      nextLabel="Próximo"></pagination-controls>
+  </div>
 </div>

@@ -18,15 +18,11 @@ export class TermoService {
     return this.http.get<Termos>(environment.apiUrl_Termo + '/' + id);
   }
 
-  atualizarTermo (Client: Termos) {
-    return this.http.put(environment.apiUrl_Termo + '/' + Client.id, Client);
+  atualizarTermo (data: Termos) {
+    return this.http.put(environment.apiUrl_Termo + '/' + data.id, data);
   }
 
-  cadastrarTermo (Client: Termos) {
-    return this.http.post(environment.apiUrl_Termo, Client);
+  cadastrarTermo (data: Termos) {
+    return this.http.post(environment.apiUrl_Termo, data);
   }
-
-  // sendTermoByEmail(Client) {
-  //   return this.http.post(environment.apiUrl_sendTermo, Client)
-  // }
 }

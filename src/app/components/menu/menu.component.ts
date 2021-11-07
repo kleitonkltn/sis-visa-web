@@ -17,8 +17,7 @@ export class MenuComponent implements OnInit {
     this.auth.checkToken().then((result) => {
       this.showMenu = this.auth.authenticationState['_value'];
 
-      if (this.auth._user != null)
-      {
+      if (this.auth._user != null) {
         this.user = this.auth._user['params'];
       }
     });

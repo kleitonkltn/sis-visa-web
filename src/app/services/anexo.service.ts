@@ -11,25 +11,25 @@ export class AnexoService {
 
   constructor (private http: HttpClient) { }
 
-  listFilesByModel (model, id): Observable<Arquivos[]> {
-    return this.http.get<Arquivos[]>(environment.apiUrl_Anexos2 + '/' + model + '/' + id);
+  listFilesByModel (model: string, id: string): Observable<Arquivos[]> {
+    return this.http.get<Arquivos[]>(environment.apiUrl_Anexos + '/' + model + '/' + id);
   }
 
-  createAnexo (Client: Arquivos) {
-    return this.http.post(environment.apiUrl_Anexos2, Client);
+  createAnexo (data: Arquivos) {
+    return this.http.post(environment.apiUrl_Anexos, data);
   }
-  listAnexoById (id): Observable<Arquivos[]> {
-    return this.http.get<Arquivos[]>(environment.apiUrl_Anexos2 + '/' + id);
+  listAnexoById (id: string): Observable<Arquivos[]> {
+    return this.http.get<Arquivos[]>(environment.apiUrl_Anexos + '/' + id);
   }
   listAllAnexos (): Observable<Arquivos[]> {
-    return this.http.get<Arquivos[]>(environment.apiUrl_Anexos2);
+    return this.http.get<Arquivos[]>(environment.apiUrl_Anexos);
   }
 
   salvarAnexo (Client: Arquivos) {
-    return this.http.post(environment.apiUrl_Anexos2, Client);
+    return this.http.post(environment.apiUrl_Anexos, Client);
   }
 
   deleteFileByKey (key) {
-    return this.http.delete(environment.apiUrl_Anexos2 + '/' + key);
+    return this.http.delete(environment.apiUrl_Anexos + '/' + key);
   }
 }

@@ -11,8 +11,7 @@ const USER_KEY = '_user';
 
 export class StorageService {
 
-  addToken (token) {
-
+  addToken (token: string) {
     return localStorage.setItem(TOKEN_KEY, token);
   }
 

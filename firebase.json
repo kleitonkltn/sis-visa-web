@@ -1,8 +1,8 @@
 {
   "hosting": [
     {
-      "target": "HOME-VISA",
-      "public": "dist/HOME-VISA",
+      "target": "SIGVISA",
+      "public": "dist/SIGVISA",
       "ignore": [
         "firebase.json",
         "**/.*",

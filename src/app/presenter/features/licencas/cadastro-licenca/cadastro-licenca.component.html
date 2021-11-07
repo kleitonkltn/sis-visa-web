@@ -67,7 +67,7 @@
 
             </div>
 
-            <div class="row " [hidden]="idestabelecimento != null">
+            <div class="row " [hidden]="idEstabelecimento != null">
               <div class="col-md">
                 <b>Solicitado Por:</b>
                 <input class="form-control" formControlName="solicitado_por"
@@ -107,14 +107,14 @@
             </div>
             <div class="row ">
               <div class="col-md-6">
-                <b> Obeservação Gerente: </b>
+                <b> Observação Gerente: </b>
                 <textarea class="form-control "
                   formControlName="observacao_gerente"
                   [readonly]="user !=='gerente' ">
                 </textarea>
               </div>
               <div class="col-md-6">
-                <b> Obeservação Fiscal: </b>
+                <b> Observação Fiscal: </b>
                 <textarea class="form-control"
                   formControlName="observacao_fiscal"
                   [readonly]="user !='fiscal' ">
@@ -123,13 +123,13 @@
             </div>
             <div class="row ">
               <div class="col-md-12">
-                <b> Obeservação Pedido: </b>
+                <b> Observação Pedido: </b>
                 <textarea class="form-control" rows=6
                   formControlName="observacao_pedido" name="observacao_pedido">
                        </textarea>
               </div>
             </div>
-            <div class="text-center" *ngIf="idestabelecimento != null">
+            <div class="text-center" *ngIf="idEstabelecimento != null">
               <button class="btn btn-dark" (click)="cadastrar()">
                 <span class="spinner-border spinner-border-sm" role="status"
                   [ngClass]="{ spinnerLoading: loadingCadastro }"
@@ -138,14 +138,13 @@
                   aria-hidden="true"></i>
                 Fazer Pedido</button>
             </div>
-            <div class="text-center" *ngIf="idlicenca != null">
+            <div class="text-center" *ngIf="idLicenca != null">
               <button class="btn btn-dark" (click)="Atualizar()">
                 <span class="spinner-border spinner-border-sm" role="status"
-                  [ngClass]="{ spinnerLoading: loadingCadastro }"
-                  aria-hidden="true"></span>
-                <i [ngClass]="{ spinnerLoading: !loadingCadastro }"
-                  aria-hidden="true"></i>
-                Salvar</button>
+                  [ngClass]="{ spinnerLoading: loadingCadastro }" aria-hidden="true">
+                </span>
+                <i [ngClass]="{ spinnerLoading: !loadingCadastro }" aria-hidden="true"></i>Salvar
+              </button>
             </div>
           </form>
         </div>
@@ -156,7 +155,7 @@
       <div style="margin-left: 2%; margin-right: 2%;">
         <div style="margin-top:10px;" align="center">
           <input type="file" id="teste" style="display: block;"
-            class="text-center inputSemMagin" (change)="onUploadChange($event)"
+            class="text-center margin-bottom-zero" (change)="onUploadChange($event)"
             accept=".png, .jpg, .jpeg, .pdf, .docx" multiple>
         </div>
         <div class="col-md-12" style="margin-left: 20px;">
@@ -188,7 +187,7 @@
                     {{nomeArquivo[i]}}</p>
 
                 </div>
-                <input class="form-control inputSemMagin" type="text "
+                <input class="form-control margin-bottom-zero" type="text "
                   [(ngModel)]="descricao[i] " placeholder="Adicionar Descrição "
                   name="descricao_completa ">
                 <button class="btn btn-dark form-control " id="btn "
@@ -212,10 +211,10 @@
           style="border-top: 1px solid #bdc3c7; margin-top: 50px; margin-left: 0px !important;">
           <div align="center" style="margin-top: 10px;">
             <a (click)=" ListaArq()">
-              <i [ngClass]="{ spinnerLoading: !loadingNumvem }"
+              <i [ngClass]="{ spinnerLoading: !loadingNuvem }"
                 class="fa fa-cloud-download fa-2x" aria-hidden="tue"></i>
               <span class="spinner-border spinner-border-sm" role="status"
-                [ngClass]="{ spinnerLoading: loadingNumvem }" aria-hidden="true"
+                [ngClass]="{ spinnerLoading: loadingNuvem }" aria-hidden="true"
                 style="margin-right: 15px;"></span> Visualizar
               arquivos já armazenados
             </a>

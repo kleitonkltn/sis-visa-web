@@ -23,17 +23,17 @@ export class CadastroLicencaComponent implements OnInit {
 
   licenca: Licencas = {} as Licencas; titulo;
   usuario: Usuario; user; isDisabled = true;
-  userNomeInput; idestabelecimento; idlicenca;
+  userNomeInput; idEstabelecimento; idLicenca;
   razao; loadingCadastro = true; formSubmitted = false;
   dataEstabelecimento;
   base64textString = []; descricao = []; arq = []; nomeArquivo = [];
   arquivos: Arquivos = {} as Arquivos; listaArq: Arquivos[] = [];
   anexo: Arquivos; indice; item: Arquivos; itemCarregado = {} as Arquivos;
-  loading: boolean[] = []; loadingRemove: boolean[] = []; loadingNumvem = true;
+  loading: boolean[] = []; loadingRemove: boolean[] = []; loadingNuvem = true;
   status = 'abrir'; index;
 
   constructor (private route: ActivatedRoute, private authService: AutenticarService,
-    private estabelecimentoservice: EstabelecimentoService, private licencaService: LicencaService,
+    private estabelecimentosService: EstabelecimentoService, private licencaService: LicencaService,
     private anexoService: AnexoService, private router: Router) {
 
     this.usuario = this.authService._user['params'];
@@ -109,24 +109,25 @@ export class CadastroLicencaComponent implements OnInit {
   pegaId () {
     this.route.queryParams.subscribe(
       queryParams => {
-        this.idlicenca = queryParams.id;
-        this.idestabelecimento = queryParams.id_est;
-        if (this.idlicenca != null) {
-          this.licencaService.ListarLicencaPorID(this.idlicenca).subscribe((licenca: Licencas) => {
+        this.idLicenca = queryParams.id;
+        this.idEstabelecimento = queryParams.id_est;
+        if (this.idLicenca != null) {
+          this.licencaService.ListarLicencaPorID(this.idLicenca).subscribe((licenca: Licencas) => {
             this.titulo = 'Emitir Licença';
             window.scrollTo(0, 0);
             this.licenca = licenca;
             this.createForm(this.licenca);
 
-            this.estabelecimentoservice.listarEstabelecimentoPorID(licenca.estabelecimento.toString()).subscribe((est: Estabelecimento) => {
-              this.dataEstabelecimento = est;
-            });
+            this.estabelecimentosService.listarEstabelecimentoPorID(
+              licenca.estabelecimento.toString()).subscribe((est: Estabelecimento) => {
+                this.dataEstabelecimento = est;
+              });
 
           });
         }
 
-        if (this.idestabelecimento != null) {
-          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idestabelecimento).subscribe((est: Estabelecimento) => {
+        if (this.idEstabelecimento != null) {
+          this.estabelecimentosService.listarEstabelecimentoPorID(this.idEstabelecimento).subscribe((est: Estabelecimento) => {
             this.titulo = 'Pedido de licença';
             window.scrollTo(0, 0);
             this.dataEstabelecimento = est;
@@ -223,7 +224,7 @@ export class CadastroLicencaComponent implements OnInit {
         });
         const navigationExtras: NavigationExtras = {
           queryParams: {
-            id: this.idlicenca
+            id: this.idLicenca
           }
         };
         setTimeout(() => {
@@ -269,12 +270,12 @@ export class CadastroLicencaComponent implements OnInit {
   }
 
   ListaArq () {
-    this.loadingNumvem = false;
+    this.loadingNuvem = false;
     if (this.status === 'abrir') {
       this.status = 'fechar';
 
       this.anexoService.listFilesByModel('estabelecimento', this.formLicenca.value.estabelecimento).subscribe((arg) => {
-        this.loadingNumvem = true;
+        this.loadingNuvem = true;
         if (arg.length > 0) {
           this.titulo = 'Anexos da Licença';
           this.listaArq = arg.filter((item: Arquivos) => {
@@ -289,33 +290,37 @@ export class CadastroLicencaComponent implements OnInit {
         }
       });
     } else {
-      this.loadingNumvem = true;
+      this.loadingNuvem = true;
       this.status = 'abrir';
       this.listaArq.splice(0);
     }
 
   }
 
-  onUploadChange (evt) {
-    const files = evt.target.files;
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = ((theFile) => {
-        return (e) => {
-          this.arq.push(escape(theFile.type));
-          this.nomeArquivo.push(theFile.name);
-          let url = e.target.result;
-          const index = Number(url.toLowerCase().indexOf(',') + 1);
-          url = url.slice(index);
-          this.base64textString.push(url);
-          this.inicializaLoding();
-        };
-      })
-        (file);
-      reader.readAsDataURL(file);
-    });
+  onUploadChange (evt: Event) {
+    const target = evt.target as HTMLInputElement;
+    const files = target.files as FileList;
+    for (const key in files) {
+      if (Object.prototype.hasOwnProperty.call(files, key)) {
+        const file = files[key];
+        const reader = new FileReader();
+        reader.onload = ((theFile) => {
+          return (e) => {
+            this.arq.push(escape(theFile.type));
+            this.nomeArquivo.push(theFile.name);
+            let url = e.target.result;
+            const index = Number(url.toLowerCase().indexOf(',') + 1);
+            url = url.slice(index);
+            this.base64textString.push(url);
+            this.inicializaLoading();
+          };
+        })
+          (file);
+        reader.readAsDataURL(file);
+      }
+    }
   }
-  inicializaLoding () {
+  inicializaLoading () {
     for (let i = 0; i < this.base64textString.length; i++) {
       this.loading[i] = true;
     }

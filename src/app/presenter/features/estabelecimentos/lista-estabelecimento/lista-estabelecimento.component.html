@@ -1,66 +1,66 @@
 <div *ngIf="statusEst === false" align="center" style="margin-top: 50px;">
-    <span class="spinner-border spinner-border-sm" role="status"
-        [ngClass]="{ spinnerLoading: loading}" aria-hidden="true"></span>
+  <span class="spinner-border spinner-border-sm" role="status"
+    [ngClass]="{ spinnerLoading: loading}" aria-hidden="true"></span>
 </div>
 
 <div *ngIf="estabelecimentos && statusEst === true">
-    <div align="center" style="margin-left: 2%; margin-right: 2%;">
-        <div class="responsiva">
-            <h1 class="text-center">Lista de Estabelecimentos</h1>
-        </div>
-        <div class="input-group col-xs-9 col-sm-9">
-            <input class="form-control" id="myInput" [(ngModel)]="textSearch"
-                (keyup)="search()" type="text" placeholder="Busca..">
-            <div class="input-group-append">
-                <select name="filtoPesquisa" id="select" class="custom-select"
-                    (change)="filtroPesquisa()">
-                    <option value="todos" selected>Todos</option>
-                    <option value="licenciado">Licenças Vigentes</option>
-                    <option value="avencer">Licenças à Vencer </option>
-                    <option value="vencida">Licenças Vencidas</option>
-                </select>
-            </div>
-        </div>
-        <table
-            class="table table-bordered table-responsive-sm col-xs-9  col-sm-9">
-            <div *ngIf="estabelecimentos">
-                <thead class="thead-light">
-                    <tr>
+  <div align="center" style="margin-left: 2%; margin-right: 2%;">
+    <div class="responsiva">
+      <h1 class="text-center">Lista de Estabelecimentos</h1>
+    </div>
+    <div class="input-group col-xs-9 col-sm-9">
+      <input class="form-control" id="myInput" [(ngModel)]="textSearch"
+        (keyup)="search()" type="text" placeholder="Busca..">
+      <div class="input-group-append">
+        <select name="filtroPesquisa" id="select" class="custom-select"
+          (change)="filtroPesquisa()">
+          <option value="todos" selected>Todos</option>
+          <option value="licenciado">Licenças Vigentes</option>
+          <option value="aVencer">Licenças à Vencer </option>
+          <option value="vencida">Licenças Vencidas</option>
+        </select>
+      </div>
+    </div>
+    <table
+      class="table table-bordered table-responsive-sm col-xs-9  col-sm-9">
+      <div *ngIf="estabelecimentos">
+        <thead class="thead-light">
+          <tr>
 
-                        <th>ID</th>
-                        <th>Razão Social</th>
-                        <th>Nome Fantasia</th>
-                        <th>Licença</th>
-                        <th>Validade</th>
-                        <th>Opção</th>
-                    </tr>
-                </thead>
-                <tbody id="myTable"
-                    *ngFor="let estabelecimento of listItems | paginate: { itemsPerPage: 15, currentPage: paginaAtual }; let i = index">
-                    <tr>
-                        <td>{{estabelecimento.id}}</td>
-                        <td>{{estabelecimento.razao}}</td>
-                        <td>{{estabelecimento.fantasia}}</td>
-                        <td>{{estabelecimento.licenca}}</td>
-                        <td>{{estabelecimento.data_retorno| date: 'dd/MM/yyyy'}}
-                        </td>
-                        <td>
-                            <a class="btn" [routerLink]="['/estabelecimento/']"
-                                [queryParams]="{ id: estabelecimento.id}">
-                                <i class="fa fa-eye" aria-hidden="true"
-                                    style="font-size: 25px"></i>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </div>
-        </table>
-        <pagination-controls class="text-center"
-            (pageChange)="paginaAtual = $event" (click)="subirTela()"
-            previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
-    </div>
-    <div class="fab">
-        <button class="main" [routerLink]="['/cadastrar/']">
-        </button>
-    </div>
+            <th>ID</th>
+            <th>Razão Social</th>
+            <th>Nome Fantasia</th>
+            <th>Licença</th>
+            <th>Validade</th>
+            <th>Opção</th>
+          </tr>
+        </thead>
+        <tbody id="myTable"
+          *ngFor="let estabelecimento of listItems | paginate: { itemsPerPage: 15, currentPage: paginaAtual }; let i = index">
+          <tr>
+            <td>{{estabelecimento.id}}</td>
+            <td>{{estabelecimento.razao}}</td>
+            <td>{{estabelecimento.fantasia}}</td>
+            <td>{{estabelecimento.licenca}}</td>
+            <td>{{estabelecimento.data_retorno| date: 'dd/MM/yyyy'}}
+            </td>
+            <td>
+              <a class="btn" [routerLink]="['/estabelecimento/']"
+                [queryParams]="{ id: estabelecimento.id}">
+                <i class="fa fa-eye" aria-hidden="true"
+                  style="font-size: 25px"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </div>
+    </table>
+    <pagination-controls class="text-center"
+      (pageChange)="paginaAtual = $event" (click)="subirTela()"
+      previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
+  </div>
+  <div class="fab">
+    <button class="main" [routerLink]="['/cadastro-estabelecimento/']">
+    </button>
+  </div>
 </div>

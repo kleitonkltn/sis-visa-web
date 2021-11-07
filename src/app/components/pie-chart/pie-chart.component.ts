@@ -21,11 +21,11 @@ export class PieChartComponent implements OnInit {
   public licencaAtiva: number;
   public dataAtual: Date;
   public vencidaCount = 0;
-  public avencerCount = 0;
+  public aVencerCount = 0;
   public vigenteCount = 0;
   public inativosCount = 0;
   public pieChartLabels: Label[] = ['Licenças Vencidas', 'Licenças à Vencer', 'Licenças Vigentes', 'Inativos'];
-  public pieChartData: SingleDataSet = [this.vencidaCount, this.avencerCount, this.vigenteCount, this.inativosCount];
+  public pieChartData: SingleDataSet = [this.vencidaCount, this.aVencerCount, this.vigenteCount, this.inativosCount];
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
   public pieChartPlugins = [];
@@ -64,13 +64,13 @@ export class PieChartComponent implements OnInit {
         return this.vencidaCount++;
       }
       if (diferencaEntreDatas >= 0 && diferencaEntreDatas <= 31) {
-        this.avencerCount++;
+        this.aVencerCount++;
       }
       if (diferencaEntreDatas > 31) {
         this.vigenteCount++;
       }
     });
-    this.pieChartData = [this.vencidaCount, this.avencerCount, this.vigenteCount, this.inativosCount];
+    this.pieChartData = [this.vencidaCount, this.aVencerCount, this.vigenteCount, this.inativosCount];
   }
 
   addSlice () {

@@ -9,28 +9,25 @@ export class PdfService {
   constructor (private http: HttpClient) {
   }
 
-  // pdfProtocolo(id) {
-  //   window.open(environment.apiUrl_pdfProtocolo + id);
-  // }
-  downloadFileProtocolo (id) {
+  downloadFileProtocolo (id: string) {
     let headers = new HttpHeaders();
     headers = headers.set('Accept', 'application/pdf');
 
     return this.http.get(environment.apiUrl_pdfProtocolo + id, { headers, responseType: 'blob' });
   }
-  downloadFile (id) {
+  downloadFile (id: string) {
     let headers = new HttpHeaders();
     headers = headers.set('Accept', 'application/pdf');
 
     return this.http.get(environment.apiUrl_pdfLicenca + id, { headers, responseType: 'blob' });
   }
-  downloadFileRelatorio (id) {
+  downloadFileRelatorio (id: string) {
     let headers = new HttpHeaders();
     headers = headers.set('Accept', 'application/pdf');
 
     return this.http.get(environment.apiUrl_pdfRelatorio + id, { headers, responseType: 'blob' });
   }
-  downloadFileTermo (id) {
+  downloadFileTermo (id: string) {
     let headers = new HttpHeaders();
     headers = headers.set('Accept', 'application/pdf');
 

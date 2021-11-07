@@ -12,5 +12,5 @@ export class Arquivos {
   key: string;
   url_location: string;
   type: string;
-  creatdAt: string;
+  createdAt: string;
 }

@@ -4,11 +4,10 @@ import { AutenticarService } from '../services/autenticar.service';
 
 @Injectable({ providedIn: 'root' })
 export class LoginGuard implements CanActivate {
-  constructor (private autenticar: AutenticarService, private router: Router) { }
+  constructor (private autenticar: AutenticarService) { }
 
-  canActivate (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (!this.autenticar.isAuthenticated())
-    {
+  canActivate (): boolean {
+    if (!this.autenticar.isAuthenticated()) {
       return true;
     }
 

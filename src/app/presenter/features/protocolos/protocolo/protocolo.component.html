@@ -1,193 +1,193 @@
 <div class="body">
-    <div *ngIf="statusProt === false" align="center" style="margin-top: 50px;">
-        <span class="spinner-border spinner-border-sm" role="status"
-            [ngClass]="{ spinnerLoading: loadingTable}" aria-hidden="true"
-            style="width: 50px; height: 50px;"></span>
+  <div *ngIf="statusProt === false" align="center" style="margin-top: 50px;">
+    <span class="spinner-border spinner-border-sm" role="status"
+      [ngClass]="{ spinnerLoading: loadingTable}" aria-hidden="true"
+      style="width: 50px; height: 50px;"></span>
+  </div>
+
+  <div *ngIf="idProtocolo > 0 && statusProt === true">
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      <a class="nav-item nav-link active" id="nav-home-tab"
+        data-toggle="tab" href="#nav-home" role="tab"
+        aria-controls="nav-home" aria-selected="true">Dados</a>
+      <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
+        href="#nav-profile" role="tab" aria-controls="nav-profile"
+        aria-selected="false">Anexos</a>
     </div>
-
-    <div *ngIf="idprotocolo > 0 && statusProt === true">
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="nav-home-tab"
-                data-toggle="tab" href="#nav-home" role="tab"
-                aria-controls="nav-home" aria-selected="true">Dados</a>
-            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
-                href="#nav-profile" role="tab" aria-controls="nav-profile"
-                aria-selected="false">Anexos</a>
+    <div class="tab-content" id="nav-tabContent"
+      style="margin-left: 2%; margin-right: 2%;">
+      <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+        aria-labelledby="nav-home-tab">
+        <div class="responsiva">
+          <h1 class="text-center">Dados do Protocolo</h1>
         </div>
-        <div class="tab-content" id="nav-tabContent"
-            style="margin-left: 2%; margin-right: 2%;">
-            <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
-                aria-labelledby="nav-home-tab">
-                <div class="responsiva">
-                    <h1 class="text-center">Dados do Protocolo</h1>
-                </div>
-                <table class="table table-bordered col-sm-8" align="center">
-                    <tr>
-                        <th>Requerido</th>
-                        <td>{{protocolos.requerido}}</td>
-                    </tr>
-                    <tr>
-                        <th>Data</th>
-                        <td>{{protocolos.data| date: 'dd/MM/yyyy' }} {{
-                            protocolos.hora}}</td>
-                    </tr>
-                    <tr>
-                        <th>Descrição</th>
-                        <td>{{protocolos.descricao}}</td>
-                    </tr>
-                    <tr>
-                        <th>Requerente</th>
-                        <td>{{protocolos.requerente}}</td>
-                    </tr>
-                    <tr>
-                        <th>Endereço</th>
-                        <td>{{protocolos.endereco}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Contato</th>
-                        <td>{{protocolos.contato}}</td>
-                    </tr>
-                </table>
+        <table class="table table-bordered col-sm-8" align="center">
+          <tr>
+            <th>Requerido</th>
+            <td>{{protocolos.requerido}}</td>
+          </tr>
+          <tr>
+            <th>Data</th>
+            <td>{{protocolos.data| date: 'dd/MM/yyyy' }} {{
+              protocolos.hora}}</td>
+          </tr>
+          <tr>
+            <th>Descrição</th>
+            <td>{{protocolos.descricao}}</td>
+          </tr>
+          <tr>
+            <th>Requerente</th>
+            <td>{{protocolos.requerente}}</td>
+          </tr>
+          <tr>
+            <th>Endereço</th>
+            <td>{{protocolos.endereco}}
+            </td>
+          </tr>
+          <tr>
+            <th>Contato</th>
+            <td>{{protocolos.contato}}</td>
+          </tr>
+        </table>
 
+        <div class="text-center">
+          <a class="btn" [routerLink]="['/Protocolo/']"
+            [queryParams]="{ id: protocolos.id }"
+            (click)="protocoloPdf()">
+            <i [ngClass]="{ spinnerLoading: !loading }"
+              class="fa fa-file-pdf-o fa-2x"
+              aria-hidden="true"></i>
+            <span class="spinner-border spinner-border-sm"
+              role="status"
+              [ngClass]="{ spinnerLoading: loading }"
+              aria-hidden="true"></span>
+            <b> Ver Protocolo</b>
+          </a>
+
+          <a class="btn " [routerLink]="['/cadastroProtocolo/']"
+            [queryParams]="{ id: protocolos.id}">
+            <i class="fa fa-pencil-square-o fa-2x"
+              aria-hidden="true"></i>
+            <b>Atualizar</b>
+          </a>
+          <a type="button" class="btn" data-toggle="modal"
+            data-target="#exampleModal">
+            <div class="alo">
+              <i class="fa fa-envelope fa-2x"
+                aria-hidden="true"></i>
+              <b class="alo"> Enviar Protocolo</b>
+            </div>
+          </a>
+        </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1"
+          role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
                 <div class="text-center">
-                    <a class="btn" [routerLink]="['/Protocolo/']"
-                        [queryParams]="{ id: protocolos.id }"
-                        (click)="protocoloPdf()">
-                        <i [ngClass]="{ spinnerLoading: !loading }"
-                            class="fa fa-file-pdf-o fa-2x"
-                            aria-hidden="true"></i>
-                        <span class="spinner-border spinner-border-sm"
-                            role="status"
-                            [ngClass]="{ spinnerLoading: loading }"
-                            aria-hidden="true"></span>
-                        <b> Ver Protocolo</b>
-                    </a>
-
-                    <a class="btn " [routerLink]="['/cadastroProtocolo/']"
-                        [queryParams]="{ id: protocolos.id}">
-                        <i class="fa fa-pencil-square-o fa-2x"
-                            aria-hidden="true"></i>
-                        <b>Atualizar</b>
-                    </a>
-                    <a type="button" class="btn" data-toggle="modal"
-                        data-target="#exampleModal">
-                        <div class="alo">
-                            <i class="fa fa-envelope fa-2x"
-                                aria-hidden="true"></i>
-                            <b class="alo"> Enviar Protocolo</b>
-                        </div>
-                    </a>
+                  <h5>Enviar Protocolo por Email</h5>
                 </div>
-
-                <div class="modal fade" id="exampleModal" tabindex="-1"
-                    role="dialog" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <div class="text-center">
-                                    <h5>Enviar Protocolo por Email</h5>
-                                </div>
-                                <button type="button" class="close"
-                                    data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body text-left">
-                                <form method="post" [formGroup]="emailForm">
-                                    <div class="form-group">
-                                        <b>*Destinatário:</b>
-                                        <input class="form-control"
-                                            formControlName="destinatario"
-                                            name="destinatario">
-                                    </div>
-                                    <div class="form-group">
-                                        <b>Mensagem</b>
-                                        <textarea class="form-control"
-                                            formControlName="mensagem"
-                                            name="mensagem"></textarea>
-                                    </div>
-                                    <div class="text-center">
-                                        <button type="button"
-                                            class="btn btn-primary"
-                                            (click)="EnviarEmail()">Enviar</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <button type="button" class="close"
+                  data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body text-left">
+                <form method="post" [formGroup]="emailForm">
+                  <div class="form-group">
+                    <b>*Destinatário:</b>
+                    <input class="form-control"
+                      formControlName="destinatario"
+                      name="destinatario">
+                  </div>
+                  <div class="form-group">
+                    <b>Mensagem</b>
+                    <textarea class="form-control"
+                      formControlName="mensagem"
+                      name="mensagem"></textarea>
+                  </div>
+                  <div class="text-center">
+                    <button type="button"
+                      class="btn btn-primary"
+                      (click)="didTapSendEmail()">Enviar</button>
+                  </div>
+                </form>
+              </div>
             </div>
-            <div class="tab-pane fade" id="nav-profile" role="tabpanel"
-                aria-labelledby="nav-profile-tab">
-                <div class="responsiva">
-                    <h1 class="text-center">{{titulo}}</h1>
-                </div>
-                <!-- ///// -->
-                <div class="row" style="margin-left: 10px; margin-right: 10px;">
-                    <div class="form-group col-md-2"
-                        *ngFor="let item of arquivo">
-                        <div class="card" *ngIf="arquivo">
-                            <button
-                                *ngIf="item.type.toString() === 'png' || item.type.toString() === 'jpeg'"
-                                data-toggle="modal"
-                                data-target=".bd-example-modal-lg"
-                                (click)="verAnexo(item)">
-                                <img class="text-center"
-                                    src="{{item.url_location}}" alt=" "
-                                    style="max-height: 100px;" />
-                            </button>
-                            <button
-                                *ngIf="item.type.toString() ==='pdf' || item.type.toString() ==='docx'"
-                                (click)="verAnexo(item)">
-                                <a [href]="item.url_location" target="_blank"
-                                    rel="noopener noreferrer">
-                                    <i *ngIf="item.type ==='pdf' "
-                                        class="text-center "
-                                        class="fa fa-file-pdf-o cad-img-top"
-                                        aria-hidden="true "
-                                        style="font-size: 80px; "></i>
-                                </a>
-                                <a [href]="item.url_location" target="_blank"
-                                    rel="noopener noreferrer">
-                                    <i *ngIf="item.type ==='docx'"
-                                        class="text-center"
-                                        class="fa fa-file-word-o"
-                                        aria-hidden="true"
-                                        style="font-size: 80px;"></i>
-                                </a>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal fade bd-example-modal-lg" tabindex="-1"
-                    role="dialog" aria-labelledby="myLargeModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <b>{{item.descricao}}</b>
-                                <button type="button" class="close"
-                                    data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body" *ngIf="item">
-                                <div class="text-center"
-                                    style="margin: 5px 0 25px">
-                                    <img src="{{item.url_location}}"
-                                        class="cad-img-top" id="imd"
-                                        style="max-width: 100%; max-height: 300px" />
-                                </div>
-                                <textarea style="width: 100%;"
-                                    [readonly]="true">Descrição : {{item.descricao_completa}}</textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+          </div>
         </div>
+      </div>
+      <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+        aria-labelledby="nav-profile-tab">
+        <div class="responsiva">
+          <h1 class="text-center">{{titulo}}</h1>
+        </div>
+
+        <div class="row" style="margin-left: 10px; margin-right: 10px;">
+          <div class="form-group col-md-2"
+            *ngFor="let item of arquivo">
+            <div class="card" *ngIf="arquivo">
+              <button
+                *ngIf="item.type.toString() === 'png' || item.type.toString() === 'jpeg'"
+                data-toggle="modal"
+                data-target=".bd-example-modal-lg"
+                (click)="verAnexo(item)">
+                <img class="text-center"
+                  src="{{item.url_location}}" alt=" "
+                  style="max-height: 100px;" />
+              </button>
+              <button
+                *ngIf="item.type.toString() ==='pdf' || item.type.toString() ==='docx'"
+                (click)="verAnexo(item)">
+                <a [href]="item.url_location" target="_blank"
+                  rel="noopener noreferrer">
+                  <i *ngIf="item.type ==='pdf' "
+                    class="text-center "
+                    class="fa fa-file-pdf-o cad-img-top"
+                    aria-hidden="true "
+                    style="font-size: 80px; "></i>
+                </a>
+                <a [href]="item.url_location" target="_blank"
+                  rel="noopener noreferrer">
+                  <i *ngIf="item.type ==='docx'"
+                    class="text-center"
+                    class="fa fa-file-word-o"
+                    aria-hidden="true"
+                    style="font-size: 80px;"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade bd-example-modal-lg" tabindex="-1"
+          role="dialog" aria-labelledby="myLargeModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <b *ngIf="item?.descricao">{{item.descricao}}</b>
+                <button type="button" class="close"
+                  data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" *ngIf="item">
+                <div class="text-center"
+                  style="margin: 5px 0 25px">
+                  <img src="{{item.url_location}}"
+                    class="cad-img-top" id="imd"
+                    style="max-width: 100%; max-height: 300px" />
+                </div>
+                <textarea style="width: 100%;"
+                  [readonly]="true">Descrição : {{item.descricao_completa}}</textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
+  </div>
 </div>

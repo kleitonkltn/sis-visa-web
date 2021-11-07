@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { stringify } from 'querystring';
 import swal from 'sweetalert2';
 import { Arquivos } from '../../../../../models/arquivos';
 import { Estabelecimento } from '../../../../../models/estabelecimento';
@@ -25,7 +24,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
   anexo: Arquivos; indice; item: Arquivos; itemCarregado = {} as Arquivos;
   base64textString = []; descricao = []; arq = []; nomeArquivo = [];
   arquivos: Arquivos = {} as Arquivos; listaArq: Arquivos[] = [];
-  loading: boolean[] = []; loadingRemove: boolean[] = []; loadingNumvem = true; loadingCadastro = true;
+  loading: boolean[] = []; loadingRemove: boolean[] = []; loadingNuvem = true; loadingCadastro = true;
   status = 'abrir'; index = 0; textSearch;
   formSubmitted = false; licencaValueMax;
 
@@ -33,17 +32,17 @@ export class CadastroEstabelecimentoComponent implements OnInit {
   public telefone = ['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   public cep = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
   public cnpj = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/];
-  public idupdate: number;
+  public currentIdUpdate: number;
 
-  constructor (private route: ActivatedRoute, private estabelecimentoservice: EstabelecimentoService,
+  constructor (private route: ActivatedRoute, private estabelecimentoService: EstabelecimentoService,
     private anexoService: AnexoService, private router: Router) {
   }
 
   ngOnInit () {
     this.createForm(new Estabelecimento());
     this.pegaId();
-    this.retronaCnae();
-    this.retronaAtividade();
+    this.retornaCnae();
+    this.retornaAtividade();
   }
 
   createForm (estabelecimento: Estabelecimento) {
@@ -87,7 +86,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
       this.formSubmitted = true;
       this.loadingCadastro = true;
     } else {
-      this.estabelecimentoservice.cadastrarEstabelecimento(this.estabelecimentoForm.value).subscribe((data: Estabelecimento) => {
+      this.estabelecimentoService.cadastrarEstabelecimento(this.estabelecimentoForm.value).subscribe((data: Estabelecimento) => {
         this.loadingCadastro = true;
         window.scrollTo(0, 0);
         swal.fire({
@@ -130,47 +129,48 @@ export class CadastroEstabelecimentoComponent implements OnInit {
       this.formSubmitted = true;
       this.loadingCadastro = true;
     } else {
-      this.estabelecimentoservice.atualizarEstabelecimento(this.estabelecimentoForm.value, this.idupdate.toString()).subscribe(() => {
-        this.loadingCadastro = true;
-        window.scrollTo(0, 0);
-        swal.fire({
-          icon: 'success',
-          title: 'Estabelecimento atualizado com sucesso',
-          showConfirmButton: false,
-          timer: 2000
+      this.estabelecimentoService.atualizarEstabelecimento(this.estabelecimentoForm.value,
+        this.currentIdUpdate.toString()).subscribe(() => {
+          this.loadingCadastro = true;
+          window.scrollTo(0, 0);
+          swal.fire({
+            icon: 'success',
+            title: 'Estabelecimento atualizado com sucesso',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          const navigationExtras: NavigationExtras = {
+            queryParams: {
+              id: this.currentIdUpdate
+            }
+          };
+          setTimeout(() => {
+            this.router.navigate(['/estabelecimento/'], navigationExtras);
+          }, 3000);
+        }, (error) => {
+          this.loadingCadastro = true;
+          window.scrollTo(0, 0);
+          swal.fire({
+            icon: 'warning',
+            title: 'Falha na atualização do estabelecimento',
+            showConfirmButton: false,
+            timer: 2000
+          });
         });
-        const navigationExtras: NavigationExtras = {
-          queryParams: {
-            id: this.idupdate
-          }
-        };
-        setTimeout(() => {
-          this.router.navigate(['/estabelecimento/'], navigationExtras);
-        }, 3000);
-      }, (error) => {
-        this.loadingCadastro = true;
-        window.scrollTo(0, 0);
-        swal.fire({
-          icon: 'warning',
-          title: 'Falha na atualização do estabelecimento',
-          showConfirmButton: false,
-          timer: 2000
-        });
-      });
     }
   }
   pegaId () {
     this.route.queryParams.subscribe(
       queryParams => {
-        this.idupdate = queryParams.id;
-        if (this.idupdate != null) {
+        this.currentIdUpdate = queryParams.id;
+        if (this.currentIdUpdate != null) {
           window.scrollTo(0, 0);
           this.titulo = 'Atualizar Estabelecimento';
-          this.estabelecimentoservice.listarEstabelecimentoPorID(this.idupdate.toString()).subscribe((estabelecimentos) => {
+          this.estabelecimentoService.listarEstabelecimentoPorID(this.currentIdUpdate.toString()).subscribe((estabelecimentos) => {
             this.estabelecimento = estabelecimentos;
             estabelecimentos.status = '' + estabelecimentos.status;
             this.createForm(this.estabelecimento);
-            this.mascaracnpj();
+            this.formatWithCNPJorCPF();
             this.estabelecimentoForm.value.cnpj = estabelecimentos.cnpj;
           });
         } else {
@@ -182,15 +182,15 @@ export class CadastroEstabelecimentoComponent implements OnInit {
     );
   }
 
-  retronaCnae () {
-    this.estabelecimentoservice.listarTodosCnae()
+  retornaCnae () {
+    this.estabelecimentoService.listarTodosCnae()
       .subscribe((cnae) => {
         this.CNAE = cnae;
       });
   }
 
-  async retronaAtividade () {
-    const atividade = await this.estabelecimentoservice.ListarTodasAtividades().toPromise();
+  async retornaAtividade () {
+    const atividade = await this.estabelecimentoService.ListarTodasAtividades().toPromise();
     if (atividade) {
       this.Atividade = atividade;
     }
@@ -198,8 +198,7 @@ export class CadastroEstabelecimentoComponent implements OnInit {
   }
   numLicenca () {
     const val = (this.textSearch);
-    console.log(val);
-    this.estabelecimentoservice.getValueMaxLicenca().subscribe(async (itens: Estabelecimento) => {
+    this.estabelecimentoService.getValueMaxLicenca().subscribe(async (itens: Estabelecimento) => {
       if (itens.licenca < val) {
         window.scrollTo(0, 0);
         swal.fire({
@@ -214,11 +213,13 @@ export class CadastroEstabelecimentoComponent implements OnInit {
 
   }
 
-  mascaracnpj () {
-    if (this.estabelecimentoForm.value.pessoa.toString() === '1') {
-      this.cnpj = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/];
-    } else {
-      this.cnpj = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+  formatWithCNPJorCPF () {
+    if (this.estabelecimentoForm.value.cnpj != null && this.estabelecimentoForm.value.pessoa != null) {
+      if (this.estabelecimentoForm.value.pessoa.toString() === '1') {
+        this.cnpj = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+      } else {
+        this.cnpj = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+      }
     }
   }
 
@@ -228,46 +229,49 @@ export class CadastroEstabelecimentoComponent implements OnInit {
   }
 
   ListaArq () {
-    this.loadingNumvem = false;
+    this.loadingNuvem = false;
     if (this.status === 'abrir') {
       this.status = 'fechar';
-      this.anexoService.listFilesByModel('estabelecimento', this.idupdate).subscribe((arq: Arquivos[]) => {
+      this.anexoService.listFilesByModel('estabelecimento', this.currentIdUpdate.toString()).subscribe((arq: Arquivos[]) => {
         console.log(arq);
         this.listaArq = arq;
-        this.loadingNumvem = true;
+        this.loadingNuvem = true;
         for (let i = 0; i < this.listaArq.length; i++) {
           this.loadingRemove[i] = true;
         }
       });
     } else {
-      this.loadingNumvem = true;
+      this.loadingNuvem = true;
       this.status = 'abrir';
       this.listaArq.splice(0);
     }
   }
 
-  onUploadChange (evt) {
-    const files = evt.target.files;
-    // tslint:disable-next-line: no-conditional-assignment
-    for (let i = 0, f; f = files[i]; i++) {
-      const reader = new FileReader();
-      reader.onload = ((theFile) => {
-        return (e) => {
-          this.arq.push(escape(theFile.type));
-          console.log(this.arq);
-          this.nomeArquivo.push(theFile.name);
-          let url = e.target.result;
-          const index = Number(url.toLowerCase().indexOf(',') + 1);
-          url = url.slice(index);
-          this.base64textString.push(url);
-          this.inicializaLoding();
-        };
-      })
-        (f);
-      reader.readAsDataURL(f);
+  onUploadChange (evt: Event) {
+    const target = evt.target as HTMLInputElement;
+    const files = target.files as FileList;
+    for (const key in files) {
+      if (Object.prototype.hasOwnProperty.call(files, key)) {
+        const file = files[key];
+        const reader = new FileReader();
+        reader.onload = ((theFile) => {
+          return (e) => {
+            this.arq.push(escape(theFile.type));
+            console.log(this.arq);
+            this.nomeArquivo.push(theFile.name);
+            let url = e.target.result;
+            const index = Number(url.toLowerCase().indexOf(',') + 1);
+            url = url.slice(index);
+            this.base64textString.push(url);
+            this.inicializaLoading();
+          };
+        })
+          (file);
+        reader.readAsDataURL(file);
+      }
     }
   }
-  inicializaLoding () {
+  inicializaLoading () {
     for (let i = 0; i < this.base64textString.length; i++) {
       this.loading[i] = true;
     }
@@ -386,14 +390,10 @@ export class CadastroEstabelecimentoComponent implements OnInit {
         this.getValueMaxLicenca();
       }
     });
-    // const r = confirm('Socilitar um novo número de Licença ?');
-    // if (r === true) {
-    //   this.getValueMaxLicenca();
-    // }
   }
 
   getValueMaxLicenca () {
-    this.estabelecimentoservice.getValueMaxLicenca().subscribe(async (itens: Estabelecimento) => {
+    this.estabelecimentoService.getValueMaxLicenca().subscribe(async (itens: Estabelecimento) => {
       this.licencaValueMax = itens.licenca += 1;
       this.textSearch = this.licencaValueMax;
       swal.fire(

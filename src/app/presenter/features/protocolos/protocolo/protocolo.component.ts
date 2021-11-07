@@ -18,8 +18,10 @@ import { ProtocoloService } from '../../../../services/protocolo.service';
 })
 export class ProtocoloComponent implements OnInit {
   emailForm: FormGroup; email: Email;
-  public idprotocolo;
-  @Input() pdf; statusProt = false; loadingTable = false;
+  public idProtocolo;
+  @Input() pdf;
+  statusProt = false;
+  loadingTable = false;
   @Input() protocolos: Protocolo = {} as Protocolo;
   arquivo: Arquivos[] = [];
   base64textString: string[] = [];
@@ -28,8 +30,8 @@ export class ProtocoloComponent implements OnInit {
   loading = true;
 
   constructor (private route: ActivatedRoute, private protocoloService: ProtocoloService,
-    private pdfservice: PdfService, private anexoService: AnexoService,
-    private emailservice: EmailService) { }
+    private pdfService: PdfService, private anexoService: AnexoService,
+    private emailService: EmailService) { }
 
   ngOnInit () {
     this.createForm(new Email());
@@ -44,10 +46,10 @@ export class ProtocoloComponent implements OnInit {
   pegaId () {
     this.route.queryParams.subscribe(
       queryParams => {
-        this.idprotocolo = queryParams.id;
-        if (this.idprotocolo != null) {
+        this.idProtocolo = queryParams.id;
+        if (this.idProtocolo != null) {
           window.scrollTo(0, 0);
-          this.protocoloService.ListarTodosProtocolosPorID(this.idprotocolo).subscribe((protocolo) => {
+          this.protocoloService.ListarTodosProtocolosPorID(this.idProtocolo).subscribe((protocolo) => {
             this.protocolos = protocolo;
             this.statusProt = true;
           });
@@ -55,7 +57,7 @@ export class ProtocoloComponent implements OnInit {
       }
     );
 
-    this.anexoService.listFilesByModel('protocolo', this.idprotocolo).subscribe((arq: Arquivos[]) => {
+    this.anexoService.listFilesByModel('protocolo', this.idProtocolo).subscribe((arq: Arquivos[]) => {
       this.arquivo = arq;
       if (this.arquivo.length > 0) {
         this.titulo = 'Anexos do Protocolo';
@@ -65,8 +67,8 @@ export class ProtocoloComponent implements OnInit {
 
   protocoloPdf () {
     this.loading = false;
-    if (this.idprotocolo != null) {
-      this.pdfservice.downloadFileProtocolo(this.idprotocolo).subscribe(response => {
+    if (this.idProtocolo != null) {
+      this.pdfService.downloadFileProtocolo(this.idProtocolo).subscribe(response => {
         const file = new Blob([response], { type: 'application/pdf' });
         const fileURL = URL.createObjectURL(file);
         this.loading = true;
@@ -90,7 +92,7 @@ export class ProtocoloComponent implements OnInit {
     }
   }
 
-  EnviarEmail () {
+  didTapSendEmail () {
     this.email = this.emailForm.value;
     if (this.emailForm.valid === false) {
       swal.fire({
@@ -102,11 +104,11 @@ export class ProtocoloComponent implements OnInit {
     } else {
       return new Promise((resolve, reject) => {
         const dataSend = {
-          id: Number(this.idprotocolo),
+          id: Number(this.idProtocolo),
           email: this.email.destinatario,
           texthtml: this.email.mensagem
         };
-        this.emailservice.sendProtocoloByEmail(dataSend).subscribe((data) => {
+        this.emailService.sendProtocoloByEmail(dataSend).subscribe((data) => {
           resolve(data);
           $('.modal-header .close').click();
           window.scrollTo(0, 0);

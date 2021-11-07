@@ -3,7 +3,7 @@
         [ngClass]="{ spinnerLoading: loadingTable}" aria-hidden="true"
         style="width: 50px; height: 50px;"></span>
 </div>
-<div *ngIf="idlicenca > 0 && statusLi === true">
+<div *ngIf="idLicenca > 0 && statusLi === true">
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
             href="#nav-home" role="tab" aria-controls="nav-home"
@@ -102,7 +102,7 @@
                 </tr>
             </table>
             <div class="text-center">
-                <a class="btn " [routerLink]="['/Cadastrolicenca/']"
+                <a class="btn " [routerLink]="['/cadastro-licenca/']"
                     [queryParams]="{ id: licenca.id}">
                     <i class="fa fa-pencil-square-o fa-2x"
                         aria-hidden="true"></i>
@@ -127,7 +127,7 @@
             <div class="responsiva">
                 <h1 class="text-center">{{titulo}}</h1>
             </div>
-            <!-- ///// -->
+
             <div class="row" style="margin-left: 10px; margin-right: 10px;">
                 <div class="form-group col-md-2" *ngFor="let item of arquivo">
                     <div class="card" *ngIf="arquivo">

@@ -9,8 +9,7 @@ import { StorageService } from '../services/storage.service';
 export class TokenInterceptorService implements HttpInterceptor {
   constructor (private storage: StorageService, private auth: AutenticarService) { }
   intercept (req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.auth.isAuthenticated)
-    {
+    if (this.auth.isAuthenticated) {
       const reqToken = this.addToken(req);
 
       return next.handle(reqToken);

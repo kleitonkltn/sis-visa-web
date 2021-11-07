@@ -61,8 +61,8 @@ export class ListaDenunciasComponent implements OnInit {
         return 'Arquivada';
       case 'aguardandoConstatacao':
         return 'Aguardando Constatação';
-      case 'plubicadaEmEdital':
-        return 'Plubicada em Edital';
+      case 'publicadoEmEdital':
+        return 'Publicado em Edital';
       case 'infracionada':
         return 'Infracionada';
     }

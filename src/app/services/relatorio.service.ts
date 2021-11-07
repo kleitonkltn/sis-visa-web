@@ -18,7 +18,7 @@ export class RelatorioService {
     return this.http.get<Relatorio[]>(environment.apiUrl_Relatorio);
   }
 
-  listRelatorioeById (id): Observable<Relatorio> {
+  listRelatoriosById (id): Observable<Relatorio> {
     return this.http.get<Relatorio>(environment.apiUrl_Relatorio + '/' + id);
   }
 

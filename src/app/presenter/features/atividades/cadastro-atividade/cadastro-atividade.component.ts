@@ -14,7 +14,7 @@ import { AtividadeService } from '../../../../services/atividade.service';
 export class CadastroAtividadeComponent implements OnInit {
   titulo = 'Cadastrar Atividade';
   atividadeForm: FormGroup;
-  public idupdate: number;
+  public currentIdUpdate: number;
   submitted;
   loading: boolean[] = []; loadingCadastro = true;
   formSubmitted = false;
@@ -111,11 +111,11 @@ export class CadastroAtividadeComponent implements OnInit {
   pegaId () {
     this.route.queryParams.subscribe(
       queryParams => {
-        this.idupdate = queryParams.id;
-        if (this.idupdate != null) {
+        this.currentIdUpdate = queryParams.id;
+        if (this.currentIdUpdate != null) {
           window.scrollTo(0, 0);
           this.titulo = 'Atualizar Atividade';
-          this.atividadeService.listAtividadeById(this.idupdate).subscribe((documento: Atividades) => {
+          this.atividadeService.listAtividadeById(this.currentIdUpdate).subscribe((documento: Atividades) => {
             this.createForm(documento);
           });
         } else {

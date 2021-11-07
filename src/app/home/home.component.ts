@@ -17,8 +17,8 @@ export class HomeComponent implements OnInit {
 
   // estabelecimento: Estabelecimento = <Estabelecimento>{};
   prot: Protocolo;
-  public cont = 0; public denu = 0; contEst = 0; contDen = 0; contTer = 0;
-  constructor (private licencaservice: LicencaService, private estbelecimentoService: EstabelecimentoService,
+  public cont = 0; public denuncias = 0; contEst = 0; contDen = 0; contTer = 0;
+  constructor (private licencaService: LicencaService, private estabelecimentoService: EstabelecimentoService,
     private denunciaService: DenunciaService, private termoService: TermoService) { }
 
   ngOnInit () {
@@ -30,12 +30,12 @@ export class HomeComponent implements OnInit {
     window.scrollTo(0, 0);
   }
   getListaLicenca () {
-    this.licencaservice.ListarTodosLicencas()
+    this.licencaService.ListarTodosLicencas()
       .subscribe((licenca) => {
         this.cont = licenca.length;
       });
 
-    this.estbelecimentoService.ListarTodosEstabelecimentos()
+    this.estabelecimentoService.ListarTodosEstabelecimentos()
       .subscribe((estabelecimento) => {
         this.contEst = estabelecimento.length;
       });

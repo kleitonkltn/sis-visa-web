@@ -1,5 +1,5 @@
 import { DatePipe, registerLocaleData } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import localeBr from '@angular/common/locales/br';
 import localeBrExtra from '@angular/common/locales/extra/br';
 import { APP_BOOTSTRAP_LISTENER, LOCALE_ID, NgModule } from '@angular/core';
@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
-import { JwtHelperService, JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { TextMaskModule } from 'angular2-text-mask';
 import { ChartsModule } from 'ng2-charts';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
@@ -18,9 +18,10 @@ import { MenuComponent } from './components/menu/menu.component';
 import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 import { AuthGuard } from './guards/auth-guard';
 import { HomeComponent } from './home/home.component';
-import { TokenInterceptorService } from './intercerptors/token-interceptor.service';
+import { TokenInterceptorService } from './interceptors/token-interceptor.service';
 import { LoginComponent } from './presenter/features/authentication/login/login.component';
 import { CadastroDenunciasComponent } from './presenter/features/denuncias/cadastro-denuncias/cadastro-denuncias.component';
+// tslint:disable-next-line: max-line-length
 import { CadastroEstabelecimentoComponent } from './presenter/features/estabelecimentos/cadastro-estabelecimento/cadastro-estabelecimento.component';
 import { EstabelecimentosComponent } from './presenter/features/estabelecimentos/estabelecimentos/estabelecimentos.component';
 import { ListaEstabelecimentoComponent } from './presenter/features/estabelecimentos/lista-estabelecimento/lista-estabelecimento.component';
@@ -65,20 +66,20 @@ export function jwtOptionsFactory (tokenService) {
 
 const appRoute: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'listaEstabelecimentos', component: ListaEstabelecimentoComponent, canActivate: [AuthGuard] },
+  { path: 'lista-estabelecimentos', component: ListaEstabelecimentoComponent, canActivate: [AuthGuard] },
   { path: 'estabelecimento', component: EstabelecimentosComponent, canActivate: [AuthGuard] },
-  { path: 'cadastrar', component: CadastroEstabelecimentoComponent, canActivate: [AuthGuard] },
+  { path: 'cadastro-estabelecimento', component: CadastroEstabelecimentoComponent, canActivate: [AuthGuard] },
   { path: 'cadastroProtocolo', component: CadastroProtocoloComponent, canActivate: [AuthGuard] },
   { path: 'listarProtocolo', component: ListaProtocoloComponent, canActivate: [AuthGuard] },
   { path: 'Protocolo', component: ProtocoloComponent, canActivate: [AuthGuard] },
-  { path: 'Cadastrodenuncias', component: CadastroDenunciasComponent, canActivate: [AuthGuard] },
+  { path: 'cadastro-denuncias', component: CadastroDenunciasComponent, canActivate: [AuthGuard] },
   { path: 'ListarDenuncias', component: ListaDenunciasComponent, canActivate: [AuthGuard] },
   { path: 'Denuncia', component: DenunciasComponent, canActivate: [AuthGuard] },
-  { path: 'Cadastrolicenca', component: CadastroLicencaComponent, canActivate: [AuthGuard] },
+  { path: 'cadastro-licenca', component: CadastroLicencaComponent, canActivate: [AuthGuard] },
   { path: 'licenca', component: LicencaComponent, canActivate: [AuthGuard] },
   { path: 'lista_licenca', component: ListaLicencaComponent, canActivate: [AuthGuard] },
-  { path: 'CadastroTermo', component: CadastroTermosComponent, canActivate: [AuthGuard] },
-  { path: 'listatermo', component: ListaTermoComponent, canActivate: [AuthGuard] },
+  { path: 'cadastro-termo', component: CadastroTermosComponent, canActivate: [AuthGuard] },
+  { path: 'lista-termos', component: ListaTermoComponent, canActivate: [AuthGuard] },
   { path: 'termo', component: TermosComponent, canActivate: [AuthGuard] },
   { path: 'CadastroDocumento', component: CadastroDocumentoComponent, canActivate: [AuthGuard] },
   { path: 'ListaDocumento', component: ListaDocumentoComponent, canActivate: [AuthGuard] },
@@ -86,8 +87,8 @@ const appRoute: Routes = [
   { path: 'ListaEmbasamento', component: ListaEmbasamentoComponent, canActivate: [AuthGuard] },
   { path: 'CadastroAtividade', component: CadastroAtividadeComponent, canActivate: [AuthGuard] },
   { path: 'ListaAtividade', component: ListaAtividadeComponent, canActivate: [AuthGuard] },
-  { path: 'CadastroRelatorio', component: CadastroRelatorioComponent, canActivate: [AuthGuard] },
-  { path: 'ListaRelatorio', component: ListaRelatorioComponent, canActivate: [AuthGuard] },
+  { path: 'cadastro-relatorio', component: CadastroRelatorioComponent, canActivate: [AuthGuard] },
+  { path: 'lista-relatorios', component: ListaRelatorioComponent, canActivate: [AuthGuard] },
   { path: 'relatorio', component: RelatoriosComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', resolve: { path: 'home' }, component: HomeComponent }

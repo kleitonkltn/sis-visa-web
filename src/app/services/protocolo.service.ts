@@ -16,15 +16,15 @@ export class ProtocoloService {
     return this.http.get<Protocolo>(environment.apiUrl_Protocolos + '/' + id);
   }
 
-  atualizarProtocolo (Client: Protocolo, id) {
-    return this.http.put(environment.apiUrl_Protocolos + '/' + id, Client);
+  atualizarProtocolo (data: Protocolo, id: string) {
+    return this.http.put(environment.apiUrl_Protocolos + '/' + id, data);
   }
 
-  cadastrarProtocolo (Client: Protocolo) {
-    return this.http.post(environment.apiUrl_Protocolos, Client);
+  cadastrarProtocolo (data: Protocolo) {
+    return this.http.post(environment.apiUrl_Protocolos, data);
   }
 
-  exportarProtocolo (id) {
+  exportarProtocolo (id: string) {
     const url = 'https://ambiente-visa.herokuapp.com/api/getprotocolo';
 
     return this.http.get(url + '/' + id);

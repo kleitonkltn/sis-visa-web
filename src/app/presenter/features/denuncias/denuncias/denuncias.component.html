@@ -4,7 +4,7 @@
         style="width: 50px; height: 50px;"></span>
 </div>
 
-<div *ngIf="idupdate > 0 && statusDen === true">
+<div *ngIf="currentIdUpdate > 0 && statusDen === true">
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
             href="#nav-home" role="tab" aria-controls="nav-home"
@@ -68,12 +68,12 @@
                 </tr>
 
                 <tr>
-                    <th>Ponto de Rreferencia</th>
+                    <th>Ponto de Referência</th>
                     <td>{{denuncia.ponto_de_referencia}}</td>
                 </tr>
             </table>
             <div class="text-center">
-                <a class="btn" [routerLink]="['/Cadastrodenuncias/']"
+                <a class="btn" [routerLink]="['/cadastro-denuncias/']"
                     [queryParams]="{ id: denuncia.id}">
                     <i class="fa fa-pencil-square-o fa-2x"
                         aria-hidden="true"></i>

@@ -39,14 +39,14 @@ export class BarChartComponent implements OnInit {
     },
   ];
 
-  constructor (private termoservice: TermoService) { }
+  constructor (private termosService: TermoService) { }
 
   ngOnInit () {
-    this.getListatermo();
+    this.getListaTermo();
   }
 
-  getListatermo () {
-    this.termoservice.ListarTodosTermos()
+  getListaTermo () {
+    this.termosService.ListarTodosTermos()
       .subscribe((termo) => {
         this.termo = termo;
       }).add(() => { this.fillChart(); });
