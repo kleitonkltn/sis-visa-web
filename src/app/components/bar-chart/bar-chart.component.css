@@ -1,0 +1,14 @@
+.charts-input {
+  font-size: 12px;
+  margin: 8px 0;
+  width: 100%;
+  padding: 8px 8px;
+  background-color: #ffffff97;
+  border: none;
+  color: #000;
+  text-decoration: none;
+  border-radius: 8px;
+  border: 2px solid #1b446e8b;
+  box-sizing: border-box;
+  cursor: pointer;
+}

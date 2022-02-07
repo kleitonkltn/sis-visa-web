@@ -1,5 +1,4 @@
-
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChartOptions, ChartType } from 'chart.js';
 import * as moment from 'moment';
 import { Label, SingleDataSet } from 'ng2-charts';
@@ -16,10 +15,7 @@ export class PieChartComponent implements OnInit {
   public pieChartOptions: ChartOptions = {
     responsive: true,
   };
-  @Input() estabelecimentos: Estabelecimento[] = [];
-  estabelecimento: Estabelecimento;
-  public licencaAtiva: number;
-  public dataAtual: Date;
+  estabelecimentos: Estabelecimento[] = [];
   public vencidaCount = 0;
   public aVencerCount = 0;
   public vigenteCount = 0;
@@ -38,35 +34,35 @@ export class PieChartComponent implements OnInit {
   constructor (private estabelecimentoService: EstabelecimentoService) { }
 
   ngOnInit () {
-    this.getListaLicenca();
+    this.countEstabelecimentos();
   }
 
-  getListaLicenca () {
+  countEstabelecimentos () {
     this.estabelecimentoService.ListarTodosEstabelecimentos()
       .subscribe((estabelecimentos) => {
         this.estabelecimentos = estabelecimentos;
-        this.countLicencaStatus();
+        this.countEstabelecimentosByStatus();
       });
   }
 
-  countLicencaStatus () {
-    this.estabelecimentos.filter(item => {
-      if (item.status === '0') {
+  countEstabelecimentosByStatus () {
+    this.estabelecimentos.filter((item: Estabelecimento) => {
+      if (item.status.toString() === '0') {
         return this.inativosCount++;
       }
       if (!item.data_retorno || !item.data_licenca) {
         return this.vencidaCount++;
       }
-      const dataAtual = moment(this.dataAtual);
+      const dataAtual = moment();
       const dataLicenca = moment(item.data_retorno);
-      const diferencaEntreDatas = dataLicenca.diff(dataAtual, 'days');
-      if (diferencaEntreDatas < 0) {
+      const diffEntreDatas = dataLicenca.diff(dataAtual, 'days');
+      if (diffEntreDatas < 0) {
         return this.vencidaCount++;
       }
-      if (diferencaEntreDatas >= 0 && diferencaEntreDatas <= 31) {
+      if (diffEntreDatas >= 0 && diffEntreDatas <= 31) {
         this.aVencerCount++;
       }
-      if (diferencaEntreDatas > 31) {
+      if (diffEntreDatas > 31) {
         this.vigenteCount++;
       }
     });

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject } from 'rxjs';
-import Swal from 'sweetalert2';
+import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { Usuario } from '../../models/usuario';
 import { LoginProviderService } from '../providers/login-provider-service';
 import { StorageService } from './storage.service';
@@ -79,7 +79,7 @@ export class AutenticarService {
     return this.authenticationState.value;
   }
 
-  showDialogMessage (mensagem: string, tipo?) {
+  showDialogMessage (mensagem: string, tipo: SweetAlertIcon) {
     this.loading = true;
     Swal.fire({
       icon: tipo || 'warning',

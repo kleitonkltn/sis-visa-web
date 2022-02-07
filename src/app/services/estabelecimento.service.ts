@@ -10,9 +10,7 @@ export class EstabelecimentoService {
   }
 
   ListarTodosEstabelecimentos (): Observable<Estabelecimento[]> {
-
     return this.http.get<Estabelecimento[]>(environment.apiUrl_Estabelecimento);
-
   }
 
   cadastrarEstabelecimento (Client: Estabelecimento) {

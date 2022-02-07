@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Termos } from '../../models/termos';
+import { CountTermos, Termos } from '../../models/termos';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,7 @@ export class TermoService {
   ListarTodosTermos (): Observable<Termos[]> {
     return this.http.get<Termos[]>(environment.apiUrl_Termo);
   }
+
   ListarTermoPorID (id: number): Observable<Termos> {
     return this.http.get<Termos>(environment.apiUrl_Termo + '/' + id);
   }
@@ -24,5 +25,9 @@ export class TermoService {
 
   cadastrarTermo (data: Termos) {
     return this.http.post(environment.apiUrl_Termo, data);
+  }
+
+  countTermosByPeriod (initDate: string, endDate: string): Observable<CountTermos[]> {
+    return this.http.get<CountTermos[]>(`${environment.apiUrl_Termo}/count/${initDate}/${endDate}`);
   }
 }

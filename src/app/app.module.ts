@@ -36,6 +36,7 @@ import { ProtocoloService } from './services/protocolo.service';
 import { StorageService } from './services/storage.service';
 
 import { MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatSelectModule } from '@angular/material';
+import { TipoTermoPipe } from './pipes/tipo-termo.pipe';
 import { CadastroAtividadeComponent } from './presenter/features/atividades/cadastro-atividade/cadastro-atividade.component';
 import { ListaAtividadeComponent } from './presenter/features/atividades/lista-atividade/lista-atividade.component';
 import { DenunciasComponent } from './presenter/features/denuncias/denuncias/denuncias.component';
@@ -55,6 +56,7 @@ import { ListaTermoComponent } from './presenter/features/termos/lista-termo/lis
 import { TermosComponent } from './presenter/features/termos/termos/termo.component';
 import { AtividadeService } from './services/atividade.service';
 import { LicencaService } from './services/licenca.service';
+import { UtilsService } from './services/utils.service';
 
 export function jwtOptionsFactory (tokenService) {
   return {
@@ -126,6 +128,7 @@ const appRoute: Routes = [
     CadastroRelatorioComponent,
     ListaRelatorioComponent,
     RelatoriosComponent,
+    TipoTermoPipe,
 
   ],
   imports: [
@@ -157,7 +160,7 @@ const appRoute: Routes = [
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,
     multi: true
-  }, EstabelecimentoService, ProtocoloService, PdfService, DatePipe,
+  }, EstabelecimentoService, ProtocoloService, PdfService, DatePipe, TipoTermoPipe, UtilsService,
     AutenticarService, StorageService, LoginProviderService, LicencaService, AtividadeService, JwtHelperService],
   bootstrap: [AppComponent]
 })

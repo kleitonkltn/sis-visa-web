@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import * as moment from 'moment';
 import swal from 'sweetalert2';
@@ -306,9 +306,9 @@ export class CadastroLicencaComponent implements OnInit {
         const reader = new FileReader();
         reader.onload = ((theFile) => {
           return (e) => {
-            this.arq.push(escape(theFile.type));
+            this.arq.push(theFile.type);
             this.nomeArquivo.push(theFile.name);
-            let url = e.target.result;
+            let url = e.target.result.toString();
             const index = Number(url.toLowerCase().indexOf(',') + 1);
             url = url.slice(index);
             this.base64textString.push(url);

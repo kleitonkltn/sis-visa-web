@@ -214,10 +214,10 @@ export class CadastroTermosComponent implements OnInit {
 
   selectDoc () {
     this.listDoc = [];
-    const opcao = $('.select-doc').find(':selected');
+    const option = $('.select-doc').find(':selected');
 
-    for (let i = 0; i < opcao.length; i++) {
-      this.listDoc[i] = opcao[i].value;
+    for (let i = 0; i < option.length; i++) {
+      this.listDoc[i] = option[i].value;
     }
     const documentos = this.listDoc.join(', ');
 
@@ -230,29 +230,29 @@ export class CadastroTermosComponent implements OnInit {
     }
     this.f.descricao.setValue(text + ' Apresentar cópia dos seguintes documentos: '
       + documentos);
-    if (opcao.length === 0) {
+    if (option.length === 0) {
       this.f.descricao.setValue(text.split(' Apresentar cópia dos seguintes documentos:')[0]);
     }
   }
   selectEmbasamento () {
     const listEmbasamento = [];
-    const opcao = $('.js-example-basic-multiple').find(':selected');
-    if (opcao.length === 0) {
+    const option = $('.js-example-basic-multiple').find(':selected');
+    if (option.length === 0) {
       this.textSearch = '';
     }
-    for (let i = 0; i < opcao.length; i++) {
-      listEmbasamento[i] = opcao[i].value;
+    for (let i = 0; i < option.length; i++) {
+      listEmbasamento[i] = option[i].value;
     }
     const embasamentos = listEmbasamento.join(', ');
-    if (opcao.length > 0) {
+    if (option.length > 0) {
       this.f.embasamento_legal.setValue(embasamentos);
     }
   }
   selectFiscais () {
     const fiscais = [];
-    const opcao = $('.select-fiscais').find(':selected');
-    for (let i = 0; i < opcao.length; i++) {
-      fiscais[i] = opcao[i].value;
+    const option = $('.select-fiscais').find(':selected');
+    for (let i = 0; i < option.length; i++) {
+      fiscais[i] = option[i].value;
     }
     this.listFiscais = fiscais.join(', ');
   }
@@ -409,9 +409,9 @@ export class CadastroTermosComponent implements OnInit {
         const reader = new FileReader();
         reader.onload = ((theFile) => {
           return (e) => {
-            this.arq.push(escape(theFile.type));
+            this.arq.push(theFile.type);
             this.nomeArquivo.push(theFile.name);
-            let url = e.target.result;
+            let url = e.target.result.toString();
             const index = Number(url.toLowerCase().indexOf(',') + 1);
             url = url.slice(index);
             this.base64textString.push(url);

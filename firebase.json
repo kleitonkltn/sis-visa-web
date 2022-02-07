@@ -1,8 +1,8 @@
 {
   "hosting": [
     {
-      "target": "SIGVISA",
-      "public": "dist/SIGVISA",
+      "target": "SISVISA",
+      "public": "dist/SISVISA",
       "ignore": [
         "firebase.json",
         "**/.*",

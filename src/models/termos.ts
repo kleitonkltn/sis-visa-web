@@ -29,3 +29,8 @@ export class Termos {
   email: string;
   doc_solicitados: [];
 }
+
+export class CountTermos {
+  tipo_termo: string;
+  count: number;
+}

@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
-import * as moment from 'moment';
+import { Component, OnInit } from '@angular/core';
+import { ChartOptions, ChartType } from 'chart.js';
 import { Label, SingleDataSet } from 'ng2-charts';
-import { Termos } from '../../../models/termos';
+import { TipoTermoPipe } from 'src/app/pipes/tipo-termo.pipe';
+import swal from 'sweetalert2';
+import { CountTermos } from '../../../models/termos';
 import { TermoService } from '../../services/termo.service';
 
 @Component({
@@ -11,22 +12,14 @@ import { TermoService } from '../../services/termo.service';
   styleUrls: ['./bar-chart.component.css']
 })
 export class BarChartComponent implements OnInit {
-  @Input() termo: Termos[] = [];
-
-  prot: Termos;
-  inutilizacao = 0;
-  inspecao = 0;
-  orientacao = 0;
-  desinterdicao = 0;
-  interdicao = 0;
-  notificacao = 0;
-  constatacao = 0;
-  relatorio = 0;
-  infracao = 0;
+  initDate = `${new Date().getFullYear()}-01-01`;
+  endDate = `${new Date().getFullYear()}-12-31`;
+  countTermos: CountTermos[] = [];
   public i = 0;
   public barChartOptions: ChartOptions = {
     responsive: true,
   };
+
   public barChartLabels: Label[] = [];
   public barChartData: SingleDataSet = [];
   public barChartType: ChartType = 'bar';
@@ -34,63 +27,37 @@ export class BarChartComponent implements OnInit {
   public barChartPlugins = [];
   public barChartColors = [
     {
-      backgroundColor: ['rgba(20, 186, 50,0.75)', 'rgba(6, 82, 221,0.75)', 'rgba(220, 160, 113,0.75)', 'rgba(170, 22, 21,0.75)',
-        'rgba(10, 182, 221,0.75)', 'rgba(55, 82, 129,0.75)', 'rgba(234, 32, 39,0.75)'],
+      backgroundColor: ['rgba(20, 186, 50,0.8)', 'rgba(6, 82, 221,0.8)', 'rgba(220, 160, 113,0.8)', 'rgba(170, 22, 21,0.8)',
+        'rgba(10, 182, 221,0.8)', 'rgba(55, 82, 129,0.8)', 'rgba(234, 32, 39,0.8)'],
     },
   ];
 
-  constructor (private termosService: TermoService) { }
+  constructor (private termosService: TermoService, private pipe: TipoTermoPipe) { }
 
   ngOnInit () {
     this.getListaTermo();
   }
 
   getListaTermo () {
-    this.termosService.ListarTodosTermos()
-      .subscribe((termo) => {
-        this.termo = termo;
-      }).add(() => { this.fillChart(); });
+    if (this.initDate !== '' && this.endDate !== '') {
+      this.termosService.countTermosByPeriod(this.initDate, this.endDate)
+        .subscribe((values: [CountTermos]) => {
+          this.countTermos = values;
+          this.fillChart();
+        });
+    } else {
+      swal.fire({
+        icon: 'warning',
+        title: 'As datas fornecidas estão inválidas',
+        text: 'Favor fornecer datas válidas para atualização do gráfico',
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
   }
 
-  get momentNew (): moment.Moment { return moment(new Date()); }
-
   fillChart () {
-    this.termo.filter(item => {
-      const dataTermo = moment(item.data);
-      if (dataTermo.year() === this.momentNew.year()) {
-        if (item.tipo_termo === 'inspecao') {
-          this.inspecao++;
-        } else if (item.tipo_termo === 'orientacao') {
-          this.orientacao++;
-        } else if (item.tipo_termo === 'desinterdicao') {
-          this.desinterdicao++;
-        } else if (item.tipo_termo === 'interdicao') {
-          this.interdicao++;
-        } else if (item.tipo_termo === 'notificacao') {
-          this.notificacao++;
-        } else if (item.tipo_termo === 'constatacao') {
-          this.constatacao++;
-        } else if (item.tipo_termo === 'relatorio') {
-          this.relatorio++;
-        } else if (item.tipo_termo === 'infracao') {
-          this.infracao++;
-        } else if (item.tipo_termo === 'inutilizacao') {
-          this.inutilizacao++;
-        }
-      }
-    }
-    );
-    this.barChartLabels = ['Inspeção', 'Constatação', 'Orientação',
-      'Notificação', 'Relatório', 'Desinterdição', 'Interdição', 'Inutilização', 'Infracao'];
-    this.barChartData = [
-      this.inspecao,
-      this.constatacao,
-      this.orientacao,
-      this.notificacao,
-      this.relatorio,
-      this.desinterdicao,
-      this.interdicao,
-      this.inutilizacao,
-      this.infracao];
+    this.barChartLabels = this.countTermos.map((value) => this.pipe.transform(value.tipo_termo));
+    this.barChartData = this.countTermos.map((value) => value.count);
   }
 }

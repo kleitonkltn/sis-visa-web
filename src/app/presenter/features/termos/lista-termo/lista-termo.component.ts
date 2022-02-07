@@ -19,7 +19,7 @@ export class ListaTermoComponent implements OnInit {
 
   ngOnInit () {
     this.subirTela();
-    this.getListaDenuncias();
+    this.getListaTermos();
   }
   subirTela () {
     window.scrollTo(0, 0);
@@ -48,7 +48,7 @@ export class ListaTermoComponent implements OnInit {
     }
   }
 
-  getListaDenuncias () {
+  getListaTermos () {
     this.termosService.ListarTodosTermos()
       .subscribe((termos: Termos[]) => {
         this.statusEst = true;

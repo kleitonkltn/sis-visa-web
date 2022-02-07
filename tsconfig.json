@@ -21,6 +21,17 @@
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
+    "strictInjectionParameters": true,
+    "trailing-comma": false,
+    "no-output-on-prefix": true,
+    "no-inputs-metadata-property": true,
+    "space-before-function-paren": false,
+    "no-host-metadata-property": true,
+    "no-input-rename": true,
+    "no-output-rename": true,
+    "use-lifecycle-interface": true,
+    "use-pipe-transform-interface": true,
+    "one-variable-per-declaration": false,
+    "directive-class-suffix": true
   }
 }

@@ -1,86 +1,86 @@
 <div class="col-md-12">
-    <div class="row">
-        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-            <div class="card mineCard"
-                [routerLink]="[ '/lista-estabelecimentos/']">
-                <div class="row align-items-center m-4">
-                    <div class="divCard">
-                        <a style="width: 45px">
-                            <i class="fa fa-home fa-3x" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                    <div class="responsiva" style="width: 75%">
-                        <h5 class="text-left">Estabelecimentos</h5>
-                        <div align="text-left" class="fontCard">{{contEst}}
-                        </div>
-                    </div>
-                </div>
+  <div class="row">
+    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+      <div class="card mineCard"
+        [routerLink]="[ '/lista-estabelecimentos/']">
+        <div class="row align-items-center m-4">
+          <div class="divCard">
+            <a style="width: 45px">
+              <i class="fa fa-home fa-3x" aria-hidden="true"></i>
+            </a>
+          </div>
+          <div class="responsiva" style="width: 75%">
+            <h5 class="text-left">Estabelecimentos</h5>
+            <div align="text-left" class="fontCard">{{countEstabelecimentos}}
             </div>
+          </div>
         </div>
-        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-            <div class="card mineCard" [routerLink]="[ '/lista_licenca/']">
-                <div class="row align-items-center m-4">
-                    <div class="divCard">
-                        <a style="width: 50px">
-                            <i class="fa fa-key fa-3x" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                    <div class="corpoCard">
-                        <h5 class="text-left">Licenças</h5>
-                        <div align="text-left" class="fontCard">{{cont}}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-            <div class="card mineCard" [routerLink]="[ '/ListarDenuncias/']">
-                <div class="row align-items-center m-4">
-                    <div class="divCard">
-                        <a style="width: 50px">
-                            <i class="fa fa-exclamation-circle fa-3x "
-                                aria-hidden="true "></i>
-                        </a>
-                    </div>
-                    <div class="corpoCard">
-                        <h5 class="text-left">Denuncias</h5>
-                        <div align="text-left" class="fontCard">{{contDen}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-            <div class="card mineCard" [routerLink]="[ '/lista-termos/']">
-                <div class="row align-items-center m-4">
-                    <div class="divCard">
-                        <a style="width: 50px">
-                            <i class="fa fa-search fa-3x "
-                                aria-hidden="true "></i>
-                        </a>
-                    </div>
-                    <div class="corpoCard">
-                        <h5 class="text-left">Termos</h5>
-                        <div align="text-left" class="fontCard">{{contTer}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
-    <div class="row ">
-        <div class="col-md-6 ">
-            <div class="card ">
-                <div class="card-body ">
-                    <app-pie-chart></app-pie-chart>
-                </div>
-            </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+      <div class="card mineCard" [routerLink]="[ '/lista_licenca/']">
+        <div class="row align-items-center m-4">
+          <div class="divCard">
+            <a style="width: 50px">
+              <i class="fa fa-key fa-3x" aria-hidden="true"></i>
+            </a>
+          </div>
+          <div class="corpoCard">
+            <h5 class="text-left">Licenças</h5>
+            <div align="text-left" class="fontCard">{{countLicencas}}</div>
+          </div>
         </div>
-        <div class="col-md-6 ">
-            <div class="card ">
-                <div class="card-body ">
-                    <app-bar-chart></app-bar-chart>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+      <div class="card mineCard" [routerLink]="[ '/ListarDenuncias/']">
+        <div class="row align-items-center m-4">
+          <div class="divCard">
+            <a style="width: 50px">
+              <i class="fa fa-exclamation-circle fa-3x "
+                aria-hidden="true "></i>
+            </a>
+          </div>
+          <div class="corpoCard">
+            <h5 class="text-left">Denuncias</h5>
+            <div align="text-left" class="fontCard">{{countDenuncias}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+      <div class="card mineCard" [routerLink]="[ '/lista-termos/']">
+        <div class="row align-items-center m-4">
+          <div class="divCard">
+            <a style="width: 50px">
+              <i class="fa fa-search fa-3x "
+                aria-hidden="true "></i>
+            </a>
+          </div>
+          <div class="corpoCard">
+            <h5 class="text-left">Termos</h5>
+            <div align="text-left" class="fontCard">{{countTermos}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row ">
+    <div class="col-md-6 ">
+      <div class="card ">
+        <div class="card-body ">
+          <app-pie-chart></app-pie-chart>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 ">
+      <div class="card ">
+        <div class="card-body ">
+          <app-bar-chart></app-bar-chart>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
