@@ -173,7 +173,7 @@ export class CadastroProtocoloComponent implements OnInit {
             this.arq.push(escape(theFile.type));
             this.nomeArquivo.push(theFile.name);
             let url = e.target.result;
-            const index = Number(url.toLowerCase().indexOf(',') + 1);
+            const index = Number(url.toString().toLowerCase().indexOf(',') + 1);
             url = url.slice(index);
             this.base64textString.push(url);
             this.inicializaLoading();
@@ -248,8 +248,7 @@ export class CadastroProtocoloComponent implements OnInit {
         this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
           this.removeTudoDaLista(this.index);
           this.loading[i] = true;
-          // alert('Anexo  ' + data.descricao_completa + ' Cadastrado com Sucesso');
-        }, (error) => {
+        }, (_) => {
           this.index += 1;
           swal.fire({
             icon: 'warning',

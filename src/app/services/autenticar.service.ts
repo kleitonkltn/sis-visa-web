@@ -3,7 +3,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject } from 'rxjs';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { Usuario } from '../../models/usuario';
-import { LoginProviderService } from '../providers/login-provider-service';
+import { LoginProviderService } from '../providers/login.provider';
 import { StorageService } from './storage.service';
 
 declare let $: any;
@@ -59,7 +59,7 @@ export class AutenticarService {
         } else {
           return this.showDialogMessage('Matrícula e/ou senha incorreta. Verifique suas credenciais', 'error');
         }
-      }, (_) => {
+      }, () => {
         return this.showDialogMessage('Matrícula e/ou senha incorreta. Verifique suas credenciais', 'error');
       }).add(() => {
         this.loading = true;

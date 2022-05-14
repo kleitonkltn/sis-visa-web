@@ -85,7 +85,7 @@ export class TermosComponent implements OnInit {
   }
   get f () { return this.termos; }
 
-  VerificaEmail () {
+  validateEmail () {
     if (this.termos.email) {
       this.destinatario.destinatario = this.termos.email;
       this.createForm(this.destinatario);
@@ -107,13 +107,18 @@ export class TermosComponent implements OnInit {
           this.loading = true;
           const errorMsg = reader.result.toString().replace(/"|"/gi, '').replace(',', '\n');
           console.log(errorMsg);
-          alert('Falha ao gerar termo' + errorMsg);
+          swal.fire({
+            icon: 'error',
+            title: 'Falha ao gerar termo' + errorMsg,
+            showConfirmButton: false,
+            timer: 2000
+          });
         };
 
       }));
     }
   }
-  EnviarEmail () {
+  sendEmail () {
     this.email = this.emailForm.value;
     if (this.emailForm.valid === false) {
       swal.fire({

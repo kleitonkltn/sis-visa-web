@@ -118,7 +118,12 @@ export class RelatoriosComponent implements OnInit {
         reader.onloadend = () => {
           this.loading = true;
           const errorMsg = reader.result.toString().replace(/"|"/gi, '').replace(',', '\n');
-          alert(' \n' + errorMsg);
+          swal.fire({
+            icon: 'warning',
+            title: errorMsg,
+            showConfirmButton: false,
+            timer: 2000
+          });
         };
 
       }));

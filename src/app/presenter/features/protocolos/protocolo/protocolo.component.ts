@@ -80,7 +80,13 @@ export class ProtocoloComponent implements OnInit {
         reader.onloadend = () => {
           this.loading = true;
           const errorMsg = reader.result.toString().replace(/"|"/gi, '').replace(',', '\n');
-          alert('Erro ao gerar Protocolo\n' + errorMsg);
+          swal.fire({
+            icon: 'error',
+            title: 'Erro ao gerar Protocolo\n',
+            text: errorMsg,
+            showConfirmButton: false,
+            timer: 2000
+          });
         };
       }));
     }

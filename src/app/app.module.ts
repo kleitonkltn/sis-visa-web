@@ -28,7 +28,7 @@ import { ListaEstabelecimentoComponent } from './presenter/features/estabelecime
 import { CadastroProtocoloComponent } from './presenter/features/protocolos/cadastro-protocolo/cadastro-protocolo.component';
 import { ListaProtocoloComponent } from './presenter/features/protocolos/lista-protocolo/lista-protocolo.component';
 import { ProtocoloComponent } from './presenter/features/protocolos/protocolo/protocolo.component';
-import { LoginProviderService } from './providers/login-provider-service';
+import { LoginProviderService } from './providers/login.provider';
 import { AutenticarService } from './services/autenticar.service';
 import { EstabelecimentoService } from './services/estabelecimento.service';
 import { PdfService } from './services/pdf.service';
@@ -36,6 +36,7 @@ import { ProtocoloService } from './services/protocolo.service';
 import { StorageService } from './services/storage.service';
 
 import { MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatSelectModule } from '@angular/material';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { TipoTermoPipe } from './pipes/tipo-termo.pipe';
 import { CadastroAtividadeComponent } from './presenter/features/atividades/cadastro-atividade/cadastro-atividade.component';
 import { ListaAtividadeComponent } from './presenter/features/atividades/lista-atividade/lista-atividade.component';
@@ -148,6 +149,7 @@ const appRoute: Routes = [
     PdfViewerModule,
     ChartsModule,
     MatSelectModule,
+    NgxMatSelectSearchModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,

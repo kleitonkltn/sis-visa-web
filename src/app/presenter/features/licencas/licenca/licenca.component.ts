@@ -53,7 +53,14 @@ export class LicencaComponent implements OnInit {
           reader.onloadend = () => {
             this.loadingPdf = true;
             const errorMsg = reader.result.toString().replace(/"|"/gi, '').replace(',', '\n');
-            alert('Estabelecimento Não Licenciado\n' + errorMsg);
+            swal.fire({
+              icon: 'error',
+              title: 'Estabelecimento Não Licenciado',
+              text: errorMsg,
+              showConfirmButton: false,
+              timer: 2000
+            });
+
           };
         }));
       }

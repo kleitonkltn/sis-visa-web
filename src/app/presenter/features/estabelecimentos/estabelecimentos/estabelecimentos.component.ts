@@ -123,7 +123,13 @@ export class EstabelecimentosComponent implements OnInit {
         reader.onloadend = () => {
           this.loading = true;
           const errorMsg = reader.result.toString().replace(/"|"/gi, '').replace(',', '\n');
-          alert('Estabelecimento Não Licenciado' + errorMsg);
+          swal.fire({
+            icon: 'error',
+            title: 'Estabelecimento Não Licenciado',
+            text: errorMsg,
+            showConfirmButton: false,
+            timer: 2000
+          });
         };
       }));
     }

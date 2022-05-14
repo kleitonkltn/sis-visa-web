@@ -1,4 +1,4 @@
-const baseURL = 'http://192.168.2.202:3333/api/';
+const baseURL = 'http://127.0.0.1:3333/api/';
 export const environment = {
   production: false,
   baseURL,
