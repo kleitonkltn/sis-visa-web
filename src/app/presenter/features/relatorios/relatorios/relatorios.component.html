@@ -1,7 +1,8 @@
 <div class="body">
   <div *ngIf="statusRel === false" align="center" style="margin-top: 50px;">
-    <span class="spinner-border spinner-border-sm" role="status" [ngClass]="{ spinnerLoading: loadingTable}"
-      aria-hidden="true" style="width: 50px; height: 50px;"></span>
+    <span class="spinner-border spinner-border-sm" role="status"
+      [ngClass]="{ spinnerLoading: loadingTable}" aria-hidden="true"
+      style="width: 50px; height: 50px;"></span>
   </div>
 
   <div *ngIf="idRelatorio > 0 && statusRel === true">
@@ -92,18 +93,22 @@
 
     </table>
     <div class="text-center">
-      <a class="btn" [routerLink]="['/relatorio/']" [queryParams]="{ id: relatorio.id }" (click)="relatorioPdf()">
-        <i [ngClass]="{ spinnerLoading: !loading }" class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i>
-        <span class="spinner-border spinner-border-sm" role="status" [ngClass]="{ spinnerLoading: loading }"
-          aria-hidden="true"></span>
+      <a class="btn" [routerLink]="['/relatorio/']"
+        [queryParams]="{ id: relatorio.id }" (click)="relatorioPdf()">
+        <i [ngClass]="{ spinnerLoading: !loading }"
+          class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i>
+        <span class="spinner-border spinner-border-sm" role="status"
+          [ngClass]="{ spinnerLoading: loading }" aria-hidden="true"></span>
         <b> Ver Relatório</b>
       </a>
 
-      <a class="btn " [routerLink]="['/cadastro-relatorio/']" [queryParams]="{ id: relatorio.id}">
+      <a class="btn " [routerLink]="['/cadastro-relatorio/']"
+        [queryParams]="{ id: relatorio.id}">
         <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
         <b>Atualizar</b>
       </a>
-      <a type="button" class="btn" data-toggle="modal" data-target="#exampleModal">
+      <a type="button" class="btn" data-toggle="modal"
+        data-target="#exampleModal">
         <div class="alo">
           <i class="fa fa-envelope fa-2x" aria-hidden="true"></i>
           <b class="alo"> Enviar Relatório</b>
@@ -112,15 +117,16 @@
     </div>
 
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <div class="text-center">
               <h5>Enviar relatório por Email</h5>
             </div>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal"
+              aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -128,14 +134,17 @@
             <form method="post" [formGroup]="emailForm">
               <div class="form-group">
                 <b>*Destinatário:</b>
-                <input class="form-control" formControlName="destinatario" name="destinatario">
+                <input class="form-control" formControlName="destinatario"
+                  name="destinatario">
               </div>
               <div class="form-group">
                 <b>Mensagem</b>
-                <textarea class="form-control" formControlName="mensagem" name="mensagem"></textarea>
+                <textarea class="form-control" formControlName="mensagem"
+                  name="mensagem"></textarea>
               </div>
               <div class="text-center">
-                <button type="button" class="btn btn-primary" (click)="EnviarEmail()">Enviar</button>
+                <button type="button" class="btn btn-primary"
+                  (click)="enviarEmail()">Enviar</button>
               </div>
             </form>
           </div>

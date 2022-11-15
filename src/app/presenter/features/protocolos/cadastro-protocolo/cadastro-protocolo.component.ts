@@ -1,13 +1,11 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import * as $ from 'jquery';
-import swal from 'sweetalert2';
-import { Arquivos } from '../../../../../models/arquivos';
-import { Protocolo } from '../../../../../models/protocolo';
-import { AnexoService } from '../../../../services/anexo.service';
-import { ProtocoloService } from '../../../../services/protocolo.service';
+import { Component, OnInit } from '@angular/core'
+import { FormControl, FormGroup } from '@angular/forms'
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router'
+import swal from 'sweetalert2'
+import { Arquivos } from '../../../../../models/arquivos'
+import { Protocolo } from '../../../../../models/protocolo'
+import { AnexoService } from '../../../../services/anexo.service'
+import { ProtocoloService } from '../../../../services/protocolo.service'
 
 @Component({
   selector: 'app-cadastro-protocolo',
@@ -15,38 +13,38 @@ import { ProtocoloService } from '../../../../services/protocolo.service';
   styleUrls: ['./cadastro-protocolo.component.css']
 })
 export class CadastroProtocoloComponent implements OnInit {
-  protocoloForm: FormGroup;
-  protocolo: Protocolo; prot: Protocolo;
+  protocoloForm: FormGroup
+  protocolo: Protocolo; prot: Protocolo
   titulo = 'Cadastrar Protocolo';
   public currentIdUpdate: number; item: Arquivos; itemCarregado = {} as Arquivos;
   base64textString = []; descricao = []; arq = []; nomeArquivo = [];
   arquivos: Arquivos = {} as Arquivos; listaArq: Arquivos[] = [];
-  anexo: Arquivos; indice;
+  anexo: Arquivos; indice
   loading: boolean[] = []; loadingRemove: boolean[] = []; loadingNuvem = true; loadingCadastro = true;
   status = 'abrir'; index; textContato = '';
 
   contatoMask = (rawValue) => {
-    const numbers = rawValue.match(/\d/g);
-    let numberLength = 0;
+    const numbers = rawValue.match(/\d/g)
+    let numberLength = 0
     if (numbers) {
-      numberLength = numbers.join('').length;
+      numberLength = numbers.join('').length
     }
     if (numberLength <= 10) {
-      return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
+      return ['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
     } else {
-      return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
+      return ['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
     }
   }
 
-  constructor (private protocoloService: ProtocoloService, private route: ActivatedRoute,
+  constructor(private protocoloService: ProtocoloService, private route: ActivatedRoute,
     private anexoService: AnexoService, private router: Router) { }
 
-  ngOnInit () {
-    this.createForm(new Protocolo());
-    this.pegaId();
+  ngOnInit() {
+    this.createForm(new Protocolo())
+    this.pegaId()
   }
 
-  createForm (protocolo: Protocolo) {
+  createForm(protocolo: Protocolo) {
     this.protocoloForm = new FormGroup({
       id: new FormControl(protocolo.id),
       requerido: new FormControl(protocolo.requerido),
@@ -56,207 +54,207 @@ export class CadastroProtocoloComponent implements OnInit {
       requerente: new FormControl(protocolo.requerente),
       endereco: new FormControl(protocolo.endereco),
       contato: new FormControl(protocolo.contato)
-    });
+    })
   }
-  salvar () {
-    this.loadingCadastro = false;
+  salvar() {
+    this.loadingCadastro = false
     this.protocoloService.cadastrarProtocolo(this.protocoloForm.value).subscribe((data: Protocolo) => {
-      this.loadingCadastro = true;
-      window.scrollTo(0, 0);
+      this.loadingCadastro = true
+      window.scrollTo(0, 0)
       swal.fire({
         icon: 'success',
         title: 'Protocolo cadastrado com sucesso',
         showConfirmButton: false,
         timer: 2000
-      });
+      })
       const navigationExtras: NavigationExtras = {
         queryParams: {
           id: data.id
         }
-      };
+      }
       setTimeout(() => {
-        this.router.navigate(['/Protocolo/'], navigationExtras);
-      }, 3000);
+        this.router.navigate(['/protocolo/'], navigationExtras)
+      }, 3000)
     }, (error) => {
-      this.loadingCadastro = true;
-      window.scrollTo(0, 0);
+      this.loadingCadastro = true
+      window.scrollTo(0, 0)
       swal.fire({
         icon: 'warning',
         title: 'Falha ao cadastrar protocolo',
         showConfirmButton: false,
         timer: 2000
-      });
-    });
+      })
+    })
   }
 
-  atualizar () {
-    this.loadingCadastro = false;
+  atualizar() {
+    this.loadingCadastro = false
     this.protocoloService.atualizarProtocolo(this.protocoloForm.value, this.currentIdUpdate.toString()).subscribe(() => {
-      this.loadingCadastro = true;
-      window.scrollTo(0, 0);
+      this.loadingCadastro = true
+      window.scrollTo(0, 0)
       swal.fire({
         icon: 'success',
         title: 'Protocolo atualizado com sucesso',
         showConfirmButton: false,
         timer: 2000
-      });
+      })
       const navigationExtras: NavigationExtras = {
         queryParams: {
           id: this.currentIdUpdate
         }
-      };
+      }
       setTimeout(() => {
-        this.router.navigate(['/Protocolo/'], navigationExtras);
-      }, 3000);
+        this.router.navigate(['/protocolo/'], navigationExtras)
+      }, 3000)
     }, (error) => {
-      this.loadingCadastro = true;
-      window.scrollTo(0, 0);
+      this.loadingCadastro = true
+      window.scrollTo(0, 0)
       swal.fire({
         icon: 'warning',
         title: 'Falha na atualização do protocolo',
         showConfirmButton: false,
         timer: 2000
-      });
-    });
+      })
+    })
   }
-  pegaId () {
+  pegaId() {
     this.route.queryParams.subscribe(
       queryParams => {
-        this.currentIdUpdate = queryParams.id;
+        this.currentIdUpdate = queryParams.id
         if (this.currentIdUpdate != null) {
-          this.titulo = 'Atualizar Protocolo';
-          window.scrollTo(0, 0);
+          this.titulo = 'Atualizar Protocolo'
+          window.scrollTo(0, 0)
           this.protocoloService.ListarTodosProtocolosPorID(this.currentIdUpdate).subscribe((proto) => {
-            this.protocolo = proto;
-            this.createForm(this.protocolo);
-          });
+            this.protocolo = proto
+            this.createForm(this.protocolo)
+          })
         } else {
-          this.titulo = 'Cadastrar Protocolo';
-          window.scrollTo(0, 0);
-          this.createForm(new Protocolo());
+          this.titulo = 'Cadastrar Protocolo'
+          window.scrollTo(0, 0)
+          this.createForm(new Protocolo())
         }
       }
-    );
+    )
   }
 
-  dados (item, i) {
-    this.anexo = item;
-    this.indice = i;
+  dados(item, i) {
+    this.anexo = item
+    this.indice = i
   }
-  ListaArq () {
-    this.loadingNuvem = false;
+  ListaArq() {
+    this.loadingNuvem = false
     if (this.status === 'abrir') {
-      this.status = 'fechar';
+      this.status = 'fechar'
       this.anexoService.listFilesByModel('protocolo', this.currentIdUpdate.toString()).subscribe((arq: Arquivos[]) => {
-        this.listaArq = arq;
-        this.loadingNuvem = true;
+        this.listaArq = arq
+        this.loadingNuvem = true
         for (let i = 0; i < this.listaArq.length; i++) {
-          this.loadingRemove[i] = true;
+          this.loadingRemove[i] = true
         }
-      });
+      })
     } else {
-      this.loadingNuvem = true;
-      this.status = 'abrir';
-      this.listaArq.splice(0);
+      this.loadingNuvem = true
+      this.status = 'abrir'
+      this.listaArq.splice(0)
     }
   }
 
-  onUploadChange (evt: Event) {
-    const target = evt.target as HTMLInputElement;
-    const files = target.files as FileList;
+  onUploadChange(evt: Event) {
+    const target = evt.target as HTMLInputElement
+    const files = target.files
     for (const key in files) {
       if (Object.prototype.hasOwnProperty.call(files, key)) {
-        const file = files[key];
-        const reader = new FileReader();
+        const file = files[key]
+        const reader = new FileReader()
         reader.onload = ((theFile) => {
           return (e) => {
-            this.arq.push(escape(theFile.type));
-            this.nomeArquivo.push(theFile.name);
-            let url = e.target.result;
-            const index = Number(url.toString().toLowerCase().indexOf(',') + 1);
-            url = url.slice(index);
-            this.base64textString.push(url);
-            this.inicializaLoading();
-          };
+            this.arq.push(escape(theFile.type))
+            this.nomeArquivo.push(theFile.name)
+            let url = e.target.result
+            const index = Number(url.toString().toLowerCase().indexOf(',') + 1)
+            url = url.slice(index)
+            this.base64textString.push(url)
+            this.inicializaLoading()
+          }
         })
-          (file);
-        reader.readAsDataURL(file);
+          (file)
+        reader.readAsDataURL(file)
       }
     }
   }
-  inicializaLoading () {
+  inicializaLoading() {
     for (let i = 0; i < this.base64textString.length; i++) {
-      this.loading[i] = true;
+      this.loading[i] = true
     }
   }
-  removeTudoDaLista (i) {
-    this.base64textString.splice(i, 1); this.arq.splice(i, 1); this.nomeArquivo.splice(i, 1);
-    this.loading.splice(i, 1); this.descricao.splice(i, 1);
+  removeTudoDaLista(i) {
+    this.base64textString.splice(i, 1); this.arq.splice(i, 1); this.nomeArquivo.splice(i, 1)
+    this.loading.splice(i, 1); this.descricao.splice(i, 1)
   }
-  removerDaLista (i) {
-    this.base64textString.splice(i, 1); this.arq.splice(i, 1); this.nomeArquivo.splice(i, 1);
-    this.loading.splice(i, 1); this.descricao.splice(i, 1);
+  removerDaLista(i) {
+    this.base64textString.splice(i, 1); this.arq.splice(i, 1); this.nomeArquivo.splice(i, 1)
+    this.loading.splice(i, 1); this.descricao.splice(i, 1)
   }
-  formatType (doc) {
+  formatType(doc) {
     if (doc === 'vnd.openxmlformats-officedocument.wordprocessingml.document') {
-      return 'docx';
+      return 'docx'
     } else if (doc === 'pdf') {
-      return 'pdf';
+      return 'pdf'
     } else {
-      return '';
+      return ''
     }
   }
-  enviar (src, i) {
+  enviar(src, i) {
     if (this.protocoloForm.value.id != null) {
-      this.arquivos.descricao = this.nomeArquivo[i];
-      this.arquivos.descricao_completa = this.descricao[i];
-      this.arquivos.id_protocolo = this.protocoloForm.value.id;
-      this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1));
-      console.log(this.arquivos.type);
-      this.arquivos.path = src;
-      this.loading[i] = false;
+      this.arquivos.descricao = this.nomeArquivo[i]
+      this.arquivos.descricao_completa = this.descricao[i]
+      this.arquivos.id_protocolo = this.protocoloForm.value.id
+      this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1))
+      console.log(this.arquivos.type)
+      this.arquivos.path = src
+      this.loading[i] = false
       this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
-        this.loading[i] = true;
-        this.removerDaLista(i);
+        this.loading[i] = true
+        this.removerDaLista(i)
       }, (error) => {
-        console.log(error);
+        console.log(error)
         swal.fire({
           icon: 'warning',
           title: 'Falha na Criação do Anexo',
           showConfirmButton: false,
           timer: 2000
-        });
-      });
+        })
+      })
     } else {
       swal.fire({
         icon: 'warning',
         title: 'Cadastre um protocolo, ou atualize um existente',
         showConfirmButton: false,
         timer: 2000
-      });
+      })
     }
   }
-  enviarTodos () {
+  enviarTodos() {
     if (this.protocoloForm.value.id != null) {
       for (let i = 0; i < this.base64textString.length; i++) {
-        this.loading[i] = false;
-        this.arquivos.descricao = this.nomeArquivo[i];
-        this.arquivos.path = this.base64textString[i];
-        this.arquivos.descricao_completa = this.descricao[i];
-        this.arquivos.id_protocolo = this.protocoloForm.value.id;
-        this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1));
+        this.loading[i] = false
+        this.arquivos.descricao = this.nomeArquivo[i]
+        this.arquivos.path = this.base64textString[i]
+        this.arquivos.descricao_completa = this.descricao[i]
+        this.arquivos.id_protocolo = this.protocoloForm.value.id
+        this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1))
         this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
-          this.removeTudoDaLista(this.index);
-          this.loading[i] = true;
+          this.removeTudoDaLista(this.index)
+          this.loading[i] = true
         }, (_) => {
-          this.index += 1;
+          this.index += 1
           swal.fire({
             icon: 'warning',
             title: 'Falha na Criação do Anexo',
             showConfirmButton: false,
             timer: 2000
-          });
-        });
+          })
+        })
       }
     } else {
       swal.fire({
@@ -264,42 +262,42 @@ export class CadastroProtocoloComponent implements OnInit {
         title: 'Cadastre um protocolo, ou atualize um existente',
         showConfirmButton: false,
         timer: 2000
-      });
+      })
     }
   }
-  apagarArquivo () {
-    this.loadingRemove[this.indice] = false;
+  apagarArquivo() {
+    this.loadingRemove[this.indice] = false
     this.anexoService.deleteFileByKey(this.anexo.key).subscribe(
       () => {
         for (let i = 0; i <= this.listaArq.length; i++) {
           if (this.listaArq[i].key === this.anexo.key) {
-            this.listaArq.splice(i, 1);
-            this.loadingRemove.splice(i, 1);
+            this.listaArq.splice(i, 1)
+            this.loadingRemove.splice(i, 1)
           }
         }
-        this.loadingRemove[this.indice] = true;
+        this.loadingRemove[this.indice] = true
       },
       error => {
-        this.loadingRemove[this.indice] = true;
+        this.loadingRemove[this.indice] = true
 
         return swal.fire({
           icon: 'warning',
           title: 'Falha ao remover Anexo',
           showConfirmButton: false,
           timer: 2000
-        });
+        })
       }
-    );
+    )
   }
 
-  verAnexoCarregado (i) {
-    this.itemCarregado.descricao = this.nomeArquivo[i];
-    this.itemCarregado.url_location = 'data:image/png;base64,' + this.base64textString[i];
-    this.itemCarregado.descricao_completa = this.descricao[i];
-    this.item = this.itemCarregado;
+  verAnexoCarregado(i) {
+    this.itemCarregado.descricao = this.nomeArquivo[i]
+    this.itemCarregado.url_location = 'data:image/png;base64,' + this.base64textString[i]
+    this.itemCarregado.descricao_completa = this.descricao[i]
+    this.item = this.itemCarregado
   }
-  verAnexo (item) {
-    this.item = item;
+  verAnexo(item) {
+    this.item = item
   }
 
 }

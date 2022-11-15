@@ -1,22 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import * as moment from 'moment';
-import swal from 'sweetalert2';
-import { Arquivos } from '../../../../../models/arquivos';
-import { Estabelecimento } from '../../../../../models/estabelecimento';
-import { Termos } from '../../../../../models/termos';
-import { Usuario } from '../../../../../models/usuario';
-import { AnexoService } from '../../../../services/anexo.service';
-import { AtividadeService } from '../../../../services/atividade.service';
-import { AutenticarService } from '../../../../services/autenticar.service';
-import { DocumentoService } from '../../../../services/documento.service';
-import { EmbasamentoService } from '../../../../services/embasamento.service';
-import { EstabelecimentoService } from '../../../../services/estabelecimento.service';
-import { TermoService } from '../../../../services/termo.service';
-import { UsuarioService } from '../../../../services/usuario.service';
+import { Component, OnInit } from '@angular/core'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router'
+import * as moment from 'moment'
+import swal from 'sweetalert2'
+import { Arquivos } from '../../../../../models/arquivos'
+import { Estabelecimento } from '../../../../../models/estabelecimento'
+import { Termos } from '../../../../../models/termos'
+import { Usuario } from '../../../../../models/usuario'
+import { AnexoService } from '../../../../services/anexo.service'
+import { AtividadeService } from '../../../../services/atividade.service'
+import { AutenticarService } from '../../../../services/autenticar.service'
+import { DocumentoService } from '../../../../services/documento.service'
+import { EmbasamentoService } from '../../../../services/embasamento.service'
+import { EstabelecimentoService } from '../../../../services/estabelecimento.service'
+import { TermoService } from '../../../../services/termo.service'
+import { UsuarioService } from '../../../../services/usuario.service'
 
-declare let $: any;
+declare let $: any
 
 @Component({
   selector: 'app-cadastro-termos',
@@ -25,49 +25,49 @@ declare let $: any;
 })
 
 export class CadastroTermosComponent implements OnInit {
-  termosForm: FormGroup; public currentIdUpdate: number;
+  termosForm: FormGroup; public currentIdUpdate: number
   loading: boolean[] = []; loadingRemove: boolean[] = []; loadingNuvem = true; loadingCadastro = true;
   base64textString = []; descricao = []; arq = []; nomeArquivo = [];
   arquivos: Arquivos = {} as Arquivos; listaArq: Arquivos[] = [];
-  anexo: Arquivos; indice; status = 'abrir'; index; id_termo; doc;
+  anexo: Arquivos; indice; status = 'abrir'; index; id_termo; doc
   item: Arquivos; itemCarregado = {} as Arquivos;
-  date: Date; formSubmitted = false; expanded = false; estabelecimento: Estabelecimento;
-  embasamentos;
-  usuario: Usuario;
-  textSearch;
-  desc;
-  fiscais: Usuario[];
-  fiscalResponsavel: Usuario;
-  listFiscais;
+  date: Date; formSubmitted = false; expanded = false; estabelecimento: Estabelecimento
+  embasamentos
+  usuario: Usuario
+  textSearch
+  desc
+  fiscais: Usuario[]
+  fiscalResponsavel: Usuario
+  listFiscais
   titulo: string = 'Cadastrar Termo';
-  atividades;
-  documentos;
+  atividades
+  documentos
   listDoc = [];
-  fiscaisPresentes;
+  fiscaisPresentes
 
   contatoMask = (rawValue: string): (string | RegExp)[] => {
-    const numbers = rawValue.match(/\d/g);
-    let numberLength = 0;
+    const numbers = rawValue.match(/\d/g)
+    let numberLength = 0
     if (numbers) {
-      numberLength = numbers.join('').length;
+      numberLength = numbers.join('').length
     }
     if (numberLength <= 10) {
-      return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
+      return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/]
     } else {
-      return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
+      return ['(', /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/]
     }
   }
 
   cpfOurCnpjMask = (rawValue: string): (string | RegExp)[] => {
-    const numbers = rawValue.match(/\d/g);
-    let numberLength = 0;
+    const numbers = rawValue.match(/\d/g)
+    let numberLength = 0
     if (numbers) {
-      numberLength = numbers.join('').length;
+      numberLength = numbers.join('').length
     }
     if (numberLength <= 11) {
-      return [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+      return [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/]
     } else {
-      return [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+      return [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/]
     }
   }
 
@@ -76,11 +76,11 @@ export class CadastroTermosComponent implements OnInit {
     private documentosService: DocumentoService, private usuarios: UsuarioService,
     private termosService: TermoService, private estabelecimentosService: EstabelecimentoService,
     private router: Router) {
-    this.usuario = this.authService._user['params'];
+    this.usuario = this.authService._user['params']
   }
 
   ngOnInit () {
-    this.fiscalResponsavel = this.authService._user['params'];
+    this.fiscalResponsavel = this.authService._user['params']
     setTimeout(() => {
       if (this.fiscalResponsavel.nivel_acesso === 'administrativo') {
         swal.fire({
@@ -88,70 +88,70 @@ export class CadastroTermosComponent implements OnInit {
           title: 'A criação de Auto Termos somente é permitida a Fiscais e Gerentes',
           showConfirmButton: false,
           timer: 2000
-        });
+        })
       }
-    }, 2000);
-    this.createForm(new Termos());
-    this.pegaId();
-    this.pegaEmbasamentos();
-    this.pegaListAtividades();
-    this.pegaDocumentos();
-    this.getListFiscais();
+    }, 2000)
+    this.createForm(new Termos())
+    this.pegaId()
+    this.pegaEmbasamentos()
+    this.pegaListAtividades()
+    this.pegaDocumentos()
+    this.getListFiscais()
     $(window).on('load', () => {
-      this.carregaSelect();
-    });
+      this.carregaSelect()
+    })
 
   }
   newDate () {
-    return moment().format('YYYY-MM-DD');
+    return moment().format('YYYY-MM-DD')
   }
   newTime () {
-    return moment().format('HH:mm');
+    return moment().format('HH:mm')
   }
   pegaId () {
     this.route.queryParams.subscribe(
       queryParams => {
-        this.currentIdUpdate = queryParams.id;
-        this.id_termo = queryParams.id_termo;
-        this.carregaSelect();
+        this.currentIdUpdate = queryParams.id
+        this.id_termo = queryParams.id_termo
+        this.carregaSelect()
         if (this.currentIdUpdate != null) {
-          window.scrollTo(0, 0);
-          this.titulo = 'Cadastrar Termo';
-          window.scrollTo(0, 0);
+          window.scrollTo(0, 0)
+          this.titulo = 'Cadastrar Termo'
+          window.scrollTo(0, 0)
           this.estabelecimentosService.listarEstabelecimentoPorID(this.currentIdUpdate.toString()).subscribe((est) => {
-            this.estabelecimento = est;
-            this.f.estabelecimento.setValue(this.currentIdUpdate);
-            this.f.cnpj.setValue(this.estabelecimento.cnpj);
-            this.f.fantasia.setValue(this.estabelecimento.fantasia);
-            this.f.razao.setValue(this.estabelecimento.razao);
-            this.f.insc.setValue(this.estabelecimento.insc);
-            this.f.endereco.setValue(this.estabelecimento.endereco);
-            this.f.bairro.setValue(this.estabelecimento.bairro);
-            this.f.telefone.setValue(this.estabelecimento.telefone);
-            this.f.ramo.setValue(this.estabelecimento.atividade);
-          });
+            this.estabelecimento = est
+            this.f.estabelecimento.setValue(this.currentIdUpdate)
+            this.f.cnpj.setValue(this.estabelecimento.cnpj)
+            this.f.fantasia.setValue(this.estabelecimento.fantasia)
+            this.f.razao.setValue(this.estabelecimento.razao)
+            this.f.insc.setValue(this.estabelecimento.insc)
+            this.f.endereco.setValue(this.estabelecimento.endereco)
+            this.f.bairro.setValue(this.estabelecimento.bairro)
+            this.f.telefone.setValue(this.estabelecimento.telefone)
+            this.f.ramo.setValue(this.estabelecimento.atividade)
+          })
         } else if (this.id_termo != null) {
-          window.scrollTo(0, 0);
-          this.titulo = 'Atualizar Termo';
+          window.scrollTo(0, 0)
+          this.titulo = 'Atualizar Termo'
           this.termosService.ListarTermoPorID(this.id_termo).subscribe((data: Termos) => {
-            this.doc = ' ' + data.doc_solicitados;
-            this.fiscaisPresentes = String(data.fiscais_presentes);
-            this.createForm(data);
+            this.doc = ' ' + data.doc_solicitados
+            this.fiscaisPresentes = String(data.fiscais_presentes)
+            this.createForm(data)
 
-          });
+          })
         } else {
-          window.scrollTo(0, 0);
-          this.titulo = 'Cadastrar Termo';
-          window.scrollTo(0, 0);
-          this.createForm(new Termos());
+          window.scrollTo(0, 0)
+          this.titulo = 'Cadastrar Termo'
+          window.scrollTo(0, 0)
+          this.createForm(new Termos())
         }
       }
-    );
+    )
   }
 
   createForm (termo: Termos) {
     if (termo['atividade']) {
-      termo.ramo = termo['atividade'];
+      termo.ramo = termo['atividade']
     }
     this.termosForm = new FormGroup({
       id: new FormControl(termo.id),
@@ -181,322 +181,322 @@ export class CadastroTermosComponent implements OnInit {
       fiscais_presentes: new FormControl(termo.fiscais_presentes),
       email: new FormControl(termo.email, Validators.email),
       doc_solicitados: new FormControl(termo.doc_solicitados)
-    });
+    })
   }
 
-  get f () { return this.termosForm.controls; }
+  get f () { return this.termosForm.controls }
 
   carregaSelect () {
     $('.js-example-basic-multiple').select2({
       placeholder: 'Selecione uma opção',
       llowClear: true
-    });
+    })
 
     $('.select-doc').select2({
       placeholder: 'Selecione uma opção',
       llowClear: true
-    });
+    })
     $('.select-fiscais').select2({
       placeholder: 'Selecione uma opção',
       llowClear: true
-    });
+    })
 
     $('.js-example-basic-multiple').on('change', (e) => {
-      this.selectEmbasamento();
-    });
+      this.selectEmbasamento()
+    })
     $('.select-doc').on('change', () => {
-      this.selectDoc();
-    });
+      this.selectDoc()
+    })
     $('.select-fiscais').on('change', () => {
-      this.selectFiscais();
-    });
+      this.selectFiscais()
+    })
   }
 
   selectDoc () {
-    this.listDoc = [];
-    const option = $('.select-doc').find(':selected');
+    this.listDoc = []
+    const option = $('.select-doc').find(':selected')
 
-    for (let i = 0; i < option.length; i++) {
-      this.listDoc[i] = option[i].value;
+    for (let i = 0;i < option.length;i++) {
+      this.listDoc[i] = option[i].value
     }
-    const documentos = this.listDoc.join(', ');
+    const documentos = this.listDoc.join(', ')
 
-    let text = ' ';
+    let text = ' '
     if (this.f.descricao.value != null &&
       String(this.f.descricao.value).indexOf('Apresentar cópia dos seguintes documentos:') >= 1) {
-      text = String(this.f.descricao.value).split(' Apresentar cópia dos seguintes documentos:')[0];
+      text = String(this.f.descricao.value).split(' Apresentar cópia dos seguintes documentos:')[0]
     } else {
-      text = this.f.descricao.value != null ? this.f.descricao.value : ' ';
+      text = this.f.descricao.value != null ? this.f.descricao.value : ' '
     }
     this.f.descricao.setValue(text + ' Apresentar cópia dos seguintes documentos: '
-      + documentos);
+      + documentos)
     if (option.length === 0) {
-      this.f.descricao.setValue(text.split(' Apresentar cópia dos seguintes documentos:')[0]);
+      this.f.descricao.setValue(text.split(' Apresentar cópia dos seguintes documentos:')[0])
     }
   }
   selectEmbasamento () {
-    const listEmbasamento = [];
-    const option = $('.js-example-basic-multiple').find(':selected');
+    const listEmbasamento = []
+    const option = $('.js-example-basic-multiple').find(':selected')
     if (option.length === 0) {
-      this.textSearch = '';
+      this.textSearch = ''
     }
-    for (let i = 0; i < option.length; i++) {
-      listEmbasamento[i] = option[i].value;
+    for (let i = 0;i < option.length;i++) {
+      listEmbasamento[i] = option[i].value
     }
-    const embasamentos = listEmbasamento.join(', ');
+    const embasamentos = listEmbasamento.join(', ')
     if (option.length > 0) {
-      this.f.embasamento_legal.setValue(embasamentos);
+      this.f.embasamento_legal.setValue(embasamentos)
     }
   }
   selectFiscais () {
-    const fiscais = [];
-    const option = $('.select-fiscais').find(':selected');
-    for (let i = 0; i < option.length; i++) {
-      fiscais[i] = option[i].value;
+    const fiscais = []
+    const option = $('.select-fiscais').find(':selected')
+    for (let i = 0;i < option.length;i++) {
+      fiscais[i] = option[i].value
     }
-    this.listFiscais = fiscais.join(', ');
+    this.listFiscais = fiscais.join(', ')
   }
 
   salvar () {
-    this.loadingCadastro = false;
+    this.loadingCadastro = false
     if (this.fiscalResponsavel.nivel_acesso === 'gerente' || this.fiscalResponsavel.nivel_acesso === 'fiscal') {
-      this.termosForm.value.doc_solicitados = this.listDoc;
-      this.termosForm.value.fiscais_presentes = this.listFiscais;
-      this.termosForm.value.fiscal_responsavel = this.fiscalResponsavel.matricula;
+      this.termosForm.value.doc_solicitados = this.listDoc
+      this.termosForm.value.fiscais_presentes = this.listFiscais
+      this.termosForm.value.fiscal_responsavel = this.fiscalResponsavel.matricula
       if ((this.termosForm.valid === false) || (!this.termosForm.value.fiscais_presentes)
         || (this.termosForm.value.fiscais_presentes === 'undefined')) {
-        window.scrollTo(0, 0);
+        window.scrollTo(0, 0)
         swal.fire({
           icon: 'warning',
           title: 'Preencha todos os campos obrigatórios',
           showConfirmButton: false,
           timer: 2000
-        });
-        this.formSubmitted = true;
-        this.loadingCadastro = true;
+        })
+        this.formSubmitted = true
+        this.loadingCadastro = true
       } else {
         this.termosService.cadastrarTermo(this.termosForm.value).subscribe((data: Termos) => {
-          window.scrollTo(0, 0);
+          window.scrollTo(0, 0)
           swal.fire({
             icon: 'success',
             title: 'Termo Cadastrado com sucesso',
             showConfirmButton: false,
             timer: 2000
           }).then(() => {
-            this.loadingCadastro = true;
+            this.loadingCadastro = true
             const navigationExtras: NavigationExtras = {
               queryParams: {
                 id: data.id
               }
-            };
-            this.router.navigate(['/termo/'], navigationExtras);
-          });
+            }
+            this.router.navigate(['/termo/'], navigationExtras)
+          })
         }, (error) => {
-          this.loadingCadastro = true;
-          console.log(error.error);
-          window.scrollTo(0, 0);
+          this.loadingCadastro = true
+          console.log(error.error)
+          window.scrollTo(0, 0)
           swal.fire({
             icon: 'warning',
             title: `<span>${error.error.msg}</span>`,
             showConfirmButton: false,
             timer: 4000
-          });
-        });
+          })
+        })
       }
     } else {
-      window.scrollTo(0, 0);
+      window.scrollTo(0, 0)
       swal.fire({
         icon: 'warning',
         title: 'A criação de Auto Termos somente é permitida a Fiscais e Gerentes',
         showConfirmButton: false,
         timer: 2000
-      });
+      })
     }
 
   }
 
   atualizar () {
-    this.loadingCadastro = false;
-    this.termosForm.value.fiscais_presentes = this.fiscaisPresentes;
-    console.log(this.termosForm.value);
+    this.loadingCadastro = false
+    this.termosForm.value.fiscais_presentes = this.fiscaisPresentes
+    console.log(this.termosForm.value)
     this.termosService.atualizarTermo(this.termosForm.value).subscribe(() => {
-      this.loadingCadastro = true;
-      window.scrollTo(0, 0);
+      this.loadingCadastro = true
+      window.scrollTo(0, 0)
       swal.fire({
         icon: 'success',
         title: 'Termo atualizado com sucesso',
         showConfirmButton: false,
         timer: 2000
-      });
+      })
       const navigationExtras: NavigationExtras = {
         queryParams: {
           id: this.id_termo
         }
-      };
+      }
       setTimeout(() => {
-        this.router.navigate(['/termo/'], navigationExtras);
-      }, 3000);
+        this.router.navigate(['/termo/'], navigationExtras)
+      }, 3000)
     }, (error) => {
-      this.loadingCadastro = true;
-      window.scrollTo(0, 0);
+      this.loadingCadastro = true
+      window.scrollTo(0, 0)
       swal.fire({
         icon: 'warning',
         title: 'Falha na atualização do Termo',
         showConfirmButton: false,
         timer: 2000
-      });
-    });
+      })
+    })
   }
 
   pegaListAtividades () {
     this.atividadeService.listAllAtividades().subscribe(itens => {
-      this.atividades = itens;
-    });
+      this.atividades = itens
+    })
   }
 
   pegaEmbasamentos () {
     this.embasamentoService.listAllEmbasamentos().subscribe(itens => {
-      console.log(this.embasamentos);
-      this.embasamentos = itens;
-    });
+      console.log(this.embasamentos)
+      this.embasamentos = itens
+    })
   }
 
   pegaDocumentos () {
     this.documentosService.listAllDocumentos().subscribe(itens => {
-      this.documentos = itens;
-    });
+      this.documentos = itens
+    })
   }
 
   getListFiscais () {
     this.usuarios.listarTodosUsuarios().subscribe(items => {
       this.fiscais = items.filter(item => {
         return (
-          item.nivel_acesso.toLowerCase().indexOf('fiscal') > -1
+          String(item.nivel_acesso).toLowerCase().indexOf('fiscal') > -1
           && item.matricula !== this.fiscalResponsavel.matricula
-        );
-      });
-    });
+        )
+      })
+    })
   }
 
   dados (item, i) {
-    this.anexo = item;
-    this.indice = i;
+    this.anexo = item
+    this.indice = i
   }
   ListaArq () {
-    this.loadingNuvem = false;
+    this.loadingNuvem = false
     if (this.status === 'abrir') {
-      this.status = 'fechar';
+      this.status = 'fechar'
       this.anexoService.listFilesByModel('termo', this.id_termo).subscribe((arq: Arquivos[]) => {
-        this.listaArq = arq;
-        this.loadingNuvem = true;
-        for (let i = 0; i < this.listaArq.length; i++) {
-          this.loadingRemove[i] = true;
+        this.listaArq = arq
+        this.loadingNuvem = true
+        for (let i = 0;i < this.listaArq.length;i++) {
+          this.loadingRemove[i] = true
         }
-      });
+      })
     } else {
-      this.loadingNuvem = true;
-      this.status = 'abrir';
-      this.listaArq.splice(0);
+      this.loadingNuvem = true
+      this.status = 'abrir'
+      this.listaArq.splice(0)
     }
   }
 
   onUploadChange (evt: Event) {
-    const target = evt.target as HTMLInputElement;
-    const files = target.files as FileList;
+    const target = evt.target as HTMLInputElement
+    const files = target.files as FileList
     for (const key in files) {
       if (Object.prototype.hasOwnProperty.call(files, key)) {
-        const file = files[key];
-        const reader = new FileReader();
+        const file = files[key]
+        const reader = new FileReader()
         reader.onload = ((theFile) => {
           return (e) => {
-            this.arq.push(theFile.type);
-            this.nomeArquivo.push(theFile.name);
-            let url = e.target.result.toString();
-            const index = Number(url.toLowerCase().indexOf(',') + 1);
-            url = url.slice(index);
-            this.base64textString.push(url);
-            this.inicializaLoading();
-          };
+            this.arq.push(theFile.type)
+            this.nomeArquivo.push(theFile.name)
+            let url = e.target.result.toString()
+            const index = Number(url.toLowerCase().indexOf(',') + 1)
+            url = url.slice(index)
+            this.base64textString.push(url)
+            this.inicializaLoading()
+          }
         })
-          (file);
-        reader.readAsDataURL(file);
+          (file)
+        reader.readAsDataURL(file)
       }
     }
   }
   inicializaLoading () {
-    for (let i = 0; i < this.base64textString.length; i++) {
-      this.loading[i] = true;
+    for (let i = 0;i < this.base64textString.length;i++) {
+      this.loading[i] = true
     }
   }
   removeTudoDaLista (i) {
-    this.base64textString.splice(i, 1); this.arq.splice(i, 1); this.nomeArquivo.splice(i, 1);
-    this.loading.splice(i, 1); this.descricao.splice(i, 1);
+    this.base64textString.splice(i, 1); this.arq.splice(i, 1); this.nomeArquivo.splice(i, 1)
+    this.loading.splice(i, 1); this.descricao.splice(i, 1)
   }
   removerDaLista (i) {
-    console.log(i);
-    this.base64textString.splice(i, 1); this.arq.splice(i, 1); this.nomeArquivo.splice(i, 1);
-    this.loading.splice(i, 1); this.descricao.splice(i, 1);
+    console.log(i)
+    this.base64textString.splice(i, 1); this.arq.splice(i, 1); this.nomeArquivo.splice(i, 1)
+    this.loading.splice(i, 1); this.descricao.splice(i, 1)
   }
   formatType (doc) {
     if (doc === 'vnd.openxmlformats-officedocument.wordprocessingml.document') {
-      return 'docx';
+      return 'docx'
     } else if (doc === 'pdf') {
-      return 'pdf';
+      return 'pdf'
     } else {
-      return '';
+      return ''
     }
   }
   enviar (src, i) {
     if (this.termosForm.value.id != null) {
-      this.arquivos.descricao = this.nomeArquivo[i];
-      this.arquivos.descricao_completa = this.descricao[i];
-      this.arquivos.id_termo = this.termosForm.value.id;
-      this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1));
-      this.arquivos.path = src;
-      this.loading[i] = false;
+      this.arquivos.descricao = this.nomeArquivo[i]
+      this.arquivos.descricao_completa = this.descricao[i]
+      this.arquivos.id_termo = this.termosForm.value.id
+      this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1))
+      this.arquivos.path = src
+      this.loading[i] = false
       this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
-        this.loading[i] = true;
-        this.removerDaLista(i);
+        this.loading[i] = true
+        this.removerDaLista(i)
       }, (error) => {
-        console.log(error);
-        this.loading[i] = true;
+        console.log(error)
+        this.loading[i] = true
         swal.fire({
           icon: 'warning',
           title: 'Falha na Criação do Anexo',
           showConfirmButton: false,
           timer: 2000
-        });
-      });
+        })
+      })
     } else {
       swal.fire({
         icon: 'warning',
         title: 'Cadastre um Termo, ou atualize um existente',
         showConfirmButton: false,
         timer: 2000
-      });
+      })
     }
   }
   enviarTodos () {
     if (this.termosForm.value.id != null) {
-      for (let i = 0; i < this.base64textString.length; i++) {
-        this.loading[i] = false;
-        this.arquivos.descricao = this.nomeArquivo[i];
-        this.arquivos.path = this.base64textString[i];
-        this.arquivos.descricao_completa = this.descricao[i];
-        this.arquivos.id_termo = this.termosForm.value.id;
-        this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1));
+      for (let i = 0;i < this.base64textString.length;i++) {
+        this.loading[i] = false
+        this.arquivos.descricao = this.nomeArquivo[i]
+        this.arquivos.path = this.base64textString[i]
+        this.arquivos.descricao_completa = this.descricao[i]
+        this.arquivos.id_termo = this.termosForm.value.id
+        this.arquivos.type = this.formatType(this.arq[i].slice(String(this.arq[i]).indexOf('/') + 1))
         this.anexoService.salvarAnexo(this.arquivos).subscribe((data: Arquivos) => {
-          this.removeTudoDaLista(this.index);
-          this.loading[i] = true;
+          this.removeTudoDaLista(this.index)
+          this.loading[i] = true
         }, (error) => {
-          this.index += 1;
+          this.index += 1
           swal.fire({
             icon: 'warning',
             title: 'Falha na Criação do Anexo',
             showConfirmButton: false,
             timer: 2000
-          });
-        });
+          })
+        })
       }
     } else {
       swal.fire({
@@ -504,42 +504,42 @@ export class CadastroTermosComponent implements OnInit {
         title: 'Cadastre um Termo, ou atualize um existente',
         showConfirmButton: false,
         timer: 2000
-      });
+      })
     }
   }
   apagarArquivo () {
-    this.loadingRemove[this.indice] = false;
+    this.loadingRemove[this.indice] = false
     this.anexoService.deleteFileByKey(this.anexo.key).subscribe(
       () => {
-        for (let i = 0; i <= this.listaArq.length; i++) {
+        for (let i = 0;i <= this.listaArq.length;i++) {
           if (this.listaArq[i].key === this.anexo.key) {
-            this.listaArq.splice(i, 1);
-            this.loadingRemove.splice(i, 1);
+            this.listaArq.splice(i, 1)
+            this.loadingRemove.splice(i, 1)
           }
         }
-        this.loadingRemove[this.indice] = true;
+        this.loadingRemove[this.indice] = true
       },
       error => {
-        this.loadingRemove[this.indice] = true;
+        this.loadingRemove[this.indice] = true
 
         return swal.fire({
           icon: 'warning',
           title: 'Falha ao remover Anexo',
           showConfirmButton: false,
           timer: 2000
-        });
+        })
       }
-    );
+    )
   }
   verAnexoCarregado (i) {
-    this.itemCarregado.descricao = this.nomeArquivo[i];
-    this.itemCarregado.url_location = 'data:image/png;base64,' + this.base64textString[i];
-    this.itemCarregado.descricao_completa = this.descricao[i];
-    this.item = this.itemCarregado;
+    this.itemCarregado.descricao = this.nomeArquivo[i]
+    this.itemCarregado.url_location = 'data:image/png;base64,' + this.base64textString[i]
+    this.itemCarregado.descricao_completa = this.descricao[i]
+    this.item = this.itemCarregado
 
   }
   verAnexo (item) {
-    this.item = item;
+    this.item = item
   }
 
 }

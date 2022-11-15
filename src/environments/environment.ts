@@ -1,4 +1,4 @@
-const baseURL = 'http://127.0.0.1:3333/api/';
+const baseURL = 'http://127.0.0.1:3000/api/';
 export const environment = {
   production: false,
   baseURL,
@@ -24,4 +24,5 @@ export const environment = {
   apiUrl_sendLicenca: `${baseURL}pdf/email/licenca`,
   apiUrl_sendRelatorio: `${baseURL}pdf/email/relatorio`,
   apiUrl_sendProtocolo: `${baseURL}pdf/email/protocolo`,
+  apiUrl_alterarSenha: `${baseURL}usuarios/password`,
 };

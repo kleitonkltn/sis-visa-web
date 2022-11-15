@@ -33,7 +33,7 @@
       140
     ],
     "member-access": false,
-    "semicolon": [true, "always"],
+    "semicolon": [false, "always"],
     "comment-format": false,
     "space-before-function-paren": false,
     "no-trailing-whitespace": false,

@@ -33,13 +33,6 @@
     box-shadow: 8px 5px 2px rgba(255, 255, 255, 0.1);
   }
 }
-.toggle-btn:hover {
-  animation-name: togleKey;
-  animation-duration: 1s;
-  animation-fill-mode: both;
-  cursor: pointer;
-  transition: all 0.3s linear;
-}
 
 #sidebar.active {
   left: 0px;
@@ -93,19 +86,19 @@
   margin-top: 0;
 }
 
-#sidebar .toggle-btn {
-  position: absolute;
-  left: 110%;
-  top: 20px;
+.btn-open {
+  position: fixed;
+  margin: 20px 30px 20px 30px;
+  cursor: pointer;
+  width: 45px;
+  height: 40px;
+  z-index: 999;
 }
 
-#sidebar .toggle-btn span {
-  margin-top: 20px;
-  display: block;
-  width: 30px;
-  height: 5px;
-  background: white;
-  margin: 3px 0px;
+.btn-open > mat-icon {
+  color: white;
+  cursor: pointer;
+  font-size: 42px;
 }
 
 a {
@@ -161,7 +154,7 @@ a {
   #sidebar.active {
     left: 36%;
   }
-  .t {
+  .trailing {
     float: left;
     margin: 3px 0px;
   }
@@ -240,10 +233,9 @@ a {
   flex-direction: column;
 }
 
-.t {
+.trailing {
   float: right;
-  margin-top: 15pt;
-  margin-right: 40pt;
+  margin-top: 0px;
 }
 
 .btn {
@@ -276,4 +268,10 @@ a {
 #footer.active {
   width: 80%;
   margin-left: 20%;
+}
+
+.last-options {
+  width: 20%;
+  position: fixed;
+  bottom: 0;
 }

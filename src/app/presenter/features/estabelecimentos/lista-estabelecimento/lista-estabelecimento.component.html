@@ -21,8 +21,21 @@
         </select>
       </div>
     </div>
-    <table
-      class="table table-bordered table-responsive-sm col-xs-9  col-sm-9">
+    <div align="center" class="col-9">
+      <div class="row justify-content-start pl-2">
+        <mat-checkbox [(ngModel)]="showInactive" (change)="filtroPesquisa()"
+          class="font-weight-bold">
+          Exibir estabelecimentos Inativos</mat-checkbox>
+      </div>
+      <div *ngIf="showInactive"
+        class="row align-items-center font-weight-ligh pl-2 pb-3">
+        ** Estabelecimentos inativos possuem o texto com formatação:
+        <div class="px-2 inactive-text"> "INATIVO" </div>
+      </div>
+
+    </div>
+
+    <table class="table table-bordered table-responsive-sm col-xs-9  col-sm-9">
       <div *ngIf="estabelecimentos">
         <thead class="thead-light">
           <tr>
@@ -37,7 +50,8 @@
         </thead>
         <tbody id="myTable"
           *ngFor="let estabelecimento of listItems | paginate: { itemsPerPage: 15, currentPage: paginaAtual }; let i = index">
-          <tr>
+          <tr
+            [ngClass]="{ 'inactive-text': estabelecimento.status.toString() === '0' }">
             <td>{{estabelecimento.id}}</td>
             <td>{{estabelecimento.razao}}</td>
             <td>{{estabelecimento.fantasia}}</td>
@@ -55,9 +69,9 @@
         </tbody>
       </div>
     </table>
-    <pagination-controls class="text-center"
-      (pageChange)="paginaAtual = $event" (click)="subirTela()"
-      previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
+    <pagination-controls class="text-center" (pageChange)="paginaAtual = $event"
+      (click)="subirTela()" previousLabel="Anterior" nextLabel="Próximo">
+    </pagination-controls>
   </div>
   <div class="fab">
     <button class="main" [routerLink]="['/cadastro-estabelecimento/']">

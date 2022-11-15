@@ -1,18 +1,20 @@
 <div>
   <div *ngIf="statusEst === false" align="center" style="margin-top: 50px;">
-    <span class="spinner-border spinner-border-sm" role="status" [ngClass]="{ spinnerLoading: loading}"
-      aria-hidden="true"></span>
+    <span class="spinner-border spinner-border-sm" role="status"
+      [ngClass]="{ spinnerLoading: loading}" aria-hidden="true"></span>
   </div>
 
-  <div *ngIf="protocolos && statusEst === true" align="center" style="margin-left: 2%; margin-right: 2%;">
+  <div *ngIf="protocolos && statusEst === true" align="center"
+    style="margin-left: 2%; margin-right: 2%;">
     <div class="responsiva">
       <h1 class="text-center">Lista de Protocolos</h1>
     </div>
     <div class="input-group  col-xs-9 col-sm-9">
-      <input class="form-control" id="myInput" [(ngModel)]="textSearch" (keyup)="search()" type="text"
-        placeholder="Busca..">
+      <input class="form-control" id="myInput" [(ngModel)]="textSearch"
+        (keyup)="search()" type="text" placeholder="Busca..">
       <div class="input-group-append">
-        <select name="filtroPesquisa" id="select" class="custom-select" (change)="filtroPesquisa()">
+        <select name="filtroPesquisa" id="select" class="custom-select"
+          (change)="filtroPesquisa()">
           <option value="todos" selected>Todos</option>
           <option value="Administrativo">Administrativo</option>
           <option value="GEVISA - Gerencia em Vigilância Sanitária">
@@ -30,7 +32,8 @@
       </div>
     </div>
 
-    <table class="table table-bordered table-responsive-sm col-xs-9  col-md-9" *ngIf="protocolos">
+    <table class="table table-bordered table-responsive-sm col-xs-9  col-md-9"
+      *ngIf="protocolos">
       <div>
         <thead class="thead-light">
           <tr>
@@ -49,11 +52,14 @@
             <td>{{protocolos.requerido}}</td>
             <td>{{protocolos.contato}}</td>
             <td>{{protocolos.requerente}}</td>
-            <td>{{protocolos.data| date: 'dd/MM/yyyy' + " "+protocolos.hora}}</td>
+            <td>{{protocolos.data| date: 'dd/MM/yyyy' + " "+protocolos.hora}}
+            </td>
             <td>
               <div class="text-center">
-                <a class="btn" [routerLink]="['/Protocolo/']" [queryParams]="{ id: protocolos.id}">
-                  <i class="fa fa-eye" aria-hidden="true" style="font-size: 25px"></i>
+                <a class="btn" [routerLink]="['/protocolo/']"
+                  [queryParams]="{ id: protocolos.id}">
+                  <i class="fa fa-eye" aria-hidden="true"
+                    style="font-size: 25px"></i>
                 </a>
               </div>
             </td>
@@ -61,8 +67,9 @@
         </tbody>
       </div>
     </table>
-    <pagination-controls align="center" (pageChange)="paginaAtual = $event" (click)="subirTela()"
-      previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
+    <pagination-controls align="center" (pageChange)="paginaAtual = $event"
+      (click)="subirTela()" previousLabel="Anterior" nextLabel="Próximo">
+    </pagination-controls>
   </div>
   <div class="fab">
     <button class="main" [routerLink]="['/cadastroProtocolo/']">

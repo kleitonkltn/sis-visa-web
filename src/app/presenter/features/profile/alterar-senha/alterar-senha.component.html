@@ -1,0 +1,102 @@
+<body class="body">
+  <div style="margin-left: 2%; margin-right: 2%;" align="center">
+    <div class="border col-sm-4 text-left">
+      <div class="responsiva" style="margin-bottom: 50px;">
+        <h1 class="text-center">{{titulo}}</h1>
+      </div>
+      <form method="POST" [formGroup]="alterarSenhaForm">
+        <div class="form-group">
+          <b>*Senha atual</b>
+          <input class="form-control" formControlName="password"
+            autocomplete="current-password" type="password" autofocus
+            [ngClass]="{'form-submitted': formSubmitted}">
+          <span class="px-2 py-2 text-danger"
+            *ngIf="(alterarSenhaFormControl.password.touched || formSubmitted) && alterarSenhaFormControl.password.errors?.required">
+            A senha atual deve ser informada para prosseguir com a alteração.
+          </span>
+        </div>
+        <div class="form-group">
+          <b>*Nova senha</b>
+          <div class="row px-3">
+            <input class="form-control" formControlName="newPassword"
+              autocomplete="new-password" maxlength="20"
+              [type]="!showPassword ? 'password' : 'text'"
+              [ngClass]="{'form-submitted': formSubmitted}" />
+            <i class="align-self-center"
+              [ngClass]="{'far fa-eye': !showPassword, 'fa fa-eye-slash': showPassword}"
+              (click)="togglePassword()"
+              style="margin-left: -30px; cursor: pointer;"></i>
+          </div>
+          <span class="px-2 py-2 text-danger"
+            *ngIf="(alterarSenhaFormControl.newPassword.touched || formSubmitted) &&
+            (alterarSenhaFormControl.newPassword.errors?.required || alterarSenhaFormControl.newPassword.errors?.minlength ||alterarSenhaFormControl.newPassword.errors?.maxlength)">
+            O campo senha é obrigatório e deve conter de 8 a 20
+            dígitos.
+          </span>
+          <span class="px-2 py-2 text-danger" *ngIf="(alterarSenhaFormControl.newPassword.touched || formSubmitted) &&
+            alterarSenhaFormControl.newPassword.errors?.whitespace">
+            O campo senha pode conter espaço.
+          </span>
+        </div>
+        <app-password-strength class="w-100"
+          [passwordToCheck]="alterarSenhaForm.value.newPassword"
+          (passwordStrength)="passwordValid($event)"></app-password-strength>
+
+        <div class="form-group">
+          <b>*Confirma nova senha </b>
+          <div class="row px-3">
+            <input class="form-control" formControlName="confirmNewPassword"
+              autocomplete="new-password" maxlength="20"
+              [type]="!showConfirmPassword ? 'password' : 'text'"
+              type="password" [ngClass]="{'form-submitted': formSubmitted}">
+            <i class="align-self-center"
+              [ngClass]="{'far fa-eye': !showConfirmPassword, 'fa fa-eye-slash':showConfirmPassword}"
+              (click)="toggleConfirmPassword()"
+              style="margin-left: -30px; cursor: pointer;"></i>
+          </div>
+
+
+          <span class="px-2 py-2 text-danger"
+            *ngIf="(alterarSenhaFormControl.confirmNewPassword.touched || formSubmitted) &&
+            (alterarSenhaFormControl.confirmNewPassword.errors?.required || alterarSenhaFormControl.confirmNewPassword.errors?.minlength ||alterarSenhaFormControl.confirmNewPassword.errors?.maxlength)">
+            O campo confirmação de senha é obrigatório e deve conter de 8 a 20
+            dígitos.
+          </span>
+          <span class="px-2 py-2 text-danger" *ngIf="(alterarSenhaFormControl.newPassword.touched || formSubmitted) &&
+            alterarSenhaFormControl.newPassword.errors?.whitespace">
+            O campo confirmação de senha não pode conter espaço.
+          </span>
+        </div>
+        <app-password-strength class="w-100"
+          [passwordToCheck]="alterarSenhaForm.value.confirmNewPassword"
+          (passwordStrength)="confirmPasswordValid($event)">
+        </app-password-strength>
+
+
+        <div *ngIf="isDifPasswords" class="alert alert-danger px-3"
+          role="alert">
+          As senhas não conferem.
+        </div>
+
+        <div
+          *ngIf="alterarSenhaForm.valid === false && (!passwordIsValid || !confirmPasswordIsValid)"
+          class="alert alert-danger px-3 py-3" role="alert">
+          Por favor insira uma senha segura.<br>
+          Para garantir que está inserindo uma senha segura, o sistema deve
+          avaliar sua senha como "Ótima".
+        </div>
+
+        <div class="row text-center justify-content-center mb-4">
+          <button type="button" class="btn btn-primary btn-block mx-3"
+            (click)="salvar()"
+            [disabled]="isDifPasswords || alterarSenhaForm.valid === false || !passwordIsValid || !confirmPasswordIsValid">
+            <span class=" spinner-border spinner-border-sm spinnerLoading"
+              *ngIf="loadingForm" role="status" aria-hidden=" true"></span>
+            Alterar senha </button>
+        </div>
+
+
+      </form>
+    </div>
+  </div>
+</body>
