@@ -44,8 +44,8 @@ import { CadastroLicencaComponent } from './presenter/features/licencas/cadastro
 import { LicencaComponent } from './presenter/features/licencas/licenca/licenca.component'
 import { ListaLicencaComponent } from './presenter/features/licencas/lista-licenca/lista-licenca.component'
 import { AlterarSenhaComponent } from './presenter/features/profile/alterar-senha/alterar-senha.component'
-import { PasswordStrengthComponent }
-  from './presenter/features/profile/alterar-senha/component/password-strength/password-strength.component'
+import { PasswordStrengthComponent } from
+  './presenter/features/profile/alterar-senha/component/password-strength/password-strength.component'
 import { CadastroProtocoloComponent } from './presenter/features/protocolos/cadastro-protocolo/cadastro-protocolo.component'
 import { ListaProtocoloComponent } from './presenter/features/protocolos/lista-protocolo/lista-protocolo.component'
 import { ProtocoloComponent } from './presenter/features/protocolos/protocolo/protocolo.component'
@@ -67,7 +67,7 @@ import { UtilsService } from './services/utils.service'
 import { MatCheckboxModule } from '@angular/material/checkbox'
 import { SupportComponent } from './presenter/features/support/support.component'
 
-export function jwtOptionsFactory (tokenService) {
+export function jwtOptionsFactory(tokenService) {
   return {
     tokenGetter: () => {
       return tokenService.getStorageToken()
@@ -103,8 +103,8 @@ const appRoute: Routes = [
   { path: 'relatorio', component: RelatoriosComponent, canActivate: [AuthGuard] },
   { path: 'alterar-senha', component: AlterarSenhaComponent, canActivate: [AuthGuard] },
   { path: 'suporte', component: SupportComponent, canActivate: [AuthGuard] },
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: '**', resolve: { path: 'home' }, component: HomeComponent }
+  // { path: '', redirectTo: 'home', pathMatch: 'full' },
+  // { path: '**', resolve: { path: 'home' }, component: HomeComponent }
 
 ]
 @NgModule({
@@ -151,11 +151,9 @@ const appRoute: Routes = [
     HttpClientModule,
     RouterModule.forRoot(appRoute),
     BrowserAnimationsModule,
-    BrowserModule,
     FormsModule,
     NgxPaginationModule,
     TextMaskModule,
-    FormsModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
     MatFormFieldModule,
@@ -178,7 +176,7 @@ const appRoute: Routes = [
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,
     multi: true
-  }, EstabelecimentoService, ProtocoloService, PdfService, DatePipe, TipoTermoPipe, UtilsService,
+  }, EstabelecimentoService, ProtocoloService, PdfService, DatePipe, TipoTermoPipe, UtilsService, TipoUsuarioPipe,
     AutenticarService, StorageService, LoginProviderService, LicencaService, AtividadeService, JwtHelperService],
   bootstrap: [AppComponent]
 })

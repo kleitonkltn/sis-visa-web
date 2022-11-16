@@ -1,19 +1,17 @@
 {
-  "hosting": [
-    {
-      "target": "SISVISA",
-      "public": "dist/SISVISA",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "rewrites": [
+  "hosting": {
+    "target": "sisvisa-web",
+    "public": "dist/SISVISA",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
         {
           "source": "**",
           "destination": "/index.html"
         }
       ]
-    }
-  ]
+  }
 }

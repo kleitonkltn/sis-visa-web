@@ -7,7 +7,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "changeToCoximProd": "firebase use prod-coxim",
+    "changeToDev": "firebase use presentation"
   },
   "private": true,
   "dependencies": {

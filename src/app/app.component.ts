@@ -8,9 +8,9 @@ import { AutenticarService } from './services/autenticar.service';
 export class AppComponent implements OnInit {
   mostrarMenu = true;
 
-  constructor (public autenticar: AutenticarService) { }
+  constructor(public autenticar: AutenticarService) { }
 
-  ngOnInit () {
+  ngOnInit() {
     this.autenticar.checkToken().then(_ => {
       this.mostrarMenu = this.autenticar.authenticationState['_value'];
     });

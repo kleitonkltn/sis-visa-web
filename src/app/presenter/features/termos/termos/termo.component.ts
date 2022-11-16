@@ -38,25 +38,25 @@ export class TermosComponent implements OnInit {
   item: Arquivos
   licencaValueMax: any
 
-  constructor (private route: ActivatedRoute, private termosService: TermoService,
+  constructor(private route: ActivatedRoute, private termosService: TermoService,
     private pdfService: PdfService,
     private anexoService: AnexoService,
     private emailService: EmailService,
   ) { }
 
-  ngOnInit () {
+  ngOnInit() {
     this.createForm(new Email())
     this.pegaId()
   }
 
-  createForm (email: Email) {
+  createForm(email: Email) {
     this.emailForm = new FormGroup({
       destinatario: new FormControl(email.destinatario, Validators.required),
       mensagem: new FormControl(email.mensagem)
     })
   }
 
-  async pegaId () {
+  async pegaId() {
     this.route.queryParams.subscribe((data) => {
       this.currentIdUpdate = data['id']
       if (this.currentIdUpdate != null) {
@@ -77,21 +77,21 @@ export class TermosComponent implements OnInit {
     })
 
   }
-  verAnexo (item: Arquivos) {
+  verAnexo(item: Arquivos) {
     this.item = item
     if (item.type === 'pdf' || item.type === 'docx') {
       window.open(item.url_location)
     }
   }
-  get f () { return this.termos }
+  get f() { return this.termos }
 
-  validateEmail () {
+  validateEmail() {
     if (this.termos.email) {
       this.destinatario.destinatario = this.termos.email
       this.createForm(this.destinatario)
     }
   }
-  termoPDF () {
+  termoPDF() {
     this.loading = false
     if (this.currentIdUpdate != null) {
       this.pdfService.downloadFileTermo(this.currentIdUpdate.toString()).subscribe(response => {
@@ -118,7 +118,7 @@ export class TermosComponent implements OnInit {
       }))
     }
   }
-  sendEmail () {
+  sendEmail() {
     this.email = this.emailForm.value
     if (this.emailForm.valid === false) {
       swal.fire({
@@ -128,44 +128,42 @@ export class TermosComponent implements OnInit {
         timer: 2000
       })
     } else {
-      new Promise((resolve, reject) => {
-        const dataSend = {
-          id: Number(this.currentIdUpdate),
-          email: this.email.destinatario,
-          texthtml: this.email.mensagem
-        }
-        this.emailService.sendTermoByEmail(dataSend).subscribe((data: any) => {
-          resolve(data)
-          $('.modal-header .close').click()
-          window.scrollTo(0, 0)
-          if (data !== null && data['code'] === 'EENVELOPE') {
-            swal.fire({
-              icon: 'warning',
-              title: 'Erro ao  enviar termo',
-              showConfirmButton: false,
-              timer: 4000
-            })
-          } else {
-            swal.fire({
-              icon: 'success',
-              title: 'Termo enviado com Sucesso',
-              showConfirmButton: false,
-              timer: 4000
-            })
-          }
-        }, (err) => {
-          window.scrollTo(0, 0)
-          $('.modal-header .close').click()
+
+      const dataSend = {
+        id: Number(this.currentIdUpdate),
+        email: this.email.destinatario,
+        texthtml: this.email.mensagem
+      }
+      this.emailService.sendTermoByEmail(dataSend).subscribe((data: any) => {
+        $('.modal-header .close').click()
+        window.scrollTo(0, 0)
+        if (data !== null && data['code'] === 'EENVELOPE') {
           swal.fire({
             icon: 'warning',
             title: 'Erro ao  enviar termo',
             showConfirmButton: false,
             timer: 4000
           })
-          reject(err)
+        } else {
+          swal.fire({
+            icon: 'success',
+            title: 'Termo enviado com Sucesso',
+            showConfirmButton: false,
+            timer: 4000
+          })
+        }
+      }, (err) => {
+        window.scrollTo(0, 0)
+        $('.modal-header .close').click()
+        swal.fire({
+          icon: 'warning',
+          title: 'Erro ao  enviar termo',
+          showConfirmButton: false,
+          timer: 4000
         })
 
       })
+
     }
   }
 }

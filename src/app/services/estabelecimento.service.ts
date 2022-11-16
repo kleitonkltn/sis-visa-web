@@ -4,43 +4,45 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Estabelecimento } from '../../models/estabelecimento';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class EstabelecimentoService {
-  constructor (private http: HttpClient) {
+  constructor(private http: HttpClient) {
   }
 
-  ListarTodosEstabelecimentos (): Observable<Estabelecimento[]> {
+  ListarTodosEstabelecimentos(): Observable<Estabelecimento[]> {
     return this.http.get<Estabelecimento[]>(environment.apiUrl_Estabelecimento);
   }
 
-  cadastrarEstabelecimento (Client: Estabelecimento) {
+  cadastrarEstabelecimento(Client: Estabelecimento) {
     return this.http.post(environment.apiUrl_Estabelecimento, Client);
   }
 
-  listarEstabelecimentoPorID (id: string): Observable<Estabelecimento> {
+  listarEstabelecimentoPorID(id: string): Observable<Estabelecimento> {
     return this.http.get<Estabelecimento>(`${environment.apiUrl_Estabelecimento}/${id}`);
   }
-  atualizarEstabelecimento (Client: Estabelecimento, id: string) {
+  atualizarEstabelecimento(Client: Estabelecimento, id: string) {
     return this.http.put(environment.apiUrl_Estabelecimento + '/' + id, Client);
   }
 
   //CNAE
-  listarTodosCnae () {
+  listarTodosCnae() {
     return this.http.get(environment.apiUrl_cnae);
   }
-  listarCnaePorID (id: string) {
+  listarCnaePorID(id: string) {
     return this.http.get(`${environment.apiUrl_cnae}/${id}`);
   }
 
   //Atividades
-  ListarTodasAtividades () {
+  ListarTodasAtividades() {
     return this.http.get(environment.apiUrl_Atividades);
   }
-  ListarAtividadesPorID (id: string) {
+  ListarAtividadesPorID(id: string) {
     return this.http.get(`${environment.apiUrl_Atividades}/${id}`);
   }
 
-  getValueMaxLicenca () {
+  getValueMaxLicenca() {
     return this.http.get(`${environment.apiUrl_Estabelecimento}/max/licenca`);
   }
 

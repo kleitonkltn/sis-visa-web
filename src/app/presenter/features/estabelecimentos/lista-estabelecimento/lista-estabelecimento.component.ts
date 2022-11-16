@@ -21,17 +21,17 @@ export class ListaEstabelecimentoComponent implements OnInit {
   dataAtual = new Date();
   public paginaAtual = 1;
 
-  constructor (private estabelecimentoService: EstabelecimentoService) {
+  constructor(private estabelecimentoService: EstabelecimentoService) {
   }
-  subirTela () {
+  subirTela() {
     window.scrollTo(0, 0)
   }
 
-  ngOnInit () {
+  ngOnInit() {
     this.subirTela()
     this.getListaLicenca()
   }
-  getListaLicenca () {
+  getListaLicenca() {
     this.estabelecimentoService.ListarTodosEstabelecimentos()
       .subscribe((estabelecimentos: Estabelecimento[]) => {
         this.statusEst = true
@@ -39,18 +39,18 @@ export class ListaEstabelecimentoComponent implements OnInit {
         this.initList()
       })
   }
-  initList () {
+  initList() {
     this.listItems = this.estabelecimentos.filter((item: Estabelecimento) => {
-      return this.showInactive ? true : item.status.toString() != '0'
+      return this.showInactive ? true : item.status.toString() !== '0'
     })
   }
-  search () {
+  search() {
     if (this.textSearch.length > 0) {
       const val = this.textSearch
       this.filtroPesquisa()
       this.listItems = this.listItems.filter((item: Estabelecimento) => {
         return (
-          (this.showInactive ? true : item.status.toString() != '0') &&
+          (this.showInactive ? true : item.status.toString() !== '0') &&
           String(item.id).indexOf(val.toLowerCase()) > -1 ||
           String(item.razao).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           String(item.fantasia).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
@@ -65,16 +65,16 @@ export class ListaEstabelecimentoComponent implements OnInit {
       this.filtroPesquisa()
     }
   }
-  formatDate (data) {
+  formatDate(data) {
     return moment(data).format('DD/MM/YYYY')
   }
-  listarTudo (id) {
+  listarTudo(id) {
     this.estabelecimentoService.listarEstabelecimentoPorID(id)
       .subscribe((licencas: Estabelecimento) => {
         this.est = licencas
       })
   }
-  filtroPesquisa () {
+  filtroPesquisa() {
     const filtro = $('select').val()
     if (filtro === 'todos') {
       this.initList()
