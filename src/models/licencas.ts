@@ -1,3 +1,4 @@
+import { Assinatura } from './assinatura'
 import { Estabelecimento } from './estabelecimento'
 import { Usuario } from './usuario'
 
@@ -23,4 +24,5 @@ export default class Licencas {
   segundo_fiscal_data!: Usuario
   gerente_data!: Usuario
   solicitado_por_data!: Usuario
+  assinaturas_data!: [Assinatura]
 }

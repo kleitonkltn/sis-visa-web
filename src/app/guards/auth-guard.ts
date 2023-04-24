@@ -4,14 +4,16 @@ import { AutenticarService } from '../services/autenticar.service'
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
-  constructor (private authService: AutenticarService, private router: Router) { }
+  constructor(private authService: AutenticarService, private router: Router) { }
 
-  async canActivate (): Promise<boolean> {
-    var isAuthenticated = await this.authService.isAuthenticated()
+  async canActivate(): Promise<boolean> {
+    const isAuthenticated = await this.authService.isAuthenticated()
     if (!isAuthenticated) {
       this.router.navigate(['/login'])
     }
+
     return isAuthenticated
+
   }
 
 }

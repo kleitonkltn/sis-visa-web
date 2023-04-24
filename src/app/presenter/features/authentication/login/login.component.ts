@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { Usuario } from '../../../../../models/usuario'
 import { AutenticarService } from '../../../../services/autenticar.service'
-import swal from 'sweetalert2'
 
 @Component({
   selector: 'app-login',
@@ -13,11 +12,11 @@ import swal from 'sweetalert2'
 export class LoginComponent implements OnInit {
   usuarioForm!: FormGroup
   showLogin = false;
-  constructor (public autenticar: AutenticarService, private router: Router) { }
+  constructor(public autenticar: AutenticarService, private router: Router) { }
 
-  get formControl () { return this.usuarioForm.controls }
+  get formControl() { return this.usuarioForm.controls }
 
-  ngOnInit () {
+  ngOnInit() {
     this.autenticar.checkToken().then((result) => {
       this.showLogin = this.autenticar.authenticationState['_value']
     })
@@ -25,7 +24,7 @@ export class LoginComponent implements OnInit {
     this.verificar()
   }
 
-  verificar () {
+  verificar() {
     return new Promise((resolve, reject) => {
       this.autenticar.checkToken().then((data) => {
         if (this.autenticar.authenticationState.value === true) {
@@ -35,13 +34,13 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  createForm (usuario: Usuario) {
+  createForm(usuario: Usuario) {
     this.usuarioForm = new FormGroup({
       matricula: new FormControl(usuario.matricula, [Validators.required]),
       password: new FormControl(usuario.password, [Validators.required])
     })
   }
-  didTapLogin () {
+  didTapLogin() {
     this.autenticar.login(this.usuarioForm.value)
   }
 

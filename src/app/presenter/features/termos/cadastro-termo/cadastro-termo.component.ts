@@ -71,7 +71,7 @@ export class CadastroTermosComponent implements OnInit {
     }
   }
 
-  constructor (private anexoService: AnexoService, private route: ActivatedRoute, private embasamentoService: EmbasamentoService,
+  constructor(private anexoService: AnexoService, private route: ActivatedRoute, private embasamentoService: EmbasamentoService,
     private authService: AutenticarService, private atividadeService: AtividadeService,
     private documentosService: DocumentoService, private usuarios: UsuarioService,
     private termosService: TermoService, private estabelecimentosService: EstabelecimentoService,
@@ -79,7 +79,7 @@ export class CadastroTermosComponent implements OnInit {
     this.usuario = this.authService._user['params']
   }
 
-  ngOnInit () {
+  ngOnInit() {
     this.fiscalResponsavel = this.authService._user['params']
     setTimeout(() => {
       if (this.fiscalResponsavel.nivel_acesso === 'administrativo') {
@@ -102,13 +102,13 @@ export class CadastroTermosComponent implements OnInit {
     })
 
   }
-  newDate () {
+  newDate() {
     return moment().format('YYYY-MM-DD')
   }
-  newTime () {
+  newTime() {
     return moment().format('HH:mm')
   }
-  pegaId () {
+  pegaId() {
     this.route.queryParams.subscribe(
       queryParams => {
         this.currentIdUpdate = queryParams.id
@@ -149,7 +149,7 @@ export class CadastroTermosComponent implements OnInit {
     )
   }
 
-  createForm (termo: Termos) {
+  createForm(termo: Termos) {
     if (termo['atividade']) {
       termo.ramo = termo['atividade']
     }
@@ -184,9 +184,9 @@ export class CadastroTermosComponent implements OnInit {
     })
   }
 
-  get f () { return this.termosForm.controls }
+  get f() { return this.termosForm.controls }
 
-  carregaSelect () {
+  carregaSelect() {
     $('.js-example-basic-multiple').select2({
       placeholder: 'Selecione uma opção',
       llowClear: true
@@ -212,11 +212,11 @@ export class CadastroTermosComponent implements OnInit {
     })
   }
 
-  selectDoc () {
+  selectDoc() {
     this.listDoc = []
     const option = $('.select-doc').find(':selected')
 
-    for (let i = 0;i < option.length;i++) {
+    for (let i = 0; i < option.length; i++) {
       this.listDoc[i] = option[i].value
     }
     const documentos = this.listDoc.join(', ')
@@ -234,13 +234,13 @@ export class CadastroTermosComponent implements OnInit {
       this.f.descricao.setValue(text.split(' Apresentar cópia dos seguintes documentos:')[0])
     }
   }
-  selectEmbasamento () {
+  selectEmbasamento() {
     const listEmbasamento = []
     const option = $('.js-example-basic-multiple').find(':selected')
     if (option.length === 0) {
       this.textSearch = ''
     }
-    for (let i = 0;i < option.length;i++) {
+    for (let i = 0; i < option.length; i++) {
       listEmbasamento[i] = option[i].value
     }
     const embasamentos = listEmbasamento.join(', ')
@@ -248,16 +248,16 @@ export class CadastroTermosComponent implements OnInit {
       this.f.embasamento_legal.setValue(embasamentos)
     }
   }
-  selectFiscais () {
+  selectFiscais() {
     const fiscais = []
     const option = $('.select-fiscais').find(':selected')
-    for (let i = 0;i < option.length;i++) {
+    for (let i = 0; i < option.length; i++) {
       fiscais[i] = option[i].value
     }
     this.listFiscais = fiscais.join(', ')
   }
 
-  salvar () {
+  salvar() {
     this.loadingCadastro = false
     if (this.fiscalResponsavel.nivel_acesso === 'gerente' || this.fiscalResponsavel.nivel_acesso === 'fiscal') {
       this.termosForm.value.doc_solicitados = this.listDoc
@@ -315,7 +315,7 @@ export class CadastroTermosComponent implements OnInit {
 
   }
 
-  atualizar () {
+  atualizar() {
     this.loadingCadastro = false
     this.termosForm.value.fiscais_presentes = this.fiscaisPresentes
     console.log(this.termosForm.value)
@@ -348,26 +348,26 @@ export class CadastroTermosComponent implements OnInit {
     })
   }
 
-  pegaListAtividades () {
+  pegaListAtividades() {
     this.atividadeService.listAllAtividades().subscribe(itens => {
       this.atividades = itens
     })
   }
 
-  pegaEmbasamentos () {
+  pegaEmbasamentos() {
     this.embasamentoService.listAllEmbasamentos().subscribe(itens => {
       console.log(this.embasamentos)
       this.embasamentos = itens
     })
   }
 
-  pegaDocumentos () {
+  pegaDocumentos() {
     this.documentosService.listAllDocumentos().subscribe(itens => {
       this.documentos = itens
     })
   }
 
-  getListFiscais () {
+  getListFiscais() {
     this.usuarios.listarTodosUsuarios().subscribe(items => {
       this.fiscais = items.filter(item => {
         return (
@@ -378,18 +378,18 @@ export class CadastroTermosComponent implements OnInit {
     })
   }
 
-  dados (item, i) {
+  dados(item, i) {
     this.anexo = item
     this.indice = i
   }
-  ListaArq () {
+  ListaArq() {
     this.loadingNuvem = false
     if (this.status === 'abrir') {
       this.status = 'fechar'
       this.anexoService.listFilesByModel('termo', this.id_termo).subscribe((arq: Arquivos[]) => {
         this.listaArq = arq
         this.loadingNuvem = true
-        for (let i = 0;i < this.listaArq.length;i++) {
+        for (let i = 0; i < this.listaArq.length; i++) {
           this.loadingRemove[i] = true
         }
       })
@@ -400,7 +400,7 @@ export class CadastroTermosComponent implements OnInit {
     }
   }
 
-  onUploadChange (evt: Event) {
+  onUploadChange(evt: Event) {
     const target = evt.target as HTMLInputElement
     const files = target.files as FileList
     for (const key in files) {
@@ -423,21 +423,21 @@ export class CadastroTermosComponent implements OnInit {
       }
     }
   }
-  inicializaLoading () {
-    for (let i = 0;i < this.base64textString.length;i++) {
+  inicializaLoading() {
+    for (let i = 0; i < this.base64textString.length; i++) {
       this.loading[i] = true
     }
   }
-  removeTudoDaLista (i) {
+  removeTudoDaLista(i) {
     this.base64textString.splice(i, 1); this.arq.splice(i, 1); this.nomeArquivo.splice(i, 1)
     this.loading.splice(i, 1); this.descricao.splice(i, 1)
   }
-  removerDaLista (i) {
+  removerDaLista(i) {
     console.log(i)
     this.base64textString.splice(i, 1); this.arq.splice(i, 1); this.nomeArquivo.splice(i, 1)
     this.loading.splice(i, 1); this.descricao.splice(i, 1)
   }
-  formatType (doc) {
+  formatType(doc) {
     if (doc === 'vnd.openxmlformats-officedocument.wordprocessingml.document') {
       return 'docx'
     } else if (doc === 'pdf') {
@@ -446,7 +446,7 @@ export class CadastroTermosComponent implements OnInit {
       return ''
     }
   }
-  enviar (src, i) {
+  enviar(src, i) {
     if (this.termosForm.value.id != null) {
       this.arquivos.descricao = this.nomeArquivo[i]
       this.arquivos.descricao_completa = this.descricao[i]
@@ -476,9 +476,9 @@ export class CadastroTermosComponent implements OnInit {
       })
     }
   }
-  enviarTodos () {
+  enviarTodos() {
     if (this.termosForm.value.id != null) {
-      for (let i = 0;i < this.base64textString.length;i++) {
+      for (let i = 0; i < this.base64textString.length; i++) {
         this.loading[i] = false
         this.arquivos.descricao = this.nomeArquivo[i]
         this.arquivos.path = this.base64textString[i]
@@ -507,11 +507,11 @@ export class CadastroTermosComponent implements OnInit {
       })
     }
   }
-  apagarArquivo () {
+  apagarArquivo() {
     this.loadingRemove[this.indice] = false
     this.anexoService.deleteFileByKey(this.anexo.key).subscribe(
       () => {
-        for (let i = 0;i <= this.listaArq.length;i++) {
+        for (let i = 0; i <= this.listaArq.length; i++) {
           if (this.listaArq[i].key === this.anexo.key) {
             this.listaArq.splice(i, 1)
             this.loadingRemove.splice(i, 1)
@@ -531,14 +531,14 @@ export class CadastroTermosComponent implements OnInit {
       }
     )
   }
-  verAnexoCarregado (i) {
+  verAnexoCarregado(i) {
     this.itemCarregado.descricao = this.nomeArquivo[i]
     this.itemCarregado.url_location = 'data:image/png;base64,' + this.base64textString[i]
     this.itemCarregado.descricao_completa = this.descricao[i]
     this.item = this.itemCarregado
 
   }
-  verAnexo (item) {
+  verAnexo(item) {
     this.item = item
   }
 

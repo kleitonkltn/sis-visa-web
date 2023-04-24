@@ -27,25 +27,28 @@ export class AlterarSenhaComponent implements OnInit {
   bar1: string
   bar2: string
   bar3: string
-  get alterarSenhaFormControl () {
+  get alterarSenhaFormControl() {
     return this.alterarSenhaForm.controls
   }
-  get newPassword () { return this.alterarSenhaForm.controls.newPassword }
-  get confirmNewPassword () { return this.alterarSenhaForm.controls.confirmNewPassword }
-  get validPassword () { return this.newPassword.invalid }
-  get validConfirmPassword () { return this.confirmNewPassword.invalid }
-  get isDifPasswords () { return (this.confirmNewPassword.value != null && this.confirmNewPassword.value.length >= 8) && this.confirmNewPassword.value !== this.newPassword.value }
+  get newPassword() { return this.alterarSenhaForm.controls.newPassword }
+  get confirmNewPassword() { return this.alterarSenhaForm.controls.confirmNewPassword }
+  get validPassword() { return this.newPassword.invalid }
+  get validConfirmPassword() { return this.confirmNewPassword.invalid }
+  get isDifPasswords() {
+    return (this.confirmNewPassword.value != null && this.confirmNewPassword.value.length >= 8)
+      && this.confirmNewPassword.value !== this.newPassword.value
+  }
 
-  constructor (private userService: UsuarioService, private router: Router, private authService: AutenticarService,
+  constructor(private userService: UsuarioService, private router: Router, private authService: AutenticarService,
   ) {
     this.usuario = this.authService._user['params']
   }
 
-  ngOnInit () {
+  ngOnInit() {
     this.createForm(new AlterarSenhaRequest())
   }
 
-  createForm (atividades: AlterarSenhaRequest) {
+  createForm(atividades: AlterarSenhaRequest) {
     this.alterarSenhaForm = new FormGroup({
       matricula: new FormControl(atividades.matricula),
       password: new FormControl(atividades.password, Validators.required),
@@ -56,7 +59,7 @@ export class AlterarSenhaComponent implements OnInit {
     })
   }
 
-  salvar () {
+  salvar() {
     this.loadingForm = true
     this.formSubmitted = true
     if (this.alterarSenhaForm.valid === false) {
@@ -97,21 +100,21 @@ export class AlterarSenhaComponent implements OnInit {
     }
   }
 
-  passwordValid (event) {
+  passwordValid(event) {
     this.passwordIsValid = event
   }
-  confirmPasswordValid (event) {
+  confirmPasswordValid(event) {
     this.confirmPasswordIsValid = event
   }
 
-  toggleConfirmPassword () {
+  toggleConfirmPassword() {
     this.showConfirmPassword = !this.showConfirmPassword
   }
-  togglePassword () {
+  togglePassword() {
     this.showPassword = !this.showPassword
   }
 }
-export function noWhitespaceValidator (control: FormControl) {
+export function noWhitespaceValidator(control: FormControl) {
   const isSpace = (control.value || '').match(/\s/g)
 
   return isSpace ? { whitespace: true } : null

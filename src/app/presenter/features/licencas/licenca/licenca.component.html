@@ -1,21 +1,16 @@
 <div *ngIf="statusLi === false" align="center" style="margin-top: 50px;">
-    <span class="spinner-border spinner-border-sm" role="status"
-        [ngClass]="{ spinnerLoading: loadingTable}" aria-hidden="true"
-        style="width: 50px; height: 50px;"></span>
+    <span class="spinner-border spinner-border-sm" role="status" [ngClass]="{ spinnerLoading: loadingTable}"
+        aria-hidden="true" style="width: 50px; height: 50px;"></span>
 </div>
 <div *ngIf="idLicenca > 0 && statusLi === true">
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
-            href="#nav-home" role="tab" aria-controls="nav-home"
-            aria-selected="true">Dados</a>
-        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
-            href="#nav-profile" role="tab" aria-controls="nav-profile"
-            aria-selected="false">Anexos</a>
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+            aria-controls="nav-home" aria-selected="true">Dados</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+            aria-controls="nav-profile" aria-selected="false">Anexos</a>
     </div>
-    <div class="tab-content" id="nav-tabContent"
-        style="margin-left: 2%; margin-right: 2%;">
-        <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
-            aria-labelledby="nav-home-tab">
+    <div class="tab-content" id="nav-tabContent" style="margin-left: 2%; margin-right: 2%;">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
             <div class="responsiva">
                 <h1 class="text-center">Dados da Licença</h1>
             </div>
@@ -25,8 +20,7 @@
                     <td>{{licenca.estabelecimento}}
                         <a class="btn" [routerLink]="['/estabelecimento/']"
                             [queryParams]="{ id: licenca.estabelecimento}">
-                            <i class="fa fa-angle-double-right"
-                                aria-hidden="true" style="font-size: 25px"></i>
+                            <i class="fa fa-angle-double-right" aria-hidden="true" style="font-size: 25px"></i>
                         </a>
                     </td>
                 </tr>
@@ -61,27 +55,29 @@
                     <td>{{licenca.data_validade| date: 'dd/MM/yyyy'}}
                     </td>
                 </tr>
-                <tr *ngIf="licenca.status_gerente === 'autorizada'">
+
+                <tr *ngIf="licenca.status_gerente === 'autorizada'" [hidden]="isAfterNewSignatureMode">
                     <th>Status Gerente</th>
                     <td>{{licenca.status_gerente}}{{licenca.gerente != null ?' |
                         por: ' :'' }}
                         {{licenca.gerente_data?.nome}}
                     </td>
                 </tr>
-                <tr>
+                <tr *ngIf="licenca.status_fiscal === 'autorizada'" [hidden]="isAfterNewSignatureMode">
                     <th>Status Fiscal</th>
                     <td>{{licenca.status_fiscal}}{{licenca.fiscal != null ? ' |
                         por: ' :'' }}
                         {{licenca.fiscal_data?.nome}}
                     </td>
                 </tr>
-                <tr *ngIf="licenca.status_gerente != 'autorizada'">
+                <tr *ngIf="licenca.status_gerente != 'autorizada'" [hidden]="isAfterNewSignatureMode">
                     <th>Status Segundo Fiscal</th>
                     <td>{{licenca.status_segundo_fiscal}}{{licenca.segundo_fiscal
                         != null ? ' | por: ' :'' }}
                         {{licenca.segundo_fiscal_data?.nome}}
                     </td>
                 </tr>
+
                 <tr>
                     <th>Solicitada Por</th>
                     <td>{{licenca.solicitado_por_data?.nome +' - '+
@@ -100,30 +96,37 @@
                     <th>Observação Fiscal</th>
                     <td>{{licenca.observacao_fiscal}}</td>
                 </tr>
+                <tr>
+                    <th>Licenca Autorizada Por</th>
+
+                    <td>
+                        <div *ngFor="let item of licenca.assinaturas_data">
+                            <p> {{item.responsavel_data.nome}} - {{item.responsavel_data.matricula}}</p>
+                        </div>
+                    </td>
+                </tr>
             </table>
+
             <div class="text-center">
-                <a class="btn " [routerLink]="['/cadastro-licenca/']"
-                    [queryParams]="{ id: licenca.id}">
-                    <i class="fa fa-pencil-square-o fa-2x"
-                        aria-hidden="true"></i>
+                <button class="btn btn-primary" *ngIf="!hasSigned && isAfterNewSignatureMode"
+                    [hidden]="licenca.assinaturas_data.length >= 3" (click)="assinarLicenca()">Assinar Licença</button>
+
+                <a class="btn " [routerLink]="['/cadastro-licenca/']" [queryParams]="{ id: licenca.id}">
+                    <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
                     <b>Atualizar</b>
                 </a>
                 <b class="btn-pdf">
                     <a class="btn" (click)="licencaPdf()">
-                        <i [ngClass]="{ spinnerLoading: !loadingPdf }"
-                            class="fa fa-file-pdf-o fa-2x"
+                        <i [ngClass]="{ spinnerLoading: !loadingPdf }" class="fa fa-file-pdf-o fa-2x"
                             aria-hidden="true"></i>
-                        <span class="spinner-border spinner-border-sm"
-                            role="status"
-                            [ngClass]="{ spinnerLoading: loadingPdf }"
-                            aria-hidden="true"></span>
+                        <span class="spinner-border spinner-border-sm" role="status"
+                            [ngClass]="{ spinnerLoading: loadingPdf }" aria-hidden="true"></span>
                         <b> Ver Licença</b>
                     </a>
                 </b>
             </div>
         </div>
-        <div class="tab-pane fade" id="nav-profile" role="tabpanel"
-            aria-labelledby="nav-profile-tab">
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
             <div class="responsiva">
                 <h1 class="text-center">{{titulo}}</h1>
             </div>
@@ -131,52 +134,38 @@
             <div class="row" style="margin-left: 10px; margin-right: 10px;">
                 <div class="form-group col-md-2" *ngFor="let item of arquivo">
                     <div class="card" *ngIf="arquivo">
-                        <button
-                            *ngIf="item.type.toString() === 'png' || item.type.toString() === 'jpeg'"
-                            data-toggle="modal" class="max-height: 5rem"
-                            data-target=".bd-example-modal-lg"
+                        <button *ngIf="item.type.toString() === 'png' || item.type.toString() === 'jpeg'"
+                            data-toggle="modal" class="max-height: 5rem" data-target=".bd-example-modal-lg"
                             (click)="verAnexo(item)">
-                            <img class="text-center" src="{{item.url_location}}"
-                                alt=" " style="max-height: 100px;" />
+                            <img class="text-center" src="{{item.url_location}}" alt=" " style="max-height: 100px;" />
                         </button>
-                        <button
-                            *ngIf="item.type.toString() ==='pdf' || item.type.toString() ==='docx'"
+                        <button *ngIf="item.type.toString() ==='pdf' || item.type.toString() ==='docx'"
                             class="max-height: 5rem" (click)="verAnexo(item)">
-                            <a [href]="item.url_location" target="_blank"
-                                rel="noopener noreferrer">
-                                <i *ngIf="item.type ==='pdf' "
-                                    class="text-center "
-                                    class="fa fa-file-pdf-o cad-img-top"
-                                    aria-hidden="true "
-                                    style="font-size: 80px; "></i>
+                            <a [href]="item.url_location" target="_blank" rel="noopener noreferrer">
+                                <i *ngIf="item.type ==='pdf' " class="text-center " class="fa fa-file-pdf-o cad-img-top"
+                                    aria-hidden="true " style="font-size: 80px; "></i>
                             </a>
-                            <a [href]="item.url_location" target="_blank"
-                                rel="noopener noreferrer">
-                                <i *ngIf="item.type ==='docx'"
-                                    class="text-center"
-                                    class="fa fa-file-word-o" aria-hidden="true"
-                                    style="font-size: 80px;"></i>
+                            <a [href]="item.url_location" target="_blank" rel="noopener noreferrer">
+                                <i *ngIf="item.type ==='docx'" class="text-center" class="fa fa-file-word-o"
+                                    aria-hidden="true" style="font-size: 80px;"></i>
                             </a>
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="modal fade bd-example-modal-lg" tabindex="-1"
-                role="dialog" aria-labelledby="myLargeModalLabel"
+            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
                             <b>{{item?.descricao}}</b>
-                            <button type="button" class="close"
-                                data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body" *ngIf="item">
                             <div class="text-center" style="margin: 5px 0 25px">
-                                <img src="{{item.url_location}}"
-                                    class="cad-img-top" id="imd"
+                                <img src="{{item.url_location}}" class="cad-img-top" id="imd"
                                     style="max-width: 100%; max-height: 300px" />
                             </div>
                             <textarea style="width: 100%;"

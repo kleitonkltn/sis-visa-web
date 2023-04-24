@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { UtilsService } from '../services/utils.service';
 
 @Component({
@@ -6,24 +6,27 @@ import { UtilsService } from '../services/utils.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+@Injectable({
+  providedIn: 'root'
+})
 export class HomeComponent implements OnInit {
   public countLicencas = 0;
   public countDenuncias = 0;
   public countEstabelecimentos = 0;
   public countTermos = 0;
 
-  constructor (private utilsService: UtilsService) { }
+  constructor(private utilsService: UtilsService) { }
 
-  ngOnInit () {
+  ngOnInit() {
     this.subirTela();
     this.initializeAllCounter();
   }
 
-  subirTela () {
+  subirTela() {
     window.scrollTo(0, 0);
   }
 
-  initializeAllCounter () {
+  initializeAllCounter() {
     this.utilsService.getInitialCounters().subscribe((values) => {
       this.countEstabelecimentos = values.estabelecimentos;
       this.countDenuncias = values.denuncias;

@@ -1,3 +1,4 @@
+// tslint:disable:import-spacing
 // tslint:disable-next-line: max-line-length
 import { DatePipe } from '@angular/common'
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
@@ -5,6 +6,7 @@ import { NgModule } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatButtonModule } from '@angular/material/button'
+import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
@@ -52,6 +54,7 @@ import { ProtocoloComponent } from './presenter/features/protocolos/protocolo/pr
 import { CadastroRelatorioComponent } from './presenter/features/relatorios/cadastro-relatorio/cadastro-relatorio.component'
 import { ListaRelatorioComponent } from './presenter/features/relatorios/lista-relatorio/lista-relatorio.component'
 import { RelatoriosComponent } from './presenter/features/relatorios/relatorios/relatorios.component'
+import { SupportComponent } from './presenter/features/support/support.component'
 import { CadastroTermosComponent } from './presenter/features/termos/cadastro-termo/cadastro-termo.component'
 import { ListaTermoComponent } from './presenter/features/termos/lista-termo/lista-termo.component'
 import { TermosComponent } from './presenter/features/termos/termos/termo.component'
@@ -64,8 +67,6 @@ import { PdfService } from './services/pdf.service'
 import { ProtocoloService } from './services/protocolo.service'
 import { StorageService } from './services/storage.service'
 import { UtilsService } from './services/utils.service'
-import { MatCheckboxModule } from '@angular/material/checkbox'
-import { SupportComponent } from './presenter/features/support/support.component'
 
 export function jwtOptionsFactory(tokenService) {
   return {

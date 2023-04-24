@@ -8,19 +8,22 @@ import Licencas from '../../models/licencas'
   providedIn: 'root'
 })
 export class LicencaService {
-  constructor (private http: HttpClient) {
+  constructor(private http: HttpClient) {
   }
 
-  ListarTodosLicencas (): Observable<Licencas[]> {
+  ListarTodosLicencas(): Observable<Licencas[]> {
     return this.http.get<Licencas[]>(environment.apiUrl_Licencas)
   }
-  ListarLicencaPorID (id: string): Observable<Licencas> {
+  ListarLicencaPorID(id: string): Observable<Licencas> {
     return this.http.get<Licencas>(environment.apiUrl_Licencas + '/' + id)
   }
-  createLicenca (Client: Licencas) {
-    return this.http.post(environment.apiUrl_LicencasPost, Client)
+  createLicenca(licenca: Licencas) {
+    return this.http.post(environment.apiUrl_Licencas, licenca)
   }
-  updateLicenca (Client: Licencas) {
-    return this.http.put(environment.apiUrl_Licencas + '/' + Client.id, Client)
+  updateLicenca(licenca: Licencas) {
+    return this.http.put(`${environment.apiUrl_Licencas}/${licenca.id}`, licenca)
+  }
+  assinarLicenca(licenca: Licencas) {
+    return this.http.post(`${environment.apiUrl_assinarLicenca}`, { id_licenca: licenca.id, pendente: false })
   }
 }

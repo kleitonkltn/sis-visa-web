@@ -1,4 +1,4 @@
-const baseURL = 'https://sis-visa.herokuapp.com/api/';
+const baseURL = 'https://ambiente-visa.herokuapp.com/api/';
 export const environment = {
   production: true,
   baseURL,
@@ -25,4 +25,5 @@ export const environment = {
   apiUrl_sendRelatorio: `${baseURL}pdf/email/relatorio`,
   apiUrl_sendProtocolo: `${baseURL}pdf/email/protocolo`,
   apiUrl_alterarSenha: `${baseURL}usuarios/password`,
+  apiUrl_assinarLicenca: `${baseURL}assinaturas/licenca`,
 };
