@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "target": "sisvisa-web",
+    "target": "sisvisacoxim",
     "public": "dist/SISVISA",
     "ignore": [
       "firebase.json",
@@ -8,10 +8,10 @@
       "**/node_modules/**"
     ],
     "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
   }
 }

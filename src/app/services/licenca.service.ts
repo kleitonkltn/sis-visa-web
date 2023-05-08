@@ -11,7 +11,7 @@ export class LicencaService {
   constructor(private http: HttpClient) {
   }
 
-  ListarTodosLicencas(): Observable<Licencas[]> {
+  fetchAllLicences(): Observable<Licencas[]> {
     return this.http.get<Licencas[]>(environment.apiUrl_Licencas)
   }
   ListarLicencaPorID(id: string): Observable<Licencas> {

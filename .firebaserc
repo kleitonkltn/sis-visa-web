@@ -1,17 +1,11 @@
 {
-  "projects": {
-    "default": "sisvisa-web",
-    "presentation": "sisvisa-web",
-    "prod-coxim": "sisvisacoxim"
-  },
   "targets": {
-    "sisvisa-web": {
+    "sisvisacoxim": {
       "hosting": {
-        "sisvisa-web": [
-          "sisvisa-web"
+        "SISVISA": [
+          "sisvisacoxim"
         ]
       }
     }
-  },
-  "etags": {}
+  }
 }

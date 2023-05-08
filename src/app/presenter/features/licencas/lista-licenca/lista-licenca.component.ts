@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import * as moment from 'moment'
 import { Estabelecimento } from '../../../../../models/estabelecimento'
-import Licencas from '../../../../../models/licencas'
+import ILicenca from '../../../../../models/licencas'
 import { EstabelecimentoService } from '../../../../services/estabelecimento.service'
 import { LicencaService } from '../../../../services/licenca.service'
 declare let $: any
@@ -12,36 +12,39 @@ declare let $: any
   styleUrls: ['./lista-licenca.component.css']
 })
 export class ListaLicencaComponent implements OnInit {
-  licencas: Licencas[] = []; listItems; textSearch; paginaAtual = 0;
-  li: Licencas = {} as Licencas; statusEst = false; loading = false;
-  constructor (private licencaService: LicencaService) { }
+  licencas: ILicenca[] = [];
+  listItems: ILicenca[];
+  textSearch;
+  paginaAtual = 0;
+  li: ILicenca = {} as ILicenca; statusEst = false; loading = false;
+  constructor(private licencaService: LicencaService) { }
 
-  ngOnInit () {
+  ngOnInit() {
     this.subirTela()
     this.getListaLicenca()
   }
 
-  subirTela () {
+  subirTela() {
     window.scrollTo(0, 0)
   }
 
-  getListaLicenca () {
-    this.licencaService.ListarTodosLicencas()
-      .subscribe((licencas: Licencas[]) => {
+  getListaLicenca() {
+    this.licencaService.fetchAllLicences()
+      .subscribe((licencas: ILicenca[]) => {
         this.statusEst = true
         this.licencas = licencas
         this.initList()
       })
   }
 
-  initList () {
+  initList() {
     this.listItems = this.licencas
   }
-  search () {
+  search() {
     if (this.textSearch.length > 0) {
       const val = this.textSearch
       this.filtroPesquisa()
-      this.listItems = this.listItems.filter((item: Licencas) => {
+      this.listItems = this.listItems.filter((item: ILicenca) => {
         return (
           String(item.id).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           String(item.solicitado_por).toLowerCase().indexOf(val.toLowerCase()) > -1 ||
@@ -57,35 +60,44 @@ export class ListaLicencaComponent implements OnInit {
       this.filtroPesquisa()
     }
   }
-  formatDate (data) {
+  formatDate(data) {
     return moment(data).format('DD/MM/YYYY')
   }
-  filtroPesquisa () {
+  filtroPesquisa() {
     const filtro = $('select').val()
     if (filtro === 'todos') {
       this.initList()
     } else {
       this.listItems = this.licencas.filter((item) => {
         if (filtro === 'pendente') {
-          if ((item.status_fiscal === 'aguardando' && item.status_gerente === 'aguardando')
-            || (item.status_fiscal === 'aguardando' && item.status_segundo_fiscal === 'aguardando')) {
+          if (((item.status_fiscal === 'aguardando' && item.status_gerente === 'aguardando')
+            || (item.status_fiscal === 'aguardando' && item.status_segundo_fiscal === 'aguardando')) && !(item.assinaturas_data.length >= 2 &&
+              item.assinaturas_data.filter((e) => e.responsavel_data.nivel_acesso === 'gerente'
+                || e.responsavel_data.nivel_acesso === 'fiscal').length >= 2)) {
             return item
           }
-        } else
-          if (filtro === 'autorizada') {
-            if ((item.status_fiscal === 'autorizada' && item.status_gerente === 'autorizada')
-              || (item.status_fiscal === 'autorizada' && item.status_segundo_fiscal === 'autorizada')) {
-              return item
-            }
-          } else
-            if (filtro === 'observacao') {
-              if (item.status_gerente === 'observacao' || item.status_fiscal === 'observacao') {
-                return item
-              }
-            }
+        } else if (filtro === 'autorizada') {
+          if ((item.status_fiscal === 'autorizada' && item.status_gerente === 'autorizada')
+            || (item.status_fiscal === 'autorizada' && item.status_segundo_fiscal === 'autorizada') || (item.assinaturas_data.length >= 2 &&
+              item.assinaturas_data.filter((e) => e.responsavel_data.nivel_acesso === 'gerente'
+                || e.responsavel_data.nivel_acesso === 'fiscal').length >= 2)) {
+            return item
+          }
+        } else if (filtro === 'observacao') {
+          if (item.status_gerente === 'observacao' || item.status_fiscal === 'observacao') {
+            return item
+          }
+        }
 
       })
     }
+  }
+
+  isAprovved(licenca: ILicenca): boolean {
+    return licenca.assinaturas_data.length >= 2 &&
+      licenca.assinaturas_data.filter((e) => e.responsavel_data.nivel_acesso === 'gerente'
+        || e.responsavel_data.nivel_acesso === 'fiscal').length >= 2
+
   }
 
 }
