@@ -93,7 +93,9 @@ export class ListaLicencaComponent implements OnInit {
     }
   }
 
-  isAprovved(licenca: ILicenca): boolean {
+  isApproved(licenca: ILicenca): boolean {
+    console.log(licenca);
+
     return licenca.assinaturas_data.length >= 2 &&
       licenca.assinaturas_data.filter((e) => e.responsavel_data.nivel_acesso === 'gerente'
         || e.responsavel_data.nivel_acesso === 'fiscal').length >= 2

@@ -10,6 +10,7 @@ import { AutenticarService } from '../../../../services/autenticar.service'
 import { EstabelecimentoService } from '../../../../services/estabelecimento.service'
 import { LicencaService } from '../../../../services/licenca.service'
 import { PdfService } from '../../../../services/pdf.service'
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-licenca',
@@ -123,23 +124,46 @@ export class LicencaComponent implements OnInit {
     this.item = item
   }
   assinarLicenca() {
-    this.licencaService.assinarLicenca(this.licenca).subscribe((data) => {
-      this.loadDataById()
-      swal.fire({
-        icon: 'success',
-        title: 'Licença assinada com sucesso',
-        showConfirmButton: false,
-        timer: 2000
-      })
-    }, (err) => {
-      console.log(err);
-      swal.fire({
-        icon: 'error',
-        title: 'Falha ao assinar licença',
-        text: err.error.msg || '',
-        showConfirmButton: false,
-        timer: 2000
-      })
-    })
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-warning'
+
+      },
+      buttonsStyling: true,
+    });
+    swalWithBootstrapButtons.fire(
+      {
+        showCloseButton: true,
+        title: 'Confirmar Assinatura',
+        text: 'Deseja prosseguir com a assinatura desta Licença?',
+        showCancelButton: true,
+        confirmButtonText: 'Sim',
+        cancelButtonText: 'Não',
+        reverseButtons: true
+      }
+    ).then((result) => {
+      if (result.value) {
+        this.licencaService.assinarLicenca(this.licenca).subscribe((data) => {
+          this.loadDataById()
+          swal.fire({
+            icon: 'success',
+            title: 'Licença assinada com sucesso',
+            showConfirmButton: false,
+            timer: 2000
+          })
+        }, (err) => {
+          console.log(err);
+          swal.fire({
+            icon: 'error',
+            title: 'Falha ao assinar licença',
+            text: err.error.msg || '',
+            showConfirmButton: false,
+            timer: 2000
+          })
+        })
+      }
+    });
+
   }
 }

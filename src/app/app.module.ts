@@ -104,8 +104,8 @@ const appRoute: Routes = [
   { path: 'relatorio', component: RelatoriosComponent, canActivate: [AuthGuard] },
   { path: 'alterar-senha', component: AlterarSenhaComponent, canActivate: [AuthGuard] },
   { path: 'suporte', component: SupportComponent, canActivate: [AuthGuard] },
-  // { path: '', redirectTo: 'home', pathMatch: 'full' },
-  // { path: '**', resolve: { path: 'home' }, component: HomeComponent }
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', resolve: { path: 'home' }, component: HomeComponent }
 
 ]
 @NgModule({

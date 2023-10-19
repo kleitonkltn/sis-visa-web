@@ -1,19 +1,17 @@
 <div>
   <div *ngIf="statusEst === false" align="center" style="margin-top: 50px;">
-    <span class="spinner-border spinner-border-sm" role="status"
-      [ngClass]="{ spinnerLoading: loading}" aria-hidden="true"></span>
+    <span class="spinner-border spinner-border-sm" role="status" [ngClass]="{ spinnerLoading: loading}"
+      aria-hidden="true"></span>
   </div>
-  <div *ngIf="termos && statusEst === true" align="center"
-    style="margin-left: 2%; margin-right: 2%;">
+  <div *ngIf="termos && statusEst === true" align="center" style="margin-left: 2%; margin-right: 2%;">
     <div class="responsiva">
       <h1 class="text-center">Lista de Termos</h1>
     </div>
     <div class="input-group col-xs-9 col-sm-9">
-      <input class="form-control" id="myInput" [(ngModel)]="textSearch"
-        (keyup)="search()" type="text" placeholder="Busca..">
+      <input class="form-control" id="myInput" [(ngModel)]="textSearch" (keyup)="search()" type="text"
+        placeholder="Busca..">
       <div class="input-group-append">
-        <select name="filtroPesquisa" id="select" class="custom-select"
-          (change)="filtroPesquisa()">
+        <select name="filtroPesquisa" id="select" class="custom-select" (change)="filtroPesquisa()">
           <option value="Todas" selected>Todas</option>
           <option value="constatacao">Constatação</option>
           <option value="inspecao">Inspeção</option>
@@ -25,10 +23,20 @@
           <option value="desinterdicao">Desinterdição</option>
         </select>
       </div>
+
+      <div class="input-group-append">
+        <select name="selectYear" id="selectYear" class="custom-select" (change)="applyFilterYear($event)">
+
+          <option value="2021">2021</option>
+          <option value="2022">2022</option>
+          <option value="2023" selected>2023</option>
+          <option value="2024">2024</option>
+          <option value="2025">2025</option>
+        </select>
+      </div>
     </div>
 
-    <table
-      class="table table-bordered table-responsive-sm col-xs-9  col-md-9">
+    <table class="table table-bordered table-responsive-sm col-xs-9  col-md-9">
       <div *ngIf="termos">
         <thead class="thead-light">
           <tr>
@@ -53,10 +61,8 @@
             </td>
             <td>
               <div class="text-center">
-                <a class="btn" [routerLink]="['/termo/']"
-                  [queryParams]="{ id: termo.id}">
-                  <i class="fa fa-eye" aria-hidden="true"
-                    style="font-size: 25px"></i>
+                <a class="btn" [routerLink]="['/termo/']" [queryParams]="{ id: termo.id}">
+                  <i class="fa fa-eye" aria-hidden="true" style="font-size: 25px"></i>
                 </a>
               </div>
             </td>
@@ -64,8 +70,7 @@
         </tbody>
       </div>
     </table>
-    <pagination-controls class="text-center"
-      (pageChange)="paginaAtual = $event" (click)="subirTela()"
+    <pagination-controls class="text-center" (pageChange)="paginaAtual = $event" (click)="subirTela()"
       previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
   </div>
   <div class="fab">

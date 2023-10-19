@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -8,26 +8,28 @@ import { CountTermos, Termos } from '../../models/termos';
   providedIn: 'root'
 })
 export class TermoService {
-  constructor (private http: HttpClient) {
+  constructor(private http: HttpClient) {
   }
 
-  ListarTodosTermos (): Observable<Termos[]> {
-    return this.http.get<Termos[]>(environment.apiUrl_Termo);
+  ListarTodosTermos(year: number): Observable<Termos[]> {
+    const options = year ?
+      { params: new HttpParams().set('year', year.toString()) } : {};
+    return this.http.get<Termos[]>(environment.apiUrl_Termo, options);
   }
 
-  ListarTermoPorID (id: number): Observable<Termos> {
+  ListarTermoPorID(id: number): Observable<Termos> {
     return this.http.get<Termos>(environment.apiUrl_Termo + '/' + id);
   }
 
-  atualizarTermo (data: Termos) {
+  atualizarTermo(data: Termos) {
     return this.http.put(environment.apiUrl_Termo + '/' + data.id, data);
   }
 
-  cadastrarTermo (data: Termos) {
+  cadastrarTermo(data: Termos) {
     return this.http.post(environment.apiUrl_Termo, data);
   }
 
-  countTermosByPeriod (initDate: string, endDate: string): Observable<CountTermos[]> {
+  countTermosByPeriod(initDate: string, endDate: string): Observable<CountTermos[]> {
     return this.http.get<CountTermos[]>(`${environment.apiUrl_Termo}/count/${initDate}/${endDate}`);
   }
 }

@@ -15,20 +15,20 @@ export class ListaTermoComponent implements OnInit {
   textSearch = '';
   listItems = [];
 
-  constructor (private termosService: TermoService) { }
+  constructor(private termosService: TermoService) { }
 
-  ngOnInit () {
+  ngOnInit() {
     this.subirTela()
-    this.getListaTermos()
+    this.getListaTermos(moment().year())
   }
-  subirTela () {
+  subirTela() {
     window.scrollTo(0, 0)
   }
 
-  formatDate (data) {
+  formatDate(data) {
     return moment(data).format('DD/MM/YYYY')
   }
-  search () {
+  search() {
     this.initList()
     if (this.textSearch.length > 0) {
       const val = this.textSearch
@@ -48,19 +48,19 @@ export class ListaTermoComponent implements OnInit {
     }
   }
 
-  getListaTermos () {
-    this.termosService.ListarTodosTermos()
+  getListaTermos(year: number) {
+    this.termosService.ListarTodosTermos(year)
       .subscribe((termos: Termos[]) => {
         this.statusEst = true
         this.termos = termos
         this.initList()
       })
   }
-  initList () {
+  initList() {
     this.listItems = this.termos
   }
 
-  filtroPesquisa () {
+  filtroPesquisa() {
     const filtro = String($('select').val())
     if (filtro === 'Todas') {
       this.initList()
@@ -71,5 +71,12 @@ export class ListaTermoComponent implements OnInit {
         )
       })
     }
+  }
+  applyFilterYear(year) {
+    const filtro = year.target.value
+    console.log(filtro)
+
+
+    this.getListaTermos(Number(filtro))
   }
 }

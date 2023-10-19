@@ -42,7 +42,7 @@
             <td>{{item.data_validade| date: 'dd/MM/yyyy'}}</td>
             <td style="text-transform: capitalize">{{(item.status_fiscal == 'autorizada' && item.status_gerente ==
               'autorizada')||(item.status_fiscal == 'autorizada' && item.status_segundo_fiscal == 'autorizada') ||
-              isAprovved(item) ?
+              isApproved(item) ?
               'Autorizada' : 'Pendente' }}</td>
             <td>
               <a class="btn" [routerLink]="['/licenca/']" [queryParams]="{ id: item.id}">
