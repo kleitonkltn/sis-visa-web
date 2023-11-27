@@ -263,8 +263,7 @@ export class CadastroTermosComponent implements OnInit {
       this.termosForm.value.doc_solicitados = this.listDoc
       this.termosForm.value.fiscais_presentes = this.listFiscais
       this.termosForm.value.fiscal_responsavel = this.fiscalResponsavel.matricula
-      if ((this.termosForm.valid === false) || (!this.termosForm.value.fiscais_presentes)
-        || (this.termosForm.value.fiscais_presentes === 'undefined')) {
+      if ((this.termosForm.valid === false)) {
         window.scrollTo(0, 0)
         swal.fire({
           icon: 'warning',
