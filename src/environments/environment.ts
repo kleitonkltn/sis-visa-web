@@ -1,5 +1,5 @@
-// const baseURL = 'http://127.0.0.1:3000/api/';
-const baseURL = 'https://seden-sfaa-ebab87d01745.herokuapp.com/api/';
+const baseURL = 'http://127.0.0.1:3000/api/';
+// const baseURL = 'https://seden-sfaa-ebab87d01745.herokuapp.com/api/';
 export const environment = {
   production: false,
   baseURL,

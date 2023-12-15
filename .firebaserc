@@ -1,9 +1,9 @@
 {
   "targets": {
-    "sisvisacoxim": {
+    "seden-sfaa": {
       "hosting": {
         "SISVISA": [
-          "sisvisacoxim"
+          "seden-sfaa"
         ]
       }
     }

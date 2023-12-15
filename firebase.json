@@ -1,21 +1,6 @@
 {
   "hosting": [
     {
-      "target": "sisvisacoxim",
-      "public": "dist/SISVISA",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
-    },
-    {
       "target": "SISVISA",
       "public": "dist/SISVISA",
       "ignore": [

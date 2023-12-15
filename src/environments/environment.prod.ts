@@ -1,5 +1,5 @@
 // const baseURL = 'https://ambiente-visa.herokuapp.com/api/';
-const baseURL = 'https://seden-sfaa-ebab87d01745.herokuapp.com/';
+const baseURL = 'https://seden-sfaa-ebab87d01745.herokuapp.com/api/';
 export const environment = {
   production: true,
   baseURL,
