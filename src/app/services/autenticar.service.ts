@@ -1,7 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { JwtHelperService } from '@auth0/angular-jwt'
-import { stringify } from 'querystring'
 import { BehaviorSubject } from 'rxjs'
 import Swal, { SweetAlertIcon } from 'sweetalert2'
 import { Usuario } from '../../models/usuario'
